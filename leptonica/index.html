@@ -26,15 +26,15 @@
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
     <link rel="next" title="README" href="README.html" />
-    <link rel="prev" title="Leptonica v1.67 Documentation" href="../index.html" />
+    <link rel="prev" title="Unofficial Leptonica v1.67 Documentation" href="../index.html" />
  
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://github.com/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
     if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "https://github.com/assets/MathJax/fonts"
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
     } else {
-      MathJax.OutputJax.fontDir = "http://github.com/assets/MathJax/fonts"
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
     }
     MathJax.Hub.Config({
       extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
@@ -52,7 +52,7 @@
           <a href="README.html" title="README"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="../index.html" title="Leptonica v1.67 Documentation"
+          <a href="../index.html" title="Unofficial Leptonica v1.67 Documentation"
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
@@ -70,7 +70,45 @@
 <h1>The Leptonica Image Processing Library<a class="headerlink" href="#the-leptonica-image-processing-library" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#building-leptonica">Building <strong>Leptonica</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#building-on-linux-unix-macos">Building on Linux/Unix/MacOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#building-on-windows">Building on Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#i-o-libraries-leptonica-is-dependent-on">I/O libraries <strong>Leptonica</strong> is dependent on</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#developing-with-leptonica">Developing with <strong>Leptonica</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#leptprotos-h"><span class="filesystem">leptprotos.h</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#gnu-runtime-functions-for-stream-redirection-to-memory">GNU runtime functions for stream redirection to memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#typedefs">Typedefs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#compile-time-control-over-stderr-output">Compile-time control over <span class="filesystem">stderr</span> output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#in-memory-raster-format-pix">In-memory raster format (Pix)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#conversion-between-pix-and-other-in-memory-raster-formats">Conversion between Pix and other in-memory raster formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#custom-memory-management">Custom memory management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#what-s-in-leptonica">What&#8217;s in <strong>Leptonica</strong>?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#rasterops">Rasterops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#binary-morphology">Binary morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#grayscale-morphology-and-rank-order-filters">Grayscale morphology and rank order filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#image-shear-and-rotation-and-affine-projective">Image shear and rotation (and affine, projective, ...)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#sequential-algorithms">Sequential algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#image-enhancement">Image enhancement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#convolution-and-cousins">Convolution and cousins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#image-i-o">Image I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#colormap-removal-and-color-quantization">Colormap removal and color quantization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#programmatic-image-display">Programmatic image display</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#document-image-analysis">Document image analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#data-structures">Data structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#examples-of-programs-that-are-easily-built-using-the-library">Examples of programs that are easily built using the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#jbig2-encoder">JBig2 encoder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#versions">Versions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="local-sources.html">Source Code and Information</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="local-sources.html#download">Download</a></li>
 <li class="toctree-l2"><a class="reference internal" href="local-sources.html#related-publications">Related Publications</a></li>
@@ -358,6 +396,7 @@
 <li class="toctree-l1"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#nov-10">1.67 &#8211;  9 Nov 10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html#aug-10">1.66 &#8211; 3 Aug 10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html#apr-10">1.65 &#8211; 5 Apr 10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html#jan-10">1.64 &#8211; 3 Jan 10</a></li>
@@ -443,7 +482,7 @@
           <a href="README.html" title="README"
              >next</a></li>
         <li class="right" >
-          <a href="../index.html" title="Leptonica v1.67 Documentation"
+          <a href="../index.html" title="Unofficial Leptonica v1.67 Documentation"
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   

@@ -1,4 +1,4 @@
-:version: $RCSfile: building-leptonlib.rst,v $ $Revision: 440c6687684b $ $Date: 2010/11/09 23:19:38 $
+:version: $RCSfile: building-leptonlib.rst,v $ $Revision: 0191b0f4799d $ $Date: 2010/11/11 12:02:43 $
 
 .. default-role:: fs
 
@@ -13,9 +13,9 @@ Assuming that you've :doc:`downloaded <downloading-binaries>` or
 building |leptonlib| itself is straightforward since a Visual Studio
 solution file is provided.
 
-1. Download the latest version of leptonica from `here
-   <http://www.leptonica.com/download.html>`__. Extract the archive to
-   the |BuildFolder| directory. You should now have:
+1. Download the latest version of leptonica from :ref:`here
+   <leptonica-download>`. Extract the archive to the |BuildFolder|
+   directory. You should now have:
 
    .. parsed-literal::
 
@@ -29,10 +29,10 @@ solution file is provided.
         lpng143\\
         zlib\\
 
-#. Download the Microsoft Visual Studio 2008 build package from `here
-   <http://www.leptonica.com/download.html#VS2008>`__. Extract the
-   archive to the `BuildFolder\\leptonlib-`\ |versionF| directory. You
-   should now have:
+#. Download the Microsoft Visual Studio 2008 build package from
+   :ref:`here <microsoft-visual-studio-download>`. Extract the archive
+   to the `BuildFolder\\leptonlib-`\ |versionF| directory. You should
+   now have:
 
    .. parsed-literal::
 

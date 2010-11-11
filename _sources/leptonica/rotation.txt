@@ -187,6 +187,8 @@ subpixel version) is minimal, and the rotation speed for RGB images on
 a 3 GHz processor is about 18 million pixels/second.
 
 
+.. _orthogonal_rotations:
+
 Special rotations by 90, 180 or 270 degrees
 ===========================================
 

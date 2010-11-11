@@ -1,4 +1,4 @@
-:version: $RCSfile: quickstart.rst,v $ $Revision: 440c6687684b $ $Date: 2010/11/09 23:19:38 $
+:version: $RCSfile: quickstart.rst,v $ $Revision: 0191b0f4799d $ $Date: 2010/11/11 12:02:43 $
 
 .. default-role:: fs
 
@@ -17,20 +17,18 @@ Getting |leptonlib|
 
 Here's the items you need to get:
 
-1. Download the `latest version
-   <http://www.leptonica.com/download.html#VS2008>`_ of the |leptonlib|
-   :doc:`pre-built binaries for Windows archive <downloading-binaries>`
-   and extract it to a directory of your choice (here called
-   |BuildFolder|).
+1. Download the :ref:`latest version <windows-pre-built-binaries>` of
+   the |leptonlib| :doc:`pre-built binaries for Windows archive
+   <downloading-binaries>` and extract it to a directory of your choice
+   (here called |BuildFolder|).
 
 Strictly speaking the |leptonlib| sources aren't needed to build
 applications that use |leptonlib| but the `src` and `prog` directories
 are the best way to learn how to call Leptonica functions. It also has a
 number of test programs and images that are useful. So . . .
 
-2. Download the latest version of leptonica from `here
-   <http://www.leptonica.com/download.html>`__ and also extract it to
-   |BuildFolder|.
+2. Download the latest version of leptonica from :ref:`here
+   <leptonica-download>` and also extract it to |BuildFolder|.
 
 Downloading the VS2008 build package will make life easier if you plan
 on using the Visual Studio 2008 IDE to write programs that use
@@ -39,10 +37,10 @@ on using the Visual Studio 2008 IDE to write programs that use
 works very nicely for figuring out how to call the multitudinous
 Leptonica functions.
 
-3. Download the Microsoft Visual Studio 2008 build package from `here
-   <http://www.leptonica.com/download.html#VS2008>`__. Extract the
-   archive to the `BuildFolder\\leptonlib-`\ |versionF| directory. You
-   should now have:
+3. Download the Microsoft Visual Studio 2008 build package from
+   :ref:`here <microsoft-visual-studio-download>`. Extract the archive
+   to the `BuildFolder\\leptonlib-`\ |versionF| directory. You should
+   now have:
 
 .. parsed-literal::
 

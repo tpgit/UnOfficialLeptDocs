@@ -31,11 +31,11 @@
  
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://github.com/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
     if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "https://github.com/assets/MathJax/fonts"
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
     } else {
-      MathJax.OutputJax.fontDir = "http://github.com/assets/MathJax/fonts"
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
     }
     MathJax.Hub.Config({
       extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
@@ -77,10 +77,9 @@ libraries) yourself. This page discusses the basics.</p>
 <h2>Getting <span class="filesystem">leptonlib</span><a class="headerlink" href="#getting-leptonlib" title="Permalink to this headline">¶</a></h2>
 <p>Here&#8217;s the items you need to get:</p>
 <ol class="arabic">
-<li><p class="first">Download the <a class="reference external" href="http://www.leptonica.com/download.html#VS2008">latest version</a> of the <span class="filesystem">leptonlib</span>
-<a class="reference internal" href="downloading-binaries.html"><em>pre-built binaries for Windows archive</em></a>
-and extract it to a directory of your choice (here called
-<span class="filesystem">BuildFolder</span>).</p>
+<li><p class="first">Download the <a class="reference internal" href="../leptonica/source-downloads.html#windows-pre-built-binaries"><em>latest version</em></a> of
+the <span class="filesystem">leptonlib</span> <a class="reference internal" href="downloading-binaries.html"><em>pre-built binaries for Windows archive</em></a> and extract it to a directory of your choice
+(here called <span class="filesystem">BuildFolder</span>).</p>
 </li>
 </ol>
 <p>Strictly speaking the <span class="filesystem">leptonlib</span> sources aren&#8217;t needed to build
@@ -88,8 +87,7 @@ applications that use <span class="filesystem">leptonlib</span> but the <span cl
 are the best way to learn how to call Leptonica functions. It also has a
 number of test programs and images that are useful. So . . .</p>
 <ol class="arabic" start="2">
-<li><p class="first">Download the latest version of leptonica from <a class="reference external" href="http://www.leptonica.com/download.html">here</a> and also extract it to
-<span class="filesystem">BuildFolder</span>.</p>
+<li><p class="first">Download the latest version of leptonica from <a class="reference internal" href="../leptonica/source-downloads.html#leptonica-download"><em>here</em></a> and also extract it to <span class="filesystem">BuildFolder</span>.</p>
 </li>
 </ol>
 <p>Downloading the VS2008 build package will make life easier if you plan
@@ -99,9 +97,10 @@ on using the Visual Studio 2008 IDE to write programs that use
 works very nicely for figuring out how to call the multitudinous
 Leptonica functions.</p>
 <ol class="arabic" start="3">
-<li><p class="first">Download the Microsoft Visual Studio 2008 build package from <a class="reference external" href="http://www.leptonica.com/download.html#VS2008">here</a>. Extract the
-archive to the <span class="filesystem">BuildFolder\leptonlib-</span><span class="filesystem">1.67</span> directory. You
-should now have:</p>
+<li><p class="first">Download the Microsoft Visual Studio 2008 build package from
+<a class="reference internal" href="../leptonica/source-downloads.html#microsoft-visual-studio-download"><em>here</em></a>. Extract the archive
+to the <span class="filesystem">BuildFolder\leptonlib-</span><span class="filesystem">1.67</span> directory. You should
+now have:</p>
 </li>
 </ol>
 <pre class="literal-block">

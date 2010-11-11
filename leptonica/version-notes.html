@@ -31,11 +31,11 @@
  
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://github.com/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
     if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "https://github.com/assets/MathJax/fonts"
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
     } else {
-      MathJax.OutputJax.fontDir = "http://github.com/assets/MathJax/fonts"
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
     }
     MathJax.Hub.Config({
       extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
@@ -74,6 +74,59 @@
 <p class="first admonition-title">Note</p>
 <p class="last">The following are highlights of the changes in each version.
 They are <em>not</em> a complete listing of the modifications.</p>
+</div>
+<div class="section" id="nov-10">
+<h2>1.67 &#8211;  9 Nov 10<a class="headerlink" href="#nov-10" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><strong>Autoconf</strong>: now built with James Cuirot&#8217;s config files that build the
+library and all 200 progs.</p>
+</li>
+<li><p class="first">New sudoku solver.  Just a game, but there are interesting aspects.</p>
+</li>
+<li><p class="first">Modified <span class="filesystem">parseprotos.c</span> to reject a type of &#8220;<tt class="docutils literal"><span class="pre">extern</span></tt>&#8221; decl.</p>
+</li>
+<li><p class="first">Add faster implementation for very small gray morphology operations
+(3x1, 1x3, 3x3).</p>
+</li>
+<li><p class="first">Eliminate warnings on recent gcc if you don&#8217;t check return values from
+<tt class="docutils literal"><span class="pre">fread</span></tt>, <tt class="docutils literal"><span class="pre">fscanf</span></tt>, <tt class="docutils literal"><span class="pre">fgets</span></tt>, <tt class="docutils literal"><span class="pre">system</span></tt>, etc.</p>
+</li>
+<li><p class="first"><strong>Convolution</strong>: new functions for windowed variance and stdev; allow
+non-square kernel for windowed mean square.</p>
+</li>
+<li><p class="first">Put <span class="filesystem">stdio.h</span> and <span class="filesystem">stdlib.h</span> in <span class="filesystem">alltypes.h</span>, so they&#8217;re not required
+in any <span class="filesystem">.c</span> files.</p>
+</li>
+<li><p class="first">Replace <tt class="docutils literal"><span class="pre">numaConvolve()</span></tt>, which is just a windowed mean, by windowed
+statistics functions (mean, mean square, variance).</p>
+</li>
+<li><p class="first">Generalize <tt class="docutils literal"><span class="pre">pixExtractOnLine()</span></tt> for arbitrary lines.</p>
+</li>
+<li><p class="first">Add pix interface to webp (<span class="filesystem">webpio.c</span>, <span class="filesystem">webpiostub.c</span>). This is a new
+open source codec, based on the video codec vpx (webm).</p>
+</li>
+<li><p class="first">Serialization of <tt class="docutils literal"><span class="pre">FPix</span></tt> and <tt class="docutils literal"><span class="pre">DPix</span></tt>.</p>
+</li>
+<li><p class="first">Interconversion between <tt class="docutils literal"><span class="pre">FPix</span></tt> and <span class="filesystem">DPix`</span>.</p>
+</li>
+<li><p class="first">Integer scaling of <tt class="docutils literal"><span class="pre">FPix</span></tt> and <tt class="docutils literal"><span class="pre">DPix</span></tt>; includes the last row and
+column.</p>
+</li>
+<li><p class="first">New <span class="filesystem">convertfiles.c</span>: depth conversion on files in a directory.</p>
+</li>
+<li><p class="first">Testing programs in <span class="filesystem">prog</span>:</p>
+<ul>
+<li><p class="first"><span class="filesystem">convolve_reg.c</span>, <span class="filesystem">numa_reg.c</span>: expanded test set</p>
+</li>
+<li><p class="first"><span class="filesystem">projection_reg.c</span> (tests <tt class="docutils literal"><span class="pre">pixRowStats()</span></tt>, <tt class="docutils literal"><span class="pre">pixColumnStats()</span></tt>)</p>
+</li>
+<li><p class="first"><span class="filesystem">dewarptest.c</span>: output ps and pdf files</p>
+</li>
+<li><p class="first"><span class="filesystem">writemtiff.c</span>: simple driver to write images to a single file</p>
+</li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="section" id="aug-10">
 <h2>1.66 &#8211; 3 Aug 10<a class="headerlink" href="#aug-10" title="Permalink to this headline">¶</a></h2>
@@ -1299,6 +1352,7 @@ I hope to have this available for 1.60.</p>
 <li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Version Notes for Leptonica</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nov-10">1.67 &#8211;  9 Nov 10</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#aug-10">1.66 &#8211; 3 Aug 10</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#apr-10">1.65 &#8211; 5 Apr 10</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#jan-10">1.64 &#8211; 3 Jan 10</a></li>
