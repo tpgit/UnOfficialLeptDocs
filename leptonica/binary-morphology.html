@@ -1,0 +1,1310 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Binary Morphology &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Operations" href="operations.html" />
+    <link rel="next" title="Grayscale Morphology" href="grayscale-morphology.html" />
+    <link rel="prev" title="Rasterop (a.k.a. Bitblt)" href="rasterops.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="grayscale-morphology.html" title="Grayscale Morphology"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="rasterops.html" title="Rasterop (a.k.a. Bitblt)"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="binary-morphology">
+<span id="id1"></span><h1>Binary Morphology<a class="headerlink" href="#binary-morphology" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Oct 7, 2007</td>
+</tr>
+</tbody>
+</table>
+<div class="contents local topic" id="contents">
+<ul>
+<li><p class="first"><a class="reference internal" href="#introduction" id="id2">Introduction</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#references-and-meta-references" id="id3">References and meta-references</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#what-is-binary-morphology" id="id4">What is binary morphology?</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#and-there-is-more-to-morphology-than-translationally-invariant-increasing-primitives" id="id5">And there is more to morphology than translationally-invariant, increasing primitives</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><a class="reference internal" href="#what-about-boundary-conditions" id="id6">What about boundary conditions?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#the-rasterop-implementation-of-binary-morphology" id="id7">The rasterop implementation of binary morphology</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#the-destination-word-accumulation-implementation-of-binary-morphology" id="id8">The destination word accumulation implementation of binary morphology</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#auto-generated-dwa-code-interfaces" id="id9">Auto-generated dwa code interfaces</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><a class="reference internal" href="#separable-atomic-operations-with-block-sels-sel-decomposition-sequence-interpreters-and-simplicity-of-use" id="id10">Separable atomic operations with block Sels, Sel decomposition, sequence interpreters and simplicity of use</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#atomic-separable-functions" id="id11">Atomic separable functions</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#interpreters-for-sequences-of-atomic-operations" id="id12">Interpreters for sequences of atomic operations</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><a class="reference internal" href="#summary-of-available-implementations" id="id13">Summary of available implementations</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#full-image-rasterops" id="id14">Full image rasterops</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#destination-word-accumulation" id="id15">Destination word accumulation</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#sequence-interpreters" id="id16">Sequence interpreters</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#performance-comparisons" id="id17">Performance comparisons</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><a class="reference internal" href="#binary-morphology-and-cellular-automata" id="id18">Binary morphology and cellular automata</a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id2">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Binary morphology is set of fundamental operations on binary images
+(2-D sets of boolean values). It is a very simple, nonlinear
+convolution-like operation between two such sets. Unlike linear
+convolution, morphology takes the Min and Max of elements in the set.
+One set is the image <em>per se</em>; the other is the kernel of the
+convolution, which is called a <em>structuring element</em> and has a defined
+<em>origin</em> (sometimes called the &#8220;center&#8221;). Binary morphology is
+extremely important for fast, low-level image matching operations &#8212;
+every commercial &#8220;machine vision&#8221; system has it because of its
+usefulness. Back in the period around 1990, if you wanted to do fast
+pattern matching, you could buy such a system from any one of several
+firms (see below). These implemented binary morphological operations
+on custom systems with wide registers at about 1 billion pixel
+operations/second. Today, using the destination word accumulation
+method (implemented in Leptonica) on a 1 GHz CPU, you can do binary
+morphology up to an order of magnitude faster! So if you need fast
+matching operations on binary images, read on. And if you are doing
+image analysis on grayscale or color images, binary morphology can
+often be used to give quick and spatially detailed &#8220;answers&#8221; to
+questions of interest.</p>
+</div>
+<div class="section" id="references-and-meta-references">
+<h2><a class="toc-backref" href="#id3">References and meta-references</a><a class="headerlink" href="#references-and-meta-references" title="Permalink to this headline">¶</a></h2>
+<p>I recommend the following references for initiates and practitioners:</p>
+<ul>
+<li><p class="first"><cite>Image Algebra Using Mathematical Morphology</cite> by
+R. M. Haralick, S.  R. Sternberg and X. Zhuang, <cite class="journal">IEEE
+Trans. PAMI</cite>, <cite class="jvolume">vol. 9</cite>, pp. 532-550, July 1987. The first 10
+pages define the basic binary <strong>dilation</strong>, <strong>erosion</strong>, <strong>opening</strong>
+and <strong>closing</strong> operations.</p>
+</li>
+<li><p class="first"><cite>Image Analysis and Mathematical Morphology</cite> by Jean Serra,
+<cite class="publisher">Academic Press</cite> 1982. The classic treatise, by one of the
+pioneers.</p>
+</li>
+<li><p class="first"><cite>Morphological Image Analysis, Principles and Applications</cite> by
+Pierre Soille, <cite class="publisher">Springer</cite> 1999. A more modern textbook with
+numerous applications and examples.</p>
+</li>
+<li><p class="first">You can have a 2-page summary of the common notation and basic
+definitions that are used for morphological operators, in
+<a class="reference external" href="http://leptonica.com/papers/morphdefs.ps.gz">ps</a> or <a class="reference external" href="http://leptonica.com/papers/morphdefs.pdf">pdf</a>.</p>
+</li>
+<li><p class="first">Luc Vincent has many excellent <a class="reference external" href="http://www.vincent-net.com/luc-papers">publications</a> on applications and
+efficient implementations of image morphology.</p>
+</li>
+<li><p class="first">There is an excellent <a class="reference external" href="http://liinwww.ira.uka.de/bibliography/Graphics/morphological.image.analysis.html">online bibliography</a>
+of 643 references in image morphology and related topics, through
+2003, compiled by Pierre Soille and Henk Heijmans.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="what-is-binary-morphology">
+<h2><a class="toc-backref" href="#id4">What is binary morphology?</a><a class="headerlink" href="#what-is-binary-morphology" title="Permalink to this headline">¶</a></h2>
+<p>If you are familiar with morphological image processing, you can skip
+this section.</p>
+<p>There are many fields, such as computational linguistics, materials
+science and biology, that use the term &#8220;morphological&#8221; to describe the
+objects they study. To distinguish itself from these, morphological
+image processing is sometimes called &#8220;image morphology&#8221; and
+&#8220;mathematical morphology,&#8221; the latter perhaps to indicate the degree
+of abstractness that has been achieved. Image morphology was pioneered
+in France in the 1960s by Matheron and Serra, and further developed in
+Europe thereafter. But until the early 1990s, most image processing in
+the U.S. was linear: linear convolution and invertible transforms.
+Heavy mathematical machinery can be brought to bear on such linear
+processing, but there are many situations where non-linear image
+processing is required, especially in <em>image analysis</em> applications
+where decisions need to be made. (You can&#8217;t make decisions with linear
+operations, which don&#8217;t allow you to say &#8220;yes&#8221; or &#8220;no&#8221; &#8212; only degrees
+of &#8220;maybe&#8221;.) The neglect in the U.S. of these fundamental nonlinear
+operations reminds me of the old joke about someone who loses his keys
+at night but only searches for them under a lamp-post because &#8220;that&#8217;s
+where the light is.&#8221; I believe that the first doctoral thesis on image
+morphology in the U.S. was the 1985 work on nonlinear filters by
+Petros Maragos with Ron Schafer at Georgia Tech.</p>
+<p>Around that time, several &#8220;machine vision&#8221; companies were founded in
+Michigan, largely to provide automated inspection for local auto
+manufacturers. Binary morphology was used as a principal technique
+because it is fast, memory efficient and provides general routines for
+pattern matching. These companies sold special purpose hardware
+because it was lucrative and it was difficult to put the algorithms on
+general purpose machines. Why was that? After all, the Motorola 68020
+was available in 1985 and the Intel 386 was available in 1986. Each of
+these supported memory-protected multiprocessing with 32 bit
+addressing. The main problem was that DOS and Intel lived in a 16 bit
+world, using a 64K segmented memory model, and it was difficult to
+handle larger images. And the unix workstations that were built around
+the 68020 were relatively expensive. They were also slow &#8212; these
+chips ran at a few MHz, several hundred times slower than the
+ubiquitous 3 GHz chips you can buy for $100 today. These machine
+vision systems were also popular because they were designed to be
+special purpose &#8220;turn-key&#8221; systems (though it was not always easy to
+turn the key, especially when you programmed them in an assembly-like
+language.) And so, into the early &#8216;90s, there was a market for this
+special purpose hardware. But the inexorable progress of the basic PC
+microprocessor, both in speed and in software tools for program
+development, has greatly reduced the demand for these special systems
+&#8211; just as Silicon Graphics found that its business with special
+purpose graphics hardware was obliterated by cheap, fast Intel and AMD
+chips with gigaflop graphics performance. Today, processors are fast,
+memory is cheap, and we can use binary morphology for pattern matching
+at speeds that were not imagined even 10 years ago.</p>
+<p>Binary morphology is about operations on sets. The sets are ON (black)
+pixels in a 2-dimensional image. As with all image processing
+operations, there is a <em>source</em> image that is operated on to produce a
+<em>destination</em> image. In the following, we use one set of conventions
+to describe the erosion and dilation operations as set operations.
+Other conventions exist, and you should keep this in mind when you
+read the literature.</p>
+<p id="structuring-element">The basic binary morphology operations are <em>dilation</em> and <em>erosion</em>. In
+a binary image, we refer to the foreground (black) pixels variously as
+&#8220;black&#8221;, &#8220;foreground&#8221;, &#8220;ON&#8221; or &#8220;1&#8221;. We refer to the background (white)
+pixels variously as &#8220;white&#8221;, &#8220;background&#8221;, &#8220;OFF&#8221; or &#8220;0&#8221;. Loosely
+speaking, dilation &#8220;smears&#8221; the foreground and erosion &#8220;thins&#8221; the
+foreground. These two operations are actually <em>dual</em> in that an erosion
+of the foreground is equivalent to a dilation of the
+background. Dilation can be implemented as follows: start with a cleared
+destination image (all OFF pixels). Then do a sequence of logical OR
+operations of the source image with the destination, each time with a
+specific shift, as determined by a pattern called a <em>structuring
+element</em> (<em>Sel</em>). The <em>Sel</em> is a 2-dimensional pattern of <em>hits</em>, all
+relative to an <em>origin</em> that is often referred to as the <em>center</em> of the
+<em>Sel</em>. It is a set as well. So there are really two sets involved in a
+morphological operation: the image and a <em>Sel</em>.  For example, consider a
+<em>Sel</em> that is a horizontal pattern of 5 contiguous <em>hits</em> (x,y) =
+{(-2,0), (-1,0), (0,0), (1,0) and (2,0)}, with an origin at (0,0). Then
+a dilation of the image by this <em>Sel</em> involves initializing all dest
+pixels to OFF and then ORing the source five times with source shifts
+given by the five hits in the <em>Sel</em>.</p>
+<p>An erosion can be implemented in a similar way. For example, you can
+initialize all dest pixels to ON and then do a set of logical ANDs
+between the dest and the shifted source. But there is one important
+difference: you take the shift to be <em>from the hit to the Sel origin</em>,
+rather than from the origin to the hit. You can think of the <em>Sel</em> as a
+set of vectors in two dimensions, and for erosion, you use an
+<em>inversion</em> of these vectors. Because of the AND, you end up with ON
+pixels in the destination only where the hits of the <em>Sel</em> can <em>all</em> fit
+on the ON pixels of the source image. In fact, the erosion can be
+implemented by placing the <em>Sel</em> with its origin at every ON pixel in
+the source image and, for every location where all hits in the <em>Sel</em> are
+placed on ON pixels in the image, an ON pixel is produced in the
+destination at the location of the <em>Sel</em> origin. Thus, the erosion is a
+<em>pattern matching</em> operation. The inversion of the <em>Sel</em> for erosion is
+required to make the erosion a dual of the dilation. The prescription
+for erosion just given is oversimplified; see the discussion in the next
+section on boundary conditions.</p>
+<p>The inversion of the <em>Sel</em> for erosion is also required to make the
+<em>opening</em>, which is a sequence of erosion followed by dilation, both
+using the same <em>Sel</em>, have the property called <em>idempotence</em>. This
+means that if you do a second opening, there is no change after the
+first one. Operations that are idempotent have a special significance.
+The opening can be visualized as follows: <em>it gives you only those ON
+pixels where the Sel is able to fit entirely in the foreground</em>. (The
+erosion gave on pixels only at the <em>Sel</em> origin location of such a
+pattern match. Then by dilating those pixels, with the same <em>Sel</em>, you
+get <em>all</em> the pixels in the match.) So the opening <em>projects</em> out a
+subset of pixels of the source image, and a second opening gives the
+same result because the <em>Sel</em> fits in those pixels by construction.
+The <em>closing</em>, which is a dilation followed by an erosion with the
+same <em>Sel</em>, is also idempotent. It is the dual to the opening, because
+you can do a closing by opening the background. Regardless of the
+convention that is used to define erosion and dilation, the opening
+and closing operations have a unique definition. All four
+morphological operations have two important properties:</p>
+<ol class="arabic">
+<li><p class="first"><em>Translational invariance</em>. The operation commutes with
+translation: if you translate the source and perform an operation, you
+get the same result as if you performed the operation first and then
+translated the result.</p>
+</li>
+<li><p class="first"><em>Increasing</em>. If you have two images, one of which has a foreground
+that is entirely contained in the other, then the results of a
+morphological operation retain the same order of inclusion.</p>
+</li>
+</ol>
+<p>Unlike dilation and erosion, the result of opening or closing an image
+does not depend on the location of the origin of the <em>Sel</em>. (This is
+another reason for inverting the <em>Sel</em> for erosion.) A consequence of
+this is that opening and closing have special properties besides
+idempotence not shared by erosion and dilation. Namely, the opening is
+<em>anti-extensive</em>, which means that the set of ON pixels after opening
+is contained in the source image. Oppositely, the closing is
+<em>extensive</em> because the source image ON pixels are all contained in
+the image that results from closing it. The erosion and dilation do
+not have these properties because the result depends on the location
+of the <em>Sel</em> origin. For example, if you dilate an image with a <em>Sel</em>
+that has a single hit offset from the <em>Sel</em> origin, the result is
+simply a translation of the original image by the vector from the
+<em>Sel</em> origin to that hit. For this case, are the ON source pixels all
+contained in the ON pixels of the destination?</p>
+<div class="section" id="and-there-is-more-to-morphology-than-translationally-invariant-increasing-primitives">
+<h3><a class="toc-backref" href="#id5">And there is more to morphology than translationally-invariant, increasing primitives</a><a class="headerlink" href="#and-there-is-more-to-morphology-than-translationally-invariant-increasing-primitives" title="Permalink to this headline">¶</a></h3>
+<p>You might think that all important operations are translationally
+invariant, but this is not true. For example, any operation that
+scales the image size is not translationally invariant. For example,
+if an image is reduced by subsampling, the resulting image depends on
+the subsampling grid (i.e., on the specific pixels that are chosen to
+represent the reduced image). A translation of the image relative to
+this grid before subsampling can result in a different (translated)
+image from that produced by subsampling at the original grid location.</p>
+<p>There is another important morphological operation, the <em>hit-miss</em>
+operation. It is a very general pattern match because it finds matches
+to parts of the image that have specified OFF pixels as well as ON
+pixels. For example, the lower edge of a horizontal line in the image
+can be found with a hit-miss <em>Sel</em> that has a row of <em>misses</em> below a
+row of <em>hits</em>. For a pixel to be set ON in the destination, all the
+hits must be on ON pixels <em>and</em> all the misses must be on OFF pixels
+in the source. (The operation is sometimes called &#8220;hit-or-miss&#8221;, but
+the operation is really a hit-<em>and</em>-miss.) Thus in its most general
+form, the <em>Sel</em> has in each location either a hit, a miss or a
+<em>don&#8217;t-care</em>. The addition of misses to the <em>Sel</em> makes the hit-miss
+operation very useful, but it loses the increasing property. (Can you
+see why?). Consequently, it is not of great interest in set theory
+because without a preservation of image ordering, relatively few
+general statements can be made.</p>
+<p>I should not leave you with the impression that this is all there is
+to binary morphology. There are many other image operations, such as
+thinning (with or without preservation of connectivity), that can be
+formed by sequences of basic operations. There are also many nonlinear
+transforms from binary to grayscale images, such as a simple distance
+transform that labels the minimum distance from each pixel to a pixel
+of opposite color. A more complicated nonlinear function labels
+<em>connected components</em> (a set of pixels of the same color for which
+each pixel in the set is adjacent, in either a 4- or 8-connected
+orientation, to another pixel in the set) by computing a measure of
+their &#8220;length&#8221; as the maximum, over all pairs of pixels in the set, of
+the minimum distance between the two pixels, taken over all paths
+between them that stay entirely within the set of pixels that
+constitute the connected component. Further, all the binary
+morphological operations can be generalized to grayscale, where the
+dilation is a <em>Max</em> operation and erosion is a <em>Min</em> operation. (Do
+you see how the binary dilation and erosion are a special case of
+taking the <em>Max</em> and <em>Min</em> operation? With a binary image, the max
+value is 1 and the min value is 0. An erosion places a value of 0 at
+the <em>Sel</em> origin unless all the pixels under the <em>Sel</em> are 1.
+Therefore, <em>the erosion selects the minimum of the binary pixel
+values</em>.) And once you go to grayscale, the number of interesting
+nonlinear operations explodes. For example, much work has been done on
+image segmentation, typically using seeds and region growing. See the
+literature for details.</p>
+</div>
+</div>
+<div class="section" id="what-about-boundary-conditions">
+<h2><a class="toc-backref" href="#id6">What about boundary conditions?</a><a class="headerlink" href="#what-about-boundary-conditions" title="Permalink to this headline">¶</a></h2>
+<p>Why have an entire section on boundary conditions? Why not simply
+adopt a mathematically elegant definition, and use it. For natural
+images, where there is no <em>a priori</em> bias toward any particular
+grayscale value for pixels beyond the image proper, this is a
+perfectly reasonable approach. For document images, however, this can
+give unexpected results.</p>
+<p>What is the mathematically elegant definition? It is the one that
+treats erosion and dilation as duals, even in the presence of
+boundaries. We will call it the <em>symmetric boundary condition</em> (SBC):
+extend an image by the min value (0 for binary images) for dilation
+and by the max value (1 for binary images) for erosion. This gives
+strict duality. To avoid confusion, we call the extra pixels that are
+used to extend the image beyond its actual boundaries the <em>frame
+pixels</em>.</p>
+<p>However, for document images, there is a natural bias toward extending
+the image with background (0, OFF) pixels, for both dilation and
+erosion, because we typically have background pixels at the
+boundaries. So we might want to handle the boundary conditions by
+requiring that we get the same result as if the image were actually
+extended sufficiently by 0 pixels, for all morphological operations.
+This does not give strict duality between dilation and erosion, but I
+find it preferable for document imaging applications. We will call
+this the <em>asymmetric boundary condition</em> (ABC).</p>
+<p>Erosion is thus different for SBC and ABC. Suppose you have a binary
+image with all pixels ON. An erosion with a 3x3 <em>Sel</em> flips a 1 pixel
+wide border around the image to OFF using ABC, and has no effect on
+the image using SBC.</p>
+<p>The most problematic operation on document images is closing. Consider
+a document imaging application with binary images, and let&#8217;s take a
+specific closing example. Suppose you have an image with one ON pixel,
+located near the left hand edge at (x=5,y=50), in an image of size 100
+x 100, and you dilate with a horizontal structuring element of width
+21 pixels with the origin at its center. Here are the three cases:</p>
+<ol class="arabic">
+<li><p class="first"><em>Closing using asymmetric boundary condition convention with no
+added border pixels.</em> The dilation stops at the image boundary, and
+you get a line only 16 ON pixels long (5 to the boundary, the original
+pixel, and 10 to the right of the original pixel). The subsequent
+erosion with a 21 pixel wide <em>Sel</em> removes it entirely, because there
+is no location in which all 21 pixels of the <em>Sel</em> are covered by ON
+pixels. Removal of the original pixel is not typically what you want
+for a closing operation.</p>
+</li>
+<li><p class="first"><em>Closing using asymmetric b.c. with added OFF border pixels.</em> The
+dilation expands the orignal pixel into a line of length 21 that
+includes 5 frame pixels, and the subsequent erosion leaves a single
+pixel, the same one that you started with.</p>
+</li>
+<li><p class="first"><em>Closing using a symmetric b.c.</em>. As we will see, this can be
+implemented without any actual frame pixels being added. But for
+visualization purposes, imagine there is a frame of OFF pixels for the
+dilation, which expands the original pixel into a line 21 pixels long,
+including 5 in the frame. Then change the frame pixels to ON and
+perform the erosion. Because there are now an infinite number of ON
+pixels in the frame, the erosion only removes the 10 pixels to the
+right of the original pixel. The original pixel and the five pixels to
+its left remain ON. (Remember, the erosion leaves the <em>Sel</em> origin ON
+if all hits in the <em>Sel</em> are covered by ON pixels.)</p>
+</li>
+</ol>
+<p>So we get three different results! The third result, where pixels can
+be connected with the boundary by the closing, is the mathematically
+correct one in terms of strict duality (SBC), but for document images,
+does one really want the closing operation to close gaps from image
+pixels to the boundary? The first result loses the original pixel,
+which is also likely to be undesirable. Only the second result gives
+us an image that seems intuitively correct for a situation where the
+image seems naturally to be extended by OFF pixels because the
+foreground pixels are assumed to be localized to the actual image
+(without a frame). Note that the second result is <em>independent of the
+location of the actual image boundary</em>. This is the reason that we&#8217;re
+considering boundary conditions in some detail: I prefer ABC for
+document images.</p>
+<p>In Leptonica, you get to choose which convention &#8212; ABC or SBC &#8212; you
+want to use. There is a function, <tt class="docutils literal"><span class="pre">resetMorphBoundaryCondition()</span></tt>,
+that takes one of two values, <em>SYMMETRIC_MORPH_BC</em> and
+<em>ASYMMETRIC_MORPH_BC</em>. We initialize it to ABC, so that by default <em>all
+pixels outside the image are assumed to be 0 (OFF) for both dilation and
+erosion</em>. The disadvantages of this convention are that we lose duality
+near the boundary, and have to be careful with closing. However, we gain
+the condition that an erosion cannot bring ON pixels in from the
+boundary onto an image that is mostly OFF near the boundary, as most
+binary document image pages are. If you do a translation (which could be
+implemented as either a dilation or an erosion by a <em>Sel</em> with one hit
+that is not at the <em>Sel</em> center), and you don&#8217;t want to introduce a
+rectangle of black pixels, you must use the convention that the image is
+surrounded by OFF pixels. If you use SBC with such a translation, you
+will introduce a rectangle of ON pixels in an erosion but not in a
+dilation.</p>
+<p>As you can see, the type of boundary conditions you want to use may
+depend on your application. Most mathematicians would likely argue for
+using SBC. However, these issues are introduced here because SBC is
+not the only possible choice, and with Leptonica you can decide which
+boundary conditions you want to use.</p>
+<p>We discuss below exactly how we handle the boundary conditions. It
+turns out that there is essentially no difference in implementation
+complexity or efficiency between the two choices, for either of the
+two implementations we give here. Those implementations are discussed
+below: <em>full-page rasterops</em> and <em>destination word accumulation</em>.</p>
+</div>
+<div class="section" id="the-rasterop-implementation-of-binary-morphology">
+<h2><a class="toc-backref" href="#id7">The rasterop implementation of binary morphology</a><a class="headerlink" href="#the-rasterop-implementation-of-binary-morphology" title="Permalink to this headline">¶</a></h2>
+<p>A general rasterop is an image operation that combines a rectangle of
+pixels of the source image with a rectangle of pixels in the destination
+image, where the combination operation can be any of 12 binary logical
+pixel-wise operations. There are also special case unary rasterops that
+only affect a rectangle within the destination image. See the page on
+<a class="reference internal" href="rasterops.html#rasterops"><em>Rasterop (a.k.a. Bitblt)</em></a> for details.</p>
+<p>As described in the previous section, a morphological operation can be
+implemented by performing a sequence of logical ORs (for the dilation)
+or logical ANDs (for the erosion) of the source image, translated each
+time according to one of the hits in the <em>Sel</em>. The rasterop can be
+used, where the rectangle chosen is the entire source image. For all
+rasterops, the source image is clipped so that it does not try to
+write beyond any edge of the destination. There are other details, of
+course, such as the initial conditions on the destination image and
+the handling of the boundary conditions.</p>
+<p>We have already introduced the issue of different conventions for
+choosing boundary conditions for erosion. We can imagine implementing
+<em>erosion</em> by rasterops in two ways:</p>
+<ol class="arabic">
+<li><p class="first">Start with a dest image that is cleared (all pixels have value 0).
+Copy the source image to it with a displacement given by (an
+arbitrary) one of the hits in the <em>Sel</em>. For simplicity, imagine that
+this copy is made without any shift because the first hit in the <em>Sel</em>
+is at the <em>Sel</em> origin. The rest of the hits each result in an AND of
+the shifted and clipped source with the destination.</p>
+</li>
+<li><p class="first">Start with a dest image where all pixels are set to a value 1. For
+each hit in the <em>Sel</em>, AND the shifted source with the dest. Because
+we initialize to 1, you can use either a copy operation or and AND for
+the first hit. This is dual to the implementation of the dilation,
+where we initialize all pixels to 0 and do a sequence of ORs for each
+hit in the <em>Sel</em>.</p>
+</li>
+</ol>
+<p>We use the second method because of its simplicity, and because it can
+be used directly to implement erosion with both SBC and ABC.</p>
+<p>Now, when an image is shifted to the right by 2 pixels, the leftmost 2
+columns of pixels in the destination are unaffected by the AND. What
+should happen to these 2 columns? It depends on whether you are using
+SBC, which logically brings in ON pixels from the frame, or ABC, which
+logically brings in OFF pixels from the frame. (But if we do full
+image rasterops without a frame, nothing is actually brought in &#8212; the
+2 columns of pixels are simply not altered.) If you are using SBC and
+initialize the image pixels to ON, these 2 columns remain ON, just as
+if you really pulled ON pixels in from the frame. If you are using
+ABC, regardless of image content you must clear these columns out
+later.</p>
+<p>Suppose we are using asymmetric boundary conditions, where we require
+that the result of erosion using rasterops is equivalent to a situation
+where the source is surrounded by enough OFF pixels to cover the dest
+for every translation specified by the <em>Sel</em>. Details on this choice of
+boundary condition convention can be found in a recent paper on the
+<a class="reference external" href="http://leptonica.com/papers/binmorph.pdf">Implementation Efficiency of Binary Morphology</a>. We have two methods for insuring that the pixels near
+the boundary are properly cleared. We can <em>extend</em> the source image with
+OFF pixels all around, and clip each rasterop to the destination
+image. Then those columns of OFF pixels would automatically clear the
+destination because of the AND operation. Or equivalently, without
+embedding the source image in a larger image of OFF pixels, we can
+perform all the rasterops in the erosion with usual clipping to the
+translated source image and, as a final step, clear the (up to) four
+rectangles of the appropriate boundary pixels in the destination. For
+each such rectangle, the size in a direction normal to the boundary is
+equal to the maximum shift (relative to the <em>Sel</em> origin) in the
+corresponding one of the four directions. For example, if the maximum
+shift to the right in the <em>Sel</em> is 4 pixels, the rectangle consisting of
+the 4 left-most columns of the destination must be cleared. (Remember
+that for erosion, the vector giving the image shift for each hit in the
+<em>Sel</em> is <em>from</em> the hit location <em>to</em> the <em>Sel</em> origin.)</p>
+<p>We must also clear the edge pixels for the hit-miss transform, because
+it is a near relative of the erosion. The size of the rectangles to be
+cleared is determined from the hits in the <em>Sel</em>, exactly as in the
+erosion. The location of the misses in the <em>Sel</em> are not important for
+the clearing operation because the pixels that would be brought in
+from beyond the image boundary (if it were extended) would be ON. This
+is because for each miss, a translated version of the <em>negative</em> image
+is ANDed.</p>
+<p>Suppose on the contrary that you wish to adopt the symmetric boundary
+conditions; namely, that the image is surrounded with ON pixels for an
+erosion, as discussed above. Then you simply use the second method for
+the erosion given above: <em>set the dest image pixels (to 1); then AND
+each raster operation, properly shifted and clipped. This operation is
+dual to the dilation, and you stop there &#8212; you don&#8217;t clear the edge
+pixels.</em> For closing, with the example given in the previous section,
+we do not need to add any surrounding frame pixels for the rasterop
+implementation. After the dilation, we set all destination pixels ON
+for the erosion and do the set of ANDs from the source (which is the
+destination of the previous dilation). Because of rasterop clipping,
+it&#8217;s easy to see that the line of pixels from the original to the left
+boundary will be preserved by the erosion.</p>
+<p>As mentioned in the previous section, you can determine the boundary
+conditions using the function <tt class="docutils literal"><span class="pre">resetMorphBoundaryCondition()</span></tt>. The
+effects of the boundary are most striking with the closing operation.
+Closing is formally extensive, but with the ABC convention without added
+frame pixels, ON pixels near the image boundary can be removed because
+the dilation does not extend past the boundary. If you are using the ABC
+convention, the function <tt class="docutils literal"><span class="pre">pixCloseSafe()</span></tt> will remove this anomaly by
+adding a frame of minimal required size to every image before closing,
+and removing the frame pixels at the end. The routines for adding and
+removing a such a frame are in <span class="filesystem">pix2.c</span>. (In the libarary, we refer to
+this as adding or removing a <em>border</em>). Note again that if you are using
+SBC, closing will be extensive without the addition of actual pixels
+around the boundary, and the anomaly will be avoided automatically.</p>
+<p>The source code for the rasterop implementation of binary morphology
+is in <span class="filesystem">morph.c</span>. A few things to note are:</p>
+<ul>
+<li><p class="first"><strong>Call arguments</strong>. The dilation is typical:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX * pixDilate(PIX *pixd, PIX *pixs, SEL *se);
+</pre></div>
+</div>
+<p>The first argument is the <tt class="docutils literal"><span class="pre">dest</span></tt>; if it is <tt class="docutils literal"><span class="pre">NULL</span></tt>, a new <tt class="docutils literal"><span class="pre">dest</span></tt>
+pix is allocated. The function returns the <tt class="docutils literal"><span class="pre">dest</span></tt> in all
+circumstances. If <tt class="docutils literal"><span class="pre">pixs</span></tt> and <tt class="docutils literal"><span class="pre">pixd</span></tt> are pointers to the same
+<tt class="docutils literal"><span class="pre">Pix</span></tt>, the operation is in-place, and <tt class="docutils literal"><span class="pre">pixs</span></tt> will be changed;
+otherwise, <tt class="docutils literal"><span class="pre">pixs</span></tt> is unaltered.</p>
+</li>
+<li><p class="first"><strong>Data structure definitions</strong>. The <em>Sel</em> is defined in <span class="filesystem">morph.h</span>
+and the <tt class="docutils literal"><span class="pre">Pix</span></tt> is defined in <span class="filesystem">pix.h</span>. All <span class="filesystem">Pix</span> fields should only be
+changed using the &#8220;get&#8221; and &#8220;set&#8221; accessors provided in <span class="filesystem">pix1.c</span>.</p>
+</li>
+<li><p class="first"><strong>Construction of</strong> <em class="bold-italic">Sel</em><strong>s</strong>. There are many functions for creating a
+<em>Sel</em>.</p>
+<blockquote>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">selCreate()</span></tt> makes a <em>Sel</em> initialized to don&#8217;t-care entries.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">selCreateBrick()</span></tt> makes a <em>Sel</em> initialized to either don&#8217;t-care,
+hit or miss entries.</p>
+</li>
+<li><p class="first">The created <em>Sel</em>s can be packaged up into an array (<em>Sela</em>) using
+<tt class="docutils literal"><span class="pre">selaAddSel()</span></tt> repeatedly.</p>
+</li>
+<li><p class="first"><em>Sel</em>s can be extracted from <em>Sela</em> (arrays) by name using
+<tt class="docutils literal"><span class="pre">selaFindSelByName()</span></tt> or by index using <tt class="docutils literal"><span class="pre">selaGetSel()</span></tt>.</p>
+</li>
+<li><p class="first"><em>Sel</em>s can be created from either <em>Pix</em> or an array of pts (a
+<em>Pta</em>).</p>
+</li>
+<li><p class="first"><em>Sel</em>s can be created from a compiled string that, when displayed,
+shows the hits, misses and origin in correct geometrical arrangement.</p>
+</li>
+<li><p class="first"><em>Sel</em>s can be created from a simple file format that uses the same
+format as for the compiled string.</p>
+</li>
+<li><p class="first"><em>Sel</em>s can be created from a colored pix generated with a pixmap
+editor.</p>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p class="first"><strong>Visualization and archiving of</strong> <em class="bold-italic">Sel</em><strong>s</strong>. There are several ways to
+save or display a <em>Sel</em> or a <em>Sela</em> array.</p>
+<blockquote>
+<ol class="arabic">
+<li><p class="first">Both <em>Sel</em>s and <em>Sela</em> can be written in ascii, either to a stream
+or to a file (<span class="filesystem">sel1.c</span>).</p>
+</li>
+<li><p class="first"><em>Sel</em>s can be written to a string that, when displayed, shows the
+hits, misses and origin in correct geometrical arrangement
+(<span class="filesystem">sel1.c</span>).</p>
+</li>
+<li><p class="first"><em>Sel</em>s can be displayed in a binary pix in a form suitable for
+publishing (<tt class="docutils literal"><span class="pre">selDisplayInPix()</span></tt>).</p>
+</li>
+<li><p class="first">A color image of a <em>Sel</em> (in general, a hit-miss <em>Sel</em>) can be
+generated using <tt class="docutils literal"><span class="pre">pixDisplayHitMissSel()</span></tt> in <span class="filesystem">selgen.c</span>.</p>
+</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="the-destination-word-accumulation-implementation-of-binary-morphology">
+<span id="dwa-implementation-binary-morphology"></span><h2><a class="toc-backref" href="#id8">The destination word accumulation implementation of binary morphology</a><a class="headerlink" href="#the-destination-word-accumulation-implementation-of-binary-morphology" title="Permalink to this headline">¶</a></h2>
+<p>Destination word accumulation (<em>dwa</em>) is a much more efficient method
+of implementing binary morphology. We go through the destination image
+one (32-bit) word at a time, computing its value based on the source
+image and the <em>Sel</em>, and then write that word to the destination
+image. This is more efficient than the rasterop version because the
+inner loop for each destination word is unrolled into the simplest set
+of operations, with no branches or iteration loops. Unlike the
+rasterop implementation, the <em>dwa</em> requires specialized routines for
+erosion and dilation using each <em>Sel</em>. However, it will be seen that
+this is not an impediment to its use. Performance comparisons between
+rasterop and dwa implementations of binary morphology can be found in:</p>
+<ul>
+<li><p class="first">an ISMM 2002 paper: <a class="reference external" href="http://leptonica.com/papers/binmorph.pdf">Implementation Efficiency of Binary
+Morphology (pdf)</a>.</p>
+</li>
+<li><p class="first">an informal summary of that paper is also available in <a class="reference external" href="http://leptonica.com/papers/binmorph-poster.pdf">pdf</a>.</p>
+</li>
+</ul>
+<p>To avoid writing special case functions for words that are at or near
+the image boundaries, <em>dwa</em> is implemented on interior pixels that are
+more than 32 pixels from the actual image boundary. The outermost 32
+pixel border of pixels within the image are read from but not written
+to. If in an application it is desired to operate on <em>all</em> pixels in
+the image, the user must add a border of frame pixels before doing a
+<em>dwa</em> dilation or erosion. It is also necessary to add the frame
+pixels with the correct initial color. For dilation, the pixels added
+to the destination are always 0 (OFF). For erosion, they are OFF for
+ABC and ON for SBC. This could be automated if the pix had a field
+specifying the frame size, but I felt that adding this much machinery
+to slightly simplify the use of <em>dwa</em> morphology was not warranted.
+Just keep in mind that <em>dwa usage requires a border of extra frame
+pixels if you don&#8217;t want to get get boundary artifacts, and you must
+initialize the pixels properly according to the convention you are
+using.</em></p>
+<div class="section" id="auto-generated-dwa-code-interfaces">
+<h3><a class="toc-backref" href="#id9">Auto-generated dwa code interfaces</a><a class="headerlink" href="#auto-generated-dwa-code-interfaces" title="Permalink to this headline">¶</a></h3>
+<p>We provide two implementations that automatically generate code for
+<em>dwa</em> morphology.</p>
+<ul>
+<li><p class="first"><strong>Hit-only Sels</strong>. The function <tt class="docutils literal"><span class="pre">fmorphautogen()</span></tt> in <span class="filesystem">fmorphauto.c</span>
+takes a <em>Sela</em>, an integer and an optional filename, and writes the C
+code for dilations, erosions, opening and closing, using each of the
+<em>Sel</em>s in the <em>Sela</em>. The integer is used to give all functions a
+unique name so that the C code created by multiple invocations of
+<tt class="docutils literal"><span class="pre">fmorphautogen()</span></tt> using different <em>Sela</em>s will all compile and link
+together in an application. For example, the program
+<span class="command">prog/fmorphautogen</span> makes a <em>Sela</em> of the 58 <em>Sel</em>s that are
+generated by <tt class="docutils literal"><span class="pre">selaAddBasic()</span></tt>, and generates dwa C code for the four
+morphological operations for each <em>Sel</em>. It uses the integer &#8220;1&#8221; to
+generate the code in two files: <span class="filesystem">fmorphgen.1.c</span> and
+<span class="filesystem">fmorphgenlow.1.c</span>. We have compiled these files into the library. The
+functions <tt class="docutils literal"><span class="pre">pixMorphDwa_1()</span></tt> and <tt class="docutils literal"><span class="pre">pixFMorphopGen_1()</span></tt> in
+<span class="filesystem">fmorphgen.1.c</span> are then available to be called by any application to
+perform a morphological operation:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX * pixMorphDwa_1(PIX *pixd, PIX *pixs, INT32 operation, char *selname);
+PIX * pixFMorphopGen_1(PIX *pixd, PIX *pixs, INT32 operation, char *selname);
+</pre></div>
+</div>
+<p>The use of the first two arguments is standard, as described above for
+the rasterop implementation. The operation is one of the set
+{<tt class="docutils literal"><span class="pre">L_MORPH_DILATE</span></tt>, <tt class="docutils literal"><span class="pre">L_MORPH_ERODE</span></tt>, <tt class="docutils literal"><span class="pre">L_MORPH_OPEN</span></tt>,
+<tt class="docutils literal"><span class="pre">L_MORPH_CLOSE</span></tt>}, and the <em>Sel</em> to be used is specified by the name
+string (the selname) associated with that <em>Sel</em>. The list of allowed
+name strings for the <em>Sela</em> is automatically extracted and placed in
+the file <span class="filesystem">fmorphgen.1.c</span>.</p>
+</li>
+<li><p class="first"><strong>Hit-miss Sels</strong>. The function <tt class="docutils literal"><span class="pre">fhmtautogen()</span></tt> in <span class="filesystem">fhmtauto.c</span>
+takes a <em>Sela</em>, an integer and an optional filename, and writes the C
+code for the hit-miss transform, using each of the <em>Sel</em>s in the
+<em>Sela</em>. The parameter usage is identical to that of the hit-only
+<em>Sel</em>s. The program <span class="command">prog/fhmtautogen</span> makes a <em>Sela</em> of the 6
+<em>Sel</em>s that are generated by <tt class="docutils literal"><span class="pre">selaAddHitMiss()</span></tt>, and generates dwa C
+code for the hit-miss transform for each <em>Sel</em>:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX * pixHMTDwa_1(PIX *pixd, PIX *pixs, char *selname);
+PIX * pixFHMTGen_1(PIX *pixd, PIX *pixs, char *selname);
+</pre></div>
+</div>
+<p>The code generated by <tt class="docutils literal"><span class="pre">fhmtautogen()</span></tt> with index = 1 is in files
+<span class="filesystem">fhmtgen.1.c</span> and <span class="filesystem">fhmtgenlow.1.c</span>, and has been put in the library.
+The only restriction beyond size on the hit-miss <em>Sel</em>s is that each
+one must have at least one hit; otherwise, the code generated aborts
+with an error message.</p>
+</li>
+</ul>
+<p>There are several other practical things to note about using the <em>dwa</em>
+implementations:</p>
+<ul>
+<li><p class="first"><strong>You must add a border before dwa operations and remove it
+afterwards</strong>. Add a 32 pixel border of frame pixels. For symmetric
+boundary conditions, initialize the added frame pixels to 0 for
+dilation and 1 for erosion. For asymmetric boundary conditions, always
+initialize the added frame pixels to 0. The functions
+<tt class="docutils literal"><span class="pre">pixAddBorder()</span></tt> and <tt class="docutils literal"><span class="pre">pixRemoveBorder()</span></tt> in <span class="filesystem">pix2.c</span> have been
+provided for this purpose.</p>
+</li>
+<li><p class="first"><strong>Higher-level autogen&#8217;d functions are provided</strong>:</p>
+<blockquote>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">pixMorphDwa_*()</span></tt> and <tt class="docutils literal"><span class="pre">pixHMTDwa_*()</span></tt> automatically add the
+border and set the border pixels appropriately.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">pixFMorphopGen_*()</span></tt> and <tt class="docutils literal"><span class="pre">pixFHMTGen_*()</span></tt> set the border
+pixels appropriately, but assume that these border pixels
+exist. If they don&#8217;t exist, pixels in the proper image will be
+treated as border pixels.</p>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p class="first"><strong>Limit on</strong> <em class="bold-italic">Sel</em> <strong>size</strong>. To simplify the code that automatically
+generates dwa code, the hits in the <em>Sel</em> must not exceed 31 pixels in
+any direction away from the <em>Sel</em> origin. The autogen code will
+truncate any <em>Sel</em> that&#8217;s larger, and the generated code may not
+compile. This limit means that with a centered <em>Sel</em> origin, the <em>Sel</em>
+can not be more than 63x63 pixels. This should be sufficient for most
+applications.</p>
+</li>
+<li><p class="first"><strong>Higher-level functions for brick</strong> <em class="bold-italic">Sel</em><strong>s exit</strong>. These are
+in <span class="filesystem">morphdwa.c</span>, and take care of all the grungy low-level details,
+including border pixels and their initialization.</p>
+</li>
+<li><p class="first"><strong>Two programs that autogen code are provided</strong>.</p>
+<blockquote>
+<ul>
+<li><p class="first"><em>Hits-only</em>. The program is <span class="command">prog/fmorphautogen</span>.</p>
+</li>
+<li><p class="first"><em>Hit-Miss Transform</em>. The program is <span class="command">prog/fhmtautogen</span></p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first"><strong>Reserved indices for autogen&#8217;d code</strong> We reserve indices 1-9 for
+code built with either <tt class="docutils literal"><span class="pre">fmorphauto()</span></tt> and <tt class="docutils literal"><span class="pre">fhmtauto()</span></tt>. Hit-only
+code using indices 1 and 2, and hit-miss code using index 1 has been
+generated and inserted in the library. It is suggested that you use
+numbers larger than 9 in your own code to avoid collisions.</p>
+</li>
+<li><p class="first"><strong>Autogen&#8217;d code can be linked directly into applications</strong>. You
+have the option to add the code to the library and compile it there,
+or to compile and link the code directly into an executable. The
+latter is simpler.</p>
+</li>
+<li><p class="first"><strong>Programs are provided for verification of correctness of autogen
+code</strong>. The programs <span class="command">prog/binmorph*_reg</span>, <span class="command">dwamorph*_reg</span>
+and <span class="command">fhmtauto_reg</span> do a variety of tests on the morphological
+functions.  Most of these compare the dwa and full image rasterop
+implementations.  Note that when a border is added for dilation, the
+added border pixels must be initialized to 0; for erosion, the value
+of the border pixels depends on whether you are using the asymmetric
+or symmetric boundary condition convention.</p>
+</li>
+<li><p class="first"><strong>There is more information in the source code</strong>. Consult the
+source for further details on usage.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="separable-atomic-operations-with-block-sels-sel-decomposition-sequence-interpreters-and-simplicity-of-use">
+<h2><a class="toc-backref" href="#id10">Separable atomic operations with block Sels, Sel decomposition, sequence interpreters and simplicity of use</a><a class="headerlink" href="#separable-atomic-operations-with-block-sels-sel-decomposition-sequence-interpreters-and-simplicity-of-use" title="Permalink to this headline">¶</a></h2>
+<p>With all the mechanisms set up for doing binary morphology with both
+rasterop and dwa, and for doing <a class="reference internal" href="grayscale-morphology.html"><em>Grayscale Morphology</em></a>, it is
+important to add some machinery to make it very easy to use for the
+situation where the Sels are linear operators of all HITS, which is by
+far the most common usage. These linear operators can be used in
+&#8220;separable&#8221; combinations, horizontal and vertical, to implement
+morphology with 2-dimensional rectangular Sels of all HITS. We call
+these 2-dimensional Sels &#8220;bricks.&#8221; Large linear Sels, of which the
+bricks are composed, can themselves be decomposed for efficiency, and we
+do this with 2-way composites, giving a computation savings for a linear
+Sel of length n of about a factor of n / (2 * sqrt(n)) over the <em>unary</em>
+method without decomposition.</p>
+<p>The machinery has two levels that are convenient for use: a lower
+level where the brick Sel morphologyical operations are directly
+invoked, and a higher level that is an interpreter to run a sequence
+of such operations. Specifically,</p>
+<ol class="arabic">
+<li><p class="first">Atomic functions for brick Sels, using separability and optionally
+2-way composition.</p>
+</li>
+<li><p class="first">A set of interpreters to implement a sequence of these atomic
+functions.</p>
+</li>
+</ol>
+<div class="section" id="atomic-separable-functions">
+<h3><a class="toc-backref" href="#id11">Atomic separable functions</a><a class="headerlink" href="#atomic-separable-functions" title="Permalink to this headline">¶</a></h3>
+<p>There are five sets of atomic functions for brick Sels, all with
+similar interfaces:</p>
+<ul>
+<li><p class="first">Grayscale morphological operations (in <span class="filesystem">graymorph.c</span>).</p>
+</li>
+<li><p class="first">Binary morphology using rasterops (the <tt class="docutils literal"><span class="pre">pix*Brick()</span></tt> functions in
+<span class="filesystem">morph.c</span>).</p>
+</li>
+<li><p class="first">Binary morphology using rasterops with 2-way Sel composition (the
+<tt class="docutils literal"><span class="pre">pix*CompBrick()</span></tt> functions in <span class="filesystem">morph.c</span>).</p>
+</li>
+<li><p class="first">Binary morphology using dwa (the <tt class="docutils literal"><span class="pre">pix*BrickDwa()</span></tt> functions in
+<span class="filesystem">morphdwa.c</span>).</p>
+</li>
+<li><p class="first">Binary morphology using dwa with 2-way Sel composition (the
+<tt class="docutils literal"><span class="pre">pix*CompBrickDwa()</span></tt> functions in <span class="filesystem">morphdwa.c</span>).</p>
+</li>
+</ul>
+<p>These all take the sizes of the horizontal and vertical dimensions of
+the structuring element, and do separable implementions when both
+dimensions are greater than 1. They are useful in their own right
+because they implement correct boundary conditions, including safe
+closing if chosen. They also handle all intermediate images
+transparently, of which there are several for separable openings and
+closings. And they don&#8217;t require the generation and destruction of
+Sels, as they make them internally and destroy them after use. See the
+notes at the beginning of <span class="filesystem">morph.c</span> for usage.</p>
+<p>For the operations using 2-way composable Sels, consider
+<tt class="docutils literal"><span class="pre">pixOpenCompBrick()</span></tt> as an example. The results are identical to to
+the those of <tt class="docutils literal"><span class="pre">pixOpenBrick()</span></tt>, for sizes that are exactly decomposed
+such that the product of factors in the former equals the Sel size of
+the latter. We place constraints and penalties on the functions that
+choose how to do the decomposition. The regression test
+<span class="filesystem">prog/binmorph2_reg.c</span> demonstrates the result of decomposition. For
+large Sels, the <tt class="docutils literal"><span class="pre">pix*CompBrick()</span></tt> functions are much more efficient.
+<span class="command">prog/binmorph2_reg</span> also tests the dwa composable Sel operations,
+such as <tt class="docutils literal"><span class="pre">pixOpenCompBrickDwa()</span></tt>.</p>
+<p>The dwa brick morphological operations work on the set of linear Sels
+that are generated by <tt class="docutils literal"><span class="pre">selaAddBasic()</span></tt>, and which are implemented in
+dwa by the functions in <span class="filesystem">fmorphgen.1.c</span>. Look there to see which are
+available. If for some reason you want some other Sel, such as sel_23h,
+which is not there, you can follow one of the prescriptions set out in
+<span class="filesystem">morphdwa.c</span>. However, you will likely find that you don&#8217;t need to do
+this, because the dwa operations that use 2-way composable Sels will
+implement a close approximation to sel_23h. For convenience, if you call
+the non-composite dwa version, such as <tt class="docutils literal"><span class="pre">pixCloseBrickDwa()</span></tt>, and the
+Sel doesn&#8217;t exist for it, it will automatically call the 2-way composite
+dwa version, <tt class="docutils literal"><span class="pre">pixCloseCompBrickDwa()</span></tt>.</p>
+</div>
+<div class="section" id="interpreters-for-sequences-of-atomic-operations">
+<h3><a class="toc-backref" href="#id12">Interpreters for sequences of atomic operations</a><a class="headerlink" href="#interpreters-for-sequences-of-atomic-operations" title="Permalink to this headline">¶</a></h3>
+<p>To make these atomic functions even simpler to use, we provide
+interpreters for sequences of morphological operations. For binary
+morphology, these sequences are combined with rank reductions and
+replicative expansion. All the interpreters are in <span class="filesystem">morphseq.c</span>. The
+morphological operations enabled by the sequences all use separable
+brick Sels. As with the atomic brick dwa functions, the interpreters
+reduce the complexity of using a dwa implementation to a single
+function invocation with a simple interface.</p>
+<p>How do we test all this? A large regression test,
+<span class="filesystem">prog/binmorph1_reg.c</span>, tests all the binary brick operations,
+including the 2-way Sel decomposition, along with their interpreted
+sequences. Specifically, we test all morphological operations using:</p>
+<ul>
+<li><p class="first">general rasterop</p>
+</li>
+<li><p class="first">brick rasterop (unary Sel)</p>
+</li>
+<li><p class="first">morph sequence of brick rasterop (unary Sel)</p>
+</li>
+<li><p class="first">morph sequence of composite brick rasterop</p>
+</li>
+<li><p class="first">brick dwa</p>
+</li>
+<li><p class="first">morph sequence of brick dwa</p>
+</li>
+<li><p class="first">morph sequence of composite brick dwa</p>
+</li>
+</ul>
+<p>A second regression test, <span class="filesystem">prog/binmorph2_reg.c</span>, compares the results
+of the 2-way composite separable brick implementations (both rasterop
+and dwa) against the unary brick implementations. A third regression
+test, <span class="filesystem">prog/binmorph3_reg.c</span>, compares rasterop brick (separable and
+non-separable) with various implementations of separable dwa bricks.</p>
+<p>Our default boundary condition is asymmetric (0 for both dilation and
+erosion), but you can toggle this to test all functions with using the
+symmetric b.c. as well.</p>
+</div>
+</div>
+<div class="section" id="summary-of-available-implementations">
+<h2><a class="toc-backref" href="#id13">Summary of available implementations</a><a class="headerlink" href="#summary-of-available-implementations" title="Permalink to this headline">¶</a></h2>
+<p>A summary might help describe all these different implementations, and
+how they are used. The top-level for all these is in <span class="filesystem">morph.c</span> (full
+image rasterops) and <span class="filesystem">morphdwa.c</span> (destination word accumulation &#8212;
+dwa).</p>
+<div class="section" id="full-image-rasterops">
+<h3><a class="toc-backref" href="#id14">Full image rasterops</a><a class="headerlink" href="#full-image-rasterops" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Full image rasterops works with any arbitrary Sel (including, of
+course, hit-miss Sels). Consider dilating an image with a 40 x 40
+brick Sel. <tt class="docutils literal"><span class="pre">pixDilate()</span></tt> will require 1600 full page rasterops,
+Brute force.</p>
+</li>
+<li><p class="first">The next level up in complexity are the brick rasterops, which are
+separable. <tt class="docutils literal"><span class="pre">pixDilateBrick()</span></tt> will carry out the 40 x 40 dilation
+with a mere 80 rasterops.</p>
+</li>
+<li><p class="first">Next up in complexity are the two-way decomposable brick rasterops.
+These use two Sels, a linear Sel and a comb
+Sel. <tt class="docutils literal"><span class="pre">pixDilateCompBrick</span></tt> will perform the 40 x 40 dilation using a
+linear brick of length 8 and a 5-tine comb in each direction, for a
+total of 26 rasterops.  Separability and decomposability are important
+for large Sels!</p>
+</li>
+</ul>
+</div>
+<div class="section" id="destination-word-accumulation">
+<h3><a class="toc-backref" href="#id15">Destination word accumulation</a><a class="headerlink" href="#destination-word-accumulation" title="Permalink to this headline">¶</a></h3>
+<p>Dwa implementations are typically about 3-5 times faster than full
+image rasterops. The implementation is perhaps more complicated, but
+no harder to use for the brick Sels.</p>
+<ul>
+<li><p class="first">A general Dwa operation on an Sel of all hits or hits and misses can
+be made using the function <tt class="docutils literal"><span class="pre">fmorphautogen()</span></tt> or <tt class="docutils literal"><span class="pre">fhmtautogen()</span></tt>,
+respectively. These functions take an array of Sels (a Sela), and
+generate all the code required for any of the four basic morphological
+operations. Two interfaces are given: a higher one that adds and
+removes border pixels to avoid boundary effects, and a lower one that
+assumes the border pixels already exist. The first is useful for
+simple operations; the second for sequences where you don&#8217;t want to be
+adding and removing borders multiple times. Once generated, the code
+can be compiled directly with an program that uses it, or it can be
+compiled into the library. Your choice.</p>
+</li>
+<li><p class="first">Special functions, such as <tt class="docutils literal"><span class="pre">pixDilateBrickDwa()</span></tt>, have been written
+for Dwa operations using separable brick Sels. Only a small number of
+linear Sels have been compiled in. However, for operations where the
+Sel doesn&#8217;t exist, the brick Dwa operation defaults to the composite
+one (next).</p>
+</li>
+<li><p class="first">Composite separable functions, such as <tt class="docutils literal"><span class="pre">pixDilateCompBrickDwa()</span></tt>,
+have been written for all brick Sels up to 63 x 63. (Remember: a Dwa
+Sel cannot have hits or misses more than 31 pixels on any side of the
+Sel origin, so putting the origin in the Sel center, this gives a
+maximum linear Sel size of 63.) Composable brick operations require a
+sequential operation using a small linear brick and and extended comb;
+the order does not matter. The characteristics of each are given in a
+struct in <span class="filesystem">sel1.c</span>. The identical combinations are used in the full
+image rasterop implementation, which is slower than the Dwa but has
+the ability to go to arbitrary sizes.</p>
+</li>
+</ul>
+<p>As you can see, much of the machinery is specifically targeted for
+brick Sels. The reason is that in most applications, the vast majority
+of morphological operations use brick Sels!</p>
+<p>There are a set of 3 regression tests, <span class="filesystem">prog/dwamorph*_reg.c</span>, that
+show you how to generate and use new Sels. <span class="filesystem">prog/dwamorph1_reg.c</span>
+calls a function to generate all linear Sels (both horizontal and
+vertical) from lengths between 2 and 63. This is a lot of code to add
+to the library, so instead, it compiles and runs two other programs
+with the code linked in. These programs are:</p>
+<ol class="arabic">
+<li><p class="first"><span class="command">prog/dwamorph2_reg</span>. This runs a regression test comparing dwa
+to rasterop morphology for all the basic operations and all 122 Sels.</p>
+</li>
+<li><p class="first"><span class="command">prog/dwamorph3_reg</span>. This runs timing for linear and composable
+operations for both rasterop and dwa, for all the horizontal
+Sels. The results are shown at the end of this section.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="sequence-interpreters">
+<h3><a class="toc-backref" href="#id16">Sequence interpreters</a><a class="headerlink" href="#sequence-interpreters" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned above, we supply a number of interpreters in <span class="filesystem">morphseq.c</span>
+for carrying out these brick operations. The interpreters allow you to
+do a sequence of operations with a single command. They handle all
+intermediate images in the pipeline, simplifying the usage and
+avoiding errors in generating, using and destroying the intermediate
+images. We have interpreters for:</p>
+<ul>
+<li><p class="first"><em>Rasterops on separable bricks.</em> These are run using
+<tt class="docutils literal"><span class="pre">pixMorphSequence()</span></tt>.</p>
+</li>
+<li><p class="first"><em>Rasterops on composable separable bricks.</em> These are run using
+<tt class="docutils literal"><span class="pre">pixMorphCompSequence()</span></tt>.</p>
+</li>
+<li><p class="first"><em>Dwa on separable bricks.</em> These are run using
+<tt class="docutils literal"><span class="pre">pixMorphSequenceDwa()</span></tt>.</p>
+</li>
+<li><p class="first"><em>Dwa on composable separable bricks.</em> These are run using
+<tt class="docutils literal"><span class="pre">pixMorphCompSequenceDwa()</span></tt>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="performance-comparisons">
+<h3><a class="toc-backref" href="#id17">Performance comparisons</a><a class="headerlink" href="#performance-comparisons" title="Permalink to this headline">¶</a></h3>
+<p>Performance of linear and composite operations for rasterops and dwa are
+given in the four plots below. The time for each is given in
+milliseconds for operations on an image (feyn.tif), which has about 8
+million pixels (300 ppi scan on letter size paper). The operations are
+done on <em>horizontal</em> brick Sels of lengths between 2 and 63.
+(Operations on <em>vertical</em> brick Sels are considerably faster for
+rasterop, but only slightly faster for dwa.) This data was generated
+directly by <em>prog/dwamorph3_reg</em> on a 3 GHz P4, and should be
+representative for those machines.</p>
+<div align="center" class="align-center"><img alt="Dilation time vs sel size" class="border align-center" src="../_images/dilate-time.png" /></div>
+<div align="center" class="align-center"><img alt="Erosion time vs sel size" class="border align-center" src="../_images/erode-time.png" /></div>
+<div align="center" class="align-center"><img alt="Opening time vs sel size" class="border align-center" src="../_images/open-time.png" /></div>
+<div align="center" class="align-center"><img alt="Closing time vs sel size" class="border align-center" src="../_images/close-time.png" /></div>
+<p>There are several things to notice:</p>
+<ul>
+<li><p class="first">The composite morphological operation times scales approximately as
+the square root of the Sel size. The dilation starts above the others
+because it is necessary to add a border for dilation to avoid boundary
+effects.</p>
+</li>
+<li><p class="first">The speed of dwa is typically about 4 times faster than full image
+rasterops.</p>
+</li>
+<li><p class="first">The time to do a dwa operation can be estimated from the fact that
+dwa performs about 12 pixel operations for each machine cycle. For
+example, a linear erosion of size 60 on a 8 x 10^6 pixel image reuires
+about 5 x 10^8 pixel operations. A 3 GHz machine can perform about 4 x
+10^10 pixel operations/sec, so the erosion should take about 13 msec.
+The comparable composite operation (6 + 10 = 60) is expected to take
+about 4 msec. As you can see from the plot, there is an additional 2
+msec overhead for adding and removing a border, so the composite dwa
+erosion takes about 6 msec, and the opening and closing require an
+additional 4 msec (total: 10 msec).</p>
+</li>
+</ul>
+<p><em class="bold-italic">In summary, for the fastest operations on brick Sels, use the dwa
+composite for sizes less than 64 and the rasterop composite for larger
+ones.</em></p>
+</div>
+</div>
+<div class="section" id="binary-morphology-and-cellular-automata">
+<h2><a class="toc-backref" href="#id18">Binary morphology and cellular automata</a><a class="headerlink" href="#binary-morphology-and-cellular-automata" title="Permalink to this headline">¶</a></h2>
+<p>I can&#8217;t leave this subject without mentioning <em>cellular automata</em>
+(CAs). Conway&#8217;s &#8220;Game of Life&#8221; is an example of a <em>cellular automaton</em>
+(CA). In each generation (or iteration), a set of rules is applied to
+a binary image to generate another image. Conway used a very simple
+set of rules, where the value of a pixel on the next iteration depends
+only on the number of ON pixels adjacent to it. Too few neighboring ON
+pixels (starvation) or too many (overpopulation) caused the pixel to
+be OFF (die) in the next iteration. The result was a complicated and
+unexpected evolution of patterns.</p>
+<p>Now I find it interesting that people only seem to use 2-D CAs. Not much
+happens in 1-D. Using a 3-neighborhood consisting of the binary pixel
+and its two neighbors in 1-D, you can have 2 3 = 8 different patterns,
+each of which can have a rule that sets the new pixel value to either ON
+or OFF. Thus, you can have 2<sup>8</sup> = 256 different sets of rules for
+how each pixel changes in the next iteration. A large number, but
+certainly manageable. But in 2-D, if your rule depends on the
+3-neighbors, you can have 2<sup>9</sup> = 512 different patterns, leading
+to 2<sup>512</sup> different sets of rules. That&#8217;s a very large set, much
+too large to be usefully explored at random. With such large numbers, it
+is easy to see that people might be impressed with the computational
+power.  And the numbers continue to explode in higher dimensions. For
+example, in 3-D, with a 3-neighborhood you have 2<sup>27</sup> patterns,
+and approximately 2<sup>130000000</sup> different rule sets! I haven&#8217;t seen
+anything done in 3-D, though I imagine it would be much more interesting
+than 2-D, though much harder to show visually what is happening.</p>
+<p>For amusement, you can see some interesting 2-D CA at <a class="reference external" href="http://psoup.math.wisc.edu/mcell/rullex_nmbi.html">this</a> web site. Each CA
+is described by its rule, which enumerates the output pixel result for
+each possible combination of neighbor pixels.</p>
+<p>There is a simple relation between 2-D CAs and binary morphology. The
+<em>hit-miss</em> operation is a rule that gives a <em>single pattern</em> of ON and
+OFF pixels to be matched at each location, with the result that if the
+pattern is matched the output value is ON, and otherwise it is OFF.
+<em>Any cellular automaton can thus be built as a generalization of the
+hit-miss operation, where in general more than one pattern is checked
+for a match</em>. So in computational power, the hit-miss operation (thus
+generalized) is equivalent to the cellular automaton!</p>
+<p>Things get even more interesting. Alan Turing&#8217;s fundamental discovery
+was that all programmed computers are equivalent to a very simple
+<em>Turing Machine</em> that could read and write binary data on an
+infinitely long tape. Any machine that is equivalent to a Turing
+Machine is called <em>Turing complete</em>. And it is easily shown that
+cellular automata are Turing complete. Consequently, the hit-miss
+operator can be used to implement a Turing Machine! In principle, you
+can compute <em>anything</em> with this generalized hit-miss operator!</p>
+<p>People who have spent a lot of time with CAs tend to become captivated
+by their power. I believe it is because the 2-D CA have both general
+computational power and, at the same time, are able to show us the
+computational evolution directly through our visual system, rather
+than analytically in some abstract mathematical representation.</p>
+<p>The laws of physics can be expressed in many ways; among them, a local
+description of fields and their derivatives being the most common. The
+fields, which can be related to physical measurements, are the
+solutions to <em>partial differential equations</em>. These are solved on
+digital computers, typically by discretizing space onto a lattice and
+time into discrete increments, as a set of <em>difference equations</em>. A
+very simple example is the Laplace equation for the electrostatic
+potential in some region surrounded by a closed boundary on which the
+potential values are known everywhere. The solution on the lattice
+points inside is found by applying, over and over, a very simple rule:
+<em>replace the value of the potential at each point by the average of
+the four closest neighboring values</em>. This is a <em>relaxation</em> method;
+eventually the potential at each point arrives at its final value. You
+can implement this by a CA; for 2-D geometries, you can even implement
+it on a spreadsheet! (You may be worried because the world &#8212; and
+spreadsheet cells &#8212; appear to be described by real numbers instead of
+binary numbers. We&#8217;ll sweep this objection under the rug by noting
+that real numbers can be approximated to arbitrary precision by binary
+numbers, patterns of 0s and 1s.) Because the laws of nature seem to be
+expressible locally by such very simple rules, people naturally wonder
+if the entire universe is, at the root, one big CA with some very
+simple rules.</p>
+<p>There are two areas of physics in particular that have proven to be very
+difficult to explain, and that have recently forced physicists to
+develop new fields of mathematics. One is elementary particles, where
+things are not understood at the very small scales and mathematical
+descriptions tend to blow up. The other is in the macroscopic regime
+where we have particle interactions (e.g., in fluids) leading to complex
+nonlinear behavior such as turbulence and associated chaotic
+dynamics. In both cases, people naturally search for a set of simple
+underlying rules to explain the complex behavior. In particle physics,
+Wheeler speaks of the &#8220;quantum foam&#8221; at the scale of the <em>Planck
+length</em>, about 10<sup>-33</sup> cm, where space-time itself is strongly
+perturbed by quantum gravity. Can rules at that tiny scale, perhaps
+given by a CA on a lattice, lead to the observed phenomenology of
+particle physics at much larger scales such as 10<sup>-17</sup> cm?
+Likewise, people have observed chaotic behavior arising out of 2-D CAs,
+along with universal scaling parameters for the phenomena, such as
+period-doubling in chaos, that arise from very simple dynamical rules
+for the system evolution. So it is natural to hope that CAs can model
+and perhaps even explain the most difficult fields of physics. And why
+stop there? What about conscious intelligence, a mystery so slippery and
+deep that the mind is completely boggled at its contemplation?  Could
+<em>we</em> possibly be CAs?</p>
+<p>Edward Fredkin, a physicist at Boston University, has spent much of his
+career on the search for the rules of the universe based on the
+assumption that space and time are discrete. A good introduction to his
+thinking is his 1992 paper, <a class="reference external" href="http://leptonica.com/cachedpages/fredkin-cosmogony.html">A new cosmogony</a>. In 2002, Stephen Wolfram
+published his Opus Magnus, <cite>A new kind of science</cite>, a 1200 page
+treatise on cellular automata based on unpublished work he did over the
+past 10 years. Wolfram, who got his PhD in physics from CalTech at age
+20, has a history of brilliant work, including founding the company (of
+his name) that makes Mathematica. Like Julian Schwinger, his motto could
+well be &#8220;If you can&#8217;t join &#8216;em, beat &#8216;em,&#8221; but unlike Schwinger, Wolfram
+is still in the game. I expect Wolfram to make some important
+observations in this field.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Binary Morphology</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references-and-meta-references">References and meta-references</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-binary-morphology">What is binary morphology?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-about-boundary-conditions">What about boundary conditions?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-rasterop-implementation-of-binary-morphology">The rasterop implementation of binary morphology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-destination-word-accumulation-implementation-of-binary-morphology">The destination word accumulation implementation of binary morphology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#separable-atomic-operations-with-block-sels-sel-decomposition-sequence-interpreters-and-simplicity-of-use">Separable atomic operations with block Sels, Sel decomposition, sequence interpreters and simplicity of use</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#summary-of-available-implementations">Summary of available implementations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#binary-morphology-and-cellular-automata">Binary morphology and cellular automata</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html">Grayscale Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html">Fast Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html">Image Scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html">Image Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html">Grayscale and Color Image Enhancement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html">Grayscale Mapping and Binarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/binary-morphology.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="grayscale-morphology.html" title="Grayscale Morphology"
+             >next</a></li>
+        <li class="right" >
+          <a href="rasterops.html" title="Rasterop (a.k.a. Bitblt)"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

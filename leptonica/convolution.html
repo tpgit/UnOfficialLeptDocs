@@ -1,0 +1,413 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fast Convolution &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Operations" href="operations.html" />
+    <link rel="next" title="Image Scaling" href="scaling.html" />
+    <link rel="prev" title="Grayscale Morphology" href="grayscale-morphology.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="scaling.html" title="Image Scaling"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="grayscale-morphology.html" title="Grayscale Morphology"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="fast-convolution">
+<span id="id1"></span><h1>Fast Convolution<a class="headerlink" href="#fast-convolution" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Jan 11, 2009</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="what-is-a-convolution">
+<span id="id2"></span><h2>What is a convolution?<a class="headerlink" href="#what-is-a-convolution" title="Permalink to this headline">¶</a></h2>
+<p>Image convolution is a linear image processing operation where each dest
+pixel is computed based on a weighted sum of a set of (typically nearby)
+source pixels. For simplicity, label the pixels as a one-dimensional
+array. Let the <span class="filesystem">n</span>-th dest pixel have value <span class="filesystem">b</span><sub class="filesystem">n</sub>, the <span class="filesystem">p</span>-th
+source pixel have value <span class="filesystem">a</span><sub class="filesystem">p</sub>, and the digital filter <span class="filesystem">F</span> have a
+set of nonzero values <span class="filesystem">F</span><sub class="filesystem">m</sub> for some set <span class="filesystem">{m}</span>, where typically
+the filter <span class="filesystem">F</span><sub class="filesystem">m</sub> is normalized so that <span class="filesystem">Sum{m}F</span><sub class="filesystem">m</sub> <span class="filesystem">=
+1</span>. The filter works as follows:</p>
+<pre class="literal-block">
+b<sub>n</sub> = Sum{m} F<sub>m</sub> a<sub>m - n</sub>               (convolution)
+</pre>
+<p>for each dest pixel <span class="filesystem">n</span>. The sum over the <span class="filesystem">m</span> terms in the convolution
+is the <em>inner loop</em> of the computation. The order of the indices on the
+RHS is a convention for the <em>convolution</em>, similar to the convention for
+the indices in the morphological erosion. Reversing the indices to take</p>
+<pre class="literal-block">
+c<sub>n</sub> = Sum{m} F<sub>m</sub> a<sub>n - m</sub>               (correlation)
+</pre>
+<p>is called a <em>correlation</em>.</p>
+<p>If the images are <em>N x M</em> pixels and the number of nonzero elements in
+the filter <span class="filesystem">F</span> is <em>s</em>, then the convolution requires <em>NMs</em>
+multiplications and additions. This grows linearly with the size of the
+convolution filter; for large filters and large images, the computation
+can be quite slow. However, one often needs to use a large filter. For
+example, a low-pass filter is used to remove high frequencies in the
+image, prior to subsampling. (See the discussion of anti-aliasing in the
+section on <a class="reference internal" href="scaling.html#image-sampling"><em>image sampling</em></a>.) The lower the
+passband of the filter, the larger the required filter.</p>
+<p>There is one special situation where the computation does not depend on
+filter size; namely, where the filter is <em>rectangular</em> and <em>flat (i.e.,
+with constant coefficients)</em>. We describe here a method that convolves
+an image with such rectangular flat filters of <em>arbitrary size</em>, and
+that performs the convolution in a time that is <em>independent of the size
+of the filter</em>! Essentially the same algorithm allows you to do fast
+median (and, more generally, rank-order) filtering of binary
+images. What these methods both have in common is the use of a
+pre-computed <em>accumulator array</em>. A similar algorithm using a
+one-dimensional accumulator of minimum or maximum values, rather than
+sums, can be used for fast grayscale morphological filtering with flat
+one-dimensional filters. Without the accumulator, grayscale
+morphological filtering requires either a scan at each location to find
+the min or max, or the maintenance of an ordered queue of pixel values
+as pixels are added and removed.</p>
+</div>
+<div class="section" id="grayscale-convolution-using-an-accumulator">
+<span id="grayscale-convolution"></span><h2>Grayscale convolution using an accumulator<a class="headerlink" href="#grayscale-convolution-using-an-accumulator" title="Permalink to this headline">¶</a></h2>
+<p>The algorithm for convolution with a flat, rectangular filter was
+described in a classic 1984 graphics <a class="reference external" href="http://portal.acm.org/citation.cfm?id=800031.808600">paper</a> by Frank Crow.
+The definition of the accumulator sum array is given in this figure:</p>
+<div align="center" class="align-center"><img alt="Definition of the accumulator sum array" class="border align-center" src="../_images/conv0.70.jpg" /></div>
+<p>The accumulator is a 32 bit/pixel array, where the value of each &#8220;pixel&#8221;
+in the accumulator is the <em>sum</em> of all pixel values in the source that
+are in the rectangle that is above and to the left of the pixel; i.e.,
+the rectangle for which that pixel is in the lower-right
+corner. Fortunately, the accumulator array <span class="filesystem">d</span><sub class="filesystem">i,j</sub> can be found
+recursively from the source pixels <span class="filesystem">a</span>, by computing the accumulator
+values in <em>row-major</em> order (left-to right fast; top-to-bottom slow)
+using</p>
+<pre class="literal-block">
+d<sub>i,j</sub> = d<sub>i,j-1</sub> + d<sub>i-1,j</sub> + a<sub>i,j</sub> - d<sub>i-1,j-1</sub>    (accumulator)
+</pre>
+<p>This recursion relation can be seen geometrically from the following
+diagram:</p>
+<div align="center" class="align-center"><img alt="Geometrically shown recursion relation" class="border align-center" src="../_images/conv1.80.jpg" /></div>
+<p>The gray-shaded rectangle labeled by <span class="filesystem">d</span><sub>i-1,j-1</sub> must be
+subtracted because the other two (hatched) accumulator rectangles each
+include it, and it must only be included once.</p>
+<p>The convolution with a flat rectangular kernel of width <span class="filesystem">w</span> and
+height <span class="filesystem">h</span> is then found using the accumulator in the following way:</p>
+<pre class="literal-block">
+b<sub>i,j</sub> = [d<sub>i,j</sub> + d<sub>i-h,j-w</sub> - d<sub>i,j-w</sub> - d<sub>i-h,j</sub>] / wh      (convolution using accumulator)
+</pre>
+<p>This is the &#8220;inner loop&#8221; of the convolution, and it can be visualized
+as:</p>
+<div align="center" class="align-center"><img alt="Inner loop of the convolution" class="border align-center" src="../_images/conv2.80.jpg" /></div>
+<p>The convolution is being performed over the <span class="filesystem">w</span> by <span class="filesystem">h</span> rectangle, using
+accumulator values at the four corners of this rectangle, given in the
+equation above. It is evident that once the accumulator is found, a
+convolution for any size filter takes only a sum of four terms (and a
+multiplication if the normalization by filter area is not included in
+the accumulator values) for each dest pixel.</p>
+<p>The equation for the convolution using the accumulator, as written
+above, has an unnecessary asymmetry in that the pixels used for the
+convolution are in the rectangle above and to the left of it. The
+average should instead be taken over pixels on all sides, so that the
+dest pixel is as close as possible to the <em>center of the rectangle of
+source pixels used</em>. We change parameters and let the full width and
+height of the convolution filter be <span class="filesystem">2w+1</span> and <span class="filesystem">2h+1</span>, respectively. We
+can then write the convolution inner loop as</p>
+<pre class="literal-block">
+b<sub>i,j</sub> = [d<sub>i+h,j+w</sub> + d<sub>i-w-1,j-h-1</sub> - d<sub>i+h,j-h-1</sub> - d<sub>i-h-1,j+w</sub>] / (2w+1)(2h+1)        (symmetric convolution using accumulator)
+</pre>
+<p>With reference to the figure above, we are finding the dest pixel value
+in the center of the rectangle covered by the filter. In the figure this
+pixel was labelled by <span class="filesystem">(i-h/2,j-w/2)</span>, but we are now labelling the dest
+pixel by <span class="filesystem">(i,j)</span>. Note also that in the figure, the filter area is given
+as <span class="filesystem">wh</span>, not as <span class="filesystem">(2w + 1)(2h + 1)</span> in the above equation. In the
+equation, we still have a slight lack of symmetry in the convolution
+between the positive direction (e.g., <span class="filesystem">i+h</span>) and the negative direction
+(e.g., <span class="filesystem">i-h-1</span>). This is discussed in the source code in
+<span class="filesystem">convolvelow.c</span>.</p>
+<p>We are not yet finished, because the boundary conditions must be
+handled properly. The accumulator is found recursively, looking up one
+row and left one column, so special cases need to be used for the top
+row and leftmost column of the array. Boundary effects on the
+convolution are more difficult. We have three choices:</p>
+<ol class="arabic">
+<li><p class="first">ignore pixels where the convolution filter goes beyond the edge of
+the image,</p>
+</li>
+<li><p class="first">do the best job you can with the pixels near the boundary, and</p>
+</li>
+<li><p class="first">use mirrored pixels to compute near the boundary.</p>
+</li>
+</ol>
+<p>For <tt class="docutils literal"><span class="pre">pixBlockconv()</span></tt>, we choose the second method. For pixels on the
+corners of the image, for example, we only have about 1/4 of the
+neighbors to use in the convolution that we have for pixels where the
+full filter can be used. The sum over those neighboring pixels should be
+normalized by the actual number of pixels used in the sum. The method we
+use is:</p>
+<ol class="arabic">
+<li><p class="first">for every pixel, use all possible pixels in the convolution, staying
+within the source image, but normalize as if we had used the entire
+filter, and</p>
+</li>
+<li><p class="first">then make a second pass for the boundary pixels, adjusting the
+normalization upwards by the inverse of the fraction of the filter
+pixels that were actually used at each dest pixel.</p>
+</li>
+</ol>
+<p>The first part gives values that are too small for convolutions near the
+boundary; the second pass increases these pixel values to their correct
+normalization, depending on exactly which row and column the pixel is
+in. Doing the normalization this way avoids overflow in the destination
+pixels. The result has no visible boundary pixel artifacts in the
+convolution for typical grayscale images.</p>
+<p>An alternative approach, mentioned above, is to add mirrored border
+pixels, of sufficient size so that the accumulator array can be used at
+all points in the interior, corresponding to the original image, and
+without special-casing any pixels. This is implemented in
+<tt class="docutils literal"><span class="pre">pixBlockconvTiled()</span></tt>, where we also allow the convolution to be done
+independently in an arbitrary set of tiles of the image. The functions
+to generate the tiles and put the result back together after separate
+convolution, are found in <span class="filesystem">pixtiling.c</span>. If there is a single tile, the
+tiled convolution defaults to the original
+<tt class="docutils literal"><span class="pre">pixBlockconv()</span></tt>. Otherwise, it is verified that the result of block
+tiling is identical to that given by the generic function
+<tt class="docutils literal"><span class="pre">pixConvolve()</span></tt>, for any tiling and kernel size. (Well, almost any:
+the constraint on the convolution size is that the convolution width
+must not exceed the tile width, and similiarly for the heights.)</p>
+<p>Breaking the convolution up into tiles is useful in two situations.
+First, if the grayscale image has more than 16M pixels, the accumulator
+array, stored as a 32-bit unsigned integer, can overflow.  For such
+images, using tiles with less than 16M pixels is required. In addition,
+because each tile is computed independently, the convolution can be
+carried out in parallel, making use of multiple cores to provide a
+linear speedup.</p>
+</div>
+<div class="section" id="binary-rank-order-and-median-filter-using-an-accumulator">
+<span id="binary-rank-order-and-median-filter-using-accumulator"></span><h2>Binary rank-order and median filter using an accumulator<a class="headerlink" href="#binary-rank-order-and-median-filter-using-an-accumulator" title="Permalink to this headline">¶</a></h2>
+<p>A median filter is a nonlinear filter that selects, for every position
+of the filter, the median value of the source pixels under the filter.
+When applied to grayscale images, it is necessary to order the selected
+pixels by intensity to find the median. The rank-order filter selects
+the pixel of specified <em>rank</em> in the set. A median filter is a
+rank-order filter where the rank is <em>0.5</em> &#8212; the 50<sup>th</sup>
+percentile. A morphological dilation is a rank-order filter where the
+<em>Max</em> is selected, and a morphological erosion is a rank-order filter
+where the <em>Min</em> is selected. For grayscale images, dilations tend to
+lighten the image and erosions tend to darken it, just the opposite of
+operations on binary images. (The difference results from the opposing
+conventions of light and dark pixels in binary and grayscale images.)</p>
+<p>When applied to binary images, the rank-order filter takes a sum of
+pixel values followed by a threshold. It is asking if the number of ON
+pixels under the filter exceeds a given fraction of the total pixels
+under the filter. A median filter is a special case that gives an ON
+pixel if at least half of the pixels are ON. Median pixels are very
+useful for eliminating some types of noise. The rank-order filter is
+much less expensive on binary images because it is not necessary to
+order the pixels by value &#8211; you just take a sum and apply a
+threshold. The rank threshold <em>r</em> is the fraction, between <em>0.0</em> and
+<em>1.0</em>, of the pixels that are required to be ON.</p>
+<p>Grayscale convolution with a flat filter also takes a sum, and we have
+seen that the accumulator allows you to take a sum over any rectangle
+of pixels very quickly. So the same accumulator can be used <em>to apply
+a rank-order filter to binary images</em>! For a rectangular filter of
+width <em>w</em> and height <em>h</em>, and using a rank <em>r</em>, the sum of ON pixels
+is thresholded by <em>rwh</em>.</p>
+<p>We provide a bit more than this. The function <tt class="docutils literal"><span class="pre">pixBlocksum()</span></tt> takes a
+1 bpp image and generates an 8 bpp image, using a rectangular
+convolution filter. It sums the ON pixels under the rectangular filter
+at each location, and normalizes to between 0 (all pixels OFF) and 255
+(all pixels ON), taking into account the number of pixels under the
+filter at each location.</p>
+<p>The rank-order filter uses this function. It first calls
+<tt class="docutils literal"><span class="pre">pixBlocksum()</span></tt> to compute the intermediate block sum image, and
+then thresholds it to generate the binary rank-order dest image.</p>
+<p>For the high-level interface, we provide a function that generates the
+accumulator image, and both the convolution and rank-order functions
+can (re)use the accumulator. If you are just running the convolution
+or rank-order filter once, you can have the accumulator generated,
+used and destroyed by using <tt class="docutils literal"><span class="pre">NULL</span></tt> as input for the accumulator.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html">Grayscale Morphology</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Fast Convolution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-a-convolution">What is a convolution?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#grayscale-convolution-using-an-accumulator">Grayscale convolution using an accumulator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#binary-rank-order-and-median-filter-using-an-accumulator">Binary rank-order and median filter using an accumulator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html">Image Scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html">Image Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html">Grayscale and Color Image Enhancement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html">Grayscale Mapping and Binarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/convolution.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="scaling.html" title="Image Scaling"
+             >next</a></li>
+        <li class="right" >
+          <a href="grayscale-morphology.html" title="Grayscale Morphology"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

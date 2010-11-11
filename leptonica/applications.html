@@ -1,0 +1,252 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image Processing Applications &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="Removing dark lines from a light pencil drawing" href="line-removal.html" />
+    <link rel="prev" title="Connectivity-preserving Thinning" href="thinning.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="line-removal.html" title="Removing dark lines from a light pencil drawing"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="thinning.html" title="Connectivity-preserving Thinning"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="image-processing-applications">
+<span id="id1"></span><h1>Image Processing Applications<a class="headerlink" href="#image-processing-applications" title="Permalink to this headline">¶</a></h1>
+<p>Documentation external to the source code is provided for the
+following applications:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dewarping.html">Dewarping Text Pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dewarping.html#what-distortions-do-you-expect-with-camera-images">What distortions do you expect with camera images?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dewarping.html#how-do-you-dewarp-a-camera-image-based-on-text-lines">How do you dewarp a camera image based on text lines?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dewarping.html#example-showing-images-and-disparity-fields">Example showing images and disparity fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="skew-measurement.html">Measuring the Skew of Document Images</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="skew-measurement.html#for-further-reading">For further reading . . .</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="color-quantization.html">Color Quantization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html#how-did-the-need-for-color-quantization-arise">How did the need for color quantization arise?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html#what-are-the-basic-problems-in-color-quantization">What are the basic problems in color quantization?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html#why-is-error-diffusion-dithering-important">Why is error diffusion dithering important?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html#what-methods-have-been-proposed-for-color-quantization">What methods have been proposed for color quantization?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html#modified-median-cut-implementation">Modified median cut implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html#octree-implementation">Octree implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#what-is-the-octree-data-structure-used-in-leptonica">What is the octree data structure used in <strong>Leptonica</strong>?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#how-is-the-octree-formed">How is the octree formed?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#what-color-is-associated-with-each-octcube-in-the-color-table">What color is associated with each octcube in the color table?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#how-are-color-indices-assigned-to-the-image-pixels">How are color indices assigned to the image pixels?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#how-is-the-error-diffusion-dithering-applied">How is the error diffusion dithering applied?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#how-fast-is-the-implementation">How fast is the implementation?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html#for-further-reading-on-color-quantization">For further reading on color quantization . . .</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="color-segmentation.html">Color Segmentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="color-segmentation.html#what-is-color-segmentation-and-why-do-it">What is color segmentation and why do it?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-segmentation.html#how-does-color-segmentation-differ-from-color-quantization">How does color segmentation differ from color quantization?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-segmentation.html#how-do-we-generate-the-color-segmented-images">How do we generate the color segmented images?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-segmentation.html#how-does-a-color-segmented-image-look">How does a color segmented image look?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="border-rep.html">Border Representations of Connected Components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="border-rep.html#overview-of-connected-component-borders">Overview of connected component borders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="border-rep.html#generating-chain-codes-for-connected-components">Generating chain codes for connected components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="border-rep.html#serializing-the-data-for-a-compressed-file-format">Serializing the data for a compressed file format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="border-rep.html#forming-a-single-border-for-each-connected-component">Forming a single border for each connected component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="border-rep.html#rendering-the-outline-as-a-filled-raster">Rendering the outline as a filled raster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="border-rep.html#putting-it-together">Putting it together</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="document-image-analysis.html">Document Image Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jbig2.html">Jbig2 Classifier</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#what-is-the-origin-of-the-jbig2-application">What is the origin of the Jbig2 application?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#what-is-jbig2">What is jbig2?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#what-is-provided-in-leptonica">What is provided in Leptonica?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#what-is-the-definition-of-the-hausdorff-distance-and-how-is-it-implemented-efficiently">What is the definition of the hausdorff distance, and how is it implemented efficiently?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#how-are-the-images-aligned-for-comparison">How are the images aligned for comparison?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#what-s-special-about-the-leptonica-implementation">What&#8217;s special about the Leptonica implementation?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#open-source-implementation-of-jbig2">Open source implementation of jbig2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html#what-is-mixed-raster-format">What is Mixed Raster format?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Image Processing Applications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewarping.html">Dewarping Text Pages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skew-measurement.html">Measuring the Skew of Document Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html">Color Quantization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html">Color Segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html">Border Representations of Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="document-image-analysis.html">Document Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html">Jbig2 Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/applications.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="line-removal.html" title="Removing dark lines from a light pencil drawing"
+             >next</a></li>
+        <li class="right" >
+          <a href="thinning.html" title="Connectivity-preserving Thinning"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

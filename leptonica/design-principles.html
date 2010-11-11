@@ -1,0 +1,1303 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Some Issues in Software Design &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="Selected Papers on Image Processing and Image Analysis" href="recent-pubs.html" />
+    <link rel="prev" title="What is “Well-Tested” C Code?" href="testing-methods.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="recent-pubs.html" title="Selected Papers on Image Processing and Image Analysis"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="testing-methods.html" title="What is “Well-Tested” C Code?"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="some-issues-in-software-design">
+<span id="design-principles"></span><h1>Some Issues in Software Design<a class="headerlink" href="#some-issues-in-software-design" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">June 16, 2007</td>
+</tr>
+</tbody>
+</table>
+<div class="contents local topic" id="contents">
+<ul>
+<li><p class="first"><a class="reference internal" href="#software-design-principles" id="id2">Software design principles</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#what-happens-when-things-go-wrong" id="id3">What happens when things go wrong?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#extremism-in-programming-languages" id="id4">Extremism in programming languages</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#some-practical-issues-in-programming" id="id5">Some practical issues in programming</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#some-issues-with-memory-management" id="id6">Some issues with memory management</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#a-low-level-gotcha-operator-precedence-in-c" id="id7">A low-level gotcha: operator precedence in C</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#anecdotes-on-managing-complexity-in-programming" id="id8">Anecdotes on managing complexity in programming</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#fred-hoyle-s-n2-law-of-complexity" id="id9">Fred Hoyle&#8217;s N<sup>2</sup> law of complexity</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#complexity-at-the-interface" id="id10">Complexity at the interface</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#getting-managed-by-complexity" id="id11">Getting managed by complexity</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#managing-the-complexity" id="id12">Managing the complexity</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="software-design-principles">
+<span id="id1"></span><h2><a class="toc-backref" href="#id2">Software design principles</a><a class="headerlink" href="#software-design-principles" title="Permalink to this headline">¶</a></h2>
+<p>The software at this site was written with the following engineering
+design principles in mind:</p>
+<ul>
+<li><p class="first"><strong>Simplicity: as simple as possible but no simpler.</strong>
+(That is a paraphrase of a statement attributed to Einstein about
+physics.) <em>The most simple methods are used that do not significantly
+sacrifice performance</em>.</p>
+<ul>
+<li><p class="first">If it would take 1000 lines of code to double the performance of a
+20 line algorithm, forget it; we&#8217;ll use the 20 line method.</p>
+</li>
+<li><p class="first">If the simplest efficient method is a bit tricky, as with a general
+implementation of rasterops, so be it.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Efficiency.</strong> This is the yin to the yang of simplicity. The goal is
+to have the algorithm be both simple and efficient. Data is handled
+32 bits at a time whenever possible. But there is often room for
+improving efficiency if the need exists. For example, I generate and
+use 8-bit lookup tables throughout, but given the large size of
+caches in current systems, 16-bit tables are more efficient.</p>
+</li>
+<li><p class="first"><strong>Clarity.</strong> I attempt always to make the method clear. The goal is to
+allow a C programmer to read the source, and any associated
+information, and understand exactly what is happening. Comments are
+placed in the code so that the method can be quickly understood. The
+naming convention in the higher-level code is object-&#8220;oriented&#8221;. The
+function name starts with the primary object being operated on or
+being returned.</p>
+</li>
+<li><p class="first"><strong>Portability.</strong> I attempt to make the software as portable as
+possible. This has several aspects:</p>
+<ul>
+<li><p class="first">Written in C. (Also for efficiency and simplicity.)</p>
+</li>
+<li><p class="first"><em>A low-level implementation</em>, using only intrinsic C data types, that
+is (almost) independent of the application-level image data
+structures, is (almost) always split out from the higher-level
+code.</p>
+</li>
+<li><p class="first">There are two requirements on the image data array of the
+application-level image data structure:</p>
+<ol class="arabic">
+<li><p class="first">The array must be in a single consecutive block.</p>
+</li>
+<li><p class="first">Each raster line must start on a 32-bit word boundary.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">A simple image data structure is used to (informally) verify
+correctness and show how to use the lower-level functions. In some
+cases, such as rotation by shear, the details of the algorithm are
+mostly in the higher-level code.</p>
+</li>
+<li><p class="first">Endian independent.</p>
+</li>
+<li><p class="first">Typedefs for intrinsic data types that can easily be changed and are
+written to avoid conflicts with other libraries.</p>
+</li>
+<li><p class="first">Use of macros for common operations, e.g. allocation of heap memory,
+where programmers often want to make substitutions determined at
+compile time.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Code safety.</strong> This may seem like an oxymoron when applied to C, but
+there are several things that do help in the higher-level code. The
+emphasis is on safe memory allocation and deallocation, avoiding
+references through null pointers, and (optionally) giving useful
+debugging information when something goes wrong. A little work to
+prevent the library from crashing applications more than makes up for
+all the time users of the library would have spent mucking around in
+<span class="command">gdb</span>. You may find the code heavy on checks of variables and
+function returns, but the alternative is worse.</p>
+<ul>
+<li><p class="first">Do all memory allocation in higher-level code.</p>
+</li>
+<li><p class="first">Check all pointers passed to higher-level code functions.</p>
+</li>
+<li><p class="first">Check return values; in particular, for pointers to allocated data.</p>
+</li>
+<li><p class="first">Usually allocate arrays and data structures on the heap, either
+returning them or destroying them before the function returns.</p>
+</li>
+<li><p class="first">Use accessors for fields in high-level data structures, that check
+the pointer value before the access.</p>
+</li>
+<li><p class="first">Provide <tt class="docutils literal"><span class="pre">create()</span></tt> and <tt class="docutils literal"><span class="pre">destroy()</span></tt> functions for all data
+structures.</p>
+</li>
+<li><p class="first">Avoid globals, including statics, except for constants.</p>
+</li>
+<li><p class="first">Require each calling function to clean up all arrays that it is
+responsible for allocating and that are <em>not</em> put in a data
+structure.</p>
+</li>
+<li><p class="first">Use a mechanism, selectable at compile time, that gives a trace of
+the call stack when a test for memory allocation or access fails.</p>
+</li>
+<li><p class="first">Make evident which function is responsible for destroying each data
+structure. This is most easily arranged by requiring the function
+that calls <tt class="docutils literal"><span class="pre">create()</span></tt> for a data structure to call <tt class="docutils literal"><span class="pre">destroy()</span></tt>
+on it. Sometimes this is not convenient. For example, you may have
+an <tt class="docutils literal"><span class="pre">init()</span></tt> function that calls <tt class="docutils literal"><span class="pre">create()</span></tt> and a <tt class="docutils literal"><span class="pre">cleanup()</span></tt>
+function that calls <tt class="docutils literal"><span class="pre">destroy()</span></tt> on a number of data
+structures. Another example is when you create a structure and add
+it to an array of pointers to similar structs. If you add it by
+insertion (of the pointer), the protocol is that it is now owned
+by the array, and the function that destroys the array takes care
+of it. In the first example, some higher-level function is
+required to call both <tt class="docutils literal"><span class="pre">init()</span></tt> and <tt class="docutils literal"><span class="pre">cleanup()</span></tt>. In all cases,
+<em>it is important to have a sensible, consistent and documented
+protocol</em>.</p>
+</li>
+<li><p class="first">Never call <tt class="docutils literal"><span class="pre">exit()</span></tt> from a library.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Marin Saric recently pointed me to Robert Glass&#8217;s &#8220;Facts and Fallacies
+of Software Engineering,&#8221; Addison-Wesley, 2003. Of the many &#8220;Facts&#8221; in
+that book, the most interesting I found were on the life cycle of
+software. Considering the five stages (<em>requirements</em>, <em>design</em>,
+<em>coding</em>, <em>error removal</em> and <em>maintenance</em>), maintenance occupies about
+60 percent of the total (Fact 41). Further, about 60 percent of
+maintenance is for enhancements, as opposed to bug fixes &#8212; &#8220;software
+maintenance is largely about adding new capability to old software, not
+fixing it.&#8221; (Fact 42). And then the kicker: &#8220;Better software engineering
+leads to more maintenance, not less.&#8221; (Fact 45). Better software is
+better structured and easier to understand and modify. It encourages
+modification. So Glass can conclude that maintenance is a solution, not
+a problem (Fact 43).</p>
+<p>There are many other gems in this book, describing, for example, the
+disconnect between engineers and managers, the problems with
+schedule-fixing and subsequent changes in requirements, the problems
+that arise when the designers don&#8217;t do the coding, the absence of
+updated design docs or retrospective design descriptions that would help
+people maintain the software, the lack of a silver bullet for building
+reliable software, and the various methods that have been used for
+removing errors. (One of the best such methods is rigorous
+inspection &#8212; Fact 37).</p>
+<p>Glass says that quality is a collection of attributes. His seven
+&#8220;-abilities&#8221;, not in any particular order, are <em>portability</em>,
+<em>reliability</em>, <em>efficiency</em>, <em>usability</em>, <em>testability</em>,
+<em>understandability</em> and <em>modifiability</em>. I found this interesting
+because they are the same requirements I have informally put on
+Leptonica. To mention three, I have put some effort into
+&#8220;understandability,&#8221; both with comments within the code and with web
+pages describing the problem addressed and its applications, the
+algorithms used, and the resulting functionality, sometimes going down
+to the actual form of the functional interface. This documentation helps
+me (and others) modify the code. Because the Leptonica library is a
+programmer&#8217;s interface, &#8220;usability&#8221; and &#8220;portability&#8221; go together to
+some extent; for example, the separation between high-level code that
+uses simple data structures and low-level code that uses only built-in C
+data types, and the use of a very simple data structure for generic
+images.  Further, the definition and re-use of a small number of data
+structures simplifies the application of the Leptonica library to
+various problems. And the various constructs and patterns I use to catch
+errors and prevent program crashes contribute to both reliability and
+usability. These are discussed in more detail above.</p>
+<p>Other recommended reading: Butler Lampson&#8217;s <a class="reference external" href="http://leptonica.com/cachedpages/lampson-hints.html">Hints for
+Computer System Design</a>. This is a
+distillation of lessons learned by the graybeard of the Xerox PARC
+pioneers.</p>
+</div>
+<div class="section" id="what-happens-when-things-go-wrong">
+<h2><a class="toc-backref" href="#id3">What happens when things go wrong?</a><a class="headerlink" href="#what-happens-when-things-go-wrong" title="Permalink to this headline">¶</a></h2>
+<p>What is a library?</p>
+<dl class="docutils">
+<dt>Description 1:</dt>
+<dd>A library is a set of abstractions that should allow you
+to get the information you need without sweating all the low-level
+details. For image processing, those &#8220;low-level details&#8221; are often
+relations between pixel values.</dd>
+<dt>Description 2:</dt>
+<dd>A library is a set of functions that typically (but not always) take
+a set of inputs and generate a set of outputs. (If the function
+doesn&#8217;t give you anything back, why would you ever run it?) Look at
+the description of the function. It typically says what you need to
+provide and what you get in return. It should also specify any
+constraints on the input.</dd>
+<dt>Description 3:</dt>
+<dd><p class="first">A library is a set of contracts: &#8220;If you give me <em>this</em>, I will give
+you <em>that</em>.&#8221; That&#8217;s the explicit part. But there is more to the
+contract than what goes in and what comes out. There is a very
+important implicit part that governs:</p>
+<ul class="last">
+<li><p class="first"><em>ownership</em>: Who owns any stuff that is allocated?</p>
+</li>
+<li><p class="first"><em>side effects</em>: What are you allowed to do to the input? Are
+globals or static variables being modified?</p>
+</li>
+<li><p class="first"><em>error handling</em>: What happens when an error occurs?</p>
+</li>
+<li><p class="first"><em>integration</em>: What issues may come up?</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>With all of these, the contract should have a default condition
+throughout the library, and any deviations from the default need to be
+noted in the function description.</p>
+<p>We&#8217;ve discussed ownership, side effects and some of the integration
+and portability issue in the previous section. For example,
+portability is enhanced by using POSIX library functions, being
+careful with function, typedef and global constant names to avoid
+namespace clashes, and using endian-independent implementations. Here,
+I want to say a bit about error handling.</p>
+<p>What to do when an error occurs is a vexing problem because users will
+want the behavior to be anything from &#8220;crash immediately if an error
+occurs&#8221; to &#8220;just carry on, I expect errors because I have errorful or
+highly variable input and may not want (or be able) to test for
+abnormal conditions at each point.&#8221; The degree to which the input and
+processing actions are constrained in the application is crucial. For
+image analysis applications, there is often sufficient uncertainty and
+variability in the image content that the programs will need to handle
+unanticipated situations. There is little I find more annoying than
+using a library where a function crashes the application by calling
+exit on error. Leptonica is guaranteed <em>not</em> to do that, <em>ever</em>.</p>
+<p>Some languages like Java have error handling primitives (try, catch)
+built in. Because C is more primitive and low-level, error handling is
+done in an ad hoc manner of the library designer&#8217;s choosing.</p>
+<p>The user&#8217;s needs can vary depending if you&#8217;re in a development
+environment (e.g., &#8220;unwind the call stack with appropriate messages&#8221;)
+or in production (e.g., &#8220;crash so I can figure out what went wrong&#8221; or
+&#8220;go on, but don&#8217;t show me a lot of debug messages&#8221;). The library
+should be able to accommodate all these different ways of handling
+errors. It should also be reasonably good about cleaning up garbage
+when a function ends prematurely.</p>
+<p>Another option in the user&#8217;s implementation is whether or not to make an
+effort to inspect all returned objects and to explicitly say what to do
+in each case. For robust applications, it is desirable to check returned
+values to determine if an error has occurred. But this should be a
+programmer decision, and, in particular, the library functions should be
+written in such a way that <em>an application should not crash if it
+continues after an error</em>. It is obvious that the library function
+should not corrupt (or lose) memory, no matter what. But at the
+application level, how does the library prevent a crash? In general, of
+course, it can&#8217;t with a language like C where there is access to
+pointers.</p>
+<p>At the application level, most crashes are due to dereferencing an
+invalid pointer. Leptonica allocates nearly everything on the heap, so
+there are plenty of pointers being passed around. Leptonica data
+structures are initialized with <tt class="docutils literal"><span class="pre">calloc</span></tt>, so that all pointers in a
+struct are automatically set to NULL. Accessors are provided so that the
+programmer has no excuse to reference a field directly (and thereby
+possibly dereference a null pointer).</p>
+<p>A tricky place is where a function returns a pointer to a struct that
+it allocated. The pointer itself is typically allocated on the stack,
+uninitialized, by the calling function and then its address passed in
+to the function that allocates the struct. An example should make this
+clear:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="p">...</span>
+<span class="n">Pix</span> <span class="o">*</span><span class="n">pix</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">Pixa</span> <span class="o">*</span><span class="n">pixa</span><span class="p">;</span>  <span class="c1">// ptr allocated on stack but not initialized</span>
+
+    <span class="c1">// Heap allocated pixa should be returned, but in this case</span>
+    <span class="c1">// because pix == NULL, pixa doesn&#39;t get allocated.</span>
+    <span class="c1">// Suppose it is not initialized in the function.</span>
+<span class="n">Boxa</span> <span class="o">*</span><span class="n">boxa</span> <span class="o">=</span> <span class="n">pixConnComp</span><span class="p">(</span><span class="n">pix</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pixa</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="n">Pix</span> <span class="o">*</span><span class="n">pixt</span> <span class="o">=</span> <span class="n">pixaGetPix</span><span class="p">(</span><span class="n">pixa</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">L_CLONE</span><span class="p">);</span>  <span class="c1">// segfault</span>
+</pre></div>
+</div>
+<p>The function can fail to do the allocation if it returns early. In the
+code above, <tt class="docutils literal"><span class="pre">pixConnComp()</span></tt> returns immediately because <tt class="docutils literal"><span class="pre">pix</span></tt> is
+NULL.  What about <tt class="docutils literal"><span class="pre">pixa</span></tt>? It is never allocated, but if it is not
+initialized before <tt class="docutils literal"><span class="pre">pix</span></tt> is tested, it will retain its random
+value. In that case, any use is almost certain to crash the
+program. Note that if the program were written to catch the error by
+testing the returned <tt class="docutils literal"><span class="pre">boxa</span></tt>, an uninitialized <tt class="docutils literal"><span class="pre">pixa</span></tt> should never
+cause trouble. If <tt class="docutils literal"><span class="pre">pixConnComp()</span></tt> does early initialization, the
+program won&#8217;t crash under any circumstances.</p>
+<p>The goal is thus to provide a programming environment with C library
+functions that is as close as possible to the runtime safety of an
+interpreter (like Matlab). Leptonica supports various options when an
+error occurs &#8212; crash immediately, give an error message and return
+from the function, return silently &#8212; by using error handling macros
+throughout. By default, these print the name of the calling function
+with an error message, and return with some value cast to the return
+type of the function.</p>
+</div>
+<div class="section" id="extremism-in-programming-languages">
+<h2><a class="toc-backref" href="#id4">Extremism in programming languages</a><a class="headerlink" href="#extremism-in-programming-languages" title="Permalink to this headline">¶</a></h2>
+<p>Most EE/CS students get an introductory course that compares programming
+languages. Here, I present a somewhat biased summary of the extreme
+features of programming languages, with a bit of history thrown in. We
+start by noting that <em>extremism is the rule, not the exception, in
+programming languages</em>.</p>
+<p>Whereas compiler design is an engineering discipline (in fact, an
+offshoot of discrete mathematics), the design of programming languages
+is an art form, notwithstanding nearly 50 years of intense
+experimentation. There is no manual or set of rules that tell you how to
+design a language. The languages that have been designed and used
+display a wonderful diversity, but most of the ones that are well-known,
+if not widely used, take some characteristic to extremes. This might
+seem puzzling: why are the best known languages typically <em>pure</em> in some
+aspect rather than amalgams of methods that have been shown to be
+generally useful?</p>
+<p>Let&#8217;s consider some examples. Xerox PARC developed three different
+programming environments in the 1970s. These were all optimized to run
+on the same bit-sliced 16-bit hardware, using microcode that defined
+the basic machine operations for each of the three systems. The three
+languages used were Lisp, Smalltalk and Mesa/Cedar. Each of the three
+systems was written in the programming language and supported only
+programs written in that language.</p>
+<p><em>Lisp</em> is an extreme language because <em>it has the most simple syntax
+invented: everything is a list</em>. Unless the list is &#8220;quoted,&#8221; which
+means to take it literally, the first element is an operation and the
+remaining elements are data to be acted on. The parser for Lisp needs to
+identify only parenthesis and quote signs, and evaluate the expressions
+from the inside-out. Lisp is also extreme in that no data in Lisp needs
+to be explicitly typed. (It shares this characteristic with most
+scripting languages, where typing is done implicitly.)</p>
+<p><em>Smalltalk</em> is an extreme language because <em>it has the most uniform set
+of datatypes invented: everything is an object</em>. Even the integer 3 is
+an object. All objects have data and functions associated with them.
+(The Smalltalk inventors called procedures that act on objects
+&#8220;methods&#8221;, thus overloading yet another common word.) The objects are
+arranged in a hierarchy that allows subclassing with inheritance of data
+and functions from above.</p>
+<p>Unlike Lisp and Smalltalk, <em>Mesa/Cedar</em> was extreme in that it was
+strongly typed. You could defeat the typing, but it took more than a
+simple cast and was heavily discouraged, requiring something like
+signing your name in blood to the deprecated code. The strong typing was
+necessary because Mesa/Cedar shared one fundamental aspect with Lisp and
+Smalltalk: <em>all functions ran in the same memory space as the operating
+system!</em> This in itself was an extreme decision, because a poorly
+written piece of code in Mesa/Cedar could bring everything down. Lisp
+and Smalltalk were languages that were meant to be interpreted, and the
+designers absorbed protection against memory smashes into the
+inefficiencies that naturally come with interpreters.  But Mesa/Cedar
+was meant to be an efficient language and programming environment, with
+optimizing compilers; no runtime cycles were to be wasted checking
+memory accesses. Hence the requirement for strong typing. Mesa also
+incorporated another safety feature of Lisp and Smalltalk: garbage
+collection. You couldn&#8217;t afford to have programmers messing with dynamic
+memory allocation! And because of the strong typing, garbage collection
+was a relatively straightforward engineering task. (As an interesting
+comparison, the line of Microsoft operating systems including Windows
+3.1, 95, 98, and 98SE, which were sold until 2001 when XP was
+introduced, had neither pre-emptive multitasking nor memory protection
+to encapsulate the addressing of applications. Consequently, any
+application could hang or crash the entire system. In view of the fact
+that, with Unix, people knew how to design an operating system over 30
+years ago that was protected from bad behavior by user-level processes,
+and further, we have had on-chip hardware memory protection since the
+mid 1980s (e.g., in the Intel 80386 and Motorola 68020), this seems to
+be a very strange way to design system software.)</p>
+<p>Most of the other languages have had extreme characteristics. <em>C</em>, the
+most successful language ever developed, is extreme in its minimal
+number of operations and built-in data types, and in its close
+relationship to machine operations. Its minimality is in sharp to
+contrast to Pascal, which incorporated into the language many of the
+several hundred functions that C includes through libraries. The
+oft-heard disparagement that C is an &#8220;assembler language&#8221; is an example
+of the extreme positions that programmers often take. In fact, C has no
+control of registers and supports manipulations on arbitrarily complex
+data types.</p>
+<p><em>Forth</em> is extreme in that it uses an explicit stack. Whereas many other
+languages have interpreters or compilers that use stacks internally,
+Forth requires the programmer to push and pop every piece of data to and
+from a stack, and, worse, <em>to remember exactly what is on the stack at
+all times</em>. There is an advantage for the designers of Forth in putting
+all this mental effort on the programmer: the interpreter is trivial; it
+just maintains the data on the stack. Another disadvantage of this
+simplicity is that source-level debuggers are (to my knowledge) unknown;
+if something goes wrong, the most you get is a description of the stack
+at that moment. PostScript is another example of a pure stack-oriented
+language, but, of course, PostScript was never designed as a programming
+language. The only things that the PostScript designers ever intended to
+be written in PostScript were print and display drivers for specific
+output devices.</p>
+<p>The list goes on. Does anyone remember <em>prolog</em>? Prolog was extreme in
+that it was intended for &#8220;predicate logic&#8221; programming: each statement
+defined some logical relation between variables, and the interpreter
+treated these relations as rules from which it would try to develop
+other connections using boolean logic. This was an example of
+<em>declarative programming</em>, as opposed the usual method where the
+programmer tells the machine what to do. Logic programming was used for
+special applications such as theorem-proving and so-called &#8220;AI expert
+systems.&#8221; Several AI proponents, notably Feigenbaum at Stanford,
+proclaimed in hysterical writings in the late 1980s that Japan was going
+to use prolog to build a &#8220;Fifth-Generation&#8221; computer that would be so
+&#8220;smart&#8221; that it would wipe out the high tech industry in the United
+States within five years. (Of course, he was trying to get more funding
+for his own AI projects.) After five years, with the Fifth-Generation
+project a complete failure, it appeared that prolog was merely a French
+plot to retard the advance of Japanese technology.  Predicate logic
+programs have been used with great success in Mathematica (and its
+predecessors) to solve difficult problems in mathematics. This is
+programming by pattern-substitution: you put in rules, such as &#8220;if you
+see a pattern that looks like <em>this</em>, do <em>that</em>.&#8221; With such methods, for
+example, you can use Mathematica to get a closed-form expression for any
+integral you can find in Gradshteyn and Ryzhik&#8217;s monumental book <em>Tables
+of integrals, series and products</em>!</p>
+<p>And then there is <em>ML</em>, which used to be popular in Scotland, at least.
+ML is an extreme programming language because there are <em>no side
+effects</em>. Lisp programming practice might tend in this direction, but in
+ML, it&#8217;s the law. The way I visualize an ML program is that procedures
+get called by other procedures ad infinitum, but everything returned is
+just input to another function &#8212; think of the data as always coming
+back onto the stack that holds input variables for the next function
+call. At the end, when the music stops, you find that nothing remains of
+all the activity. I&#8217;ve been told that one of the trickiest programming
+tasks in ML is to write a for-loop iterator, perhaps because it needs to
+keep some state around to test for exit. I hope someone will explain to
+me the allure of the extremism in the design of ML.</p>
+<p>We&#8217;re not finished yet. Scripting languages, of which <em>Perl</em> is the best
+known, are extreme in that all data is treated as strings, with
+arithmetic data being typed implicitly. Efficiency is sacrificed for
+ease of use. These languages do more than use pattern matching to
+manipulate strings. They have been extended to invoke programs, like a
+shell script on steroids. Perl had the lucky timing to be on the scene
+in 1995 for the WWW revolution; consequently, it has been the most
+common scripting language used for server-side CGI web applications.</p>
+<p><em>Python</em> is another scripting language that has no data typing. It is
+much more powerful than Perl, because it has objects, inheritance, the
+Tk X graphical display library, and a very large number of application
+modules to handle the interface to everything from databases to internet
+applications. Python is extreme in its typographic minimalism. The
+parser relies on typographic appearance: white space is an integral part
+of the syntax. Python enthusiasts paraphrase Sierra Madre, &#8220;We don&#8217;t
+need no stinking braces,&#8221; because scope and nesting is determined by
+indentation alone! And there are no semicolons, because statements do
+not carry over between lines. This is opposite to most languages, which
+ignore white space entirely (including newlines). Python can be extended
+with function calls to procedures compiled from other languages (e.g.,
+C, C++). It is the most interesting scripting language, in terms of
+simplicity and capability, yet invented.</p>
+<p>Even <em>C++</em> is extreme in a particular way: while maintaining the
+constraint of including C as a subset, C++ adopted nearly every
+object-oriented programming feature known to man, including multiple
+inheritance. It is thus extreme in its &#8220;kitchen-sink&#8221; approach to a
+programming language. Additionally, C++ allows operator overloading.
+This is illustrated by the canonical &#8220;cute&#8221; example of complex
+arithmetic. However, it lends itself to very serious abuse because the
+apparent syntax of the language can be changed at will. And
+unfortunately it often is, making it very difficult to understand what
+is actually happening. This is similar to the competitive stunts people
+have done with the macro capability of the C preprocessor; however, with
+C++, programmers do this for real. Another piece of syntactic sugar is
+the automatic invocation of constructors, which can lead to extra
+copying and inefficiencies if the programmer is not very careful.</p>
+<p><em>Java</em> is even more recent, and is the first serious programming
+language that is, in my opinion, not extreme. (Well, it is extreme in
+that all procedures are &#8220;methods&#8221; of an object; you cannot write a
+function that is not within the file and scope of some object, even if
+that object would never be instantiated.) It has a carefully selected
+set of built-in features from C and C++, plus aspects that one finds in
+interpreted languages, such as a byte-code generator with a byte- code
+interpreter, automatic memory management, and threads.  (Interestingly,
+byte-codes, automatic garbage collection and lightweight processes were
+all included in Xerox&#8217;s Cedar.) Java thus is an attempt to make a
+language that takes the best features of C++, leaves the worst (operator
+overloading, multiple inheritance), and adds new safety features
+(garbage collection) and a byte code compiler for portability and safety
+in web applications. Like Python, it is distinguished by having a very
+large library of functions for doing application and systems
+programming. Microsoft considered it to be a sufficiently dangerous
+framework for non-Microsoft applications that they went to great lengths
+to prevent it from working on Windows. Thanks, Bill.</p>
+<p>The psychological basis of extremism in programming is very simple:
+people crave simplicity and equate it to beauty and truth. In the
+early days, when the engineering principles of compilers were in a
+rudimentary stage, it was also good engineering to design a system
+with a simple parser. With today&#8217;s compiler building tools, such as
+lex and yacc (or flex and bison), it is not difficult to build an
+interpreter/compiler for a language such as C, so there is no excuse
+for putting a lot of bookkeeping baggage on the back of the
+programmer. But compilers for a language as large as C++ have proven
+to be difficult to build, and some recently released versions of the
+GNU g++ compiler (e.g., 2.96) have been buggy.</p>
+<p>This is all an example of <strong>Bloomberg&#8217;s Law of Complexity</strong>, which
+paradoxically stands in firm opposition to the psychological desire for
+simplicity and elegance: <em>the state of technology at any time is as
+complicated as it possibly can be and still mostly work</em>. This explains
+the ever-increasing complexity of languages like C++ and operating
+systems like Windows. A corollary to the law of complexity is: <em>if
+something can be added, it will</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Historical note on limits of extremism</p>
+<p>In the late 1980s, when Xerox saw that its power-hungry homemade
+GaAs-based Dorados could not keep up with low-power commercial
+CMOS-based microprocessors, the Cedar runtime was ported to other
+hardware (e.g., SPARC), thus allowing Cedar to run as a single large
+process under Unix. The Cedar runtime supported the lightweight
+threads, that were invisible to the underlying OS. To maintain
+efficient operation, the port was done by compiling the Cedar/Mesa
+code to C, and then using the native C compiler. This was part of the
+unraveling of the short-lived age of monolithic computer
+environments. Years earlier, Peter Deutsch ported Smalltalk to the
+68010-based Sun2 (by writing a virtual machine in C to emulate the
+virtual machine previously implemented directly on hardware by
+microcode), thus paving the way for the ParcPlace spinout.  A similar
+approach was taken later to port the Xerox CommonLisp system to Suns,
+in a last-ditch effort to commercialize Xerox&#8217;s Lisp programming
+environment.</p>
+<p>It is instructive to read the 1990 &#8220;Worse is Better&#8221; essay by Richard
+Gabriel, who founded <em>Lucid</em>, one of the Lisp-based computer makers
+that appeared in the 80s. With the collapse of the AI bubble, the
+unsuitability of Lisp systems to do most computing tasks became
+evident. Gabriel reluctantly admitted that &#8220;Worse&#8221; (i.e., the C
+language and the New Jersey-based Unix OS) was in fact &#8220;Better&#8221; for
+most things than the Boston-based Lisp. You can read just the
+<a class="reference external" href="http://leptonica.com/cachedpages/worse-is-better-salient.html">salient</a>
+part of the argument, or Gabriel&#8217;s introduction to his <a class="reference external" href="http://www.dreamsongs.com/WorseIsBetter.html">musings and
+confusions</a> over a
+10-year period on the &#8220;Worse is Better&#8221; theme. I find it most
+interesting that the almost religious extremism that Gabriel and
+others advocated in their monolithic creations blinded them to the
+power of an OS like Unix that is non-sectarian, and will support
+programming in many different styles, and with many different runtime
+systems, all simultaneously. They insisted on having pure Lisp all
+the way up and all the way down. Read Gabriel&#8217;s essays to glimpse the
+degree to which smart people can become confused when the world just
+doesn&#8217;t want their perfect creations. Extremism may prevail for
+programming languages with specific applications, but it is a
+disaster for the operating system.</p>
+<p class="last">Yet another aside: if you want to read about one of the most ingenious
+computer hacks ever made, see Ken Thompson&#8217;s <a class="reference external" href="http://www.acm.org/classics/sep95/">address on receipt of the
+1983 Turing Award</a>, &#8220;Reflections
+on Trusting Trust&#8221;, <em>Communications of the ACM</em> <strong>27, 8</strong>, Aug. 1984,
+pp. 761-763. Thompson managed to put a back-door into the login function
+to allow him to logon to Unix without an account, and he did this
+without leaving any evidence in the source code of either the operating
+system or the compiler! Here&#8217;s what he did. He first made a compiler
+with the back-door, so that (1) if it compiled the OS, it would
+recognize the login function and insert the back-door, and (2) if it
+compiled the compiler, it would insert the code for producing the
+back-door. He then removed the back-door code from the source of the
+compiler. But the back-door was still there, hiding in the compiler
+binary, ready to replicate itself in any newly compiled compiler and to
+insert a back-door in any compiled OS. Hence the subject of his talk:
+what does it mean to &#8220;trust&#8221; in this multi-layered world of software?</p>
+</div>
+</div>
+<div class="section" id="some-practical-issues-in-programming">
+<h2><a class="toc-backref" href="#id5">Some practical issues in programming</a><a class="headerlink" href="#some-practical-issues-in-programming" title="Permalink to this headline">¶</a></h2>
+<p>I highly recommend Kernighan and Pike&#8217;s <em>The Practice of Programming</em>.
+This is a book for anyone who spends a lot of time programming, wonders
+why so much code is so bad, and wishes not to contribute to the
+problem. K and P have a three page appendix that is a collection of
+rules, starting with a quotation by Descartes from his <em>Le Discours de
+la Méthode</em>, which reads,</p>
+<blockquote>
+Each truth that I discovered became a rule that served me afterwards
+in the discovery of others.</blockquote>
+<p>In engineering, a set of rules would suffice. But programming is not
+sufficiently constrained by any known set of rules. For the &#8220;practice&#8221;
+or &#8220;art&#8221; of programming, you also have to decide when to use the rules.</p>
+<p>One of the things I&#8217;ve noticed is that people tend to use lists even in
+situations where arrays are preferable. Here are my &#8220;rules&#8221; for lists
+and arrays:</p>
+<ul>
+<li><p class="first"><strong>Use arrays for queues and stacks.</strong> When elements are only being
+added or removed from the beginning or the ends of a set of items,
+arrays are simpler and faster. The <tt class="docutils literal"><span class="pre">realloc</span></tt> C library function can
+be used to extend a dynamically allocated array, when necessary, using
+a size doubling rule. The array should be packaged in a structure (or
+class) that hides all details from the programmer. For example, stacks
+and queues are easily implemented for general objects using an array
+of <tt class="docutils literal"><span class="pre">void*</span></tt> pointers. In general, use arrays for data that doesn&#8217;t
+change much, even if elements are occasionally added to or removed
+from the interior. When an item is removed, rather than moving an
+entire block of items upward, in some cases it&#8217;s better to mark the
+item &#8220;invalid.&#8221;</p>
+</li>
+<li><p class="first"><strong>Use lists when objects are routinely inserted into an ordered
+set</strong>. With arrays, a random insertion causes movement of items that
+scales with the size of the array, whereas insertion into a list is
+independent of the list size as long as you know which items you&#8217;re
+inserting between. (For a singly linked list, this requires knowing
+the item you insert <em>after</em>.)</p>
+</li>
+<li><p class="first"><strong>If you have to use a list, use a doubly-linked one</strong>. Doubly-linked
+lists are a bit more expensive, but they allow the list to be
+traversed in reverse order. Once you&#8217;ve decided on doubly-linked
+lists, the next question is: should they be circular? I&#8217;ve found that
+circular doubly-linked lists work well but they&#8217;re a lot more trouble
+to code up properly, so that elements can be added and removed at
+arbitrary places without breaking anything. David Kahn at <a class="reference external" href="http://www.perquest.com/">Perquest</a> first showed me how to use C macros to
+handle doubly-linked lists that are inserted as the first two pointers
+(&#8220;next&#8221; and &#8220;prev&#8221;) directly in data structures. This configuration
+neatly sidesteps most issues with C typing, but one of the
+difficulties with inserting pionters directly in the data structures
+is that if you have a structure in a list and you insert a clone
+(which, after all, is just the same data structure) in another list,
+you will break the first list! Further, the macros for circular lists
+are fairly complicated, so I decided to do something much simpler in
+Leptonica, that would allow clones to be inserted in lists without
+problems. Without using macros, I made a doubly-linked but
+non-circular list utility that handles &#8220;cons&#8221; cells that hold data
+structures. One argument for using circular lists is that it takes no
+time to find the tail (the head typically points to it). However, if
+you&#8217;re going to repeatedly access (or change) the tail, it&#8217;s best to
+find it once and then be able to use it in the accessors. See <span class="filesystem">list.c</span>
+for some ideas for doing this.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="some-issues-with-memory-management">
+<span id="memory-management-issues"></span><h2><a class="toc-backref" href="#id6">Some issues with memory management</a><a class="headerlink" href="#some-issues-with-memory-management" title="Permalink to this headline">¶</a></h2>
+<p>The biggest headache for C programmers is memory management. With C,
+you have to make sure that you free all allocated memory, and also
+that you do it exactly once for each allocated block. People have
+built garbage collectors for C, but the usage rate is insignificant
+because they do not work flawlessly. The problem is with C itself. You
+can cast anything to void or to anything else. You can move the
+pointer to an array by an arbitrary amount so that it points anywhere
+within the address space relative to the beginning of the array. It
+can even point outside the data segment as long as you don&#8217;t access
+it.</p>
+<p id="valgrind-information">But the best news in a long time for GNU C/C++ programmers is the
+availability of a high quality open source memory management debugger
+for x86/Linux called <a class="reference external" href="http://valgrind.org/">valgrind</a>. Written by
+Julian Seward, valgrind has essentially all the functionality of
+<span class="command">purify</span>. But whereas purify works by re-writing the machine
+instructions to capture information about memory accesses, Seward
+circumvents the purify patents by instead running the program unaltered
+on a <em>virtual machine</em> that does all the memory checking. That makes it
+a bit slower, but you don&#8217;t need to generate a whole set of
+&#8220;purificated&#8221; libraries.</p>
+<p><span class="command">valgrind</span> is simple to use, without any change in your
+program. You simply call:</p>
+<div class="highlight-none"><div class="highlight"><pre>valgrind [valgrind args] your-program [your-program args]
+</pre></div>
+</div>
+<p>I predict that the availability of valgrind will make significant
+improvements in the quality of open source code. For example, when you
+run valgrind with the png library, it finds memory access errors. And
+there are so many errors with the GNU C library that Seward provides a
+special suppression file containing errors that are not to be flagged!</p>
+<p>Of course, it&#8217;s better not to make the memory errors in the first
+place. Above, I&#8217;ve given some of the <a class="reference internal" href="#software-design-principles"><em>design principles</em></a> on how memory can be managed in relatively
+safety. One basic idea is to <em>replicate</em> the data when needed, such as
+if you must embed some instance of a structure in more than one data
+structure. The alternative is to rely on access to the same instance
+from different places in the software, and you may force the application
+programmer to remember who owns what and in what order allocated data
+should be collected. This is generally bad practice, because it
+complicates the use of the library and invites serious error. With
+replication, each user of the data can have their own copy, for which
+they are responsible.</p>
+<p>Replication, however, can be expensive, particularly when you are
+copying large structures like images. The simplest solution to this
+problem is reference counting. For image and box data structures, I
+allow multiple handles to the same data, with a reference count within
+the <tt class="docutils literal"><span class="pre">PIX</span></tt> and <tt class="docutils literal"><span class="pre">BOX</span></tt> so that we know how many handles are around at
+any time. To control the process, it is necessary to call a special
+function, <tt class="docutils literal"><span class="pre">pixClone()</span></tt> or <tt class="docutils literal"><span class="pre">boxClone()</span></tt> to get a new handle (you
+can&#8217;t simply assign a new handle to the image!). It is also necessary to
+call a destruction function (e.g., <tt class="docutils literal"><span class="pre">pixDestroy()</span></tt>) on every handle.
+Only when the final handle to a <tt class="docutils literal"><span class="pre">PIX</span></tt> or <tt class="docutils literal"><span class="pre">BOX</span></tt> is destroyed does the
+reference count go to zero and the actual <tt class="docutils literal"><span class="pre">PIX</span></tt> or <tt class="docutils literal"><span class="pre">BOX</span></tt> structure
+can be freed. By following these simple rules, the programmer can write
+safe code without memory leaks, and without worrying about what handle
+&#8220;owns&#8221; what structure.</p>
+<p>A common programming pattern that uses the <tt class="docutils literal"><span class="pre">pixClone()</span></tt> arises when
+you have an image processing function that specifies both a source and
+destination image, where if the two images are the same, the operation
+is intended to be in-place, but otherwise it is not. Most operations
+cannot easily be done in-place, so the in-place situation is implemented
+by first copying the source image to a temporary image, which then acts
+as the source so that the result can be written to the input source
+image. To simplify the use of both options in the implementation, if the
+operation is not in-place, you still make a temporary image, but this
+one is a clone of the source, so that it is really just another handle
+to the same data structure. Then the operation always proceeds using the
+temporary image as the source and writing the result into the
+destination. Finally, the temporary image is always destroyed. If the
+temporary image is a clone of the source, it will have a reference count
+of 2, and its &#8220;destruction&#8221; will simply lower that count back to 1.</p>
+<p>I mentioned above that we use reference counting to allow two &#8220;clients&#8221;
+to hold on to the same data structure. The most important context in
+which this applies is where the &#8220;clients&#8221; are pointer arrays; here, the
+<tt class="docutils literal"><span class="pre">PIXA</span></tt> and <tt class="docutils literal"><span class="pre">BOXA</span></tt>. With reference counting, two <tt class="docutils literal"><span class="pre">PIXA</span></tt> arrays can
+hold pointers to the same <tt class="docutils literal"><span class="pre">PIX</span></tt>, and each can &#8220;own&#8221; it in the sense
+that when the <tt class="docutils literal"><span class="pre">pixaDestroy()</span></tt> function is called on the two <tt class="docutils literal"><span class="pre">PIXA</span></tt>,
+no <tt class="docutils literal"><span class="pre">PIX</span></tt> is freed twice.</p>
+<p>Here is a simple but very important rule that applies to all ptr arrays
+that are not stacks or queues. It is often the case that you need to add
+structures to the end of an array, but don&#8217;t need to <em>replace</em> them. You
+just accumulate them in the array, for use either individually or by
+functions that use the whole array. For such arrays, of which the
+<tt class="docutils literal"><span class="pre">PIXA</span></tt> and <tt class="docutils literal"><span class="pre">BOXA</span></tt> are examples, it is simplest to provide two
+functions: a procedure to add a structure to the end of the array and
+another to access a structure within an array <em>without removing
+it</em>. (Again, if you find you need to both add and remove structures from
+the end of an array, you should use a stack or a queue.) Here&#8217;s the rule
+for accessing a structure without removing it:</p>
+<blockquote>
+<p>When you access something within an array using a &#8220;get&#8221; accessor, you
+have the choice of receiving a handle to the original structure (this
+is a <em>clone</em>, where the internal reference count has been incremented
+by 1) or a new copy of the original structure. You must use an
+accessor function; you are not allowed to simply get another pointer
+to the same structure without increasing the reference
+count. Further, you must dispatch the arrays with the array
+destruction function, which decrements the reference count of each
+element in the array and destroys those elements whose reference
+count goes to 0. You must also dispatch any element you retrieve from
+an array, either by explicitly destroying it with its destroy
+function, or by adding it to another array, allowing it to be
+destroyed at a later time. Consequently, when you access a structure
+within an array you have two obligations:</p>
+<ol class="arabic">
+<li><p class="first">Not to destroy the original structure.</p>
+</li>
+<li><p class="first">To destroy any copies or clones of that structure that you make.</p>
+</li>
+</ol>
+</blockquote>
+<p>It all comes down to <em>ownership</em>: the entity that is responsible for
+destroying the object. To set up the safest programming environment
+within the limitations of C, we do not allow access to a structure in an
+array (of <tt class="docutils literal"><span class="pre">PIX</span></tt> or <tt class="docutils literal"><span class="pre">BOX</span></tt>) without requiring a clone or copy to be
+made, even if you only want to determine the value of some internal
+field.  This still incurs a slight overhead with a clone, because you
+must remember to destroy it.</p>
+<p>Cloning with reference counting works well with arrays, but not for
+lists that are implemented by embedding the list pointers within the
+individual structures. Imagine what would happen if you tried to place
+two clones of a structure in two different lists, using embedded list
+pointers: when placing the clone in the second list you&#8217;d break the
+first list, because there is really only one structure and hence only
+one set of embedded list pointers. Consequently, when putting
+reference-counted structures in lists, you must hang the structures
+from separately allocated list cells that contain the list pointers
+and maintain the list.</p>
+</div>
+<div class="section" id="a-low-level-gotcha-operator-precedence-in-c">
+<h2><a class="toc-backref" href="#id7">A low-level gotcha: operator precedence in C</a><a class="headerlink" href="#a-low-level-gotcha-operator-precedence-in-c" title="Permalink to this headline">¶</a></h2>
+<p>If you plan to do any work with bit-level operators, you will run into
+an operator precedence decision that Dennis Ritchie has admitted was the
+worst in his design of C. It is interesting to note that the designers
+of Java were willing to deviate from C by using only signed data and
+introducing the &#8220;&gt;&gt;&gt;&#8221; operator for right shift without sign propagation,
+but they decided to keep the flawed C operator precedence intact for
+compatibility.</p>
+<p>The problem is in the precedence of the <em>bit logical operators</em>.
+&#8220;Logically&#8221; these should have precedence comparable to bit arithmetic,
+because that is what they really are. However, Ritchie dropped the
+precedence down below the <em>relational operators</em> to just above the
+<em>logical operators</em>.</p>
+<p>This causes problems that are very difficult to find. For example,
+suppose you want to test if a masked part of a word x is zero. If you
+were to write:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">mask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>you would get the wrong result; namely,</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>because the relational &#8220;==&#8221; has higher precedence than the logical
+bit-and. The test will always fail (assuming the mask is nonzero)
+because it is doing a bit-and between x and 0; consequently, the block
+will never execute. If this were somewhere within a large procedure
+containing many bit logical and bit arithmetic operations, you are
+almost guaranteed to have a miserable time trying to find the problem. A
+good rule is: If in doubt, <em>add parentheses</em>. The safest rule is: <em>Just
+add the damn parentheses</em>.</p>
+</div>
+<div class="section" id="anecdotes-on-managing-complexity-in-programming">
+<h2><a class="toc-backref" href="#id8">Anecdotes on managing complexity in programming</a><a class="headerlink" href="#anecdotes-on-managing-complexity-in-programming" title="Permalink to this headline">¶</a></h2>
+<blockquote class="epigraph">
+<div class="line-block">
+<div class="line"><em>Mathematicians stand on each other&#8217;s shoulders,</em></div>
+<div class="line"><em>While computer scientists stand on each other&#8217;s toes,</em></div>
+<div class="line"><em>And computer engineers dig each other&#8217;s graves.</em></div>
+</div>
+</blockquote>
+<p>If you are going to write large programs, you must handle the complexity
+that comes from interactions between different parts, and, in
+particular, the pervasive influence of the &#8220;interfaces,&#8221; both through
+functions and data structures. I hope you find the following at least
+entertaining.</p>
+<div class="section" id="fred-hoyle-s-n2-law-of-complexity">
+<h3><a class="toc-backref" href="#id9">Fred Hoyle&#8217;s N<sup>2</sup> law of complexity</a><a class="headerlink" href="#fred-hoyle-s-n2-law-of-complexity" title="Permalink to this headline">¶</a></h3>
+<p>At age 16, I read Fred (later, Sir Fred) Hoyle&#8217;s <em>Frontiers of
+Astronomy</em>, which reinforced my belief that science was the highest
+calling. Hoyle described the evolution of stars, and the nuclear
+reactions that were going on inside, in a way that demonstrated the
+power of observation and deductive logic.</p>
+<p>Hoyle was an unusual person. He made fundamental contributions to our
+understanding of nucleosynthesis in stars, and he worked on many
+different things. He speculated on the archaeological dating and purpose
+of Stonehenge. He gave lectures propounding a theory that flu viruses
+come from outer space, his evidence being that pandemics supposedly
+coincide with the 11 year solar activity cycle, and the flu spreads too
+quickly to be passed from one person to another!</p>
+<p>But this isn&#8217;t the only instance where his speculations have been
+soundly rejected by the scientific community. Hoyle formulated a
+cosmological theory of the universe, called the <em>Steady State universe</em>,
+and defended it for 50 years until he died, in spite of overwhelming
+evidence to the contrary. Hoyle deprecatingly called Gamow&#8217;s competing
+idea the &#8220;Big Bang&#8221; theory, a name that stuck! The Big Bang has since
+been confirmed by all experimental observations, and in particular, the
+<em>cosmic microwave background</em> radiation at 3 degrees K. Hoyle&#8217;s Steady
+State cosmology was attractive in that it &#8220;solved&#8221; the problem of the
+origin of the universe by removing it: he claimed that there was no
+origin &#8212; the universe has always been here, just as it is today. For
+the density to remain constant in an expanding universe, matter must be
+created out of the vacuum. Unfortunately for Hoyle, this has not been
+observed at the required rate (or at any rate, for that matter). I find
+it fascinating that Hoyle, along with his colleagues Gold, Narlikar and
+Bondi, all brilliant scientists, stuck to their theory with a
+stubbornness that defied logic. Why do these young people get an <em>ideé
+fixé</em>, that forms the central core of their scientific career?</p>
+<p>But I digress. Hoyle also enjoyed writing science fiction, and I eagerly
+read each book as it came out. <em>A for Andromeda</em> appeared in 1962. The
+plot has some young SETI (Search for Extra-Terrestrial Intelligence)
+scientists discover an unusual signal from outer space. When they
+finally crack the code &#8211; I believe the &#8220;Rosetta Stone&#8221; for the code was
+the frequency of some spectroscopic absorption line in hydrogen &#8212; they
+found that it was the description of a computer along with a mysterious
+computer program. They built the machine, ran the program, and &#8212; voilà
+&#8212; it made a human-like robot, Andromeda. Hoyle made one claim that
+impressed me: <em>the complexity of a computer program goes as the square
+of its size</em>. The program for Andromeda was huge, and its complexity was
+consequently unimaginable.  Although I accepted Hoyle&#8217;s claim, which was
+based on some loose reasoning about how the parts interact, it left me
+uneasy, because it stated that programming doesn&#8217;t scale: <em>large programs
+are not practical</em>.</p>
+<p>Although Hoyle was wrong, I ran into a situation that seemed to support
+his &#8220;law&#8221; soon after I went to Xerox. One of my colleagues gave me a
+plotting program written in Fortran that needed to be modified. This
+program was only about 500 lines long, but it was a maze of spaghetti
+code, with &#8216;goto&#8217; branches swarming throughout a single function. In
+fact, the complexity may have been even higher than second power in
+size! Here, the complexity came from the strange internal states and
+twisted control flow, rather than from interfaces between different
+parts.</p>
+<p>Although I&#8217;ve been sympathetic ever since to people like Wirth who wish
+to outlaw the &#8216;goto&#8217; statement, I&#8217;m glad K&amp;R included it in C because
+&#8216;break&#8217; only takes you out one level.</p>
+</div>
+<div class="section" id="complexity-at-the-interface">
+<h3><a class="toc-backref" href="#id10">Complexity at the interface</a><a class="headerlink" href="#complexity-at-the-interface" title="Permalink to this headline">¶</a></h3>
+<p>The center manager at Xerox PARC during the late 80s and 90s was a
+character. He shall remain nameless; I&#8217;ll only refer to him by the
+initials of my sister Judith before she was married: jsb. I found it
+interesting to listen to jsb when he was in freestyle pontification
+mode. He would say strange things that were surely designed to rearrange
+your neural connections. Most of what jsb said was nonsense, but if you
+didn&#8217;t take it seriously (and didn&#8217;t tell him that you thought it was
+nonsense), you were likely to survive the experience.</p>
+<p>Over the years, jsb decided that &#8220;interfaces&#8221; were the key. The physics
+lab at PARC had redirected its work in the mid-80s to &#8220;surface and
+interface physics,&#8221; but that&#8217;s not what jsb had in mind. He was thinking
+of interfaces between different disciplines, such as the complexity
+studies at the Santa Fe Research Institute, and of programmatic
+interfaces. jsb was sure that everything interesting happened at these
+interfaces. Alan Perlis, a well-known computer scientist and author of
+<a class="reference external" href="http://leptonica.com/cachedpages/perlis-epigrams.html">120 programming epigrams</a>, was a frequent visitor to PARC, and
+he gave several lectures on how difficult it is to change program
+interfaces. jsb decided the main problem of programming was this
+complexity of the interfaces. He also continually urged people to go to
+the root of the problem and come up with formal theories, rather than
+ad-hoc solutions.</p>
+<p>I decided to play an irreverent joke in 1993. At this time, each
+laboratory manager collected and forwarded monthly a set of research
+highlights up to the center manager, who would then send a subset on
+to the Xerox VP of research. I wrote a research highlight, with the
+winking approval of my laboratory manager, claiming that I had made a
+radical architectural breakthrough and had solved the interface
+problem in programming. My brilliant solution involved a large data
+structure I called a &#8220;KitchenSink.&#8221; All functions took a KitchenSink
+and at most one other argument, and returned nothing of significance
+(except for the one function that actually made a KitchenSink, of
+course). In this bold stroke, I claimed to eliminate all of Perlis&#8217;s
+problems with interfaces. All &#8220;side-effects&#8221; went into the
+KitchenSink, which itself was composed of an array of indeterminate
+size of pointers (&#8216;void*&#8217; pointers for C), any of which could point to
+an array or list of things. Among the things pointed to were, of
+course, KitchenSinks, that had been configured into some application-
+dependent formats, all eventually ending up as intrinsic types
+supported by the specific language. I mentioned that the recursive use
+of KitchenSinks was theoretically required to generate the complexity
+of a Turning Machine. This was complete nonsense, just smoke and
+mirrors to dress up the claim, but it fit with the AI paradigm of
+using recursion because of its elegance. This was also in the era when
+C++ and object-oriented programming were becoming fashionable, and I
+emphasized the maximal use of data hiding in the KitchenSink.</p>
+<p>jsb did not forward my &#8220;breakthrough&#8221; to the corporate level. I
+believe that he was so astounded that an ex-physicist rather than an
+AI person might solve the biggest problem (he thought) in computer
+architecture, that he consulted my laboratory manager, who let him in
+on the joke.</p>
+<p>I had another chance to spoof jsb on his interface beliefs. I prepared a
+humorous summary of conclusions from a mid-90s committee set up to
+evaluate technological opportunities in computing. There, I used the
+mathematics of high dimensional spaces, where the volume of a
+hypersphere is nearly all within a very small distance from the surface,
+to assert a proof that the interface is everything. The analogy and the
+proof were silly &#8212; I gave it to amuse the physicists.  But the
+geometry is significant, because it links the statistical definition of
+entropy (as proportional to the log of the number of accessible states)
+to the thermodynamic definition. Consider two identical systems, one
+completely isolated with known energy E and the second in contact with a
+heat bath at some temperature, freely exchanging energy, and
+consequently with an energy that averages to be E but has some
+uncertainty. All thermodynamic properties of the two systems are
+identical, so their entropies must be the same. But one has a fixed
+energy E so that the accessible states occupy a very thin hypersphere
+shell in momentum space, and the other occupies states in a thicker
+shell. The conclusion is that the thickness of the shell thus doesn&#8217;t
+matter: the thinnest possible shell contains essentially all the states
+in 10<sup>23</sup> dimensions!</p>
+</div>
+<div class="section" id="getting-managed-by-complexity">
+<h3><a class="toc-backref" href="#id11">Getting managed by complexity</a><a class="headerlink" href="#getting-managed-by-complexity" title="Permalink to this headline">¶</a></h3>
+<p>Another horror story with which I was slightly familiar was the
+Textbridge OCR software developed first at Kurzweil and then at Xerox
+Imaging Systems after Xerox acquired part of Kurzweil. The software had
+been developed over a period of about 15 years. Initially, it performed
+single font character recognition on an embedded machine with very
+limited memory. Then crude page segmentation was added. Then the OCR was
+improved to handle multiple fonts. Then the page segmentation was
+further improved. Each step in development added to what was there
+before, like the Winchester House in San Jose. The initial architectural
+decision to express the image as a run-length data structure and throw
+away the raster version, which made sense in the 1980s because RAM was
+so expensive, conflicted with the need for accurate page
+segmentation. As the system grew, it became ever more difficult to
+change the architecture, and attempts to improve the OCR often had
+complex and unintended side-effects, requiring massive regression
+testing. After one version was shipped, there was never enough time to
+change the interfaces for the next version. The original developers
+left, along with some of the understanding of how things worked.</p>
+<p>The software engineers who built, maintained and extended the system
+were outstanding. They understood pattern classification and image
+analysis, and were very careful. Yet ultimately, they were overwhelmed
+by complexity. Perhaps some of them will eventually describe what they
+learned about complexity and how to avoid it.</p>
+</div>
+<div class="section" id="managing-the-complexity">
+<h3><a class="toc-backref" href="#id12">Managing the complexity</a><a class="headerlink" href="#managing-the-complexity" title="Permalink to this headline">¶</a></h3>
+<p>The holy grail is for complexity to scale linearly with program size.  I
+believe this is achievable (or nearly so) using the object paradigm in
+<strong>Leptonica</strong>.</p>
+<p>Perlis&#8217;s ninth epigram is as follows:</p>
+<blockquote>
+It is better to have 100 functions operate on one data structure
+than 10 functions on 10 data structures.</blockquote>
+<p>One way to view this is to consider functions as verbs and data
+structures as nouns. If you have many nouns, you must worry about the
+results when they are acted on by each of the verbs, and you must insure
+that the resulting side-effects are consistent for all these
+cases. Hidden interdependencies make it difficult to maintain such
+systems. In <strong>Leptonica</strong>, I have attempted to use as few nouns as
+possible. The most important noun (the <tt class="docutils literal"><span class="pre">Pix</span></tt>) is as simple as possible
+so that it can easily be replaced by an equivalent noun that is used in
+another application.</p>
+<p>Although silly, the KitchenSink joke demonstrates that architectural
+complexity is shared between function interfaces (verbs) and data
+structures (nouns). There must be some balance: you don&#8217;t want to use a
+KitchenSink, but you need some data structures to bring order into the
+application. Without data structures, all the data that needs to be in
+scope must be passed in to a function or created there. For big
+applications, this would be a nightmare, with long strings of arguments
+of data passed between functions.</p>
+<p>By contrast with this extreme, the object viewpoint is to have each
+function be responsible for a task, to divide tasks up into subtasks
+where appropriate, and to make a special data structure (one, if
+possible) for an application, such as <tt class="docutils literal"><span class="pre">JbClasser</span></tt> in the jbig2
+classifier. This structure keeps all state and contains (most of) the
+data required for computation on it. You create the structure, you store
+computation results in it, and you use it to generate whatever output is
+required (such as images, or bounding boxes, or compressed file data,
+etc.). And finally, you destroy it with one command. Above all, at the
+application level you do not need to ask questions about what is
+inside. The object manages the details that the application programmer
+doesn&#8217;t want to know about, and would be likely to cause problems if he
+were forced to manage them.</p>
+<p>When using a language like C, it is especially important to have a set
+of classes (or structures) for common data sets, and for these to be
+implemented with accessors and other safety factors (such as cloning
+handles) so that the application programmer is unlikely to make a
+mistake that will either crash the program or leak memory.</p>
+<p>By subdividing programs up into simple, logical parts, and using a
+library of (relatively) memory-safe functions on commonly-used data
+structures, large applications can be built where it is clear what is
+happening at each step. That, however, is not enough to manage
+complexity. Consider two types of programs:</p>
+<ol class="arabic">
+<li><p class="first"><em>Well determined</em>. The relation between the input data and the output
+data is specified to a level that allows unambiguous determination of
+correctness. Typically either or both the input and output are
+constrained to a high level. An example is &#8216;ripping&#8217; a PostScript
+file into a raster for a specified output device.</p>
+</li>
+<li><p class="first"><em>Badly determined</em>. The input data is often very weakly constrained,
+so that it is difficult both to anticipate how to handle it and to
+determine if the program is correct. An example is performing OCR on
+a badly degraded raster image of text.</p>
+</li>
+</ol>
+<p>Note that the process of going from a valid PostScript text file to a
+raster is well determined, but the inverse process (image analysis) is
+badly determined. It is in this second case, where the input is so
+weakly constrained, that the biggest problems are faced in managing
+complexity. Decisions have to be made based on characteristics of
+arbitrary binary data, rather than using well-formed strings to run a
+finite state machine that can be verified to behave correctly. This is
+the frontier, where engineering faces its biggest challenges and
+engineering principles have yet to be properly expressed.</p>
+<p>Stepping into this frontier, I offer a few vague design principles for
+building and tuning image analysis programs. This little section is a
+work in progress, and I offer it with some humility. As mentioned
+above, the difficulty in analyzing images is due to the fact that, to
+a large extent, images are unstructured data. Unusual and unexpected
+things can and do appear. Consequently,</p>
+<ol class="arabic">
+<li><p class="first"><em>Avoid as much as possible making implicit assumptions about image
+content</em>. Implicit assumptions will get you every once in a while, or
+more often.</p>
+</li>
+<li><p class="first"><em>Try to make all assumptions explicit, and as weak as possible</em>. A
+program that makes a bad assumption about image content is likely to
+fail. For example, if you&#8217;re using connected components on binary
+images, don&#8217;t assume that small components do not touch. If you&#8217;re
+using topological methods, don&#8217;t assume that large connected borders
+do not exist.</p>
+</li>
+<li><p class="first"><em>Make decisions based on the most robust statistical basis possible</em>.
+Image analysis requires the nonlinear process of making decisions, but
+always try to do it on sufficient evidence.</p>
+</li>
+<li><p class="first"><em>Avoid special casing. Of course, there are different basic
+situations, such as analyzing color, grayscale and binary
+images</em>. But if you&#8217;re doing one of these, try to avoid bifurcations
+where you go off on some branch and don&#8217;t return. If your processing
+is a tree with many branches, it is almost guaranteed to make serious
+mistakes, and to be difficult to tune.</p>
+</li>
+<li><p class="first"><em>Try to organize the processing as a pipeline, along which things are
+analyzed and changed</em>. This is related to avoidance of special
+casing. Some images will not need some processing steps. Instead of
+using gotos, use a small set of integer and boolean parameters to
+select which processing stages an image is subject to. So if
+possible, let all the images follow the same &#8220;pipeline,&#8221; but have
+some require more stuff to be done along the way.</p>
+</li>
+<li><p class="first"><em>Don&#8217;t take the pipeline analogy too far</em>. For example, don&#8217;t
+actually try to build it with small executables that pipe data
+through. This architecture is often useful for image <em>processing</em>,
+but it is not appropriate for image <em>analysis</em>, where decisions must
+be made, steps must be conditionally skipped, loops must be used to
+handle different parts of the image independently, and parameters
+must be passed in to each stage.</p>
+</li>
+<li><p class="first"><em>Use functions to perform specific tasks</em>. For each task, try to make
+a stable interface that has the fewest number of arguments necessary
+to handle the cases that will be presented. But see the next item!</p>
+</li>
+<li><p class="first"><em>Do not bundle important parameters up in a class or data structure
+simply in order to hide them or to simplify the appearance of
+function interfaces</em>. It can be undesirable to hide the salient
+parameters. If a function uses certain arguments (e.g., images,
+masks, thresholds, etc.), I prefer to have them explicitly in the
+call, because it&#8217;s easier to see exactly what is happening, to find
+mistakes, and to figure out how and where to tune things.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Some Issues in Software Design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#software-design-principles">Software design principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-happens-when-things-go-wrong">What happens when things go wrong?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extremism-in-programming-languages">Extremism in programming languages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#some-practical-issues-in-programming">Some practical issues in programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#some-issues-with-memory-management">Some issues with memory management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-low-level-gotcha-operator-precedence-in-c">A low-level gotcha: operator precedence in C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anecdotes-on-managing-complexity-in-programming">Anecdotes on managing complexity in programming</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fred-hoyle-s-n2-law-of-complexity">Fred Hoyle&#8217;s N<sup>2</sup> law of complexity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#complexity-at-the-interface">Complexity at the interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getting-managed-by-complexity">Getting managed by complexity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#managing-the-complexity">Managing the complexity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/design-principles.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="recent-pubs.html" title="Selected Papers on Image Processing and Image Analysis"
+             >next</a></li>
+        <li class="right" >
+          <a href="testing-methods.html" title="What is “Well-Tested” C Code?"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,480 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Leptonica Image Processing Library &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="next" title="README" href="README.html" />
+    <link rel="prev" title="Leptonica v1.67 Documentation" href="../index.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="README.html" title="README"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Leptonica v1.67 Documentation"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-leptonica-image-processing-library">
+<h1>The Leptonica Image Processing Library<a class="headerlink" href="#the-leptonica-image-processing-library" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local-sources.html">Source Code and Information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html#download">Download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html#related-publications">Related Publications</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source-downloads.html">Source Downloads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html#leptonica">Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html#microsoft-visual-studio-2008">Microsoft Visual Studio 2008</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html#xtractlib">Xtractlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html#plotlib">Plotlib</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html#reading-and-writing-images">Reading and writing images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html#affine-transforms">Affine transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library-overview.html#rasterops">Rasterops</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#i-o-file-read-write">I/O: File read/write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#the-pix-data-structure">The Pix data structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#rasterops">Rasterops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#scaling">Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#shear">Shear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#affine-projective-and-bilinear-transforms">Affine, projective and bilinear transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#binary-morphology">Binary morphology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#grayscale-morphology">Grayscale morphology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#block-convolution">Block convolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html#connected-components">Connected components</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html#file-summary-by-category">File Summary by Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html#file-descriptions">File Descriptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html#file-summary-by-category">File Summary by Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html#file-summary-by-type">File Summary by Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html#file-descriptions">File Descriptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html#what-is-rasterop">What is rasterop?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html#what-else-can-you-do-with-rasterop">What else can you do with rasterop?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html#how-is-rasterop-implemented-efficiently">How is rasterop implemented efficiently?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html#what-special-cases-have-been-implemented">What special cases have been implemented?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html#what-is-the-calling-sequence-for-rasterops">What is the calling sequence for rasterops?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#references-and-meta-references">References and meta-references</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#what-is-binary-morphology">What is binary morphology?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#and-there-is-more-to-morphology-than-translationally-invariant-increasing-primitives">And there is more to morphology than translationally-invariant, increasing primitives</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#what-about-boundary-conditions">What about boundary conditions?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#the-rasterop-implementation-of-binary-morphology">The rasterop implementation of binary morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#the-destination-word-accumulation-implementation-of-binary-morphology">The destination word accumulation implementation of binary morphology</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#auto-generated-dwa-code-interfaces">Auto-generated dwa code interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#separable-atomic-operations-with-block-sels-sel-decomposition-sequence-interpreters-and-simplicity-of-use">Separable atomic operations with block Sels, Sel decomposition, sequence interpreters and simplicity of use</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#atomic-separable-functions">Atomic separable functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#interpreters-for-sequences-of-atomic-operations">Interpreters for sequences of atomic operations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#summary-of-available-implementations">Summary of available implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#full-image-rasterops">Full image rasterops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#destination-word-accumulation">Destination word accumulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#sequence-interpreters">Sequence interpreters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binary-morphology.html#performance-comparisons">Performance comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html#binary-morphology-and-cellular-automata">Binary morphology and cellular automata</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="grayscale-morphology.html">Grayscale Morphology</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html#what-is-grayscale-morphology">What is grayscale morphology?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html#implementation-using-the-van-herk-gil-werman-algorithm">Implementation using the van Herk/Gil-Werman algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html#the-tophat-and-h-dome-transforms">The Tophat and H-dome transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html#generalization-rank-order-filters">Generalization: rank order filters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="grayscale-morphology.html#definition">Definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grayscale-morphology.html#how-is-a-brick-rank-order-filter-implemented-efficiently">How is a brick rank order filter implemented efficiently?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grayscale-morphology.html#points-of-interest-in-the-implementation">Points of interest in the implementation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="convolution.html">Fast Convolution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html#what-is-a-convolution">What is a convolution?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html#grayscale-convolution-using-an-accumulator">Grayscale convolution using an accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html#binary-rank-order-and-median-filter-using-an-accumulator">Binary rank-order and median filter using an accumulator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaling.html">Image Scaling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html#overview-of-image-scaling">Overview of image scaling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaling.html#what-types-of-image-scaling-are-useful">What types of image scaling are useful?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html#grayscale-image-scaling">Grayscale Image Scaling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaling.html#how-do-you-scale-a-grayscale-image">How do you scale a grayscale image?</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="scaling.html#sampling">Sampling</a></li>
+<li class="toctree-l5"><a class="reference internal" href="scaling.html#area-mapping-or-area-averaging-and-lowpass-filtering">Area mapping (or area averaging) and lowpass filtering</a></li>
+<li class="toctree-l5"><a class="reference internal" href="scaling.html#mip-mapping">Mip-mapping</a></li>
+<li class="toctree-l5"><a class="reference internal" href="scaling.html#min-max">Min-max</a></li>
+<li class="toctree-l5"><a class="reference internal" href="scaling.html#linear-interpolation">Linear interpolation</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="scaling.html#implementation-of-linear-interpolation-scaling">Implementation of linear interpolation scaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaling.html#considerations-of-efficiency-for-linear-interpolation-scaling">Considerations of efficiency for linear interpolation scaling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html#binary-image-scaling">Binary Image Scaling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaling.html#arbitrary-binary-rescaling">Arbitrary binary rescaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaling.html#special-case-power-of-2-binary-expansion">Special case: power-of-2 binary expansion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaling.html#special-case-2x-binary-reduction">Special case: 2x binary reduction</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html#binary-to-gray-downscaling-scale-to-gray">Binary to Gray Downscaling (&#8220;scale-to-gray&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html#gray-to-binary-upscaling-scale-to-binary">Gray to binary upscaling (&#8220;scale-to-binary&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html#fast-scaling-with-depth-change">Fast scaling with depth change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html#summary-of-scaling-functions-in-leptonica">Summary of scaling functions in leptonica</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rotation.html">Image Rotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html#how-do-you-rotate-an-image-by-an-arbitrary-angle">How do you rotate an image by an arbitrary angle?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html#rotation-by-shear">Rotation by Shear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html#rotation-by-area-mapping">Rotation by Area Mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html#fast-rotation-by-area-mapping">Fast rotation by Area Mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html#special-rotations-by-90-180-or-270-degrees">Special rotations by 90, 180 or 270 degrees</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rotation.html#degree-rotation">180 degree rotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rotation.html#id4">90 degree rotation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="affine.html#what-is-an-affine-transformation">What is an affine transformation?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html#how-are-affine-transformations-implemented">How are affine transformations implemented?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="affine.html#sequential-affine-transform">Sequential affine transform</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html#some-related-transforms">Some related transforms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="affine.html#conformal-affine-transform">Conformal affine transform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affine.html#projective-transform">Projective transform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="affine.html#bilinear-transform">Bilinear transform</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html#shearing-an-image">Shearing an image</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#what-is-the-seed-fill-operation">What is the seed fill operation?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#seed-filling-to-identify-connected-components">Seed filling to identify connected components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#seed-filling-using-binary-morphology">Seed filling using binary morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#seed-filling-using-iterative-raster-ordered-filling">Seed filling using iterative raster-ordered filling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#seed-filling-extended-to-grayscale-images-grayscale-reconstruction">Seed filling extended to grayscale images (<em>grayscale reconstruction</em>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#generation-of-a-distance-function-within-connected-components">Generation of a distance function within connected components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#labelling-pixels-using-distance-function-and-grayscale-reconstruction">Labelling pixels using distance function and grayscale reconstruction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html#watershed-transform-on-seeded-grayscale-images">Watershed transform on seeded grayscale images</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="enhancement.html">Grayscale and Color Image Enhancement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html#what-do-we-mean-by-grayscale-and-color-image-enhancement">What do we mean by grayscale and color image enhancement?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="enhancement.html#what-other-types-of-enhancement-operations-exist">What other types of enhancement operations exist?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html#gamma-correction">Gamma correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html#contrast-enhancement">Contrast enhancement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html#unsharp-masking-edge-enhancement">Unsharp masking (edge enhancement)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html#image-smoothing">Image smoothing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="binarization.html">Grayscale Mapping and Binarization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html#locally-adapted-grayscale-mapping">Locally adapted grayscale mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html#locally-adapted-binarization">Locally adapted binarization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="binarization.html#sauvola-binarization">Sauvola binarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binarization.html#local-background-normalization">Local background normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binarization.html#local-background-normalization-with-otsu">Local background normalization with Otsu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="binarization.html#local-background-normalization-with-two-thresholds">Local background normalization with two thresholds</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html#global-binarization">Global binarization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="applications.html">Image Processing Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dewarping.html">Dewarping Text Pages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dewarping.html#what-distortions-do-you-expect-with-camera-images">What distortions do you expect with camera images?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewarping.html#how-do-you-dewarp-a-camera-image-based-on-text-lines">How do you dewarp a camera image based on text lines?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewarping.html#example-showing-images-and-disparity-fields">Example showing images and disparity fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="skew-measurement.html">Measuring the Skew of Document Images</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="skew-measurement.html#for-further-reading">For further reading . . .</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="color-quantization.html">Color Quantization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#how-did-the-need-for-color-quantization-arise">How did the need for color quantization arise?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#what-are-the-basic-problems-in-color-quantization">What are the basic problems in color quantization?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#why-is-error-diffusion-dithering-important">Why is error diffusion dithering important?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#what-methods-have-been-proposed-for-color-quantization">What methods have been proposed for color quantization?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#modified-median-cut-implementation">Modified median cut implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#octree-implementation">Octree implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="color-quantization.html#what-is-the-octree-data-structure-used-in-leptonica">What is the octree data structure used in <strong>Leptonica</strong>?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="color-quantization.html#how-is-the-octree-formed">How is the octree formed?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="color-quantization.html#what-color-is-associated-with-each-octcube-in-the-color-table">What color is associated with each octcube in the color table?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="color-quantization.html#how-are-color-indices-assigned-to-the-image-pixels">How are color indices assigned to the image pixels?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="color-quantization.html#how-is-the-error-diffusion-dithering-applied">How is the error diffusion dithering applied?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="color-quantization.html#how-fast-is-the-implementation">How fast is the implementation?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html#for-further-reading-on-color-quantization">For further reading on color quantization . . .</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="color-segmentation.html">Color Segmentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html#what-is-color-segmentation-and-why-do-it">What is color segmentation and why do it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html#how-does-color-segmentation-differ-from-color-quantization">How does color segmentation differ from color quantization?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html#how-do-we-generate-the-color-segmented-images">How do we generate the color segmented images?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html#how-does-a-color-segmented-image-look">How does a color segmented image look?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="border-rep.html">Border Representations of Connected Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html#overview-of-connected-component-borders">Overview of connected component borders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html#generating-chain-codes-for-connected-components">Generating chain codes for connected components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html#serializing-the-data-for-a-compressed-file-format">Serializing the data for a compressed file format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html#forming-a-single-border-for-each-connected-component">Forming a single border for each connected component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html#rendering-the-outline-as-a-filled-raster">Rendering the outline as a filled raster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html#putting-it-together">Putting it together</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="document-image-analysis.html">Document Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jbig2.html">Jbig2 Classifier</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#what-is-the-origin-of-the-jbig2-application">What is the origin of the Jbig2 application?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#what-is-jbig2">What is jbig2?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#what-is-provided-in-leptonica">What is provided in Leptonica?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#what-is-the-definition-of-the-hausdorff-distance-and-how-is-it-implemented-efficiently">What is the definition of the hausdorff distance, and how is it implemented efficiently?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#how-are-the-images-aligned-for-comparison">How are the images aligned for comparison?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#what-s-special-about-the-leptonica-implementation">What&#8217;s special about the Leptonica implementation?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#open-source-implementation-of-jbig2">Open source implementation of jbig2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html#what-is-mixed-raster-format">What is Mixed Raster format?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html#software-design-principles">Software design principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html#what-happens-when-things-go-wrong">What happens when things go wrong?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html#extremism-in-programming-languages">Extremism in programming languages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html#some-practical-issues-in-programming">Some practical issues in programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html#some-issues-with-memory-management">Some issues with memory management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html#a-low-level-gotcha-operator-precedence-in-c">A low-level gotcha: operator precedence in C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html#anecdotes-on-managing-complexity-in-programming">Anecdotes on managing complexity in programming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="design-principles.html#fred-hoyle-s-n2-law-of-complexity">Fred Hoyle&#8217;s N<sup>2</sup> law of complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design-principles.html#complexity-at-the-interface">Complexity at the interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design-principles.html#getting-managed-by-complexity">Getting managed by complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design-principles.html#managing-the-complexity">Managing the complexity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#low-level-image-processing">Low-level image processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#basic-methods-of-image-segmentation">Basic methods of image segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#document-image-decoding">Document Image Decoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#image-compression">Image Compression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#simple-document-image-applications">Simple Document Image Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#complex-document-applications-using-segmentation">Complex Document Applications using Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#papers-by-luc-vincent">Papers by Luc Vincent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html#comprehensive-bibliography">Comprehensive bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#aug-10">1.66 &#8211; 3 Aug 10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#apr-10">1.65 &#8211; 5 Apr 10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#jan-10">1.64 &#8211; 3 Jan 10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#nov-09">1.63 &#8211; 8 Nov 09</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#jul-09">1.62 &#8211; 26 Jul 09</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#apr-09">1.61 &#8211; 26 Apr 09</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#jan-09">1.60 &#8211; 19 Jan 09</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#id1">1.59 &#8211; 11 Jan 09</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#earlier-versions">Earlier Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">The Leptonica Image Processing Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="README.html" title="README"
+             >next</a></li>
+        <li class="right" >
+          <a href="../index.html" title="Leptonica v1.67 Documentation"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

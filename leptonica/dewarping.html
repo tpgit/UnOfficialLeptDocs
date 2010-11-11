@@ -1,0 +1,292 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Dewarping Text Pages &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Applications" href="applications.html" />
+    <link rel="next" title="Measuring the Skew of Document Images" href="skew-measurement.html" />
+    <link rel="prev" title="Removing dark lines from a light pencil drawing" href="line-removal.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="skew-measurement.html" title="Measuring the Skew of Document Images"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="line-removal.html" title="Removing dark lines from a light pencil drawing"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" accesskey="U">Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dewarping-text-pages">
+<span id="id1"></span><h1>Dewarping Text Pages<a class="headerlink" href="#dewarping-text-pages" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Aug 1, 2010</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="what-distortions-do-you-expect-with-camera-images">
+<h2>What distortions do you expect with camera images?<a class="headerlink" href="#what-distortions-do-you-expect-with-camera-images" title="Permalink to this headline">¶</a></h2>
+<p>If a picture of a flat page were taken at infinite distance, it would
+only require an affine transform to rectify it, and even that would
+only be necessary if the page were not perpendicular to the optic axis
+(OA) of the camera.</p>
+<p>Taking the same picture at a finite distance introduces various
+distortions, the most serious of which (the &#8220;fisheye&#8221; effect) causes
+horizontal and vertical lines to be curved. This can be corrected by
+calibrating the disparity, using an image of a flat page on which
+horizontal and vertical lines are drawn. We define the <em>horizontal and
+vertical disparity fields</em>, as the components of a two-dimensional
+vector field that can be used to transform the camera image to the image
+that would be acquired from a camera at infinity. In that image, the
+lines would again be straight and perpendicular.</p>
+<p>A further complication occurs when the page bends (without stretching
+or folding) out of the plane perpendicular to the OA. Call the OA the
+&#8220;z-axis&#8221;. Then the bending of the page can be described by a scalar
+field Z(x,y), which is the position of the paper above or below a
+plane perpendicular to the OA. Let the origin (x = 0, y = 0) be the
+point where the OA intersects the page. Consider a page with thin
+horizontal lines. For a camera at &#8220;infinity&#8221;, these lines continue to
+appear straight if Z(x,y) is independent of y (e.g., bending around
+vertical lines), But if the camera is at a finite distance they will
+bend symmetrically about a vertical line (x = 0) that goes through the
+OA. For the general case with a camera at finite distance and Z
+depending on both x and y, a perfect dewarping of the image based on
+only horizontal lines in the page is not possible. But we can do
+fairly well with a very simple approach, described in the next
+section.</p>
+</div>
+<div class="section" id="how-do-you-dewarp-a-camera-image-based-on-text-lines">
+<h2>How do you dewarp a camera image based on text lines?<a class="headerlink" href="#how-do-you-dewarp-a-camera-image-based-on-text-lines" title="Permalink to this headline">¶</a></h2>
+<p>Intuitively, if you have a number of lines that are known to be
+horizontal when rectified, it is possible to generate a vertical
+disparity field V(x,y) that maps every point in the image to another
+point such that after all points are mapped, the lines are all
+straight. This is not unique, and in fact it is important that each
+line have a point where the x-derivative of the vertical disparity
+V(x,y) goes to zero. Call this point (x0,y0). Then each point (x,y) on
+the line gets mapped to (x,y0). So we know the value of V(x,y) on the
+points of each line.</p>
+<p>Then to get a smooth vertical disparity function V(x,y), we fit each
+line to a parametric curve. In most cases a quadratic will suffice;
+higher order fits tend to amplify outliers and printing defects. After
+the quadratic fit, the result is sampled at equally spaced intervals
+in x. Then for each value of x for which we have sampled disparities
+at several values of y, fit another quadratic, and sample that at
+equally spaced intervals in y. The result is a smoothed V(x,y) at
+equally spaced intervals in both x and y. Now interpolate, equivalent
+to up-scaling, to get the disparity values at all points (x,y). After
+mapping, all the lines should be horizontal.</p>
+<p>What about the horizontal disparity? We used a very simple model for
+H(x,y) == H(x), independent of y and based on the difference in
+vertical disparity at the top and bottom. See the description in the
+code header in <span class="filesystem">dewarp.c</span> for details.</p>
+</div>
+<div class="section" id="example-showing-images-and-disparity-fields">
+<h2>Example showing images and disparity fields<a class="headerlink" href="#example-showing-images-and-disparity-fields" title="Permalink to this headline">¶</a></h2>
+<p>This example is taken from <span class="filesystem">prog/dewarptest.c</span>, and the images were
+computed there. We start with image <span class="filesystem">1555-7.jpg</span>. After doing background
+normalization and binarization, we get this image:</p>
+<div align="center" class="align-center"><img alt="Initial Image" class="border align-center" src="../_images/dewarp-initial.png" /></div>
+<p>We then find the centers of the textlines and do a least squares
+quadratic fit to the longest of them:</p>
+<div align="center" class="align-center"><img alt="Textline Centers" class="border align-center" src="../_images/dewarp-fitted-lines.png" /></div>
+<p>The short, randomly-colored segments (where they are not obliterated
+by the green overlay) show the initial estimate of the vertical center
+of each component. The green lines show the quadratic fit over the
+full textline. The three lines that are shorter than 0.8 of the
+maximum line length are not fitted.</p>
+<p>The contours of constant vertical disparity, calculated from these
+smoothed lines, and the dewarped result on the input image after
+applying the vertical disparity, are:</p>
+<div align="center" class="align-center"><img alt="Contours of constant vertical disparity" class="border align-center" src="../_images/dewarp-vert-disparity.jpg" /></div>
+<p>The horizontal disparity field is then applied to this image. The
+field and the final result are:</p>
+<div align="center" class="align-center"><img alt="Horizontal disparity field and final image" class="border align-center" src="../_images/dewarp-horiz-disparity.jpg" /></div>
+<p>For this page the results look fairly ragged, but the baseline
+wobblyness is in the original, which was typeset in a very crude
+manner. There are still problems with the horizontal disparity because
+of our assumption of y-independence. In any event, I believe that we
+do not have the information available in the image to compute the
+horizontal disparity with much higher accuracy. This is a challenge to
+the reader: if you can figure out a way to find the horizontal
+disparity more accurately, let me know (and for extra credit send me
+the result).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="applications.html">Image Processing Applications</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Dewarping Text Pages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-distortions-do-you-expect-with-camera-images">What distortions do you expect with camera images?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-do-you-dewarp-a-camera-image-based-on-text-lines">How do you dewarp a camera image based on text lines?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-showing-images-and-disparity-fields">Example showing images and disparity fields</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="skew-measurement.html">Measuring the Skew of Document Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html">Color Quantization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html">Color Segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html">Border Representations of Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="document-image-analysis.html">Document Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html">Jbig2 Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/dewarping.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="skew-measurement.html" title="Measuring the Skew of Document Images"
+             >next</a></li>
+        <li class="right" >
+          <a href="line-removal.html" title="Removing dark lines from a light pencil drawing"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" >Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

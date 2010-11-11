@@ -1,0 +1,574 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image Rotation &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Operations" href="operations.html" />
+    <link rel="next" title="Affine Transformations (and cousins)" href="affine.html" />
+    <link rel="prev" title="Image Scaling" href="scaling.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="affine.html" title="Affine Transformations (and cousins)"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="scaling.html" title="Image Scaling"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="image-rotation">
+<span id="id1"></span><h1>Image Rotation<a class="headerlink" href="#image-rotation" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">March 18, 2006</td>
+</tr>
+</tbody>
+</table>
+<div class="contents local topic" id="contents">
+<ul>
+<li><p class="first"><a class="reference internal" href="#how-do-you-rotate-an-image-by-an-arbitrary-angle" id="id5">How do you rotate an image by an arbitrary angle?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#rotation-by-shear" id="id6">Rotation by Shear</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#rotation-by-area-mapping" id="id7">Rotation by Area Mapping</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#fast-rotation-by-area-mapping" id="id8">Fast rotation by Area Mapping</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#special-rotations-by-90-180-or-270-degrees" id="id9">Special rotations by 90, 180 or 270 degrees</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#degree-rotation" id="id10">180 degree rotation</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#id4" id="id11">90 degree rotation</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="how-do-you-rotate-an-image-by-an-arbitrary-angle">
+<h2><a class="toc-backref" href="#id5">How do you rotate an image by an arbitrary angle?</a><a class="headerlink" href="#how-do-you-rotate-an-image-by-an-arbitrary-angle" title="Permalink to this headline">¶</a></h2>
+<p>We provide two different methods for image rotation by an arbitrary
+angle. One is <em>rotation by shear</em> (RBS), which chooses the value of
+each dest pixel to be that of the source pixel closest to the location
+the dest pixel came from (i.e., before rotation). The second is
+<em>rotation by area mapping</em> (RBAM), which computes the value of each
+dest pixel from the 4 source pixels from which it was derived,
+suitably weighted by the actual overlap.</p>
+<p>RBS has flexibility and speed advantages over RBAM. First, RBS can be
+applied to images of arbitrary pixel depth, with no change in the
+algorithm. Second, because it is implemented with horizontal and
+vertical rasterops, an RBS is relatively fast &#8212; about 10 to 15 times
+faster than RBAM in our implementations. And third, RBS is easily
+implemented as an in-place operation, changing the pixel values of the
+source image directly.</p>
+<p>Of course, that&#8217;s not the entire story. For grayscale and color
+images, RBAM produces far better image quality than RBS. RBAM
+naturally blurs sharp edges (an effect often called &#8220;anti-aliasing&#8221;)
+so that stair-step &#8220;jaggie&#8221; artifacts are not introduced, as they can
+be in RBS. Also, for large angles where you must use 3 shears, RBS
+causes some extra clipping of pixels near the corners if the rotation
+is about the center and the dest image is the same size as the source.</p>
+<p>For applications where it is important not to lose any pixels due to
+rotation, we provide a high-level interface, <tt class="docutils literal"><span class="pre">pixRotate()</span></tt>, which
+embeds the src in a minimum-sized dest image so that no pixels will be
+lost.</p>
+</div>
+<div class="section" id="rotation-by-shear">
+<span id="id2"></span><h2><a class="toc-backref" href="#id6">Rotation by Shear</a><a class="headerlink" href="#rotation-by-shear" title="Permalink to this headline">¶</a></h2>
+<p>A good reference to RBS is <cite>A Fast Algorithm for General Raster
+Rotation</cite> by Alan Paeth in <cite class="compilation-title">Graphics Gems</cite>, p. 179,
+edited by Andrew Glassner, published by <cite class="publisher">Academic Press</cite>,
+1990.</p>
+<p>The mathematics of the rotation of a continuous image (i.e., an image
+with infinitesimally small pixels) using horizontal and vertical
+shears is simple. A horizontal shear moves a row of image pixels a
+horizontal distance that is proportional to its vertical distance from
+some reference point. A succession of 3 alternating horizontal and
+vertical shears can be used to rotate an image perfectly by any angle.
+For rotation by small angles of 0.05 radians (about 3 degrees) or
+less, rotation can be performed using only 2 shears. Expressing the
+rotation angle in radians, this 2-shear rotation induces a distortion
+in the rotated image that is a change in the length to width ratio of
+the amount:</p>
+<pre class="literal-block">
+delta(length/width) = 0.5 * angle<sup>2</sup>
+</pre>
+<p>For an angle of 0.05 radians, this is about 1 part in a thousand, which
+is typically not something you&#8217;d worry about. For larger angles, 3
+shears are required. The details of the shear angles required for 2 and
+3 shear rotation are given in <span class="filesystem">rotateshear.c</span>.</p>
+<p>In-place rotation is performed by in-place shears. For a horizontal
+in-place shear, each pixel row is translated to the left or right by
+some number of pixels. Typically, several rows are translated together,
+and <em>the pixels that are not over-written are filled in</em>. A similar up
+or down translation of pixel columns is used for vertical in-place
+shears. For shear, we give two choices for the color of the filling
+pixels: white and black. (Henry Ford only offered black.) The &#8220;jaggies&#8221;
+at sharp boundaries are visible because images are composed of pixels of
+finite size, arranged on a square lattice. They arise because the two
+and three shear rotations are nearest-pixel approximations to continuous
+rotations.</p>
+<p>An interesting result is obtained using a sequence of in-place rotations
+with the same angle. The distortions introduced due to the finite pixel
+size accumulate, resulting in a nearly random pixel diffusion if
+repeated many times. For example, suppose you rotate an image six full
+revolutions (2160 degrees) using 180 rotations of 12 degrees each. The
+result is an image that is &#8220;encrypted&#8221; because of the pixel diffusion;
+everything is blurred and a text image is not readable. However, if you
+then <em>unwind</em> the image with 180 rotations of 12 degrees in the opposite
+direction, you obtain the original image. Well, not quite. You get a
+part of the image &#8212; a circular subimage that is equal in size to the
+largest inscribed circle, with the circle center at the center of
+rotation, that fits within the original boundaries of the image. You can
+try this yourself, using <span class="filesystem">prog/rotatetest1.c</span> with the above parameters
+on the image <span class="filesystem">test24.jpg</span>. See what you get. You can then recover the
+central part of the original image by unscrambling the &#8220;encrypted&#8221; image
+using an angle of -12.0 degrees. If you want to regain the entire image,
+it is necessary before &#8220;encrypting&#8221; to first embed the original in a
+larger rectangle that would contain the full rotated image at every
+angle it is rotated through.</p>
+<p>Because the underlying operation is rasterops, RBS works on images of
+all depths, with or without color mapping. Speed plus flexibility, plus
+the ability to rotate in-place, make RBS of ubiquitous importance. The
+number of pixels/sec that can be rotated by RBS is inversely
+proportional to the pixel depth. RBS rotates bits at a rate of about 1
+bit in 3 machine cycles. On a 3 GHz machine, a 1 bpp image is thus
+rotated at about 1 billion pixels/sec, and an 8 bpp image is rotated at
+about 120 million pixels/sec.</p>
+</div>
+<div class="section" id="rotation-by-area-mapping">
+<span id="id3"></span><h2><a class="toc-backref" href="#id7">Rotation by Area Mapping</a><a class="headerlink" href="#rotation-by-area-mapping" title="Permalink to this headline">¶</a></h2>
+<p>RBAM is limited in application to situations where you have an 8 bpp
+grayscale or a 24 bpp rbg image, you want the best quality rotated
+image, and you can sacrifice some speed for quality. On current
+computers, speed may not be an issue, as RBAM can rotate 24 bpp rgb
+images at a rate of about 1 pixel in 200 machine cycles (about 15
+million pixels/sec on a 3 GHz machine).</p>
+<p>Area mapping works as follows. For each dest pixel you find the 4
+source pixels that it partially covers. You then compute the dest
+pixel value as the area-weighted average of those 4 source pixels. We
+make two simplifying approximations:</p>
+<ul>
+<li><p class="first">The areas are computed as if the dest pixel were translated but not
+rotated.</p>
+</li>
+<li><p class="first">The overlap area is computed on a discrete subpixel grid. Because we
+are using 8 bpp images with 256 levels, it is convenient to break each
+pixel into a 16x16 sub-pixel grid, and count the number of overlapped
+sub-pixels.</p>
+</li>
+</ul>
+<div align="center" class="align-center"><img alt="Area Mapping" class="border align-center" src="../_images/area-mapping.jpg" /></div>
+<p>In the figure, f<sub>i,j</sub> is the value of the source pixel whose UL
+corner is at the location [i,j] indicated. Pixel vertices are labelled
+in standard [row,column] matrix notation. Coordinate values increase
+as you move down and to the right, which is the standard for image
+processing. Four source pixels are shown, each with their pixel value
+labeled in its UL corner. Each source pixel is subdivided into NxN
+subpixels; we show the subdivision only on one of the pixels. We want
+to determine the value of the dest pixel whose UL corner is at
+location V, which has coordinates x and y, in subpixel units, relative
+to the UL corner of the upper-left source pixel. Taking the
+contributions from the four source pixels in the order UL, UR, LL, LR,
+the normalized average of the destination pixel, using area averaging,
+is:</p>
+<pre class="literal-block">
+Dest pixel value = (1/N<sup>2</sup>) [(N - x)(N - y)f<sub>i,j</sub> + x(N - y)f<sub>i,j+1</sub> + y(N - x)f<sub>i+1,j</sub> + xyf<sub>i+1,j+1</sub>]
+</pre>
+<p>This is the same digital filter that is obtained for <em>linear
+interpolation when arbitrarily scaling grayscale images</em>!</p>
+</div>
+<div class="section" id="fast-rotation-by-area-mapping">
+<h2><a class="toc-backref" href="#id8">Fast rotation by Area Mapping</a><a class="headerlink" href="#fast-rotation-by-area-mapping" title="Permalink to this headline">¶</a></h2>
+<p>For RGB color images, area mapping interpolation can be slightly sped up
+(by about 10 to 20 percent) using 4x subsampling (i.e., 16 subpixels),
+inlining the code for the area mapping for each of the 16 cases, and
+using the accurate coefficients for the linear interpolation. The
+constants sum to a power of 2, allowing fast division. (We incorporate
+the division into the re-positioning of each of the R, G and B
+components into the destination pixel, so it takes no extra time.) As
+usual, all operations are done on 32-bit quantities using
+multiplication, addition and shift.</p>
+<p>For most applications, the loss in accuracy (relative to the 16 x 16
+subpixel version) is minimal, and the rotation speed for RGB images on
+a 3 GHz processor is about 18 million pixels/second.</p>
+</div>
+<div class="section" id="special-rotations-by-90-180-or-270-degrees">
+<h2><a class="toc-backref" href="#id9">Special rotations by 90, 180 or 270 degrees</a><a class="headerlink" href="#special-rotations-by-90-180-or-270-degrees" title="Permalink to this headline">¶</a></h2>
+<p>For <em>orthogonal</em> rotations of 90, 180 or 270 degrees, no interpolation
+is necessary. They can be done by shears if the image is first embedded
+at the center of a sufficiently larger image, so that no pixels are lost
+when they are sheared. But it is also quite simple to do these rotations
+by remapping the pixel locations &#8212; choosing the source pixel that
+corresponds to each dest pixel and setting the dest pixel to that value
+&#8212; and that is the method used here. Orthogonal rotations can be
+checked by doing them consecutively four times (two times is sufficient
+for the 180 degree rotation) and comparing the result with the
+source. This comparison is easily done using an XOR between the result
+and source images, and verifying that the result is &#8220;zero&#8221;; i.e., there
+are no ON pixels.</p>
+<div class="section" id="degree-rotation">
+<h3><a class="toc-backref" href="#id10">180 degree rotation</a><a class="headerlink" href="#degree-rotation" title="Permalink to this headline">¶</a></h3>
+<p>These are conceptually very simple: each raster line is reversed,
+<em>pixel-wise</em>, and the lines are exchanged about the midline of the
+image. The implementation is thus cleanest as a sequence of two
+functions: <tt class="docutils literal"><span class="pre">pixRotateLR()</span></tt> and <tt class="docutils literal"><span class="pre">pixRotateTB()</span></tt> For the left-right
+flip, the pixel access functions allow us to do this trivially. When
+using these access functions, we do not use the SET function unless the
+value returned from the GET function is nonzero. Therefore, not all the
+dest pixels will be written, so <em>the dest image must be cleared prior to
+the operation</em>. It is appropriate to clear the dest in the high-level
+code.</p>
+<p>Let&#8217;s look at the low-level part of the left-right shift operation in
+more detail. For image depth &lt; 8 bpp, it is more efficient to extract
+bytes and use a lookup table to reverse the pixels in the byte. This is
+particularly important for binary images. However, because each raster
+line begins on a 32-bit word boundary, but does not necessarily end on
+one, before selecting the bytes for reversal, we must <em>right-justify</em>
+the raster lines on the 32-bit word boundaries. This is most easily done
+by shifting the entire image as a block, using an in-place horizontal
+rasterop. The code for a binary image is:</p>
+<blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">extra</span> <span class="o">=</span> <span class="n">w</span> <span class="o">&amp;</span> <span class="mi">31</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">extra</span><span class="p">)</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">-</span> <span class="n">extra</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">shift</span><span class="p">)</span>
+    <span class="n">rasteropHipLow</span><span class="p">(</span><span class="n">datas</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">wpls</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">shift</span><span class="p">);</span>
+
+<span class="n">databpl</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span> <span class="o">/</span> <span class="mi">8</span><span class="p">;</span>
+<span class="n">bpl</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">datas</span> <span class="o">+</span> <span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
+    <span class="n">lined</span> <span class="o">=</span> <span class="n">datad</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">wpld</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">databpl</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">=</span> <span class="n">GET_DATA_BYTE</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">bpl</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">j</span><span class="p">))</span>
+            <span class="n">SET_DATA_BYTE</span><span class="p">(</span><span class="n">lined</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">tab</span><span class="p">[</span><span class="n">val</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">shift</span><span class="p">)</span>
+    <span class="n">rasteropHipLow</span><span class="p">(</span><span class="n">datas</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">wpls</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">shift</span><span class="p">);</span>
+</pre></div>
+</div>
+</blockquote>
+<p>The second rasterop restores the source to its normal left-justification
+on word boundaries. The table supplied here reverses the bits in a
+byte. For a 2 bpp image, a different table that reverses the four 2-bit
+pixels within a byte must be used. Note that as mentioned above, if the
+value of the byte is 0, we do not bother to write its reversed value to
+the dest. Such tests before setting are particularly useful with binary
+images of scanned text, where most of the image is background (white)
+and the majority of bytes have zero value. This rotates each binary
+pixel in about 5 machine cycles.</p>
+</div>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id11">90 degree rotation</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>The 90 degree rotation can be either clockwise (cw) or counter-clockwise
+(ccw). We specify the direction (1 for cw, -1 for ccw) in the function
+call.</p>
+<p>The 90 degree rotation, like the 180 rotation, is conceptually
+trivial: we scan pixels in the source and copy them to the dest. As
+with the 180 degree rotation, the dest must be cleared in advance. In
+our high-level code, this is implicit because the dest is always
+<tt class="docutils literal"><span class="pre">calloc</span></tt>\&#8217;&#8216;d. It&#8217;s usually convenient to organize the two loops by
+considering the scan for the dest pixels, and one needs to decide in
+which direction is to be the <em>fast scan</em>. If we&#8217;re simply plucking
+pixels from the source, it doesn&#8217;t really matter. Either the source or
+the dest will have a fast scan direction jumping through the image
+data. This will cause secondary cache misses, resulting in main memory
+fetches, but it&#8217;s not too serious and takes some effort to ameliorate.</p>
+<p>Choosing the fast direction in the dest to be horizontal, for cw
+rotation we have the following simple algorithm:</p>
+<blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hd</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lined</span> <span class="o">=</span> <span class="n">datad</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">wpld</span><span class="p">;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">datas</span> <span class="o">+</span> <span class="p">(</span><span class="n">wd</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">wd</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">GET_DATA_BIT</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+            <span class="n">SET_DATA_BIT</span><span class="p">(</span><span class="n">lined</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
+        <span class="n">lines</span> <span class="o">-=</span> <span class="n">wpls</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</blockquote>
+<p>In the following drawing, the arrows show the first line scanned in
+the fast scan direction in the source and dest images. I always let
+the index <em>i</em> label the dest rows; <em>i</em> is in the outer loop because it
+is the slow scan direction. The fast scan direction, <em>j</em>, labels the
+dest columns and the source rows.</p>
+<div align="center" class="align-center"><img alt="Fast scan destination row" class="border align-center" src="../_images/fast-scan-dest-row.jpg" /></div>
+<p>However, particularly for binary images that have mostly OFF pixels,
+the fast scan direction through the <em>source</em> image matters, because we
+can eliminate all computation related to any source byte or word that
+is 0. Therefore, we want the fast scan in the source to be horizontal
+(i.e., by rows); this requires the fast scan in the dest to be by
+columns:</p>
+<blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">wd</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lined</span> <span class="o">=</span> <span class="n">datad</span><span class="p">;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">datas</span> <span class="o">+</span> <span class="p">(</span><span class="n">wd</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hd</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">GET_DATA_BIT</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+            <span class="n">SET_DATA_BIT</span><span class="p">(</span><span class="n">lined</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
+        <span class="n">lined</span> <span class="o">+=</span> <span class="n">wpld</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</blockquote>
+<p>This is illustrated as follows:</p>
+<div align="center" class="align-center"><img alt="Fast scan source row" class="border align-center" src="../_images/fast-scan-source-row.jpg" /></div>
+<p>Note that the index labels <em>i</em> and <em>j</em> have been switched from the
+previous algorithm, because the slow-scan outer loop <em>j</em> labels the
+dest columns, and the fast-scan inner loop <em>i</em> labels the dest rows.</p>
+<p>To take advantage of situations where most pixels in binary images are
+OFF, we must scan through the source in units larger than bits so that
+we can easily test them. Two obvious choices are bytes and 32-bit
+words. With bytes, it takes more work to make a decision, but because
+of the smaller granularity, more bytes (in total) will be eliminated.
+However, with typical images, it is more efficient to use 32-bit
+chunks, and we do that as follows:</p>
+<blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">nswords</span> <span class="o">=</span> <span class="n">hd</span> <span class="o">/</span> <span class="mi">32</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">wd</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lined</span> <span class="o">=</span> <span class="n">datad</span><span class="p">;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">datas</span> <span class="o">+</span> <span class="p">(</span><span class="n">wd</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">nswords</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">word</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">lined</span> <span class="o">+=</span> <span class="mi">32</span> <span class="o">*</span> <span class="n">wpld</span><span class="p">;</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="n">iend</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">*</span> <span class="n">k</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">iend</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="n">m</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">word</span> <span class="o">&lt;&lt;</span> <span class="n">m</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x80000000</span><span class="p">)</span>
+                    <span class="n">SET_DATA_BIT</span><span class="p">(</span><span class="n">lined</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
+                <span class="n">lined</span> <span class="o">+=</span> <span class="n">wpld</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">*</span> <span class="n">nswords</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hd</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">GET_DATA_BIT</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+            <span class="n">SET_DATA_BIT</span><span class="p">(</span><span class="n">lined</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
+        <span class="n">lined</span> <span class="o">+=</span> <span class="n">wpld</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</blockquote>
+<p>This is just an elaboration of the previous pixel-plucking code, but it
+is typically <em>about 4 times faster</em>, rotating each pixel in about 7
+machine cycles on average. We find the number of full 32-bit words in
+the source line, and march over them. Each source word is checked. If 0
+it is skipped in its entirely; this alone reduces computation by about a
+factor of 2.5. Otherwise each of the 32 bits is tested and, if 1, is set
+in the dest. We get another reduction factor of about 1.5 by shifting
+and masking the word, rather than using <tt class="docutils literal"><span class="pre">GET_DATA_BIT(lines,</span>
+<span class="pre">i)</span></tt>. Finally, for each source image line, a scan is made over any
+source bits not contained in a full 32-bit word.</p>
+<p>We can actually make the binary 90 degree rotation arbitrarily
+complicated. For example, to avoid pixel-plucking, by brute force you
+can write an inner loop with lookup tables to rotate each 8x8 block of
+pixels separately. Using 8 bit lookup tables, for each 8x8 block of
+pixels, you need to extract 8 bytes from the source, construct 8
+addresses from these bytes, perform 8 table lookups (each one generating
+a 32 bit word corresponding to 4 of the 8 dest bytes), XOR the 32-bit
+words in groups of 4 to get the 8 rotated destination bytes in two
+32-bit words, and then set these bytes in the proper location in the
+dest image. It&#8217;s not at all evident that such shenanigans are worth the
+effort!</p>
+<p>In summary, there are a few &#8220;angles&#8221; to rotation. RBS has flexibility
+and speed. RBAM has accuracy, and for efficiency requires specific
+implementations for each depth. Fortunately, RBAM can be made
+surprisingly fast with relatively simple implementations. The orthogonal
+rotations (90, 180, 270 degrees) have special implementations for each
+depth. The 180 rotation is a combination of left-right and top-bottom
+flips, with the latter being trivial and depth-independent.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html">Grayscale Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html">Fast Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html">Image Scaling</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Image Rotation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-do-you-rotate-an-image-by-an-arbitrary-angle">How do you rotate an image by an arbitrary angle?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rotation-by-shear">Rotation by Shear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rotation-by-area-mapping">Rotation by Area Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fast-rotation-by-area-mapping">Fast rotation by Area Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#special-rotations-by-90-180-or-270-degrees">Special rotations by 90, 180 or 270 degrees</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html">Grayscale and Color Image Enhancement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html">Grayscale Mapping and Binarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/rotation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="affine.html" title="Affine Transformations (and cousins)"
+             >next</a></li>
+        <li class="right" >
+          <a href="scaling.html" title="Image Scaling"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,303 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quickstart &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Leptonica &amp; Visual Studio 2008" href="index.html" />
+    <link rel="next" title="Downloading leptonlib pre-built binaries and header files for Windows" href="downloading-binaries.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="downloading-binaries.html" title="Downloading leptonlib pre-built binaries and header files for Windows"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="quickstart">
+<span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>Using <span class="filesystem">leptonlib</span> on Windows is now very easy, given that you no longer
+need to build the library (and more importantly the supporting image
+libraries) yourself. This page discusses the basics.</p>
+<div class="section" id="getting-leptonlib">
+<h2>Getting <span class="filesystem">leptonlib</span><a class="headerlink" href="#getting-leptonlib" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s the items you need to get:</p>
+<ol class="arabic">
+<li><p class="first">Download the <a class="reference external" href="http://www.leptonica.com/download.html#VS2008">latest version</a> of the <span class="filesystem">leptonlib</span>
+<a class="reference internal" href="downloading-binaries.html"><em>pre-built binaries for Windows archive</em></a>
+and extract it to a directory of your choice (here called
+<span class="filesystem">BuildFolder</span>).</p>
+</li>
+</ol>
+<p>Strictly speaking the <span class="filesystem">leptonlib</span> sources aren&#8217;t needed to build
+applications that use <span class="filesystem">leptonlib</span> but the <span class="filesystem">src</span> and <span class="filesystem">prog</span> directories
+are the best way to learn how to call Leptonica functions. It also has a
+number of test programs and images that are useful. So . . .</p>
+<ol class="arabic" start="2">
+<li><p class="first">Download the latest version of leptonica from <a class="reference external" href="http://www.leptonica.com/download.html">here</a> and also extract it to
+<span class="filesystem">BuildFolder</span>.</p>
+</li>
+</ol>
+<p>Downloading the VS2008 build package will make life easier if you plan
+on using the Visual Studio 2008 IDE to write programs that use
+<span class="filesystem">leptonlib</span>. This is highly recommended since the Visual Studio
+<a class="reference internal" href="building-other-programs.html#intellisense-and-leptonlib"><em>Intellisense</em></a> code-completion feature
+works very nicely for figuring out how to call the multitudinous
+Leptonica functions.</p>
+<ol class="arabic" start="3">
+<li><p class="first">Download the Microsoft Visual Studio 2008 build package from <a class="reference external" href="http://www.leptonica.com/download.html#VS2008">here</a>. Extract the
+archive to the <span class="filesystem">BuildFolder\leptonlib-</span><span class="filesystem">1.67</span> directory. You
+should now have:</p>
+</li>
+</ol>
+<pre class="literal-block">
+BuildFolder\
+  include\
+  leptonlib-1.67\
+    vs2008\
+      prog_projects\
+  lib\
+</pre>
+<ol class="arabic" start="4">
+<li><p class="first">In addition, you&#8217;ll eventually have to install the <a class="reference internal" href="installing-cygwin.html"><em>core cygwin
+utilities</em></a> which various parts of <span class="filesystem">leptonlib</span>
+assume you have; <a class="reference internal" href="installing-irfanview.html"><em>IrFanview</em></a>, if you want
+to automatically view Leptonica generated images; and <a class="reference internal" href="installing-gnuplot.html"><em>gnuplot</em></a> to view Leptonica generated plots.</p>
+<p>You can skip this step for simple programs, but you&#8217;ll probably
+eventually need to get all three.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="building-hello-leptonlib">
+<span id="id2"></span><h2>Building <span class="filesystem">&#8220;Hello, leptonlib&#8221;</span><a class="headerlink" href="#building-hello-leptonlib" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to use <span class="filesystem">leptonlib</span> is by linking with the DLL
+version. Here&#8217;s a simple example of building a program that just prints
+out the <span class="filesystem">leptonlib</span> library&#8217;s version numbers:</p>
+<ol class="arabic">
+<li><p class="first">Open a <em class="guilabel">Visual Studio 2008 Command Prompt</em> Window and
+switch to the <span class="filesystem">BuildFolder\leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\vs2008\prog_projects</span> directory.</p>
+</li>
+<li><p class="first">Create a new directory called <span class="filesystem">hellolept</span> and create <span class="filesystem">hellolept.c</span>
+there with the following contents:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cm">/* The only leptonica header file you normally need to include: */</span>
+<span class="cp">#include &quot;allheaders.h&quot;</span>
+
+<span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;leptonlib version:</span><span class="se">\n</span><span class="s">%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">getLeptonlibVersion</span><span class="p">());</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;image library versions:</span><span class="se">\n</span><span class="s">%s&quot;</span><span class="p">,</span> <span class="n">getImagelibVersions</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Compile and link <span class="filesystem">hellolept.c</span>:</p>
+<div class="highlight-none"><div class="highlight"><pre>cl /O2 /I &quot;..\..\..\..\include&quot; /I &quot;..\..\..\..\include\leptonica&quot; /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /D &quot;_CONSOLE&quot; /FD /EHsc /MD hellolept.c /link /LIBPATH:&quot;..\..\..\..\lib&quot; leptonlib.lib
+</pre></div>
+</div>
+</li>
+<li><p class="first">You should see the following:</p>
+<div class="highlight-none"><div class="highlight"><pre>Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 15.00.30729.01 for 80x86
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+hellolept.c
+Microsoft (R) Incremental Linker Version 9.00.30729.01
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:hellolept.exe
+/LIBPATH:..\..\..\..\lib
+leptonlib.lib
+hellolept.obj
+</pre></div>
+</div>
+</li>
+<li><p class="first">In order to execute <span class="filesystem">hellolept.exe</span> Windows needs to be able to find
+<span class="filesystem">leptonlib.dll</span> somewhere in its <span class="filesystem">PATH</span>:</p>
+<div class="highlight-none"><div class="highlight"><pre>set path=..\..\..\..\lib;%PATH%
+</pre></div>
+</div>
+</li>
+<li><p class="first">Now execute <span class="filesystem">hellolept</span> and you should see:</p>
+<div class="highlight-none"><div class="highlight"><pre>leptonlib version:
+leptonlib-1.66 (Aug  4 2010, 14:58:38) [MSC v.1500 DLL Release 32 bit]
+image library versions:
+libgiff 4.1.6
+libjpeg 8b
+libpng 1.4.3
+libtiff 3.9.4
+zlib 1.2.5
+</pre></div>
+</div>
+</li>
+</ol>
+<p>If you instead want to link with the static library version of
+<span class="filesystem">leptonlib</span>, you have to also link with all the image libraries. Here&#8217;s
+the command line to do that:</p>
+<div class="highlight-none"><div class="highlight"><pre>cl /O2 /I &quot;..\..\..\..\include&quot; /I &quot;..\..\..\..\include\leptonica&quot; /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /D &quot;_CONSOLE&quot; /FD /EHsc /MD hellolept.c /link /LIBPATH:&quot;..\..\..\..\lib&quot; zlib-static-mtdll.lib libpng-static-mtdll.lib libjpeg-static-mtdll.lib libtiff-static-mtdll.lib giflib-static-mtdll.lib leptonlib-static-mtdll.lib
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../leptonica/index.html">The Leptonica Image Processing Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Leptonica &amp; Visual Studio 2008</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Quickstart</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-leptonlib">Getting <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-hello-leptonlib">Building <span class="filesystem">&#8220;Hello, leptonlib&#8221;</span></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="directory-organization.html">Directory organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-prog-dir.html">Building the <span class="filesystem">prog</span> directory programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="versions.html">Version Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/vs2008/quickstart.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="downloading-binaries.html" title="Downloading leptonlib pre-built binaries and header files for Windows"
+             >next</a></li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

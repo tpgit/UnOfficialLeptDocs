@@ -1,0 +1,399 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Byte Addressing for Efficiency and Portability &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="What is “Well-Tested” C Code?" href="testing-methods.html" />
+    <link rel="prev" title="Jbig2 Classifier" href="jbig2.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="testing-methods.html" title="What is “Well-Tested” C Code?"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="jbig2.html" title="Jbig2 Classifier"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="byte-addressing-for-efficiency-and-portability">
+<span id="byte-addressing"></span><h1>Byte Addressing for Efficiency and Portability<a class="headerlink" href="#byte-addressing-for-efficiency-and-portability" title="Permalink to this headline">¶</a></h1>
+<p>Because the <strong>Leptonica</strong> library is designed to work efficiently and
+transparently on both big-endian and little-endian machines, the
+relation between the byte order and the image pixels must be handled
+properly. Unlike computer languages or visual editors, this is not a
+religious issue. It may also be unfamiliar to people in the image
+processing community who have not tried to write <em>efficient image
+processing algorithms on binary packed images for both endian
+architectures</em>.</p>
+<p>All hardware allows byte addressing. If we didn&#8217;t care about efficiency,
+and had no grayscale images with pixel depth greater than 8, we could
+simply address all image data by byte. The byte order would increment in
+left-to-right scan order, and from top to bottom.  We could then write
+and read image data, completely oblivious to the underlying byte order
+maintained within the machine for multi-byte data types (16-bit and
+32-bit quantities).</p>
+<p>If all processors were big-endian, like the Motorola and Sun hardware,
+you wouldn&#8217;t even be reading this. However, long ago, sometime soon
+after the beginning of the computer age, Intel&#8217;s engineers decided to
+use a little-endian numbering scheme for bytes within a 32-bit word.
+Little-endian numbering seems to be a reasonable ordering: the least
+significant byte in a 32 bit word is byte 0. But this can cause problems
+for efficient image processing applications.</p>
+<p>I visualize byte ordering and the hardware as follows. For all machines,
+32-bit words are held in 32-bit registers where the MSbit is on the left
+and the LSbit is on the right. Left and right shifts apply to these
+32-bit words. For example, right shifts will move some bits off the
+right (LS) end of the word. The only difference between endians is that
+for byte addressing, the two machines choose different bytes out of the
+32-bit words.</p>
+<p>This situation, where two different conventions are cognitively very
+different but both widely used, is similar to the vexing problem of
+units in electromagnetism. There are two widely-used units: <em>gaussian</em>
+and <em>rationalized mks</em>. I prefer the former for many reasons: electric
+and magnetic fields have the same units and are treated symmetrically;
+the speed of light is explicit, showing the covariance of the equations
+under Lorentz transformation because time is always multiplied by c and
+particle velocity (e.g., currents) are always divided by c; the units of
+magnetization <strong>M</strong>, magnetic induction <strong>B</strong> and field intensity <strong>H</strong>
+are all the same; capacitance has units of distance rather than farad,
+showing directly that the capacitance of a sphere is proportional to the
+radius; etc. But for practical calculations in electromagnetism with
+dielectrics and magnetically permeable materials, one has to use both
+sets of units and the relations between them.</p>
+<p>Back to image processing. For efficient calculations on images of all
+pixel sizes, including 16 bit pixels, we want to handle the data in
+the largest units possible; namely, the 32 bit machine word. We need
+to shift multiple pixels simultaneously, to the left and right (also
+up and down, but that&#8217;s easy). When we shift pixels within words and
+across word boundaries, as is done with rasterop, we require that the
+shifted pixels maintain the same logical relation to their neighbors.
+(Of course, when pixels are shifted between 32-bit words, we have to
+do all the bookkeeping; the hardware just handles the shift within
+words.) There are two ways to do this: one simple and intuitive; the
+other very strange. In <strong>Leptonica</strong>, we have chosen the simple,
+intuitive way. The image is represented in 32-bit words, and the bits
+in each 32-bit word correspond to image location, from left to right,
+as follows:</p>
+<div class="highlight-none"><div class="highlight"><pre>              MSB       2nd MSB    3rd MSB     LSB
+            xxxxxxxx | xxxxxxxx | xxxxxxxx | xxxxxxxx
+
+Big-endian     0           1         2          3
+Little-endian  3           2         1          0
+</pre></div>
+</div>
+<p>Then, when 32-bit units are shifted, bits flow properly between
+pixels. We can describe this situation by saying that <em>for each 32-bit
+word, the bytes must be arranged in memory such that the MSB corresponds
+to the left-most image byte, and the less significant bytes follow to
+the right</em>. When the pixels are arranged this way, the byte order of the
+underlying hardware is transparent for memory operations that only
+address the entire 32-bit word.</p>
+<p>Rasterops, and many other 32-bit based operations, use this organization
+to handle image pixels correctly, regardless of the pixel depth (bpp).</p>
+<p>However, endian differences become apparent when we address pixels in
+sub-word quantities &#8212; such as 1 bpp (bits), 4 bpp (nybbles), 8 bpp
+(bytes) or 16 bpp (short ints) &#8212; or when we read to or write from files.</p>
+<p>For addressing bytes or short ints, using the above memory organization,
+we get the expected left-to-right incrementing of data for big-endians,
+but bytes within a word go backward for little-endians. These are
+handled by the access macros in <span class="filesystem">arrayaccess.h</span>, that compile
+differently on big-endian and small-endian machines. The 32-bit words
+are cast to 8 or 16 bit pointers. For big-endian machines, the pixels
+are accessed directly by index, whereas for little-endians, the index is
+XORed with a small integer to handle the reversed byte order.</p>
+<p>Macros in <span class="filesystem">arrayaccess.h</span> are also available to extract individual
+binary pixels from the indexed 32-bit words. This is done in a manner
+that is independent of the machine endian-ness, again by virtue of the
+MSB-to-LSB byte ordering in the data array.</p>
+<p>For writing and reading from files, the bytes are emitted and absorbed
+in byte order determined by the machine. In order to be able to read
+images written by any machine, conventions must be set relating the byte
+order in the file stream to the byte order in the image. Because BMP is
+a PC image file format, the header is written in little-endian order. On
+the other hand, tiff allows the multi-byte header data to be written in
+either order: the first two bytes are either &#8220;MM&#8221; or &#8220;II&#8221;, designating
+big-endian (Motorola) or little-endian (Intel), respectively. The image
+data is always written such that the byte stream represents the image in
+left-to-right pixel order. That is why for little-endians we must flip
+the bytes in each word to get it into MSB-to-LSB order.</p>
+<p>A summary of the byte ordering conventions in the <strong>Leptonica</strong> library,
+including the convention for the RGBA samples in a 32-bit color pixel,
+is given in <span class="filesystem">pix.h</span>.</p>
+<p>If you are still a bit confused by all this, do not despair. Read on.</p>
+<p>Consider two 32-bit words (8 bytes) in a 1 bpp image with binary packed
+data. We describe <em>three</em> byte orderings within each word: internal byte
+ordering; byte ordering as the image pixels go from left to right;
+internal byte ordering as wired within words for left-right shifts. The
+first and and third lines are always the same, because shifts are 32-bit
+word based, so they move the bits across byte boundaries exactly as they
+appear in the internal byte order.</p>
+<p>First, suppose the machine is big-endian. The three orderings are as
+follows:</p>
+<div class="highlight-none"><div class="highlight"><pre>                       xx | xx | xx | xx | xx | xx | xx | xx
+Internal byte order     0    1    2    3    4    5    6    7
+Image l/r byte order    0    1    2    3    4    5    6    7
+Internal shift order    0    1    2    3    4    5    6    7
+</pre></div>
+</div>
+<p>We have deliberately chosen the ordering of the middle line &#8212; the
+image pixels &#8212; to agree with the others (which are determined by the
+hardware). All three orderings are the same. You can address the bytes
+across the image from left to right with an increasing index, by
+virtue of the equivalence of the first two lines. And you can shift
+image pixels left or right in the image by shifting the bits in each
+word left or right, respectively, and by handling the bits transferred
+between words in an easily visualized way, by virtue of the last two
+lines. So you can see that if all machines were big-endian, life would
+be quite simple.</p>
+<p>Now consider the situation for little-endians. We have two choices for
+the image pixel ordering. The ordering we choose is:</p>
+<div class="highlight-none"><div class="highlight"><pre>                       xx | xx | xx | xx | xx | xx | xx | xx
+Internal byte order     3    2    1    0    7    6    5    4
+Image l/r byte order    3    2    1    0    7    6    5    4
+Internal shift order    3    2    1    0    7    6    5    4
+</pre></div>
+</div>
+<p>Because the image byte order and the internal byte order agree, <em>all
+operations with left or right shifts, such as rasterops, will be
+identical on big-endian and little-endian machines</em>. We don&#8217;t want to
+implement all functions with shifts two times, once for big-endians and
+once for little-endians! The penalty we pay on little-endians for this
+choice is that for access in less than 32-bit word chunks, the pixel
+order is scrambled. There is no penalty on big-endians.</p>
+<p>However, we could have made the opposite choice for both big- and
+little-endians; namely, to have the byte order within a word go from LSB
+to MSB as you traverse the image data from left to right within each
+word. For big-endians, we get this:</p>
+<div class="highlight-none"><div class="highlight"><pre>                       xx | xx | xx | xx | xx | xx | xx | xx
+Internal byte order     0    1    2    3    4    5    6    7
+Image l/r byte order    3    2    1    0    7    6    5    4
+Internal shift order    0    1    2    3    4    5    6    7
+</pre></div>
+</div>
+<p>which looks a bit crazy, because everything was just fine with the other
+image byte ordering. For little-endians, we get this:</p>
+<div class="highlight-none"><div class="highlight"><pre>                       xx | xx | xx | xx | xx | xx | xx | xx
+Internal byte order     3    2    1    0    7    6    5    4
+Image l/r byte order    0    1    2    3    4    5    6    7
+Internal shift order    3    2    1    0    7    6    5    4
+</pre></div>
+</div>
+<p>Because the internal hardwired shift order is different from the image
+data order, a left shift on image pixels requires a right shift, and,
+additionally, all 32-bit masks used with the other ordering must be
+bit-inverted. You can see why the shifts are reversed as follows.
+Suppose you want to shift the image to the right, so that 0 goes to 1
+and 3 goes to 4 in the middle line. The shift line shows you need <em>left</em>
+shifts to get byte 0 into byte 1 and byte 3 into byte 4. The excess bits
+that are left-shifted out of the first word from byte 3 go into the
+least significant bits of byte 4 in the second word.</p>
+<p>This is relatively hard for normal people to implement directly. If you
+want to use this image pixel ordering (LSB on left and MSB on right in
+the image), it is easiest to start with the <strong>Leptonica</strong>
+implementations and reverse all shifts and masks. Rasterops will then
+still work properly on both endians. On little-endians, you can access
+bytes directly from left to right in the image; however, on big-endians
+the bytes will now be scrambled.</p>
+<p>Still confused? Let&#8217;s try once more!</p>
+<p>For efficient image computation and endian independence you must do two
+things. The first is that you must allow shifting and masking on 32 bit
+words, and they must generate the same results. Consider 8 bpp
+images. Each word has 4 pixels, and you want them to be in the order
+from left-to-right in the word exactly as they are in the image. Then
+you can extract the left-most 8 bit pixel by right-shifting the word by
+24 bits, for example. It&#8217;s completely intuitive.</p>
+<p>The endian issue comes up when you try to address a specific 8-bit pixel
+in the 32-bit word. The simplest way to do this (conceptually) is to
+have the MSB at the left and the LSB at the right. Then not only do
+pixels shift properly within words, but they also flow in a natural way
+to adjacent words.</p>
+<p>Take the 4 pixels in a word. If we number them as they appear in the
+image, from 0 to 3 in left-to-right order, these 4 pixels can be
+visualized as:</p>
+<div class="highlight-none"><div class="highlight"><pre>0   1   2   3
+</pre></div>
+</div>
+<p>This corresponds exactly to big-endian numbering because byte 0 is the
+MSB in the word. To get pixel 13 in the scanline, just take the 13th
+byte in the data array for the line of the image. If all machines were
+big-endian, we wouldn&#8217;t even be having this discussion!</p>
+<p>However, on little-endian machines, these 4 pixels (bytes) in the word
+are numbered in the opposite direction, because byte 3 is the MSB:</p>
+<div class="highlight-none"><div class="highlight"><pre>3   2   1   0
+</pre></div>
+</div>
+<p>This does not correspond with the left-to-right pixel numbering! Byte 3
+is still the left-most image pixel in the first word, but now if you
+traverse the image from left to right, you get image bytes in the mixed
+up order:</p>
+<div class="highlight-none"><div class="highlight"><pre>3   2   1   0   7   6   5   4   ...
+</pre></div>
+</div>
+<p>If you want to get the first byte in the image line, you must access
+byte 3 of the first word. The trick to make this access endian
+independent is to pretend everything is big-endian, even for little-
+endians. So if you want that first byte, pretend it is byte 0, but XOR
+the byte address with 3 under the covers. We do this in the accessor:
+the accessor differs for big and little-endians, but the usage is endian
+independent. See <span class="filesystem">arrayaccess.h</span> for the implementation.</p>
+<p>Still confused? Start over at the top.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/byte-addressing.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="testing-methods.html" title="What is “Well-Tested” C Code?"
+             >next</a></li>
+        <li class="right" >
+          <a href="jbig2.html" title="Jbig2 Classifier"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

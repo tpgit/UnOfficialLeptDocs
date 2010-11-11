@@ -1,0 +1,502 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Supplemental Notes on Using the Library &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="/src Directory Contents" href="src-dir.html" />
+    <link rel="prev" title="Overview of the Leptonica Library" href="library-overview.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="src-dir.html" title="/src Directory Contents"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="library-overview.html" title="Overview of the Leptonica Library"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="supplemental-notes-on-using-the-library">
+<span id="library-notes"></span><h1>Supplemental Notes on Using the Library<a class="headerlink" href="#supplemental-notes-on-using-the-library" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">August 26, 2006 &#8211; <strong>Still under construction</strong></td>
+</tr>
+</tbody>
+</table>
+<p>First, read the <a class="reference internal" href="README.html#readme"><em>README</em></a> to get an overview of what is available and how
+to use it.</p>
+<p>This supplements that information in particular areas.</p>
+<div class="section" id="i-o-file-read-write">
+<h2>I/O: File read/write<a class="headerlink" href="#i-o-file-read-write" title="Permalink to this headline">¶</a></h2>
+<p>(ref: section 12 of the <a class="reference internal" href="README.html#readme"><em>README</em></a>)</p>
+<p>When building programs, it is often important to look at images. The
+function</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">pixWrite</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">,</span> <span class="n">PIX</span> <span class="o">*</span><span class="n">pix</span><span class="p">,</span> <span class="n">l_int32</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>writes an image to a file. See any of the programs in the <span class="filesystem">prog</span>
+directory for examples. You can display this image with a variety of
+programs, such as <span class="command">xv</span> (which scales the image automatically to fit
+on the screen), <span class="command">display</span> (which displays at full resolution),
+<span class="command">gqview</span> (which displays at full resolution and allows easy
+zooming), and <span class="command">gimp</span> (which is set up for image manipulation and
+displays by default at low resolution). For programmatic display with
+<span class="command">xv</span>, we provide a function</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">pixDisplay</span><span class="p">(</span><span class="n">PIX</span> <span class="o">*</span><span class="n">pix</span><span class="p">,</span> <span class="n">l_int32</span> <span class="n">x</span><span class="p">,</span> <span class="n">l_int32</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which scales the image to fit on the screen if necessary and then
+displays it with the UL corner at (x, y).</p>
+<p>Images are read into memory from a file using</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">PIX</span> <span class="o">*</span><span class="n">pixRead</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For the file formats that are supported (PNG, JFIF_JPEG, TIFF (various
+compressions), PNM and BMP), the extension (if any) is ignored and the
+format type is determined from the file itself.</p>
+<p><strong>Regression test:</strong> <span class="filesystem">prog/ioformats.c</span></p>
+</div>
+<div class="section" id="the-pix-data-structure">
+<h2>The Pix data structure<a class="headerlink" href="#the-pix-data-structure" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">Pix</span></tt> data structure is the internal (memory) representation of
+images in this library. It is very simple, and is described in <span class="filesystem">pix.h</span>,
+along with some of the flags and other data structures that are
+associated with it. The field accessors for <tt class="docutils literal"><span class="pre">Pix</span></tt>, provided in
+<span class="filesystem">pix1.c</span>, should ALWAYS be used. The <tt class="docutils literal"><span class="pre">pixClone()</span></tt> function is used to
+get a new handle (pointer) to the same <tt class="docutils literal"><span class="pre">Pix</span></tt> data structure, without
+actually copying the image data to a new array. The <tt class="docutils literal"><span class="pre">pixDestroy(PIX</span>
+<span class="pre">**)</span></tt> function should be used on every handle you have &#8212; see the
+comments in <span class="filesystem">pix1.c</span> at the <tt class="docutils literal"><span class="pre">pixClone()</span></tt> definition.</p>
+<p>Throughout we use these definitions:</p>
+<blockquote>
+<dl class="docutils">
+<dt>bpp</dt>
+<dd>bits/pixel  (leptonica supports 1, 2, 4, 8, 16 and 32)</dd>
+<dt>ppi</dt>
+<dd>pixels/inch  (resolution of image relative to original scanned page)</dd>
+<dt>src</dt>
+<dd>source image in image processing operation</dd>
+<dt>dest</dt>
+<dd>destination image in image processing operation</dd>
+</dl>
+</blockquote>
+<p>A <tt class="docutils literal"><span class="pre">Pix</span></tt> can also have a colormap, and we support a number of
+operations on colormaps in <span class="filesystem">colormap.c</span>. Colormapped images can have
+depths of 1, 2, 4 or 8 bpp. Where appropriate, functions will handle
+both colormapped and non-colormapped <tt class="docutils literal"><span class="pre">Pix</span></tt>. Functions that use
+interpolation, such as grayscale or color area-mapping rotation, will
+make a temporary image without the colormap, and use that to compute the
+dest <tt class="docutils literal"><span class="pre">Pix</span></tt>, which will then not have a colormap. It should be noted
+that except for in-place functions, the src <tt class="docutils literal"><span class="pre">Pix</span></tt> is never altered.</p>
+<p>Except for RGB images, all pixels in a <tt class="docutils literal"><span class="pre">Pix</span></tt> are packed (the pixels
+are represented as compactly as possible without compression). Each
+raster line is 32-bit aligned. See the comments in <span class="filesystem">pix.h</span> that describe
+the constraints and conventions for the image data representation. RGB
+images are packed into 32 bits, leaving 8 bits for an alpha channel that
+is not used.</p>
+</div>
+<div class="section" id="rasterops">
+<h2>Rasterops<a class="headerlink" href="#rasterops" title="Permalink to this headline">¶</a></h2>
+<p>A fundamental imaging operation, this is an operation that takes a
+rectangular region of one image and combines it with a rectangular
+region of a second image, using one of 12 boolean operations, and
+writing the result into the second image. The 12 operations between two
+images are described in detail in <span class="filesystem">rop.c</span>.</p>
+<p>There are also in-place rasterops, where a rectangular region of a
+single image is painted according to its (shifted) values. The in-place
+rasterops can be used to translate a full image, or a vertical or
+horizontal band of the image. The latter are used to shear the image;
+e.g., a horizontal shear is implemented by shifting full-width bands
+horizontally, as described in <span class="filesystem">shear.c</span>. With in-place rasterops, one
+must be careful not to overwrite data that will be used later.</p>
+<p>All rasterops operate on images of any depth, and they are automatically
+clipped to the respective images to avoid illegal reads and writes.
+They have a large number of uses, including a relatively fast
+implementation of binary morphology (for 1 bpp images). For examples and
+details, see also the writeup at <a class="reference internal" href="rasterops.html#rasterops"><em>Rasterop (a.k.a. Bitblt)</em></a>.</p>
+</div>
+<div class="section" id="scaling">
+<h2>Scaling<a class="headerlink" href="#scaling" title="Permalink to this headline">¶</a></h2>
+<p>A large variety of efficient scaling functions can be found in
+<span class="filesystem">scale.c</span>, many of which are described in <a class="reference internal" href="scaling.html"><em>Image Scaling</em></a>. The generic
+function, <tt class="docutils literal"><span class="pre">pixScale()</span></tt>, does the best job given the image type and the
+scaling factors. The best upscaling is typically done with linear
+interpolation, and the best downscaling is done either with a lowpass
+filter followed by subsampling, or by area mapping. The former is a fast
+anti-aliased approximation, particularly for small scaling factors
+(i.e., large downscaling). The area mapping method integrates with
+subpixel accuracy over the region of the src image that corresponds to
+each dest pixel.</p>
+<p>Some of the other fast scaling operations given in <span class="filesystem">scale.c</span> are:</p>
+<ul>
+<li><p class="first">sampling: <tt class="docutils literal"><span class="pre">pixScaleBySampling()</span></tt></p>
+</li>
+<li><p class="first">2x and 4x linear interpolation upscaling for gray and color images:
+e.g., <tt class="docutils literal"><span class="pre">pixScaleColorLI()</span></tt></p>
+</li>
+<li><p class="first">integer subsampling of RGB to gray or binary; e.g.,
+<tt class="docutils literal"><span class="pre">pixScalRGBToGrayFast()</span></tt></p>
+</li>
+<li><p class="first">antialias lowpass filter downscaling: <tt class="docutils literal"><span class="pre">pixScaleSmooth()</span></tt></p>
+</li>
+<li><p class="first">antialias area-mapping downscaling: <tt class="docutils literal"><span class="pre">pixScaleAreaMap()</span></tt></p>
+</li>
+<li><p class="first">antialias downscaling from RGB to gray by 2x: <tt class="docutils literal"><span class="pre">pixScaleRGBToGray2()</span></tt></p>
+</li>
+<li><p class="first">downscaling 1 bpp images to 8 bpp gray by several downscaling
+factors (2, 3, 4, 6, 8, 16): <tt class="docutils literal"><span class="pre">pixScaleToGray()</span></tt></p>
+</li>
+<li><p class="first">binary scaling by pixel sampling: <tt class="docutils literal"><span class="pre">pixScaleBinary()</span></tt></p>
+</li>
+<li><p class="first">mipmap pyramid downscaling 1 bpp images to 8 bpp gray:
+<tt class="docutils literal"><span class="pre">pixScaleToGrayMipmap()</span></tt></p>
+</li>
+<li><p class="first">mipmap pyramid gray downscaling: <tt class="docutils literal"><span class="pre">pixScaleMipmap()</span></tt></p>
+</li>
+<li><p class="first">gray upscaling by 2x or 4x, followed by binarization using a
+threshold: e.g., <tt class="docutils literal"><span class="pre">pixScaleGray2xLIThresh()</span></tt></p>
+</li>
+<li><p class="first">gray upscaling by 2x or 4x, followed by binarization using
+dithering: e.g., <tt class="docutils literal"><span class="pre">pixScaleGray2xLIDither()</span></tt></p>
+</li>
+</ul>
+<p>Special fast scaling on binary images is also available, and is useful
+for image analysis of scanned binary text. Examples are:</p>
+<ul>
+<li><p class="first">in <span class="filesystem">binreduce.c</span>, 2x reduction of 1 bpp images using either
+subsampling or rank filtering: e.g., <tt class="docutils literal"><span class="pre">pixReduceRankBinary2()</span></tt></p>
+</li>
+<li><p class="first">in <span class="filesystem">binexpand.c</span>, power-of-2 replicative expansion of 1 bpp images:
+<tt class="docutils literal"><span class="pre">pixExpandBinary()</span></tt></p>
+</li>
+</ul>
+<p><strong>Some scaling scripts</strong>:</p>
+<ul>
+<li><p class="first"><span class="filesystem">prog/scaletest1.c</span>: different general scaling functions</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/scaletest2.c</span>: multiple tests of scale-to-gray; color scaling
+tests.</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/reducetest.c</span>: rank binary cascade of up to four 2x reductions.</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/expandtest.c</span>: power-of-2 replicative expansion.</p>
+</li>
+</ul>
+<p><strong>Regression test:</strong> <span class="filesystem">prog/scaletest3.c</span></p>
+</div>
+<div class="section" id="rotation">
+<h2>Rotation<a class="headerlink" href="#rotation" title="Permalink to this headline">¶</a></h2>
+<p>Rotation seems mundane, but there are in fact a large number of ways of
+doing it, some of which are described in <a class="reference internal" href="rotation.html"><em>Image Rotation</em></a>. The top-level
+general rotator is <tt class="docutils literal"><span class="pre">pixRotate()</span></tt> in <span class="filesystem">rotate.c</span>. Here&#8217;s the description
+from the source file:</p>
+<blockquote>
+<div class="highlight-none"><div class="highlight"><pre>The general rotation pixRotate() does the best job for
+rotating about the image center.  For 1 bpp, it uses shear;
+for others, it uses either shear or area mapping.
+If requested, it expands the output image so that no pixels are
+lost in the rotation, and this can be done on multiple
+successive shears without expanding beyond the maximum
+necessary size.
+</pre></div>
+</div>
+</blockquote>
+<p>There are three other top-level rotation source files, each of which
+uses different methods for different purposes:</p>
+<ul>
+<li><p class="first"><span class="filesystem">rotateshear.c</span>: This has the top-level <tt class="docutils literal"><span class="pre">pixRotateShear()</span></tt> to do
+rotation by either 2 or 3 shears about an arbitrary point. This is
+very fast, being implemented by a sequence of rasterops, and works for
+images of all depths, including colormapped. An in-place version is
+also implemented, using in-place rasterops to perform the in-place
+shear operations.</p>
+</li>
+<li><p class="first"><span class="filesystem">rotateam.c</span>: This has the top-level <tt class="docutils literal"><span class="pre">pixRotateAM()</span></tt> to do area
+mapping rotation about the image center for grayscale and color
+images. It also has a similar function, <tt class="docutils literal"><span class="pre">pixRotateAMCorner()</span></tt> for
+rotating about the UL corner.</p>
+</li>
+<li><p class="first"><span class="filesystem">rotateorth.c</span>: This has the top-level functions for 90 and 180 degree
+rotation, <tt class="docutils literal"><span class="pre">pixRotate90()</span></tt> and <tt class="docutils literal"><span class="pre">pixRotate180()</span></tt>, along with LR and
+TB flipping, <tt class="docutils literal"><span class="pre">pixRotateLR()</span></tt> and <tt class="docutils literal"><span class="pre">pixRotateTB()</span></tt>, using LUTs when
+feasable.</p>
+</li>
+</ul>
+<p><strong>Some rotation scripts</strong>:</p>
+<ul>
+<li><p class="first"><span class="filesystem">prog/rotatetest1.c</span>: selection of different rotations, including
+successive rotations with unwinding.</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/rotateorthtest1.c</span>: various orth rotations, with timing and
+other tests.</p>
+</li>
+</ul>
+<p><strong>Regression tests:</strong></p>
+<ul>
+<li><p class="first"><span class="filesystem">prog/rotatetest2.c</span></p>
+</li>
+<li><p class="first"><span class="filesystem">prog/rotateorthtest2.c</span></p>
+</li>
+</ul>
+</div>
+<div class="section" id="shear">
+<h2>Shear<a class="headerlink" href="#shear" title="Permalink to this headline">¶</a></h2>
+<p>Image shear is another special linear transform in the plane. It can be
+used to approximate a continuous rotation, using either 2 shears (for
+small angles) or 3 shears. Because it is implemented with rasterops, it
+is both very fast and it works for all depths. For its use in rotation,
+see <a class="reference internal" href="rotation.html"><em>Image Rotation</em></a>.</p>
+<p>Shear can be performed either with src and dest, or in-place. The latter
+uses in-place rasterops. Vertical shear is used in the implementation of
+the skew angle finder. The definition of the shear transform is given in
+<a class="reference internal" href="affine.html"><em>Affine Transformations (and cousins)</em></a>.</p>
+<p><strong>Some scripts using shear</strong>:</p>
+<ul>
+<li><p class="first"><span class="filesystem">prog/rotatetest1.c</span>: includes timing for various rotation by shear.</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/sheartest.c</span>: various shear operations about arbitrary lines,
+both between src and dest and in-place.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="affine-projective-and-bilinear-transforms">
+<h2>Affine, projective and bilinear transforms<a class="headerlink" href="#affine-projective-and-bilinear-transforms" title="Permalink to this headline">¶</a></h2>
+<p>Affine transforms are the most general linear transforms in a
+plane. They are specified by 3 corresponding points (i.e., 6
+coefficients) in the two coordinate spaces. They can be implemented both
+in a pointwise fashion (with or without interpolation) and as a set of
+successive special linear transforms (translation, scaling, shear). We
+provide an example of the latter, but its use in applications is
+deprecated; in all situations you should use the pointwise
+transforms. See the code in <span class="filesystem">affine.c</span> for details.</p>
+<p>Projective and bilinear transforms are more general, nonlinear, 4-point
+transforms in the plane, and they are specified by 8 coefficients. The
+implementations are in <span class="filesystem">projective.c</span> and <span class="filesystem">bilinear.c</span>,
+respectively. Whereas affine transforms keep straight lines straight and
+preserve parallel lines, projective transforms only keep straight lines
+straight. And bilinear transforms do not even preserve straight
+lines. Affine transforms project a 3-dimensional scene onto a plane at
+infinity, whereas projective transforms view the 3-D scene at a finite
+distance, so that lines that are parallel in the affine transform all
+meet at a &#8216;vanishing point&#8217; in the projective transform. For example,
+projective transforms can remove &#8220;keystoning&#8221; in an object imaged by a
+camera at close range. See <a class="reference internal" href="affine.html"><em>Affine Transformations (and cousins)</em></a> for details.</p>
+<p><strong>Some scripts using 3- and 4-point transforms</strong>:</p>
+<ul>
+<li><p class="first"><span class="filesystem">prog/affinetest.c</span>: basic affine transform tests, plus a comparison
+between pointwise and sequential implementations.</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/projectivetest.c</span>: compares sampled and interpolated projective
+transforms; i.e., <tt class="docutils literal"><span class="pre">pixProjectiveSampled()</span></tt> and
+<tt class="docutils literal"><span class="pre">pixProjectiveInterpolated()</span></tt>. Sampled transforms use, for each dest
+pixel, the closest pixel in the src, whereas interpolated transforms
+take a weighted average of four src pixels for each dest pixel. For 1
+bpp images, only sampled can be used; for images with depth &gt; 1,
+interpolation is slower but gives better results.</p>
+</li>
+<li><p class="first">Likewise, <span class="filesystem">prog/bilineartest.c</span> compares sampled and interpolated
+bilinear transforms; i.e., <tt class="docutils literal"><span class="pre">pixBilinearSampled()</span></tt> and
+<tt class="docutils literal"><span class="pre">pixBilinearInterpolated()</span></tt> transforms.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="binary-morphology">
+<h2>Binary morphology<a class="headerlink" href="#binary-morphology" title="Permalink to this headline">¶</a></h2>
+<p>Bin morph ...</p>
+</div>
+<div class="section" id="grayscale-morphology">
+<h2>Grayscale morphology<a class="headerlink" href="#grayscale-morphology" title="Permalink to this headline">¶</a></h2>
+<p>Bin morph ...</p>
+</div>
+<div class="section" id="block-convolution">
+<h2>Block convolution<a class="headerlink" href="#block-convolution" title="Permalink to this headline">¶</a></h2>
+<p>Block convolution is my term for a convolution, applied to a grayscale
+image, using a rectangular kernel with constant value. For this case,
+the so-called &#8220;integral image&#8221; formulation can be used to compute the
+convolution in a time that is independent of the size of the convolving
+kernel. To do this, it is necessary to precompute an accumulation matrix
+from which each value in the dest can be computed by adding (or
+subtracting) four entries in the matrix. For details, see range. See
+<a class="reference internal" href="convolution.html"><em>Fast Convolution</em></a>. Using the same technique, it is also possible to
+apply a rank order filter with a rectangular kernel to binary images,
+again in a time independent of the size of the kernel.</p>
+</div>
+<div class="section" id="connected-components">
+<h2>Connected components<a class="headerlink" href="#connected-components" title="Permalink to this headline">¶</a></h2>
+<p>Conn comps ...</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Supplemental Notes on Using the Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#i-o-file-read-write">I/O: File read/write</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-pix-data-structure">The Pix data structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rasterops">Rasterops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scaling">Scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotation">Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shear">Shear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#affine-projective-and-bilinear-transforms">Affine, projective and bilinear transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#binary-morphology">Binary morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grayscale-morphology">Grayscale morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#block-convolution">Block convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connected-components">Connected components</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/library-notes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="src-dir.html" title="/src Directory Contents"
+             >next</a></li>
+        <li class="right" >
+          <a href="library-overview.html" title="Overview of the Leptonica Library"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

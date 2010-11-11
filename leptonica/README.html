@@ -1,0 +1,1008 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>README &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="Source Code and Information" href="local-sources.html" />
+    <link rel="prev" title="The Leptonica Image Processing Library" href="index.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="local-sources.html" title="Source Code and Information"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="index.html" title="The Leptonica Image Processing Library"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="readme">
+<span id="id1"></span><h1>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Aug 9, 2010</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-none"><div class="highlight"><pre>/\*====================================================================\*
+ -  Copyright (C) 2001 Leptonica.  All rights reserved.
+ -  This software is distributed in the hope that it will be
+ -  useful, but with NO WARRANTY OF ANY KIND.
+ -  No author or distributor accepts responsibility to anyone for the
+ -  consequences of using this software, or for whether it serves any
+ -  particular purpose or works at all, unless he or she says so in
+ -  writing.  Everyone is granted permission to copy, modify and
+ -  redistribute this source code, for commercial or non-commercial
+ -  purposes, with the following restrictions: (1) the origin of this
+ -  source code must not be misrepresented; (2) modified versions must
+ -  be plainly marked as such; and (3) this notice may not be removed
+ -  or altered from any source or modified source distribution.
+ \*====================================================================\*/
+</pre></div>
+</div>
+<pre class="literal-block">
+gunzip leptonlib-1.67.tar.gz
+tar -xvf leptonlib-1.67.tar
+</pre>
+<ol class="arabic">
+<li><p class="first">This tar includes:</p>
+<ol class="loweralpha">
+<li><p class="first"><a class="reference internal" href="src-dir.html"><em>src</em></a>: library source and function prototypes for
+building <span class="filesystem">liblept</span></p>
+</li>
+<li><p class="first"><a class="reference internal" href="prog-dir.html"><em>prog</em></a>: source for regression test, usage example
+programs, and sample images</p>
+</li>
+</ol>
+<p>for building on these platforms:</p>
+<ul>
+<li><p class="first">Linux on x86 (i386) and AMD 64 (x64)</p>
+</li>
+<li><p class="first">OSX (both powerPC and x86).</p>
+</li>
+<li><p class="first">cygwin and mingw on x86</p>
+</li>
+</ul>
+<p>It should compile properly with any version of gcc from 2.95.3
+onward.  There is a zip file for building with MS Visual Studio.</p>
+<p>Libraries, executables and prototypes are easily made, as described below.</p>
+<p>When you extract from the archive, all files are put in a
+subdirectory <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span>. In that directory you will
+find a <span class="filesystem">src/</span> directory containing the source files for the library,
+and a <span class="filesystem">prog/</span> directory containing source files for various testing
+and example programs.</p>
+</li>
+<li><p class="first">There are two ways to build the library:</p>
+<ol class="loweralpha">
+<li><p class="first">By customization: Use the existing <span class="filesystem">src/makefile</span> and customize
+by setting flags in <span class="filesystem">src/environ.h</span>.  See <span class="filesystem">src/environ.h</span> and
+<span class="filesystem">src/makefile</span> for details.</p>
+</li>
+<li><p class="first">Using <span class="command">autoconf</span>.  Run <span class="command">./configure</span> in this directory
+to build <span class="filesystem">Makefiles</span> here and in <span class="filesystem">src</span>.  Autoconf handles the
+following automatically:</p>
+<ul>
+<li><p class="first">architecture endianness</p>
+</li>
+<li><p class="first">enabling <strong>Leptonica</strong> I/O image read/write functions that
+depend on external libraries (if the libraries exist)</p>
+</li>
+<li><p class="first">enabling functions for redirecting formatted image stream I/O
+to memory (on linux only)</p>
+</li>
+</ul>
+<p>after running:</p>
+<div class="highlight-none"><div class="highlight"><pre>./configure
+make
+make install
+</pre></div>
+</div>
+</li>
+</ol>
+<p>When using <span class="filesystem">src/makefile</span>, you can customize for:</p>
+<ul>
+<li><p class="first">including <strong>Leptonica</strong> I/O functions that depend on external
+libraries [use flags in <span class="filesystem">src/environ.h</span>]</p>
+</li>
+<li><p class="first">adding functions for redirecting formatted image stream I/O
+to memory [use flag in <span class="filesystem">src/environ.h</span>]</p>
+</li>
+<li><p class="first">compiling in windows under cygwin [through <tt class="docutils literal"><span class="pre">CFLAGS</span></tt> in
+<tt class="docutils literal"><span class="pre">$CC</span></tt>]</p>
+</li>
+</ul>
+<p>You can use <span class="filesystem">src/makefile.mingw</span> for cross-compiling for windows in
+linux.</p>
+<p>Tom Powers has provided a set of developer notes and project files
+for building the library and applications under windows with VC++
+2008/2010:</p>
+<blockquote>
+<p><a class="reference internal" href="../vs2008/index.html"><em>Microsoft Visual Studio 2008 Developer Notes</em></a></p>
+<p><a class="reference internal" href="source-downloads.html#microsoft-visual-studio-download"><em>Microsoft Visual Studio 2008 Solution and Project Files</em></a></p>
+</blockquote>
+<p>He has also supplied a zip file that contains the entire <span class="filesystem">lib</span> and
+<span class="filesystem">include</span> directories needed to build Windows-based programs using
+static or dynamic versions of the <strong>Leptonica</strong> library (including
+static library versions of <span class="filesystem">zlib</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libtiff</span>,
+and <span class="filesystem">giflib</span>).</p>
+<blockquote>
+<p><a class="reference external" href="http://leptonica.com/source/leptonica-1.66-win32-lib-include-dirs.zip">leptonica-1.66-win32-lib-include-dirs.zip</a></p>
+</blockquote>
+</li>
+<li><p class="first">When you compile <span class="filesystem">liblept</span> using the supplied <span class="filesystem">makefile</span> (not
+autoconf), object code is by default put into a tree whose root is
+also the parent of the <span class="filesystem">src</span> and <span class="filesystem">prog</span> directories.  This can be
+changed using the <tt class="docutils literal"><span class="pre">ROOT_DIR</span></tt> variable in <span class="filesystem">makefile</span>.</p>
+<p>To make an optimized version of the library (in <span class="filesystem">src</span>):</p>
+<div class="highlight-none"><div class="highlight"><pre>make
+</pre></div>
+</div>
+<p>To make a debug version of the library (in <span class="filesystem">src</span>):</p>
+<div class="highlight-none"><div class="highlight"><pre>make DEBUG=yes debug
+</pre></div>
+</div>
+<p>To make a shared library version (in <span class="filesystem">src</span>):</p>
+<div class="highlight-none"><div class="highlight"><pre>make SHARED=yes shared
+</pre></div>
+</div>
+<p>To make the prototype extraction program (in <span class="filesystem">src</span>):</p>
+<div class="highlight-none"><div class="highlight"><pre>make   (to make the library first)
+make xtractprotos
+</pre></div>
+</div>
+<p>If you want to use shared libraries, you need to add the location of
+the shared libraries to your <tt class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></tt>.</p>
+</li>
+<li><p class="first">To make the programs in the <span class="filesystem">prog</span> directory, first make <span class="filesystem">liblept</span> in
+<span class="filesystem">src</span> and then do <span class="command">make</span> in the <span class="filesystem">prog</span> directory.</p>
+<p><strong>VERY IMPORTANT</strong>: the 190+ programs in the <a class="reference internal" href="prog-dir.html"><em>prog directory</em></a> are an integral part of this package.  These can be
+divided into three types:</p>
+<ol class="loweralpha">
+<li><p class="first">Programs that are complete regression tests.  The most important
+of these are named <span class="filesystem">*_reg</span>.  We are in the process of
+standardizing the regression tests, and making it easy to write
+them.  See <span class="filesystem">regutils.h</span> for details.</p>
+</li>
+<li><p class="first">Programs that were used to test library functions or auto-gen
+library code.  These are useful for testing the behavior of small
+sets of functions, and for providing example code.</p>
+</li>
+<li><p class="first">Programs that are useful applications in their own right.
+Examples of these are the PostScript conversion programs
+<span class="filesystem">converttops</span>, <span class="filesystem">convertfilestops</span>, <span class="filesystem">convertsegfilestops</span>,
+<span class="filesystem">printimage</span> and <span class="filesystem">printsplitimage</span>.</p>
+</li>
+</ol>
+<p><a class="reference internal" href="prog-dir.html"><em>This</em></a> page summarizes the types and categories of
+files in the <span class="filesystem">prog</span> directory, and also gives a short description for
+each file.</p>
+</li>
+<li><p class="first">The prototype header file <span class="filesystem">leptprotos.h</span> (supplied) can be
+automatically generated using <span class="filesystem">xtractprotos</span>. To generate
+<span class="filesystem">leptprotos.h</span>, first make <span class="filesystem">xtractprotos</span> (all in <span class="filesystem">src</span>):</p>
+<div class="highlight-none"><div class="highlight"><pre>make  (to make liblept)
+make xtractprotos
+</pre></div>
+</div>
+<p>Then run it:</p>
+<div class="highlight-none"><div class="highlight"><pre>make allprotos   (generates leptprotos.h)
+</pre></div>
+</div>
+<p>Things to note about <span class="filesystem">xtractprotos</span>, assuming that you are developing
+in <strong>Leptonica</strong> and need to regenerate the prototype file
+<span class="filesystem">leptprotos.h</span>:</p>
+<ul>
+<li><p class="first"><span class="filesystem">xtractprotos</span> is part of <strong>Leptonica</strong>.  You can <span class="command">make</span> it in
+either <span class="filesystem">src</span> or <span class="filesystem">prog</span> (see the <span class="filesystem">makefile</span>).</p>
+</li>
+<li><p class="first">You can output the prototypes for any C file by running:</p>
+<div class="highlight-none"><div class="highlight"><pre>xtractprotos &lt;cfile&gt;     or
+xtractprotos -prestring=[string] &lt;cfile&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">The source for xtractprotos has been packaged up into a tar
+containing just the <strong>Leptonica</strong> files necessary for building it
+in linux.  The tar file is available at:</p>
+<blockquote>
+<p><a class="reference external" href="http://www.leptonica.com/source/xtractlib-1.4.tar.gz">http://www.leptonica.com/source/xtractlib-1.4.tar.gz</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p class="first">Starting with 1.56, you can now build <span class="filesystem">liblept</span> with <span class="command">autoconf</span>.
+Do the following in the root directory (the directory with
+<span class="filesystem">configure</span>):</p>
+<div class="highlight-none"><div class="highlight"><pre>./configure
+make
+make install  (as root; this puts liblept.a into /usr/local/lib/)
+</pre></div>
+</div>
+<p>In 1.67, expected sometime in Aug 2010, we will supply an improved
+version that also allows you to build the programs in <span class="filesystem">prog</span>.</p>
+</li>
+<li><p class="first">Customization (in <span class="filesystem">environ.h</span>) can be done for using external
+libraries.  The default is to link to these four libraries:</p>
+<div class="highlight-none"><div class="highlight"><pre>libjpeg.a  (standard jfif jpeg library, version 6b))
+libtiff.a  (standard Leffler tiff library, version 3.7.4 or later;
+libpng.a   (standard png library, suggest version 1.2.8 or later)
+libz.a     (standard gzip library, suggest version 1.2.3)
+            current non-beta version is 3.8.2)
+</pre></div>
+</div>
+<p>These libraries (and their shared versions) should be in <span class="filesystem">/usr/lib</span>.
+(If they&#8217;re not, you can change the <tt class="docutils literal"><span class="pre">LDFLAGS</span></tt> variable in the
+<span class="filesystem">makefile</span>.)  Additionally, for compilation, the following header
+files are assumed to be in <span class="filesystem">/usr/include</span>:</p>
+<div class="highlight-none"><div class="highlight"><pre>jpeg:  jconfig.h
+png:   png.h, pngconf.h
+tiff:  tiff.h, tiffio.h
+</pre></div>
+</div>
+<p>These libraries are easy to obtain.  For example, using the
+debian package manager:</p>
+<div class="highlight-none"><div class="highlight"><pre>sudo apt-get install &lt;package&gt;
+</pre></div>
+</div>
+<p>where <span class="filesystem">&lt;package&gt; = {libpng12-dev, libjpeg62-dev, libtiff4-dev}</span>.</p>
+<p>If for some reason you do not want to include some or all of the
+<span class="filesystem">liblept</span> I/O functions, stub files are included for the seven
+different output formats (<span class="filesystem">bmp</span>, <span class="filesystem">jpeg</span>, <span class="filesystem">png</span>, <span class="filesystem">pnm</span>, <span class="filesystem">ps</span>, <span class="filesystem">tiff</span>
+and <span class="filesystem">gif</span>).  For example, if you don&#8217;t want to include the <span class="filesystem">tiff</span>
+library, in <span class="filesystem">environ.h</span> set:</p>
+<div class="highlight-none"><div class="highlight"><pre>#define  HAVE_LIBTIFF   0
+</pre></div>
+</div>
+<p>and the stubs will be linked in.</p>
+<p>If additionally, you wish to read and write <span class="filesystem">gif</span> files:</p>
+<ol class="loweralpha">
+<li><p class="first">Download version <span class="filesystem">giflib-4.1.6</span> from souceforge</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">#define</span>&nbsp; <span class="pre">HAVE_LIBGIF</span>&nbsp;&nbsp; <span class="pre">1</span></tt>  (in <span class="filesystem">environ.h</span>)</p>
+</li>
+<li><p class="first">If the library is installed into <span class="filesystem">/usr/local/lib</span>, you may need
+to add that directory to <tt class="docutils literal"><span class="pre">LDFLAGS</span></tt>; or, equivalently, add that
+path to the <tt class="docutils literal"><span class="pre">LD_LIBRARY_PATH</span></tt> environment variable.</p>
+</li>
+<li><p class="first">Note: do not use <span class="filesystem">giflib-4.1.4</span>: binary comp and decomp don&#8217;t
+pack the pixel data and are ridiculously slow.</p>
+</li>
+</ol>
+<p>There is also a programmatic interface to gnuplot.  To use it, you
+need only the gnuplot executable (suggest version 3.7.2 or later);
+the gnuplot library is not required.</p>
+<p>To link these libraries, see <span class="filesystem">prog/makefile</span> for instructions on
+selecting or altering the <tt class="docutils literal"><span class="pre">ALL_LIBS</span></tt> variable.  It would be nice to
+have this done automatically.</p>
+</li>
+<li><p class="first">There are two non-standard gnu functions, <tt class="docutils literal"><span class="pre">fmemopen()</span></tt> and
+<tt class="docutils literal"><span class="pre">open_memstream()</span></tt>, that only work on linux and conveniently allow
+memory I/O with a file stream interface.  This is convenient for
+compressing and decompressing image data to memory rather than to
+file.  Stubs are provided for all these I/O functions.  Default is
+not to enable them, in deference to the OSX developers, who don&#8217;t
+have these functions available.  To enable, <tt class="docutils literal"><span class="pre">#define</span> <span class="pre">HAVE_FMEMOPEN</span>
+<span class="pre">1</span></tt> (in <span class="filesystem">environ.h</span>).  See <a class="reference internal" href="#supported-image-file-formats"><em>below</em></a> for more details on image I/O
+formats.</p>
+<p>If you&#8217;re building with the autoconf programs, these two functions are
+automatically enabled if available.</p>
+</li>
+<li><p class="first">If you want to compile the library and make programs on other platforms:</p>
+<ol class="loweralpha">
+<li><p class="first">Apple PowerPC</p>
+<ul>
+<li><p class="first">This is big-endian hardware.  All regression tests I have run
+for I/O and library components have passed on OS-X, but not
+every function has been tested, and it is possible that some
+may depend on byte ordering.  Please let me know if you find
+any problems.  The endian variable is set automatically, so it
+should compile and run properly, thanks to a little program
+(<span class="filesystem">endiantest.c</span>, courtesy of Bill Janssen) that sets
+<tt class="docutils literal"><span class="pre">$CPPFLAGS</span></tt> to define <tt class="docutils literal"><span class="pre">-DL_BIG_ENDIAN</span></tt> in both
+<span class="filesystem">src/makefile</span> and <span class="filesystem">prog/makefile</span>.</p>
+</li>
+<li><p class="first">For program development, <tt class="docutils literal"><span class="pre">make</span> <span class="pre">xtractprotos</span></tt> in <span class="filesystem">src</span> to
+generate a mac-compatible version</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Windows via <a class="reference external" href="http://www.mingw.org/">MinGW</a> (cross-compilation)</p>
+<p>You can build a windows-compatible version of <span class="filesystem">liblebt</span> from
+linux.  Use <span class="filesystem">makefile.mingw</span> and see the usage notes at the top
+of that file.  You can then build executables in <span class="filesystem">prog</span>; see the
+notes in <span class="filesystem">prog/makefile.mingw</span>.  I have not yet succeeded in
+making static executables this way, but others have.</p>
+</li>
+<li><p class="first">Windows via <a class="reference external" href="http://cygwin.com/">Cygwin</a></p>
+<p>A default download of Cygwin, with full &#8216;install&#8217; of the devel
+(for gnu make, gcc, etc) and graphics (for libjpeg, libtiff,
+libpng, libz) groups provides enough libraries and programs to
+compile <span class="filesystem">liblebt</span> <span class="filesystem">src</span> and make the <span class="filesystem">.exe</span> execuables in the
+<span class="filesystem">prog</span> directory.</p>
+<p>Make the following changes to the <span class="filesystem">src/makefile</span>:</p>
+<ol class="lowerroman">
+<li><p class="first">use the <tt class="docutils literal"><span class="pre">$CC</span></tt> with <tt class="docutils literal"><span class="pre">_CYGWIN_ENVIRON</span></tt></p>
+</li>
+<li><p class="first">for program development, where you want to automatically
+extract protos with <span class="filesystem">xtractprotos</span>, add <span class="filesystem">.exe</span> appropriately</p>
+</li>
+</ol>
+<p>Make the following changes to the <span class="filesystem">prog/makefile</span>:</p>
+<blockquote>
+<p>remove <tt class="docutils literal"><span class="pre">-fPIC</span></tt> from <tt class="docutils literal"><span class="pre">$CC</span></tt></p>
+</blockquote>
+</li>
+<li><p class="first">Windows via MS VC++</p>
+<p>Tom Powers has written an extensive set of <a class="reference internal" href="../vs2008/index.html"><em>notes</em></a> for building the library and executables under
+MS Visual Studio 2008/2010. You can download the vs2008 package
+from the <a class="reference internal" href="source-downloads.html#microsoft-visual-studio-download"><em>download page</em></a>
+or from <a class="reference external" href="http://code.google.com/p/leptonica">http://code.google.com/p/leptonica</a>.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">Provides for your own memory management (allocator, deallocator).
+For <tt class="docutils literal"><span class="pre">PIX</span></tt>, which tend to be large, the alloc/dealloc functions can
+be set programmatically.  For all other structs and arrays, the
+allocators are specified in <span class="filesystem">environ.h</span>.  Default functions are
+<tt class="docutils literal"><span class="pre">malloc()</span></tt> and <tt class="docutils literal"><span class="pre">free()</span></tt>.  We have also provided a sample custom
+allocator/deallocator in <span class="filesystem">pixalloc.c</span>.</p>
+</li>
+<li><p class="first">Unlike many other open source packages, <strong>Leptonica</strong> uses packed data
+for images with all bit/pixel (bpp) depths, allowing us to process
+pixels in parallel. For example, rasterops works on all depths with
+32-bit parallel operations throughout.  <strong>Leptonica</strong> is also
+explicitly configured to work on both little-endian and big-endian
+hardware.  RGB image pixels are always stored in 32-bit words, and a
+few special functions are provided for scaling and rotation of RGB
+images that have been optimized by making explicit assumptions about
+the location of the R, G and B components in the 32-bit pixel. In
+such cases, the restriction is documented in the function header.
+The in-memory data structure used throughout <strong>Leptonica</strong> to hold the
+packed data is a <tt class="docutils literal"><span class="pre">PIX</span></tt>, which is defined and documented in <span class="filesystem">pix.h</span>.</p>
+</li>
+<li><p class="first">This is a source for a clean, fast implementation of
+<a class="reference internal" href="rasterops.html"><em>Rasterop (a.k.a. Bitblt)</em></a>. Besides reading that page you should also look
+directly at the source code. The low-level code is in <span class="filesystem">roplow.c</span> and
+<span class="filesystem">ropiplow.c</span>, and an interface is given in <span class="filesystem">rop.c</span> to the simple
+<tt class="docutils literal"><span class="pre">PIX</span></tt> image data structure.</p>
+</li>
+<li><p class="first">This is a source for efficient implementations of
+<a class="reference internal" href="binary-morphology.html"><em>Binary Morphology</em></a> and <a class="reference internal" href="grayscale-morphology.html"><em>Grayscale Morphology</em></a>. Besides
+reading those pages you should also look directly at the source code.</p>
+<p>Binary morphology is implemented two ways:</p>
+<ol class="loweralpha">
+<li><p class="first">Successive full image rasterops for arbitrary structuring
+elements (Sels)</p>
+</li>
+<li><p class="first">Destination word accumulation (dwa) for specific Sels.  This code
+is automatically generated.  See, for example, the code in
+<span class="filesystem">fmorphgen.1.c</span> and <span class="filesystem">fmorphgenlow.1.c</span>.  These files were generated
+by running the program <span class="filesystem">prog/fmorphautogen.c</span>. Results can be
+checked by comparing dwa and full image rasterops; e.g.,
+<span class="filesystem">prog/fmorphauto_reg.c</span>.</p>
+</li>
+</ol>
+<p>Method (b) is considerably faster than (a), which is the reason we&#8217;ve
+gone to the effort of supporting the use of this method for all Sels.
+We also support two different boundary conditions for erosion.</p>
+<p>Similarly, dwa code for the general hit-miss transform can be
+auto-generated from an array of hit-miss Sels.  When
+<span class="filesystem">prog/fhmtautogen.c</span> is compiled and run, it generates the dwa C code
+in <span class="filesystem">fhmtgen.1.c</span> and <span class="filesystem">fhmtgenlow.1.c</span>.  These files can then be
+compiled into the libraries or into other programs.  Results can be
+checked by comparing dwa and rasterop results; e.g.,
+<span class="filesystem">prog/fhmtauto_reg.c</span>.</p>
+<p>Several functions with simple parsers are provided to execute a
+sequence of morphological operations (plus binary rank reduction and
+replicative expansion). See <span class="filesystem">morphseq.c</span>.</p>
+<p>The structuring element is represented by a simple Sel data structure
+defined in <span class="filesystem">morph.h</span>.  We provide (at least) seven ways to generate
+Sels in <span class="filesystem">sel1.c</span>, and several simple methods to generate hit-miss
+Sels for pattern finding in <span class="filesystem">selgen.c</span>.</p>
+<p>We also give a fast implementation of grayscale morphology for brick
+structuring elements (i.e., Sels that are separable into linear
+horizontal and vertical elements).  This uses the <a class="reference internal" href="grayscale-morphology.html#van-herk-gil-werman"><em>van
+Herk/Gil-Werman algorithm</em></a> that performs the
+calculations in a time that is independent of the size of the Sels.
+Implementations of tophat and hdome are also given.  The low-level
+code is in <span class="filesystem">graymorphlow.c</span>.</p>
+<p>In use, the most common morphological Sels are separable bricks, of
+dimension n x m (where either n or m, but not both, is commonly 1).
+Accordingly, we provide separable morphological operations on brick
+Sels, using for binary both rasterops and dwa, and for grayscale, the
+fast van Herk/Gil-Werman method.  Parsers are provided for a sequence
+of separable binary (rasterop and dwa) and grayscale brick
+morphological operations, in <span class="filesystem">morphseq.c</span>.  The main advantage in
+using the parsers is that you don&#8217;t have to create and destroy Sels,
+or do any of the intermediate image bookkeeping.</p>
+<p>We also give composable separable brick functions for binary images,
+for both rasterop and dwa.  These decompose each of the linear
+operations into a sequence of two operations at different scales,
+reducing the operation count to a sum of decomposition factors,
+rather than the (un-decomposed) product of factors.  As always,
+parsers are provided for a sequence of such operations.</p>
+<p>Finally, we provide grayscale rank order filters for brick filters.
+The rank order filter is a generalization of grayscale morphology
+to select the rank valued pixel (rather than the min or max).
+A color rank order filter applies the grayscale rank operation
+independently to each of the (r,g,b) components.</p>
+</li>
+<li><p class="first">This is also a source for simple and relatively efficient
+implementations of <a class="reference internal" href="scaling.html"><em>image scaling</em></a>, <a class="reference internal" href="rotation.html#rotation-by-shear"><em>shear</em></a> and <a class="reference internal" href="rotation.html"><em>rotation</em></a>.</p>
+<p>There are many different scaling operations in <span class="filesystem">liblebt</span>, some of
+which are listed here.  Grayscale and color image scaling are done by
+sampling, lowpass filtering followed by sampling, area mapping, and
+linear interpolation.  Scaling operations with antialiased sampling,
+area mapping, and linear interpolation are limited to 2, 4 and 8 bpp
+gray, 24 bpp full RGB color, and 2, 4 and 8 bpp colormapped (bpp ==
+bits/pixel).  Scaling operations with simple sampling can be done at
+1, 2, 4, 8, 16 and 32 bpp.  Linear interpolation is slower but gives
+better results, especially for upsampling.  For moderate
+downsampling, best results are obtained with area mapping scaling.
+With very high downsampling, either area mapping or antialias
+sampling (lowpass filter followed by sampling) give good results.
+Fast area map with power-of-2 reduction are also provided.  Optional
+sharpening after resampling is provided to improve appearance by
+reducing the visual effect of averaging across sharp boundaries.</p>
+<p>For fast analysis of grayscale and color images, it is useful to
+have integer subsampling combined with pixel depth reduction.
+RGB color images can thus be converted to low-resolution
+grayscale and binary images.</p>
+<p>For binary scaling, the dest pixel can be selected from the
+closest corresponding source pixel.  For the special case of
+power-of-2 binary reduction, low-pass rank-order filtering can be
+done in advance.  Isotropic integer expansion is done by pixel
+replication.</p>
+<p>We also provide 2x, 3x, 4x, 6x, 8x, and 16x scale-to-gray reduction
+on binary images, to produce high quality reduced grayscale images.
+These are integrated into a scale-to-gray function with arbitrary
+reduction.</p>
+<p>Conversely, we have special 2x and 4x scale-to-binary expansion
+on grayscale images, using linear interpolation on grayscale
+raster line buffers followed by either thresholding or dithering.</p>
+<p>There are also some depth converters (without scaling), such
+as unpacking operations from 1 bpp to grayscale, and thresholding
+and dithering operations from grayscale to 1, 2 and 4 bpp.</p>
+<p>Image shear has no bpp constraints.  We provide horizontal
+and vertical shearing about an arbitrary point (really, a line),
+both in-place and from source to dest.</p>
+<p>There are three different types of general image rotators:</p>
+<ol class="loweralpha">
+<li><p class="first">Grayscale rotation using area mapping</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">pixRotateAM()</span></tt> for 8 bit gray and 24 bit color, about center</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">pixRotateAMCorner()</span></tt> for 8 bit gray, about image UL corner</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">pixRotateAMColorFast()</span></tt> for faster 24 bit color, about
+center</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Rotation of an image of arbitrary bit depth, using either 2 or 3
+shears.  These rotations can be done about an arbitrary point,
+and they can be either from source to dest or in-place; e.g.</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">pixRotateShear()</span></tt></p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">pixRotateShearIP()</span></tt></p>
+</li>
+</ul>
+</li>
+<li><p class="first">Rotation by sampling.  This can be used on images of arbitrary
+depth, and done about an arbitrary point.  Colormaps are
+retained.</p>
+</li>
+</ol>
+<p>The area mapping rotations are slower and more accurate, because each
+new pixel is composed using an average of four neighboring pixels in
+the original image; this is sometimes also called &#8220;antialiasing&#8221;.
+Very fast color area mapping rotation is provided.  The low-level
+code is in <span class="filesystem">rotateamlow.c</span>.</p>
+<p>The shear rotations are much faster, and work on images of arbitrary
+pixel depth, but they just move pixels around without doing any
+averaging.  The <tt class="docutils literal"><span class="pre">pixRotateShearIP()</span></tt> operates on the image
+in-place.</p>
+<p>We also provide orthogonal rotators (90, 180, 270 degree; left-right
+flip and top-bottom flip) for arbitrary image depth.  And we provide
+implementations of affine, projective and bilinear transforms, with
+both sampling (for speed) and interpolation (for antialiasing).</p>
+</li>
+<li><p class="first">We provide a number of fast sequential algorithms, including binary
+and grayscale <a class="reference internal" href="filling.html"><em>seedfill</em></a>, and the <a class="reference internal" href="filling.html#distance-function-within-connected-components"><em>distance
+function</em></a> for a
+binary image.  The most efficient binary seedfill is
+<tt class="docutils literal"><span class="pre">pixSeedfill()</span></tt>, which uses Vincent&#8217;s algorithm to iterate raster-
+and antiraster-ordered propagation, and can be used for either 4- or
+8-connected fills.  Similar raster/antiraster sequential algorithms
+are used to generate a distance map from a binary image, and for
+grayscale seedfill.  We also use Heckbert&#8217;s stack-based filling
+algorithm for identifying 4- and 8-connected components in a binary
+image.  A fast implementation of the <a class="reference internal" href="filling.html#watershed-transform-seeded-images"><em>watershed transform</em></a>, using a priority queue, is
+included.</p>
+</li>
+<li><p class="first">A few simple <a class="reference internal" href="enhancement.html"><em>image enhancement</em></a> routines for
+grayscale and color images have been provided.  These include
+intensity mapping with gamma correction and contrast enhancement, as
+well as edge sharpening, smoothing, and hue and saturation
+modification.</p>
+</li>
+<li><p class="first">A number of standard image processing operations are also included,
+such as <a class="reference internal" href="convolution.html"><em>block convolution</em></a>, <a class="reference internal" href="convolution.html#binary-rank-order-and-median-filter-using-accumulator"><em>binary block
+rank filtering</em></a>, grayscale
+and rgb rank order filtering, and edge and local minimum/maximum
+extraction.  Generic convolution is included, for both separable and
+non-separable kernels, using float arrays in the <tt class="docutils literal"><span class="pre">PIX</span></tt>.</p>
+</li>
+<li id="readme-document-image-analysis-applications"><p class="first">Some functions have been included specifically to help with
+<a class="reference internal" href="document-image-analysis.html"><em>document image analysis</em></a>.  These
+include <a class="reference internal" href="skew-measurement.html"><em>skew</em></a> and text orientation
+detection; page segmentation; baseline finding for text; unsupervised
+classification of connected components, characters and words;
+<a class="reference internal" href="dewarping.html"><em>dewarping camera images</em></a>, and digit recognition.</p>
+</li>
+<li id="supported-image-file-formats"><p class="first">Some facilities have been provided for image input and output.  This
+is of course required to build executables that handle images, and
+many examples of such programs, most of which are for testing, can be
+built in the <span class="filesystem">prog</span> directory.  Functions have been provided to allow
+reading and writing of files in <span class="filesystem">JPEG</span>, <span class="filesystem">PNG</span>, <span class="filesystem">TIFF</span>, <span class="filesystem">BMP</span>, <span class="filesystem">PNM</span>
+and <span class="filesystem">GIF</span> formats.  These formats were chosen for the following
+reasons:</p>
+<ul>
+<li><p class="first"><span class="filesystem">JFIF</span> <span class="filesystem">JPEG</span> is the standard method for lossy compression of
+grayscale and color images.  It is supported natively in all
+browsers, and uses a good open source compression library.
+Decompression is supported by the rasterizers in <span class="filesystem">PS</span> and <span class="filesystem">PDF</span>,
+for level 2 and above.  It has a progressive mode that compresses
+about 10% better than standard, but is considerably slower to
+decompress.  See <span class="filesystem">jpegio.c</span>.</p>
+</li>
+<li><p class="first"><span class="filesystem">PNG</span> is the standard method for lossless compression of binary,
+grayscale and color images.  It is supported natively in all
+browsers, and uses a good open source compression library (<span class="filesystem">zlib</span>).
+It is superior in almost every respect to <span class="filesystem">GIF</span> (which, until
+recently, contained proprietary LZW compression). See <span class="filesystem">pngio.c</span>.</p>
+</li>
+<li><p class="first"><span class="filesystem">TIFF</span> is a common interchange format, which supports different
+depths, colormaps, etc., and also has a relatively good and widely
+used binary compression format (CCITT Group 4).  Decompression of
+G4 is supported by rasterizers in <span class="filesystem">PS</span> and <span class="filesystem">PDF</span>, level 2 and
+above.  G4 compresses better than <span class="filesystem">PNG</span> for most text and line art
+images, but it does quite poorly for halftones.  It has good and
+stable support by Leffler&#8217;s open source library, which is clean and
+small.  <span class="filesystem">TIFF</span> also supports multipage images through a directory
+structure. See <span class="filesystem">tiffio.c</span>.</p>
+</li>
+<li><p class="first"><span class="filesystem">BMP</span> has (until recently) had no compression. It is a simple
+format with colormaps that requires no external libraries.  It is
+commonly used because it is a Microsoft standard, but has little
+besides simplicity to recommend it. See <span class="filesystem">bmpio.c</span>.</p>
+</li>
+<li><p class="first"><span class="filesystem">PNM</span> is a very simple, old format that still has surprisingly wide
+use in the image processing community.  It does not support
+compression or colormaps, but it does support binary, grayscale and
+rgb images.  Like <span class="filesystem">BMP</span>, the implementation is simple and requires
+no external libraries.  See <span class="filesystem">pnmio.c</span>.</p>
+</li>
+<li><p class="first"><span class="filesystem">GIF</span> is still widely used in the world.  With the expiration of
+the LZW patent, it is practical to add support for <span class="filesystem">GIF</span> files.
+The open source <span class="filesystem">GIF</span> library is relatively incomplete and
+unsupported (because of the Sperry-Rand-Burroughs-Univac patent
+history). See <span class="filesystem">gifio.c</span>.</p>
+</li>
+</ul>
+<p>Here&#8217;s a summary of compression support and limitations:</p>
+<ul>
+<li><p class="first">All formats except <span class="filesystem">JPEG</span> support 1 bpp binary.</p>
+</li>
+<li><p class="first">All formats support 8 bpp grayscale (<span class="filesystem">GIF</span> must have a colormap).</p>
+</li>
+<li><p class="first">All formats except <span class="filesystem">GIF</span> support 24 bpp rgb color.</p>
+</li>
+<li><p class="first">All formats except <span class="filesystem">PNM</span> support 8 bpp colormap.</p>
+</li>
+<li><p class="first"><span class="filesystem">PNG</span> and <span class="filesystem">PNM</span> support 2 and 4 bpp images.</p>
+</li>
+<li><p class="first"><span class="filesystem">PNG</span> supports 2 and 4 bpp colormap, and 16 bpp without colormap.</p>
+</li>
+<li><p class="first"><span class="filesystem">PNG</span>, <span class="filesystem">JPEG</span>, <span class="filesystem">TIFF</span> and <span class="filesystem">GIF</span> support image compression; <span class="filesystem">PNM</span>
+and <span class="filesystem">BMP</span> do not.</p>
+</li>
+</ul>
+<p>Use <span class="filesystem">prog/ioformats_reg</span> for a regression test on all but <span class="filesystem">GIF</span>.  Use
+<span class="filesystem">prog/gifio_reg</span> for testing <span class="filesystem">GIF</span>.</p>
+<p>We also provide wrappers for <span class="filesystem">PS</span> output, from all types of input
+images.  The output can be either uncompressed or compressed with
+level 2 (ccittg4 or dct) or level 3 (flate) encoding.  You have
+flexibility for scaling and placing of images, and for printing at
+different resolutions.  You can also compose mixed raster (text,
+image) <span class="filesystem">PS</span>.  See <span class="filesystem">psio1.c</span> for examples of how to output <span class="filesystem">PS</span> for
+different applications.  As examples of usage, see:</p>
+<ul>
+<li><p class="first"><span class="filesystem">prog/converttops.c</span> for a general image &#8211;&gt; PS conversion for
+printing. You can specify compression level (1, 2, or 3).</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/convertfilestops.c</span> to generate a multipage level 3
+compressed <span class="filesystem">PS</span> file that can then be converted to pdf with
+<span class="command">ps2pdf</span>.</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/convertsegfilestops.c</span> to generate a multipage, mixed
+raster, level 2 compressed <span class="filesystem">PS</span> file.</p>
+</li>
+</ul>
+<p><strong>Note</strong>: any or all of these I/O library calls can be stubbed out at
+compile time, using the environment variables in <span class="filesystem">environ.h</span>.</p>
+<p>For all formatted reads and writes, we support read from memory and
+write to memory.  (We cheat with <span class="filesystem">GIF</span>, using a file intermediary.)</p>
+<p>For all formats except for <span class="filesystem">TIFF</span>, these memory I/O functions are
+supported through <tt class="docutils literal"><span class="pre">open_memstream()</span></tt> and <tt class="docutils literal"><span class="pre">fmemopen()</span></tt>, which
+only is available with the gnu C runtime library (<span class="filesystem">glibc</span>).
+Therefore, except for <span class="filesystem">TIFF</span>, you will not be able to do memory
+supported read/writes on these platforms:</p>
+<blockquote>
+<p>OSX, Windows, Solaris</p>
+</blockquote>
+<p>By default, these non-POSIX functions are disabled.  To enable memory
+I/O for image formatted read/writes, see <span class="filesystem">environ.h</span>.</p>
+<p>We also provide colormap removal for conversion to 8 bpp gray or for
+conversion to 24 bpp full color, as well as conversion from RGB to 8
+bpp grayscale.  We also provide the inverse function to colormap
+removal; namely, color quantization from 24 bpp full color to 8 bpp
+colormap with some number of colormap colors.  Several versions are
+provided, some that use a fast octree vector quantizer and others
+that use a variation of the median cut quantizer. For high-level
+interfaces, see for example: <tt class="docutils literal"><span class="pre">pixConvertRGBToColormap()</span></tt>,
+<tt class="docutils literal"><span class="pre">pixOctreeColorQuant()</span></tt>, <tt class="docutils literal"><span class="pre">pixOctreeQuantByPopulation()</span></tt>,
+<tt class="docutils literal"><span class="pre">pixFixedOctcubeQuant256()</span></tt>, and <tt class="docutils literal"><span class="pre">pixMedianCutQuant()</span></tt>.</p>
+<p>For debugging, several <tt class="docutils literal"><span class="pre">pixDisplay*()</span></tt> functions in <span class="filesystem">writefile.c</span>
+are given.  Two (<tt class="docutils literal"><span class="pre">pixDisplay()</span></tt> and <tt class="docutils literal"><span class="pre">pixDisplayWithTitle()</span></tt>) can
+be called to display an image using one of several display programs
+(<span class="command">xv</span>, <span class="command">xli</span>, <span class="command">xzgv</span>, <span class="command">l_view</span>).  If necessary to
+fit on the screen, the image is reduced in size, with 1 bpp images
+being converted to grayscale for readability.  (This is much better
+than letting <span class="command">xv</span> do the reduction).  Another function,
+<tt class="docutils literal"><span class="pre">pixDisplayWrite()</span></tt>, writes images to disk under control of a
+reduction/disable flag, which then allows either viewing with
+<tt class="docutils literal"><span class="pre">pixDisplayMultiple()</span></tt>, or the generation of a composite image
+using, for example, <tt class="docutils literal"><span class="pre">pixaDisplayTiledAndScaled()</span></tt>.  These files can
+also be gathered up into a compressed PostScript file, using
+<span class="filesystem">prog/convertfilestops</span>, and viewed with <span class="command">evince</span>, or converted
+to pdf.  Common image display programs are: <span class="command">xv</span>,
+<span class="command">display</span>, <span class="command">gthumb</span>, <span class="command">gqview</span>, <span class="command">xli</span>,
+<span class="command">evince</span>, <span class="command">gv</span>, <span class="command">xpdf</span> and <span class="command">acroread</span>.  The
+<strong>Leptonica</strong> program <span class="command">xvdisp</span> generates nice quality images for
+display with <span class="command">xv</span>.  Finally, a set of images can be saved into a
+<tt class="docutils literal"><span class="pre">PIXA</span></tt> (array of <tt class="docutils literal"><span class="pre">PIX</span></tt>), specifying the eventual layout into a
+single <tt class="docutils literal"><span class="pre">PIX</span></tt>, using <tt class="docutils literal"><span class="pre">pixSaveTiled*()</span></tt>.</p>
+</li>
+<li><p class="first">Simple data structures are provided for safe and
+efficient handling of arrays of numbers, strings, pointers,
+and bytes.  The generic pointer array is implemented in four ways:
+as a stack, a queue, a heap (used to implement a priority
+queue), and an array with insertion and deletion, from which
+the stack operations form a subset.  The byte array is implemented
+as a queue.  The string arrays are particularly useful for both
+parsing and composing text.  Generic lists with doubly-linked
+cons cells are also provided.</p>
+</li>
+<li><p class="first">Examples of programs that are easily built using the library:</p>
+<ul>
+<li><p class="first">for plotting x-y data, we give a programmatic interface
+to the gnuplot program, with output to X11, png, ps or eps.
+We also allow serialization of the plot data, in a form
+such that the data can be read, the commands generated,
+and (finally) the plot constructed by running gnuplot.</p>
+</li>
+<li><p class="first">a simple <a class="reference internal" href="jbig2.html"><em>jbig2-type classifier</em></a>, using various
+distance metrics between image components (correlation, rank
+hausdorff); see <span class="filesystem">prog/jbcorrelation.c</span>, <span class="filesystem">prog/jbrankhaus.c</span>.</p>
+</li>
+<li><p class="first">a simple <a class="reference internal" href="color-segmentation.html"><em>color segmenter</em></a>, giving a
+smoothed image with a small number of the most significant colors.</p>
+</li>
+<li><p class="first">a program for converting all <span class="filesystem">TIFF</span> images in a directory to a
+PostScript file, and a program for printing an image in any
+(supported) format to a PostScript printer.</p>
+</li>
+<li><p class="first">converters between binary images and SVG format.</p>
+</li>
+<li><p class="first">a bitmap font facility that allows painting text onto images.  We
+currently support one font in several sizes.  The font images and
+postscript programs for generating them are stored in
+<span class="filesystem">prog/fonts/</span>.</p>
+</li>
+<li><p class="first">a binary maze game lets you generate mazes and find shortest
+paths between two arbitrary points, if such a path exists.
+You can also compute the &#8220;shortest&#8221; (i.e., least cost) path
+between points on a grayscale image.</p>
+</li>
+<li><p class="first">a 1D barcode reader.  This is in an early stage of development,
+with little testing, and it only decodes 6 formats.</p>
+</li>
+<li><p class="first">a utility that will <a class="reference internal" href="dewarping.html"><em>dewarp images of text</em></a> that
+were captured with a camera at close range.</p>
+</li>
+<li><p class="first">see <a class="reference internal" href="#readme-document-image-analysis-applications"><em>above</em></a> for
+other document image applications.</p>
+</li>
+</ul>
+</li>
+<li><p class="first">A deficiency of C is that no standard has been universally
+adopted for typedefs of the built-in types.  As a result,
+typedef conflicts are common, and cause no end of havoc when
+you try to link different libraries.  If you&#8217;re lucky, you
+can find an order in which the libraries can be linked
+to avoid these conflicts, but the state of affairs is aggravating.</p>
+<p>The most common typedefs use lower case variables: <tt class="docutils literal"><span class="pre">uint8</span></tt>,
+<tt class="docutils literal"><span class="pre">int8</span></tt>, ...  The png library avoids typedef conflicts by
+altruistically appending <tt class="docutils literal"><span class="pre">png_</span></tt> to the type names.  Following that
+approach, <strong>Leptonica</strong> appends <tt class="docutils literal"><span class="pre">l_</span></tt> to the type name.  This should
+avoid just about all conflicts.  In the highly unlikely event that it
+doesn&#8217;t, here&#8217;s a simple way to change the type declarations
+throughout the <strong>Leptonica</strong> code:</p>
+<ol class="loweralpha">
+<li><p class="first">customize a file <span class="filesystem">converttypes.sed</span> with the following lines:</p>
+<div class="highlight-none"><div class="highlight"><pre>/l_uint8/s//YOUR_UINT8_NAME/g
+/l_int8/s//YOUR_INT8_NAME/g
+/l_uint16/s//YOUR_UINT16_NAME/g
+/l_int16/s//YOUR_INT16_NAME/g
+/l_uint32/s//YOUR_UINT32_NAME/g
+/l_int32/s//YOUR_INT32_NAME/g
+/l_float32/s//YOUR_FLOAT32_NAME/g
+/l_float64/s//YOUR_FLOAT64_NAME/g
+</pre></div>
+</div>
+</li>
+<li><p class="first">in the <span class="filesystem">src</span> and <span class="filesystem">prog</span> directories:</p>
+<ul>
+<li><p class="first">if you have a version of <span class="command">sed</span> that does in-place
+conversion:</p>
+<div class="highlight-none"><div class="highlight"><pre>sed -i -f converttypes.sed *
+</pre></div>
+</div>
+</li>
+<li><p class="first">else, do something like (in csh):</p>
+<div class="highlight-none"><div class="highlight"><pre>foreach file (*)
+sed -f converttypes.sed $file &gt; tempdir/$file
+end
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<p>If you are using <strong>Leptonica</strong> with a large code base that typedefs the
+built-in types differently from <strong>Leptonica</strong>, just edit the typedefs
+in <span class="filesystem">environ.h</span>.  This should have no side-effects with other
+libraries, and no issues should arise with the location in which
+<span class="filesystem">liblebt</span> is included.</p>
+<p>For compatibility with 64 bit hardware and compilers, where necessary
+we use the typedefs in <span class="filesystem">stdint.h</span> to specify the pointer size (either
+4 or 8 byte).  This may not work properly if you use an ancient gcc
+compilers before 2.95.3.</p>
+</li>
+<li><p class="first"><strong>Leptonica</strong> provides some compile-time control over messages and
+debug output.  Messages are of three types: error, warning and
+informational.  They are all macros, and are suppressed when
+<tt class="docutils literal"><span class="pre">NO_CONSOLE_IO</span></tt> is defined on the compile line.  Likewise, all
+debug output is conditionally compiled, within a <tt class="docutils literal"><span class="pre">#ifndef</span>
+<span class="pre">NO_CONSOLE_IO</span></tt> clause, so these sections are omitted when
+<tt class="docutils literal"><span class="pre">NO_CONSOLE_IO</span></tt> is defined.  For production code where no output is
+to go to stderr, compile with <tt class="docutils literal"><span class="pre">-DNO_CONSOLE_IO</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Leptonica</strong> supports an open source <span class="filesystem">jbig2</span> encoder (yes, there is
+one!), which can be downloaded from:</p>
+<blockquote>
+<p><a class="reference external" href="http://github.com/agl/jbig2enc">http://github.com/agl/jbig2enc</a>.</p>
+</blockquote>
+<p>To build the encoder, use the most recent version.  This bundles
+<strong>Leptonica</strong> 1.63.  Once you&#8217;ve built the encoder, use it to compress
+a set of input image files (e.g.):</p>
+<div class="highlight-none"><div class="highlight"><pre>./jbig2 -v -s &lt;imagefile1 ...&gt;  &gt;   &lt;jbig2_file&gt;
+</pre></div>
+</div>
+<p>You can also generate a <span class="filesystem">pdf</span> wrapping for the output <span class="filesystem">jbig2</span>.  To do
+that, call <span class="command">jbig2</span> with the <tt class="docutils literal"><span class="pre">-p</span></tt> arg, which generates a symbol
+file (<span class="filesystem">output.sym</span>) plus a set of location files for each input image
+(<span class="filesystem">output.0000</span>, ...):</p>
+<div class="highlight-none"><div class="highlight"><pre>./jbig2 -v -s -p &lt;imagefile1 ...&gt;
+</pre></div>
+</div>
+<p>and then generate the <span class="filesystem">pdf</span>:</p>
+<div class="highlight-none"><div class="highlight"><pre>python pdf.py output  &gt;  &lt;pdf_file&gt;
+</pre></div>
+</div>
+<p>See the usage documentation for the <span class="filesystem">jbig2</span> compressor at:</p>
+<blockquote>
+<p><a class="reference external" href="http://github.com/agl/jbig2enc">http://github.com/agl/jbig2enc</a></p>
+</blockquote>
+<p>You can uncompress the <span class="filesystem">jbig2</span> files using <span class="command">jbig2dec</span>, which can
+be downloaded and built from:</p>
+<blockquote>
+<p><a class="reference external" href="http://jbig2dec.sourceforge.net/">http://jbig2dec.sourceforge.net/</a></p>
+</blockquote>
+</li>
+<li><p class="first">If you use <strong>Leptonica</strong> with other imaging libraries, you will need
+functions to convert between the <tt class="docutils literal"><span class="pre">PIX</span></tt> and other image data
+structures.  To make a <tt class="docutils literal"><span class="pre">PIX</span></tt> from other image data structures, you
+will need to understand pixel packing, pixel padding, component
+ordering and byte ordering on raster lines.  See the file <span class="filesystem">pix.h</span> for
+the specification of image data in the pix and
+<a class="reference internal" href="byte-addressing.html"><em>Byte Addressing for Efficiency and Portability</em></a>.</p>
+</li>
+<li><p class="first">New versions of the <strong>Leptonica</strong> library are released approximately 6
+times a year, and version numbers are provided for each release in
+the <span class="filesystem">makefile</span> and in <span class="filesystem">allheaders.h</span>.  Version numbers are also
+available programatically via the functions <tt class="docutils literal"><span class="pre">getLeptonlibVersion()</span></tt>
+and <tt class="docutils literal"><span class="pre">getImagelibVersions()</span></tt> (in <span class="filesystem">utils.c</span>). All even versions from
+1.42 to 1.60 are archived at <a class="reference external" href="http://code.google.com/p/leptonica">http://code.google.com/p/leptonica</a>, as
+well as all versions after 1.60.</p>
+<p>A brief version chronology is maintained in <a class="reference internal" href="version-notes.html"><em>Version Notes for Leptonica</em></a>.
+Starting with gcc 4.3.3, error warnings (<tt class="docutils literal"><span class="pre">-Werror</span></tt>) are given for
+minor infractions like not checking return values of built-in C
+functions.  With earlier versions of gcc, the library compiles with
+g++ or gcc without &#8220;errors&#8221;.  You can expect some warnings with the
+<tt class="docutils literal"><span class="pre">-Wall</span></tt> flag.</p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/README.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="local-sources.html" title="Source Code and Information"
+             >next</a></li>
+        <li class="right" >
+          <a href="index.html" title="The Leptonica Image Processing Library"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

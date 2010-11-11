@@ -1,0 +1,436 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Grayscale Mapping and Binarization &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Operations" href="operations.html" />
+    <link rel="next" title="Connectivity-preserving Thinning" href="thinning.html" />
+    <link rel="prev" title="Grayscale and Color Image Enhancement" href="enhancement.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="thinning.html" title="Connectivity-preserving Thinning"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="enhancement.html" title="Grayscale and Color Image Enhancement"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="grayscale-mapping-and-binarization">
+<span id="id1"></span><h1>Grayscale Mapping and Binarization<a class="headerlink" href="#grayscale-mapping-and-binarization" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Jun 20, 2010</td>
+</tr>
+</tbody>
+</table>
+<div class="contents local topic" id="contents">
+<ul>
+<li><p class="first"><a class="reference internal" href="#locally-adapted-grayscale-mapping" id="id6">Locally adapted grayscale mapping</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#locally-adapted-binarization" id="id7">Locally adapted binarization</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#sauvola-binarization" id="id8">Sauvola binarization</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#local-background-normalization" id="id9">Local background normalization</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#local-background-normalization-with-otsu" id="id10">Local background normalization with Otsu</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#local-background-normalization-with-two-thresholds" id="id11">Local background normalization with two thresholds</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><a class="reference internal" href="#global-binarization" id="id12">Global binarization</a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="locally-adapted-grayscale-mapping">
+<span id="id2"></span><h2><a class="toc-backref" href="#id6">Locally adapted grayscale mapping</a><a class="headerlink" href="#locally-adapted-grayscale-mapping" title="Permalink to this headline">¶</a></h2>
+<p>Grayscale image enhancement can be global or local, and examples of both
+are given <a class="reference internal" href="enhancement.html"><em>here</em></a>. Document images in particular can
+also be grayscale enhanced as a step either for grayscale image cleanup
+or as a precursor to image binarization.</p>
+<p>However, image binarization is typically treated as simply a
+thresholding operation on a grayscale image, and we give standard
+global (Otsu) and local (Sauvola) thresholding operations in the
+following sections. In the following, we consider operations on
+document images, where text is foreground.</p>
+<p>Several different implementations of adaptive mapping of grayscale
+images are given in <span class="filesystem">adaptmap.c</span>. The basic method is to determine the
+local background value and map the pixels linearly so that the
+background is put at some constant value like 150 or 200. There are two
+basic problems. The first is that there must be an actual local
+background. If there is an image on the page, it will be degraded if we
+try to force a background on it. So it may be important to do text-image
+segmentation first and then do background mapping only on the text
+parts. The second problem is to estimate the local background value. We
+do this efficiently by tiling the image, identifying pixels that are
+almost certainly not background, and finding the average of the
+non-background pixels in each tile. We require a minimum number of such
+pixels (typically about 1/3 of the pixels in the tile), and if there are
+fewer, we estimate the background value in the tile based on its
+neighbors. We additionally allow for smoothing between tile values,
+implemented by block convolution. Once the &#8220;image&#8221; of background values
+is established, the image can be mapped so the background is uniform
+across the full image. The image can then be binarized by selecting a
+<em>global</em> threshold that is somewhat below the background value.</p>
+<p>A fancier adaptive mapping, <tt class="docutils literal"><span class="pre">pixBackgroundNormFlex()</span></tt>, is useful for
+situations where the background is changing very rapidly. It starts with
+image smoothing, using a scaling factor of about 1/5 or 1/7. This is a
+very cheap way to estimate the average pixel value in small tiles. A
+common problem is that there is thick text that is not very dark, and it
+is important not to treat the interior of such text as background. The
+approach taken is to use filling of grayscale basins to a height that is
+a given constant above the basin minima, and a local threshold can then
+be chosen to solidify the foreground regions without corrupting the
+background.</p>
+<p>Another problematic situation is where the contrast between foreground
+and backgrond is very small, so that for binarzation it is important to
+choose the threshold carefully. We use a local contrast mapping,
+<tt class="docutils literal"><span class="pre">pixContrastNorm()</span></tt>, that computes and applies a local TRC (tone
+reproduction curve) to expand the local dynamic range to 8 bits, by
+mapping the darkest pixels to 0 and the lightest to 255. This is useful
+where the locally computed TRC function does not change rapidly with
+position.</p>
+<p>Yet another approach is to compute a local threshold over the image and
+normalize the image so that the computed threshold is a constant.  This
+approach is implemented with <tt class="docutils literal"><span class="pre">pixThresholdSpreadNorm()</span></tt>, which starts
+with a typically sparse set of estimates of the threshold value
+(determined by an edge detector). The estimated values are smoothed and
+then spread by a propagation method, giving a Voronoi-like result for
+regions with constant threshold value.</p>
+</div>
+<div class="section" id="locally-adapted-binarization">
+<span id="id3"></span><h2><a class="toc-backref" href="#id7">Locally adapted binarization</a><a class="headerlink" href="#locally-adapted-binarization" title="Permalink to this headline">¶</a></h2>
+<p>Binarization methods that use local adaptation are given in
+<span class="filesystem">binarize.c</span>.</p>
+<div class="section" id="sauvola-binarization">
+<span id="id4"></span><h3><a class="toc-backref" href="#id8">Sauvola binarization</a><a class="headerlink" href="#sauvola-binarization" title="Permalink to this headline">¶</a></h3>
+<p>The Sauvola method for local binarization does quite well, and we
+implement it with tiling for efficiency. The basic idea behind Sauvola
+is that if the is a lot of local contrast, the threshold should be
+chosen close to the mean value, whereas if there is very little
+contrast, the threshold should be chosen below the mean, by an amount
+proportional to the normalized local standard deviation.</p>
+<p>Sauvola is implemented efficiently by using &#8220;integral image&#8221;
+accumulators for the mean and mean-squared pixel values. The latter
+requires 64 bit floating point arrays, which are expensive for large
+images. Consequently, we give a tiled version. This gives the identical
+results as the non-tiled method, but only requires accumulator arrays to
+be in memory for each tile separately.</p>
+</div>
+<div class="section" id="local-background-normalization">
+<span id="local-backround-normalization"></span><h3><a class="toc-backref" href="#id9">Local background normalization</a><a class="headerlink" href="#local-background-normalization" title="Permalink to this headline">¶</a></h3>
+<p>The use of a local background normalization followed by a global
+threshold was discussed briefly above. Here we give a few more
+details. The local estimate of the background value in the grayscale
+image is used to linearly map the pixel values in such a way that the
+background goes to a global constant.</p>
+<p>There are several parameters that must be selectdd for locally-adaptive
+background normalization:</p>
+<ol class="arabic">
+<li><p class="first"><em>Tile size</em>. The image is tiled and the local calculation is done
+over each tile independently.</p>
+</li>
+<li><p class="first"><em>Foreground threshold</em>. We consider all pixels at this level or
+darker to be foreground, and they are not counted when estimating the
+local background.</p>
+</li>
+<li><p class="first"><em>Minimum background count</em>. This is used to make sure that there
+are a sufficient number of background pixels in the tile.</p>
+</li>
+<li><p class="first"><em>Smoothing factors</em>. After local thresholds are computed, the
+result is smoothed by convolution, averaging each value by a set of
+neighbors specified by the size of the convolution kernel.</p>
+</li>
+</ol>
+<p>Parameter selection depends on the expected spatial dependence of the
+local background. To track faster variation, it is necessary to use
+smaller tiles and a smaller smoothing convolution filter. However, using
+unnecessarily small tiles gives a noisier result.</p>
+</div>
+<div class="section" id="local-background-normalization-with-otsu">
+<span id="local-backround-normalization-with-otsu"></span><h3><a class="toc-backref" href="#id10">Local background normalization with Otsu</a><a class="headerlink" href="#local-background-normalization-with-otsu" title="Permalink to this headline">¶</a></h3>
+<p>Image binarization using a local background normalization, followed by
+a modified Otsu approach to get a global threshold that can be applied
+to the normalized image. The binarization is implemented by
+<tt class="docutils literal"><span class="pre">pixOtsuThreshOnBackgroundNorm()</span></tt>.</p>
+<p>Local background normalization of the grayscale image is done first,
+with the background being mapped to white (255). Then, to determine
+the threshold that should be applied, a modified Otsu threshold is
+found for the normalized image, and this is applied globally.</p>
+</div>
+<div class="section" id="local-background-normalization-with-two-thresholds">
+<span id="local-backround-normalization-with-two-thresholds"></span><h3><a class="toc-backref" href="#id11">Local background normalization with two thresholds</a><a class="headerlink" href="#local-background-normalization-with-two-thresholds" title="Permalink to this headline">¶</a></h3>
+<p>After local background normalization, two different thresholds are
+used. For the part of the image near the thicker text, a high
+threshold can be chosen, to render the text fully in black. For the
+rest of the image, much of which is background, use a threshold based
+on the Otsu global value for the original image. This binarization is
+implemented by <tt class="docutils literal"><span class="pre">pixMaskedThreshOnBackgroundNorm()</span></tt>.</p>
+<p>It is necessary to build a binary selection mask over the thicker or
+darker text, and use it to combine the two thresholded images. This
+selection mask is generated as follows. Do a second background
+normalization, this time with a very small tile size. The result is to
+create very light pixels in the background near significant edges.
+These pixels appear as a white halo around the thicker text, and they
+are extracted as a binary mask by high-pass thresholding. The mask is
+then solidified over the dark text by morphological dilation.</p>
+<p>Then to extract the thick text, a high global threshold (say, 190) is
+used. The rest of the image is thresholded using a value derived from
+the modified Otsu method (described above) on the <em>original</em> image.
+Empirically, it is best to use a threshold value that is 30 greater
+than the Otsu value, in order to recover the lighter parts of the
+foreground.</p>
+<p>Both thresholds can be applied to the standard normalized image where
+the background is mapped to 255, and the resulting 1 bpp images are
+combined using the selection mask.</p>
+<p>There are many other possible variations for binarizing document
+images, using locally adaptive methods, but this should give you a
+feel for some of the approaches that can be used.</p>
+</div>
+</div>
+<div class="section" id="global-binarization">
+<span id="id5"></span><h2><a class="toc-backref" href="#id12">Global binarization</a><a class="headerlink" href="#global-binarization" title="Permalink to this headline">¶</a></h2>
+<p>If an image has had its background normalized to a constant value, it
+can be binarized by a global value chosen to be less than the
+background by an appropriate amount. It must be less because the
+background cannot be made exactly constant, especially in situations
+where it was changing rapidly or where there is bleedthrough from text
+or image on the other side of the page.</p>
+<p>Alternatively, some images can be binarized well with a global
+threshold, and for these, one common approach is that due to Otsu. In
+standard Otsu, the different possible thresholds are used on the
+histogram of pixel values, and the threshold is chosen to maximize the
+variance of the two pixel distributions. Specifically, a score
+function is maximized that is the product of the number of pixels on
+each side of the threshold times the separation of the mean values.
+This works better when the ratio of the number of bg pixels to fg
+pixels is not too large. However, if there are few fg pixels, the
+threshold will be chosen well up the lower slope of the background
+distribution, resulting in many bg pixels being thresholded to fg. We
+use a modification of Otsu to moderate this effect. Instead of
+choosing the threshold value to be at the maximum of the score, we
+choose it to be at the minimum histogram value such that the score is
+within some fraction of the maximum.</p>
+<p>We also give a somewhat locally adapted version of Otsu, by tiling the
+image (with the Pixtiling machinery) and determining the Otsu
+threshold separately in each tile. Again, there is an optional
+smoothing operation on the tile thresholds.</p>
+<p>For clean images where there is not a large variation in the background
+pixels, or for images that have had their background normalized (as
+described <a class="reference internal" href="#local-backround-normalization-with-otsu"><em>above</em></a>), Otsu
+works quite well. So why the modification? This is best shown by an
+example. Consider this image:</p>
+<div align="center" class="align-center"><img alt="Original image" class="border align-center" src="../_images/otsu-input-0.4.jpg" /></div>
+<p>When we apply standard Otsu to this image (with scorefract = 0 in
+<tt class="docutils literal"><span class="pre">pixOtsuAdaptiveThreshold()</span></tt>, and using large numbers for sx and sy
+to guarantee a single tile over the entire image), we get a rather
+poor result:</p>
+<div align="center" class="align-center"><img alt="Standard Otsu" class="border align-center" src="../_images/otsu-result-0.0.jpg" /></div>
+<p>Some of the darker bg has been thresholded as fg. The origin of the
+problem is evident from the histogram, where the threshold sits up on
+the shoulder of the large background peak. However, by setting
+scorefract = 0.1, to allow the modified Otsu to choose the minimum in
+the histogram in a range where the score is within 0.9 of the maximum
+value, we get this:</p>
+<div align="center" class="align-center"><img alt="Modified Otsu with scorefract = 0.1" class="border align-center" src="../_images/otsu-result-0.1.jpg" /></div>
+<p>This is a significant improvement. However, notice that the text on
+the right side is relatively weak.</p>
+<p>By tiling the image (adaptive Otsu) we can do a bit better. Choosing a
+tile size of 300 x 300, which must be considerably larger than can fit
+into the background at the bottom of the image, one obtains a much
+better result:</p>
+<div align="center" class="align-center"><img alt="Tiled Modified Otsu with scorefract = 0.1" class="border align-center" src="../_images/otsu-result-tile300.jpg" /></div>
+<p>The result on the left is for standard (tiled) Otsu, with scorefract =
+0.0, and on the right is modified (tiled) Otsu with scorefract 0.1.
+For both, most of the background is now properly assigned. On the left
+the text is a bit heavier throughout, and there is a small amount of
+noise in the background, but with modified Otsu the text is lighter
+and generally more evenly weighted.</p>
+<p>That&#8217;s about the best we can do with Otsu. When working with difficult
+images, the various adaptive methods that do some type of background
+normalization give better binarizations than the global methods (of
+which Otsu is perhaps the best).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html">Grayscale Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html">Fast Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html">Image Scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html">Image Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html">Grayscale and Color Image Enhancement</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Grayscale Mapping and Binarization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#locally-adapted-grayscale-mapping">Locally adapted grayscale mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#locally-adapted-binarization">Locally adapted binarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#global-binarization">Global binarization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/binarization.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="thinning.html" title="Connectivity-preserving Thinning"
+             >next</a></li>
+        <li class="right" >
+          <a href="enhancement.html" title="Grayscale and Color Image Enhancement"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

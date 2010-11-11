@@ -1,0 +1,327 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>What is “Well-Tested” C Code? &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="Some Issues in Software Design" href="design-principles.html" />
+    <link rel="prev" title="Byte Addressing for Efficiency and Portability" href="byte-addressing.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="design-principles.html" title="Some Issues in Software Design"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="byte-addressing.html" title="Byte Addressing for Efficiency and Portability"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="what-is-well-tested-c-code">
+<span id="testing-methods"></span><h1>What is &#8220;Well-Tested&#8221; C Code?<a class="headerlink" href="#what-is-well-tested-c-code" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Oct 7, 2007</td>
+</tr>
+</tbody>
+</table>
+<p>As indicated on the copyright notice, there are no warrantees that
+anything here works at all. That&#8217;s the legal language. On the positive
+side, much of this software has been heavily used over the past four
+years, indicating that it is quite reliable. It has been subjected to
+variable amounts of regression testing. Nearly every program in the
+<span class="filesystem">prog</span> directory is a regression test, and some of the most thorough
+ones, of which there are 33, have the suffix <span class="filesystem">_reg</span>.</p>
+<p>I have seen estimates that commercial software has between 5 and 20
+errors per 1000 lines of code. This may seem high, but many of these
+errors do not result in serious bugs. Taking the low end, one might
+guess that the code in the Leptonica library, which at present is about
+100K lines, would have about 1000 errors. I hope it is much smaller, but
+obviously cannot prove it.</p>
+<p>To illustrate some of the methods I&#8217;ve used to prevent errors, consider
+the rasterop implementation, which is some of the most intricate, and
+hence error-prone, code you will find here. It is about 2600 lines. You
+can find a thorough description of rasterop <a class="reference internal" href="rasterops.html#rasterops"><em>here</em></a>, and
+the source code is annotated with comments that should be sufficient to
+understand what is happening if you know in general what it is supposed
+to do.</p>
+<p>Now rasterop, which works on packed data, has implicitly many different
+cases. Besides the obvious ones of the specific logical operation that
+is used, rasterop requires clipping of the source and destination
+images, and a rectangular region can be taken from any arbitrary part of
+the source (i.e., the left and right edges of the rectangular region can
+have any possible alignment with respect to the word boundaries in the
+source image) and it can be placed on any arbitrary part of the
+destination (again, all possible locations of left and right edges,
+relative to destination word alignment, are possible). These pieces can
+vary from a few pixels in width to the entire image. For example, when
+the source image fragment is very small, all pixels on a raster line may
+fit within one 32-bit word, or may span two words, and likewise for the
+destination image. How can one test all this?</p>
+<p>There are really two types of tests that need to be performed. The first
+is to test that the result is correct. That is the problem of &#8220;many
+cases&#8221; described above. The second is to test that no illegal memory
+operations are performed. These are of course related, in that if you
+are fairly sure the algorithm always gives the correct answer, and it
+never crashes, it is unlikely to be making serious memory errors.</p>
+<p>Consider first the problem of correctness. We have tested this in many
+ways, but the most thorough is to use rasterop to implement
+<a class="reference internal" href="binary-morphology.html"><em>Binary Morphology</em></a>. For example, consider dilation. We can dilate
+an image with a structuring element (Sel) in the following two ways, and
+compare the results:</p>
+<ul>
+<li><p class="first">For each <em>hit</em> in the Sel, do a union of the full image, translating
+the image for each rasterop by an amount given by the location of the
+hit relative to the center of the Sel.</p>
+</li>
+<li><p class="first">For each ON <em>pixel</em> in the image, do a union of the image composed of
+the hits in the Sel, where the center of the Sel is aligned with the
+ON pixel.</p>
+</li>
+</ul>
+<p>These two methods should give identical results. For a large image with
+many ON pixels, and for a variety of sizes of Sel, the second method
+should give many instances of each possible combination of source and
+dest image alignment. Here is a program that was written to make the
+test. An image file is read, generating the internal source image
+<tt class="docutils literal"><span class="pre">pixs</span></tt>. The outermost loop sets the Sel widths and heights to span all
+sizes between the desired limits. Inside, <tt class="docutils literal"><span class="pre">pixDilate()</span></tt> uses the
+standard rasterop method for dilation, given by the first method
+above. Then the second method is used, where a small image of ON pixels
+is generated that has the same shape as the Sel used by the first
+method. The rest of the program should be self-explanatory. With a
+million ON pixels in the source image, it does a million rasterops using
+the small image of the Sel.</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="n">MINW</span><span class="p">;</span> <span class="n">width</span> <span class="o">&lt;=</span> <span class="n">MAXW</span><span class="p">;</span> <span class="n">width</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">height</span> <span class="o">=</span> <span class="n">MINH</span><span class="p">;</span> <span class="n">height</span> <span class="o">&lt;=</span> <span class="n">MAXH</span><span class="p">;</span> <span class="n">height</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="n">cx</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="n">cy</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+            <span class="cm">/* dilate using an actual sel */</span>
+        <span class="n">sel</span> <span class="o">=</span> <span class="n">selCreateBrick</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">HIT</span><span class="p">);</span>
+        <span class="n">pixd1</span> <span class="o">=</span> <span class="n">pixDilate</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">pixs</span><span class="p">,</span> <span class="n">sel</span><span class="p">);</span>
+
+            <span class="cm">/* dilate using a pix as a sel */</span>
+        <span class="n">pixse</span> <span class="o">=</span> <span class="n">pixCreate</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">pixSetAll</span><span class="p">(</span><span class="n">pixse</span><span class="p">);</span>
+        <span class="n">pixd2</span> <span class="o">=</span> <span class="n">pixCopy</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">pixs</span><span class="p">);</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">pixGetWidth</span><span class="p">(</span><span class="n">pixs</span><span class="p">);</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">pixGetHeight</span><span class="p">(</span><span class="n">pixs</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">pixGetPixel</span><span class="p">(</span><span class="n">pixs</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                    <span class="n">pixRasterop</span><span class="p">(</span><span class="n">pixd2</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">cx</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">cy</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
+                                <span class="n">PIX_SRC</span> <span class="o">|</span> <span class="n">PIX_DST</span><span class="p">,</span> <span class="n">pixse</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">pixEqual</span><span class="p">(</span><span class="n">pixd1</span><span class="p">,</span> <span class="n">pixd2</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">same</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">same</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Correct: results for (%d,%d) are identical!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+                             <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Error: results are different!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+            <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;SE: width = %d, height = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+            <span class="n">pixWrite</span><span class="p">(</span><span class="s">&quot;junkout1&quot;</span><span class="p">,</span> <span class="n">pixd1</span><span class="p">,</span> <span class="n">IFF_PNG</span><span class="p">);</span>
+            <span class="n">pixWrite</span><span class="p">(</span><span class="s">&quot;junkout2&quot;</span><span class="p">,</span> <span class="n">pixd2</span><span class="p">,</span> <span class="n">IFF_PNG</span><span class="p">);</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="n">pixDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pixse</span><span class="p">);</span>
+        <span class="n">pixDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pixd1</span><span class="p">);</span>
+        <span class="n">pixDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pixd2</span><span class="p">);</span>
+        <span class="n">selDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sel</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This has been used to dilate large and small images, including images
+with pixels distributed somewhat randomly and extending to the
+boundaries. No errors have been observed. Once we are convinced that the
+rasterop is working properly, the rasterop implementation can then be
+used to test the fast <a class="reference internal" href="binary-morphology.html#dwa-implementation-binary-morphology"><em>destination word accumulation</em></a> implementation method.</p>
+<p>What about the second type of test, for illegal memory operations? The
+only real test is a memory checker. This is a program that checks every
+memory reference to make sure that all reads and writes are to valid
+memory on the stack or allocated on the heap. These programs also note
+uninitialized memory that is read, allocated memory that is not freed,
+and other such pecadillos. Not all invalid memory references will cause
+a program to crash. Debuggers like <span class="command">gdb</span> do not check memory
+references; they only catch signals from the kernel that are intended to
+kill the program. The real cause of a crash may be an illegal write that
+put bad data in a memory address. Only later, when this is read, does
+the program terminate. In 2001, a memory management debugger for
+x86/Linux, called <a class="reference external" href="http://valgrind.org/">valgrind</a>, became
+available. The early versions worked beautifully, and it has been
+continuously improved and expanded. Valgrind is very simple to use, and
+provides essentially the same functionality as &#8220;purify&#8221; but at a more
+reasonable price (<em>free: it is open source</em>). This is described in more
+<a class="reference internal" href="design-principles.html#valgrind-information"><em>detail</em></a>. When using valgrind, the program runs
+about 50 times slower, But I have used valgrind with the test program
+above (and just about every other testing program) to search
+(unsuccessfully) for illegal memory operations in rasterop.</p>
+<p>Obviously, not everything in the Leptonica library has been checked
+this thoroughly, but I&#8217;m doing my best. Please let me know if you find
+any problems.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/testing-methods.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="design-principles.html" title="Some Issues in Software Design"
+             >next</a></li>
+        <li class="right" >
+          <a href="byte-addressing.html" title="Byte Addressing for Efficiency and Portability"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

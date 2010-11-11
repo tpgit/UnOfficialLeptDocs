@@ -1,0 +1,1385 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Version Notes for Leptonica &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="What is the Significance of the Name “leptonica”?" href="about-the-name.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="glossary.html" title="Glossary"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="about-the-name.html" title="What is the Significance of the Name “leptonica”?"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="version-notes-for-leptonica">
+<span id="version-notes"></span><h1>Version Notes for Leptonica<a class="headerlink" href="#version-notes-for-leptonica" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following are highlights of the changes in each version.
+They are <em>not</em> a complete listing of the modifications.</p>
+</div>
+<div class="section" id="aug-10">
+<h2>1.66 &#8211; 3 Aug 10<a class="headerlink" href="#aug-10" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">More tweaks for including (or not) bounding box hints for PS wrapping.
+Default is to write b.b., but not in functions that wrap images as
+full pages (<span class="filesystem">psio1.c</span>, <span class="filesystem">psio2.c</span>)</p>
+</li>
+<li><p class="first"><span class="filesystem">pix4.c</span> split in two files, and added function to identify c.c.  that
+are sufficiently similar in shape to rectangles (<span class="filesystem">pix5.c</span>)</p>
+</li>
+<li><p class="first">Modify 2 and 4 bit setters to clip the input value so that it can only
+affect the pixel requested (<span class="filesystem">arrayaccess.c</span>, <span class="filesystem">arrayaccess,h</span>)</p>
+</li>
+<li><p class="first">New pseudorandom sequence functions (<span class="filesystem">numafunc1.c</span>)</p>
+</li>
+<li><p class="first">Dewarping camera-based images using textlines (<span class="filesystem">dewarp.c</span>,
+<span class="filesystem">prog/dewarp*</span>)</p>
+</li>
+<li><p class="first">Geometrical function for aggregating overlapping bounding boxes.</p>
+</li>
+<li><p class="first">Programs to generate figures for book <cite class="chapter-title">&#8220;Document Image
+Applications&#8221;</cite> in <cite>Mathematical Morphology: theory and
+applications</cite> (see: <a class="reference internal" href="document-image-analysis.html"><em>Document Image Analysis</em></a>) (<span class="filesystem">prog/livre*.c</span>)</p>
+</li>
+<li><p class="first">Functions that do affine and other operations in images with alpha
+blending at edges: <tt class="docutils literal"><span class="pre">pix*WithAlpha()</span></tt>.  Also do this with a
+gamma/inverse-gamma wrapper to further reduce edge aliasing.
+(<span class="filesystem">rotate.c</span>, <span class="filesystem">scale.c</span>, <span class="filesystem">projective.c</span>, <span class="filesystem">affine.c</span>, <span class="filesystem">bilinear.c</span>,
+<span class="filesystem">prog/alphaxform_reg.c</span>)</p>
+</li>
+<li><p class="first">Improved color segmentation (fixed bugs; made faster)</p>
+</li>
+<li><p class="first">Higher order least square fits: quadratic, cubic, quartic. (<span class="filesystem">pts.c</span>)</p>
+</li>
+<li><p class="first">Various mods for otsu binarization and the <tt class="docutils literal"><span class="pre">*SplitDistribution*()</span></tt>
+functions (<span class="filesystem">numafunc2.c</span>, <span class="filesystem">prog/otsutest2.c</span>)</p>
+</li>
+<li><p class="first">Control sampling in convolution output (<span class="filesystem">convolve.c</span>, <span class="filesystem">prog/fpix_reg.c</span>)</p>
+</li>
+<li><p class="first">Morphological operations on numas (<span class="filesystem">numafunc1.c</span>, <span class="filesystem">numafunc2.c</span>,
+<span class="filesystem">prog/numa_reg.c</span>)</p>
+</li>
+<li><p class="first">Pix serialization wrapped so we can use <tt class="docutils literal"><span class="pre">pixRead()</span></tt>, etc on these
+files (<span class="filesystem">spixio.c</span>, <span class="filesystem">readfile.c</span>, <span class="filesystem">writefile.c</span>)</p>
+</li>
+<li><p class="first"><span class="filesystem">GIF</span> read/write to memory fixed (and cheated &#8212; using files)
+(<span class="filesystem">gifio.c</span>)</p>
+</li>
+<li><p class="first">New <tt class="docutils literal"><span class="pre">FPIX</span></tt> and <tt class="docutils literal"><span class="pre">DPIX</span></tt> accessors; contour rendering on <tt class="docutils literal"><span class="pre">FPIX</span></tt>
+(<span class="filesystem">fpix1.c</span>, <span class="filesystem">fpix2.c</span>)</p>
+</li>
+<li><p class="first">Various functions for linearly mapping colors and displaying arrays of
+colors (<span class="filesystem">pix4.c</span>, <span class="filesystem">blend.c</span>, <span class="filesystem">prog/rankhisto_reg.c</span>)</p>
+</li>
+<li><p class="first">Functions for getting approximate ranges of colors and color
+components in an image (<span class="filesystem">pix4.c</span>, <span class="filesystem">colormap.c</span>)</p>
+</li>
+<li><p class="first">Cleaned up windows platform and compiler defines and macros.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="apr-10">
+<h2>1.65 &#8211; 5 Apr 10<a class="headerlink" href="#apr-10" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Added regression test utility functions for standardizing and
+automating construction and running of regression tests.  Makes the
+golden files when the 2nd arg to the reg test is &#8216;generate&#8217;.
+(<span class="filesystem">regutils.{c,h}</span>)</p>
+<p>Converted 22 reg tests in <span class="filesystem">prog</span> to use this; invoked with
+<span class="filesystem">alltests_reg</span>.  Goal is to put all <span class="filesystem">prog/*_reg.c</span> into this format
+and put a set of golden files on the web.</p>
+</li>
+<li><p class="first">Small fixes in <span class="filesystem">gifio.c</span> for handling streams properly.</p>
+</li>
+<li><p class="first">New functions for shifting colors, hue invariant transforms, etc
+(<span class="filesystem">blend.c</span>)</p>
+</li>
+<li><p class="first"><span class="filesystem">prog/dwamorph*.c</span>: rename <span class="filesystem">*1_reg.c</span> to <span class="filesystem">dwalineargen.c</span>; others
+converted to standard reg tests.</p>
+</li>
+<li><p class="first">New rgb convolution functions.</p>
+</li>
+<li><p class="first">For <span class="filesystem">PS</span> output, write all images with a bounding box hint and with
+page numbers, which works for both embedded (e.g., in tex) and full
+page generated <span class="filesystem">PS</span>.  Once converted to pdf, this is fine in all
+situations.</p>
+</li>
+<li><p class="first">New functions for initialization and random insertion with
+<span class="filesystem">pixcomp.c</span>.</p>
+</li>
+<li><p class="first">For color quantization, make the lightest color white if sufficiently
+close; ditto for black (<span class="filesystem">colorquant1.c</span>, <span class="filesystem">colorquant2.c</span>).</p>
+</li>
+<li><p class="first">Rank binning of 8 bpp and rgb images (<span class="filesystem">numafunc2.c</span>, <span class="filesystem">pix4.c</span>)</p>
+</li>
+<li><p class="first">A function to rank colors by the intensity of the minimum comp
+(<span class="filesystem">pix4.c</span>)</p>
+</li>
+<li><p class="first">New <tt class="docutils literal"><span class="pre">pixRotateBinaryNice()</span></tt>, rotates 1 bpp pix in such a way that
+the shear lines aren&#8217;t visible. (<span class="filesystem">rotate.c</span>)</p>
+</li>
+<li><p class="first">New <tt class="docutils literal"><span class="pre">pixSaveTiledWithText()</span></tt>, a convenience function to append text
+to images that are being tiled. (<span class="filesystem">writefile.c</span>)</p>
+</li>
+<li><p class="first">Stereoscopic warping functions and stereo pair functions
+(<span class="filesystem">warper.c</span>)</p>
+</li>
+<li><p class="first">Linear interpolated shear &#8212; better than rasterop shear (<span class="filesystem">shear.c</span>)</p>
+</li>
+<li><p class="first">Option to use higher quality chroma (U,V) sampling in jpeg
+(<span class="filesystem">jpegio.c</span>)</p>
+</li>
+<li><p class="first">Rename <tt class="docutils literal"><span class="pre">Bmf</span></tt> &#8211;&gt; <tt class="docutils literal"><span class="pre">L_Bmf</span></tt>.</p>
+</li>
+<li><p class="first">New tests in prog:</p>
+<blockquote>
+<p><span class="filesystem">alltests_reg.c</span>, <span class="filesystem">alphaclean_reg.c</span>, <span class="filesystem">psio_reg.c</span>,
+<span class="filesystem">rankbin_reg.c</span>, <span class="filesystem">rankhisto_reg.c</span>, <span class="filesystem">warpertest.c</span></p>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="jan-10">
+<h2>1.64 &#8211; 3 Jan 10<a class="headerlink" href="#jan-10" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Easy setup for standard byte processing on 8 bpp pix (<span class="filesystem">pix2.c</span>)</p>
+</li>
+<li><p class="first">Evaluation of difference between similar images; test for similar
+images and (<span class="filesystem">compare.c</span>)</p>
+</li>
+<li><p class="first">Subpixel scaling, with color input and separate scale factors
+(<span class="filesystem">pixconv.c</span>)</p>
+</li>
+<li><p class="first">Fix <span class="filesystem">TIFF</span> header reader to get correct format (<span class="filesystem">tiffio.c</span>)</p>
+</li>
+<li><p class="first">Enable <tt class="docutils literal"><span class="pre">pixDisplay()</span></tt> to work with <span class="command">i_view</span> (Windows) and with
+<span class="command">xzgv</span> and <span class="command">xli</span> as well as <span class="command">xv</span>; allow application to
+choose which to use (<span class="filesystem">writefile.c</span>).</p>
+</li>
+<li><p class="first">Use a mask to specify regions that are changed by a morphological
+operation (<span class="filesystem">morphapp.c</span>).</p>
+</li>
+<li><p class="first">Improve the default sharpening for scaling (<span class="filesystem">scale.c</span>)</p>
+</li>
+<li><p class="first">Function to test for equivalence of file data (<span class="filesystem">utils.c</span>)</p>
+</li>
+<li><p class="first">Select and read image files with embedded index (<span class="filesystem">readfile.c</span>)</p>
+</li>
+<li><p class="first">Fix box size calculation in <tt class="docutils literal"><span class="pre">pixEmbedForRotation()</span></tt>; solution
+provided by Brent Sundheimer.</p>
+</li>
+<li><p class="first">New <tt class="docutils literal"><span class="pre">pixDisplayMultiple()</span></tt>, instead of calling <span class="command">gthumb</span>
+directly; this is now set up to use <span class="command">i_view</span> for Windows.</p>
+</li>
+<li><p class="first">Changed criteria for determining if an image is color
+(<span class="filesystem">colorcontent.c</span>, <span class="filesystem">colorquant{1,2}.c</span>)</p>
+</li>
+<li><p class="first">Optional mode where the filename extension is automatically written to
+output image files; particularly useful for Windows.</p>
+</li>
+<li><p class="first">Initialize <tt class="docutils literal"><span class="pre">BOXA</span></tt> and <tt class="docutils literal"><span class="pre">PIXA</span></tt> as full, with minimal placeholders.</p>
+</li>
+<li><p class="first">Get rank valued numbers and boxes in <tt class="docutils literal"><span class="pre">NUMA</span></tt> and <tt class="docutils literal"><span class="pre">BOXA</span></tt>.</p>
+</li>
+<li><p class="first">Cute implementation for finding largest solid rectangle (<span class="filesystem">maze.c</span>)</p>
+</li>
+<li><p class="first">New median cut quantization for mixed (color/gray) images
+(<span class="filesystem">colorquant2.c</span>)</p>
+</li>
+<li><p class="first">Many changes to allow the library and applications to be built easily
+in Windows. There is now a thorough windows readme, written by Tom
+Powers, for doing this.  The Windows build information and project
+files are now in a new vs2008 directory.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="nov-09">
+<h2>1.63 &#8211; 8 Nov 09<a class="headerlink" href="#nov-09" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Added <tt class="docutils literal"><span class="pre">pixScaleToGrayFast()</span></tt>, a faster version with very similar
+quality.</p>
+</li>
+<li><p class="first">Fixed <tt class="docutils literal"><span class="pre">scaleGrayLILow()</span></tt> to handle edge pixels more accurately.</p>
+</li>
+<li><p class="first">Text processing:</p>
+<ul>
+<li><p class="first">new text application (<span class="filesystem">finditalic.c</span>, <span class="filesystem">prog/finditalic.c</span>) for
+locating words in italic type style.</p>
+</li>
+<li><p class="first">Easier to add text to a pix using the bitmap font stored in the font
+directory; see, e.g., <span class="filesystem">prog/writetxt_reg.c</span>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Blending of 2 images with an alpha channel: <tt class="docutils literal"><span class="pre">pixBlendWithGrayMask()</span></tt></p>
+</li>
+<li><p class="first">Fixed bug in color segmentation; it now (again) works properly.</p>
+</li>
+<li><p class="first">New utility (<span class="filesystem">pixcomp.c</span>) for handling compressed pix arrays in
+memory; new <tt class="docutils literal"><span class="pre">PixComp</span></tt> and <tt class="docutils literal"><span class="pre">PixaComp</span></tt> structs.</p>
+</li>
+<li><p class="first">Fast serialization of pix without compressing
+(<tt class="docutils literal"><span class="pre">pixSerializeToMemory()</span></tt> and <tt class="docutils literal"><span class="pre">pixDeserializeFromMemory()</span></tt>);
+required serialized colormaps</p>
+</li>
+<li><p class="first">File I/O: new functions for reading file headers.</p>
+<ul>
+<li><p class="first">PostScript generation modernized; split <span class="filesystem">psio.c</span> into <span class="filesystem">psio1.c</span> and
+<span class="filesystem">psio2.c</span>; added level 3 (flate) encoding.</p>
+</li>
+<li><p class="first">new functions for reading and writing multipage tiffs, for arbitrary
+input images.  For writing, compression is lossless (either g4 or
+zip)</p>
+</li>
+<li><p class="first">update all I/O stub files</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Miscellaneous: new <tt class="docutils literal"><span class="pre">pixaAddBorderGeneral()</span></tt>; new functions in
+<span class="filesystem">pix3.c</span> for counting fg pixels and summing 8 bpp pixels by column and
+row; new <tt class="docutils literal"><span class="pre">numaUniformSampling()</span></tt> for resampling with interpolation;
+subpixel scaling.</p>
+</li>
+<li><p class="first">New or improved regression tests in prog:</p>
+<blockquote>
+<p><span class="filesystem">extrema_reg</span>, <span class="filesystem">pixalloc_reg</span>, <span class="filesystem">blend2_reg</span>, <span class="filesystem">rotateorth_reg</span>,
+<span class="filesystem">ioformats_reg</span>, <span class="filesystem">colorseg_reg</span>, <span class="filesystem">pixcomp_reg</span>, <span class="filesystem">pixserial_reg</span>,
+<span class="filesystem">writetext_reg</span>, <span class="filesystem">psioseg_reg</span>, <span class="filesystem">subpixel_reg</span>.</p>
+</blockquote>
+</li>
+<li><p class="first">Interface changes:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">findFileFormat()</span></tt> and <tt class="docutils literal"><span class="pre">findFileFormatBuffer()</span></tt>: now returns
+format using input ptr. The function return value is 0 if OK; 1 on
+error</p>
+</li>
+<li><p class="first">rename: <tt class="docutils literal"><span class="pre">pixThresholdPixels()</span></tt> &#8211;&gt; <tt class="docutils literal"><span class="pre">pixThresholdPixelSum()</span></tt></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="jul-09">
+<h2>1.62 &#8211; 26 Jul 09<a class="headerlink" href="#jul-09" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Expanded composite Dwa implementation as a sequence of operations, so
+that it now works beyond a size of 63.  It&#8217;s typically about 2x faster
+than the composite rasterop implementation (with help from Ankur
+Jain).  Also use data transfer instead of data copy whenever possible.
+Thorough tests with <span class="filesystem">binmorph4_reg</span> and <span class="filesystem">binmorph5_reg</span>.</p>
+</li>
+<li><p class="first">New functions in <span class="filesystem">colorseg.c</span> for masking and histogramming in HSV
+color space.</p>
+</li>
+<li><p class="first">Treat string constants rigorously as <tt class="docutils literal"><span class="pre">const</span> <span class="pre">char*</span></tt>, initializing to
+<tt class="docutils literal"><span class="pre">char[]</span></tt> if to be used as non-const, or in some cases casting to
+<tt class="docutils literal"><span class="pre">char*</span></tt>.  This avoids compiler warnings.</p>
+</li>
+<li><p class="first">Improved color quantization using existing colormap for octcubes and a
+new version for grayscale.  This will rigorously map most black and
+most white octcubes (rsp) to black and white if they exist in the
+colormap.</p>
+</li>
+<li><p class="first">Fast quantization to an existing colormap for color and grayscale.</p>
+</li>
+<li><p class="first">Fixed some bugs; e.g., in <tt class="docutils literal"><span class="pre">pixAffineSampled()</span></tt> for 1 bpp with
+<tt class="docutils literal"><span class="pre">L_BRING_IN_BLACK</span></tt>; reading and writing pnm for 2 and 4 bpp.</p>
+</li>
+<li><p class="first">In <span class="filesystem">pngio.c</span>, enable compile time control over these settings:</p>
+<ul>
+<li><p class="first">converting 16 bpp &#8211;&gt; 8 bpp on read</p>
+</li>
+<li><p class="first">removing alpha channel on read</p>
+</li>
+<li><p class="first">setting zlib compression on write</p>
+</li>
+</ul>
+</li>
+<li><p class="first">For general scaling, allow sharpening to be optional, and provided
+faster sharpening operations.</p>
+</li>
+<li><p class="first">Improve support for 16 bpp grayscale.</p>
+</li>
+<li><p class="first">For <tt class="docutils literal"><span class="pre">scaleToGray*</span></tt> functions, reduce the width truncation.</p>
+</li>
+<li><p class="first">In <span class="filesystem">psio.c</span>, new functions for converting segmented page images (text
+and image) into level 2 PostScript.</p>
+</li>
+<li><p class="first">Removed all implicit casting to <tt class="docutils literal"><span class="pre">const</span> <span class="pre">char*</span></tt>.</p>
+</li>
+<li><p class="first">New custom pix memory allocator, designed for large pix whose memory
+needs to be reused many times.</p>
+</li>
+<li><p class="first">In <span class="filesystem">xtractprotos</span>, we now allow prepending an arbitrary string to each
+prototype.</p>
+</li>
+<li><p class="first">In <span class="filesystem">environ.h</span>, additions for MSVC to work with VC++6, including
+prototype strings for dll import and export (thanks to Ray Smith).</p>
+</li>
+<li><p class="first">In <span class="filesystem">colorseg.c</span>, new functions for building HSV histograms, finding
+peaks, and generating masks based on the peaks.</p>
+</li>
+<li><p class="first">New or improved regression tests:</p>
+<blockquote>
+<p><span class="filesystem">pixalloc_reg</span>, <span class="filesystem">binmorph4_reg</span>, <span class="filesystem">binmorph5_reg</span>, <span class="filesystem">conversion_reg</span>,
+<span class="filesystem">scale_reg</span>, <span class="filesystem">cmapquant_reg</span>,</p>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="apr-09">
+<h2>1.61 &#8211; 26 Apr 09<a class="headerlink" href="#apr-09" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">New histo-based grayscale quantization:
+<tt class="docutils literal"><span class="pre">pixGrayQuantizeFromHisto()</span></tt>, that is used in new
+<tt class="docutils literal"><span class="pre">pixQuanitzeIfFewColorsMixed()</span></tt>.</p>
+</li>
+<li><p class="first">Made final fix in <tt class="docutils literal"><span class="pre">pixBlockconv()</span></tt>.  No underflows; no more
+overflows!</p>
+</li>
+<li><p class="first">More efficient rgb write with pnm.</p>
+</li>
+<li><p class="first">Add proto to <span class="filesystem">jpegiostub.c</span>, allowing proper use of the stubber.</p>
+</li>
+<li><p class="first">Fix several filter functions to use proper test on filter size; viz.,
+<tt class="docutils literal"><span class="pre">pixMinMaxTiles()</span></tt>, several functions in <span class="filesystem">convolve.c</span>.</p>
+</li>
+<li><p class="first">Redo shear implementation to handle arbitrary angles, to handle
+colormapped images, and to avoid the singularity at pi/2.</p>
+</li>
+<li><p class="first">Removed both static vars from <tt class="docutils literal"><span class="pre">pixSaveTiled()</span></tt>.</p>
+</li>
+<li><p class="first">Generalized <tt class="docutils literal"><span class="pre">pixRotate()</span></tt> to handle colormapped images, and to use
+<tt class="docutils literal"><span class="pre">pixRotateBySampling()</span></tt> in place of the removed
+<tt class="docutils literal"><span class="pre">pixRotateEuclidean()</span></tt>.</p>
+</li>
+<li><p class="first">New skew finder for full angle range,
+<tt class="docutils literal"><span class="pre">pixFindSkewOrthogonalRange()</span></tt>.</p>
+</li>
+<li><p class="first">For skew detection, now allow shear about image center as well as
+about the UL corner.</p>
+</li>
+<li><p class="first">New rotation reg tests: <span class="filesystem">rotate1_reg.c</span> and <span class="filesystem">rotate2_reg.c</span>.</p>
+</li>
+<li><p class="first">Better serialization format for <tt class="docutils literal"><span class="pre">boxaa</span></tt>; introduce new version
+numbers for <tt class="docutils literal"><span class="pre">boxaa</span></tt>, <tt class="docutils literal"><span class="pre">pixa</span></tt>, and <tt class="docutils literal"><span class="pre">boxa</span></tt>, as required.</p>
+</li>
+<li><p class="first">Proper init in <tt class="docutils literal"><span class="pre">boxGetGeometry()</span></tt>, <tt class="docutils literal"><span class="pre">boxaGetBoxGeometry()</span></tt>, and the
+accessors in <span class="filesystem">sel1.c</span> and <span class="filesystem">kernel.c</span>.</p>
+</li>
+<li><p class="first">Improved Numa functions in <span class="filesystem">numafunc1.c</span> and <span class="filesystem">numafunc2.c</span>; in
+particular, <tt class="docutils literal"><span class="pre">numaMakeHistogramAuto()</span></tt> and
+<tt class="docutils literal"><span class="pre">numaGetStatsUsingHistogram()</span></tt>.</p>
+<ul>
+<li><p class="first">With all histo generators, make sure the start and binsize params
+are properly set and are used.</p>
+</li>
+<li><p class="first">Interface change: Use these parameters implicitly in
+<tt class="docutils literal"><span class="pre">numaHistogramGetRankFromVal()</span></tt> and
+<tt class="docutils literal"><span class="pre">numaHistogramGetValFromRank()</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Interface change to <tt class="docutils literal"><span class="pre">ptaGetLinearLSF()</span></tt>: add 1 optional parameter.</p>
+</li>
+<li><p class="first">In several <tt class="docutils literal"><span class="pre">pixaDisplay*()</span></tt> functions, handle colormaps properly.</p>
+</li>
+<li><p class="first"><span class="filesystem">pixafunc.c</span> split to <span class="filesystem">pixafunc1.c</span> and <span class="filesystem">pixafunc2.c</span>.</p>
+<ul>
+<li><p class="first">New connected component selections and options in <tt class="docutils literal"><span class="pre">pixaSort()</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Patch from Tony Dovgal for reading tiff rgba files.</p>
+</li>
+<li><p class="first">Added new logical operation options for numas.</p>
+</li>
+<li><p class="first">New <tt class="docutils literal"><span class="pre">pixConvertRGBToGrayMinMax()</span></tt> that chooses min or max of 3
+components.</p>
+</li>
+<li><p class="first">Computation of pixelwise aligned stats between multiple images of the
+same size (e.g., video), in <span class="filesystem">pix4.c</span>.</p>
+</li>
+<li><p class="first">Very fast binsort implemented for <tt class="docutils literal"><span class="pre">boxa</span></tt> and <tt class="docutils literal"><span class="pre">pixa</span></tt>.</p>
+</li>
+<li><p class="first">Cleanup and rename stack, queue, heap and ptra functions:</p>
+<ul>
+<li><p class="first">all structs and typedefs start with <tt class="docutils literal"><span class="pre">L_</span></tt></p>
+</li>
+<li><p class="first">all functions start with <tt class="docutils literal"><span class="pre">l</span></tt></p>
+</li>
+</ul>
+</li>
+<li><p class="first">Sel creation for crosses and T junctions.</p>
+</li>
+<li><p class="first">New thresholding operations to binary; split out from <span class="filesystem">adaptmap.c</span>
+into <span class="filesystem">binarize.c</span>.</p>
+</li>
+<li><p class="first">Implementation of sauvola binarization, including use of pixtiling.</p>
+</li>
+<li><p class="first">Added composite parallel union and intersection morphological operations.</p>
+</li>
+<li><p class="first">Small changes to scaling and rotation to improve accuracy; only
+visible on very tiny, symmetric images.</p>
+</li>
+<li><p class="first">Implemented DPix (double precision data); useful for the mean square
+accumulator for sauvola binarization.</p>
+</li>
+<li><p class="first">New fast hybrid grayscale seedfill, in addition to the interative
+version (contributed by Ankur Jain).</p>
+</li>
+<li><p class="first">New or improved regression tests:</p>
+<blockquote>
+<p><span class="filesystem">rotate1_reg</span>, <span class="filesystem">rotate2_reg</span>, <span class="filesystem">shear_reg</span>, <span class="filesystem">numa_reg</span>, <span class="filesystem">skew_reg</span>,
+<span class="filesystem">ptra1_reg</span>, <span class="filesystem">ptra2_reg</span>, <span class="filesystem">paint_reg</span>, <span class="filesystem">smallpix_reg</span>, <span class="filesystem">pta_reg</span>,
+<span class="filesystem">pixmem_reg</span>, <span class="filesystem">binarize_reg</span>, <span class="filesystem">grayfill_reg</span>.</p>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="jan-09">
+<h2>1.60 &#8211; 19 Jan 09<a class="headerlink" href="#jan-09" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Fixed bug in <tt class="docutils literal"><span class="pre">pixBlockconv()</span></tt>, introduced in 1.59, that causes
+overflow when convolving with an image that has white (255) at the
+edges.  [quickly found by Dave Bryan]</p>
+</li>
+<li><p class="first">Include function to display freetype fonts in a pix.</p>
+</li>
+<li><p class="first">The files <span class="filesystem">freetype.c</span> and <span class="filesystem">freetype.h</span> are in the distribution, but
+are not yet linked into the library.  This is contributed by Tony
+Dovgal, and this version works only for MSVC.</p>
+</li>
+<li><p class="first">Found that the problems with binary compression in <span class="filesystem">giflib</span> are fixed
+with <span class="filesystem">giflib</span> 4.1.6.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>1.59 &#8211; 11 Jan 09<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Lots of changes since 1.58.</p>
+</li>
+<li><p class="first">New files: <span class="filesystem">affinecompose.c</span>, <span class="filesystem">ptra.c</span>, <span class="filesystem">warper.c</span>, <span class="filesystem">watershed.{h,c}</span>.</p>
+<ul>
+<li><p class="first">Split: <span class="filesystem">boxfunc.c</span> &#8211;&gt; (<span class="filesystem">boxfunc1.c</span>, <span class="filesystem">boxfunc2.c</span>, <span class="filesystem">boxfunc3.c</span>)</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Improved connected component filtering, with logical functions applied
+to indicator arrays (<span class="filesystem">pix4.c</span>, <span class="filesystem">pixafunc.c</span>, <span class="filesystem">numafunc1.c</span>).</p>
+</li>
+<li><p class="first">Function to determine if an image can be quantized nicely with
+only a few colors (<span class="filesystem">colorcontent.c</span>, <span class="filesystem">pixconv.c</span>).</p>
+</li>
+<li><p class="first">New gray seed-filling functions (<span class="filesystem">seedfill.c</span>, <span class="filesystem">seedfilllow.c</span>).</p>
+</li>
+<li><p class="first">Fixed bugs in tophats and hdome, due to misuse of
+<tt class="docutils literal"><span class="pre">pixSubtractGray()</span></tt> (<span class="filesystem">morphapp.c</span>).</p>
+</li>
+<li><p class="first">New function for improving contrast (<span class="filesystem">adaptmap.c</span>)</p>
+</li>
+<li><p class="first">Watershed transform (still slightly buggy) (<span class="filesystem">watershed.c,h</span>).</p>
+</li>
+<li><p class="first">Fast random access into a pix using line pointers (<span class="filesystem">pix1.c</span>,
+<span class="filesystem">arrayaccess.*</span>)</p>
+</li>
+<li><p class="first">Conversions of colormaps from gray to color and v.v. (<span class="filesystem">colormap.c</span>)</p>
+</li>
+<li><p class="first">Seedfill function that applies an upper limit to the fill distance
+(<span class="filesystem">seedfill.c</span>)</p>
+</li>
+<li><p class="first">New function for warping images with random harmonic distortion
+(with help from Tony Dovgal).</p>
+</li>
+<li><p class="first">New generic ptr array utility: all O(1) functions of a stack plus
+random replace, insert and delete (<span class="filesystem">ptra.c</span>).</p>
+</li>
+<li><p class="first">Simple functions for colorizing a grayscale image with an arbitrary
+color (<span class="filesystem">pixconv.c</span>, <span class="filesystem">colormap.c</span>)</p>
+</li>
+<li><p class="first">Flexible affine transforms (translation, scale, rotation) on <tt class="docutils literal"><span class="pre">pta</span></tt>
+and <tt class="docutils literal"><span class="pre">boxa</span></tt> (<span class="filesystem">affinecompose.c</span>).</p>
+</li>
+<li><p class="first">Clipping of foreground (both exact and approximate) starting from
+within a rectangular region of the image (<span class="filesystem">pix4.c</span>)</p>
+</li>
+<li><p class="first">Blending a colored rectangle over an image (<span class="filesystem">pix2.c</span>, <span class="filesystem">boxfunc3.c</span>)</p>
+</li>
+<li><p class="first">Generation of rectangle covering of mask components (<span class="filesystem">boxfunc3.c</span>).</p>
+</li>
+<li><p class="first">Block convolution using tiles (for very large images) (<span class="filesystem">convolve.c</span>)</p>
+</li>
+<li><p class="first">New or improved regression tests in <span class="filesystem">prog</span>:</p>
+<blockquote>
+<p><span class="filesystem">locminmax_reg</span>, <span class="filesystem">lowaccess_reg</span>, <span class="filesystem">grayfill_reg</span>, <span class="filesystem">adaptnorm_reg</span>,
+<span class="filesystem">xformbox_reg</span>, <span class="filesystem">warper_reg</span>, <span class="filesystem">cmapquant_reg</span>, <span class="filesystem">compfilter_reg</span>,
+<span class="filesystem">splitcomp_reg</span>, <span class="filesystem">affine_reg</span>, <span class="filesystem">bilinear_reg</span>, <span class="filesystem">projective_reg</span></p>
+</blockquote>
+</li>
+<li><p class="first">Acknowledgments:</p>
+<ol class="arabic">
+<li><p class="first">Big thanks to Tony Dovgal for helping with the warping (e.g. for
+captcha).  Tony also provided an implementation that allows
+rendering truetype fonts into a <tt class="docutils literal"><span class="pre">PIX</span></tt> on Windows.  This is not
+yet incorporated, because it opens a huge &#8220;can of worms,&#8221; which is
+OK if you&#8217;re going fishing but maybe not if you&#8217;re trying to
+support leptonica on many platforms.  TBD.</p>
+</li>
+<li><p class="first">David Shao provided a <span class="filesystem">libtools</span> build system that includes
+building the <span class="filesystem">prog</span> directory!  I believe this will work, but it
+is is not yet included because of problems I continue to have with
+macros in version 2.61 of gnu libtools.</p>
+</li>
+<li><p class="first">Steve Rogers is working on a MSVC build for the <span class="filesystem">prog</span> directory.
+I hope to have this available for 1.60.</p>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="section" id="earlier-versions">
+<h2>Earlier Versions<a class="headerlink" href="#earlier-versions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none"><div class="highlight"><pre>1.58   27 Sept 08
+       Added serialization for numaa.
+       New octree quantizer pixOctreeQuantByPopulation(), that uses a
+       mixture of level2 and level4 octcubes.  Renamed many functions
+       in colorquant1.c, and arranged/documented them more carefully.
+       Revised documentation in leptonica.org/papers/colorquant.pdf.
+       Simplified customization for I/O libraries and fmemopen() in environ.h.
+       Fixed bugs in colormap.c, viewfiles.c, pixarith.c.
+       Verified Adam Langley&#39;s jbig2enc (encoding jbig2 and generating pdf from
+       these encoded files) works properly with the current version -- see
+       Section 24 of README.html for usage and build hints.
+       New separable convolution; let pixConvolve() take 8, 16 and 32 bpp input.
+       New floating pt pix (FPix) utility, which allows convolution and
+       arithmetic operations on FPix; also interconversion to Pix.
+       Ability to read headers on multipage tiff.
+       More robust updown text detection in flipdetect.c.
+       Use of sharpening to improve scaling when the scale factor is near 1.0.
+       See prog/fpix_reg.c for regression test and usage.
+       See prog/blend_reg.c for blending regression test, with new functions.
+
+1.57   13 Jul 08
+       New Debian distribution for 1.57 (thanks to Jeff Breidenbach).
+       Improved the Otsu-type approach for finding a binarization threshold,
+       by choosing the min in the histogram subject to constraints
+       (numafunc2.c, adaptmap.c)
+       New function pixSeedspread() in seedfill.c, similar to a voronoi tiling,
+       that is used for adaptive thresholding in pixThresholdSpreadNorm().
+       In the process, fixed a small bug in pixDistanceFunction().
+       (The approach was suggested by Ray Smith, and uses the fast
+       Vincent distance function method to expand each seed.)
+       Generalized the functions in kernel.c to use float weights
+       for general convolution (Version 2 for kernel), and added
+       gaussian kernel generation.
+       Put all jpeg header functions into jpegio.c, where they belong.
+       Fixed bugs in pixaInsertPix() and pixaRemovePix().
+       Added read/write serialization for Numaa.
+       New functions for comparing two images using bounding boxes (classapp.c).
+
+1.56   12 May 08
+       Added several new 1d barcode decoders.  The functional interface
+       is still in flux.
+       Autoconf!   To get this working, it was necessary to: determine and
+       set the endian flag; select which libraries are to be linked;
+       determine if stream-based memory I/O is enabled.
+       This required a major cleanup of the include files, minimizing
+       dependencies on external library header files, and getting everything
+       to work with both autoconf (HAVE_CONFIG_H) and the old
+       customized makefile.  Customization is now all in environ.h.
+       pixSaveTiled(): a new way to display tiled images.
+       pixtiling.c: interface for splitting an image into a set of
+       overlapping tiles, using mirrored borders for tiles touching the
+       image boundary.
+       pixBlendHardLight(): new blending mode with nice visual effects.
+       pixColorFraction(): determines extent of color in image
+       Both octree and median-cut color quantization check first if
+       image is essentially grayscale; improvements to both algorithms.
+       box*TransformOrdered(): general sequence of linear transforms.
+       colorquant_reg.c, xformbox_reg.c, hardlight_reg.c: new regr tests.
+
+1.55   16 Mar 08
+       New functions for combining two images arbitrarily through a mask,
+       including mirrored tiling (pix3.c)
+       Modify pixSetMasked*() to work on all images (pix3.c)
+       New functions for extracting masked regions such as pixClipMasked()
+       (pix3.c) and pixMaskConnComp() and pixMaskBoxa() (boxfunc.c).
+       New functions to separate fg from bg (pix3.c), one of which is supported
+       by numaSplitDistribution (numafunc.c).
+       Modify sobel edge detector to take another parameter (edge.c)
+       Support for 4 bpp cmyk color space in jpeg (jpegio.c)
+       Modified median cut color quantization (colorquant2.c)
+       Renamed colorquant.c (for octree quant) --&gt; colorquant1.c.
+       Absorbed conncomp.h and colorquant.h into specific files that
+       depend on them (colorquant1.c, conncomp.c, pix.h)
+       General convolution with utility for building kernels
+       (convolve.c, kernel.c)
+       Initial implementation of 1D barcode reader.  So far, we just have the
+       signal processing to locate barcodes on a page, deskew them, and
+       find the bar widths, along with decoders for two formats.
+       (readbarcode.*, prog/barcodetest.c)
+       Made the default to stub out read/write for non-tiff image formats
+       to memory; it doesn&#39;t work on Macs &amp; they were complaining (*io.c)
+       Include MSVC project files for building leptonlib under
+       windows (leptonlib.*)
+
+1.54   21 Jan 08
+       Histogram equalization (enhance.c).
+       New functions for pixaa: serialization (r/w), creation
+       from pixa, and a tiled/scaled display into a pixa (pixabasic.c,
+       pixafunc.c).
+       Read/write of tiff to memory (instead of a file, using
+       the TIFFClientOpen() callback interface), contributed by Adam
+       Langley (tiffio.c, testing in prog/ioformats_reg).
+       Improved image statistics functions, both over tiles and
+       through a mask over the entire image.  Added standard deviation
+       and variance; enable statistics for rgb and colormapped images,
+       in addition to 8 bpp grayscale (pix3.c).  New function to
+       extract rgb components from a colormapped image (pix2.c).
+       Fix pixWriteStringPS() to work with all depths and colormap (psio.c)
+       Enable all non-tiff formats to also write and read to/from memory (*io.c)
+       Added support for read/write to gif, contributed by Tony Dovgal
+       (gifio.c, gifiostub.c, imageio.h).  See Makefile for instructions
+       on enabling this.
+
+1.53   29 Dec 07
+       Add 4th arg to pixDistanceFunction() to specify b.c.,
+       and fixed output to 16 bpp grayscale pix. (seedfill*.c)
+       New un-normalized block grayscale convolution (convolve.c)
+       Fixed bug in getLogBase2(), so that pixMaxDynamicRange() works
+       properly.  This is useful for displaying a 16 bpp pix as
+       8 bpp (pixarith.c).  New function for getting rank val for
+       rgb over a region specified by a mask (pix3.c).  New function
+       for extremem values of rgb colormap (colormap.c).  New
+       function pixGlobalNormNoSatRGB(), a variant of pixGlobalNormRGB()
+       that prevents saturation for any component above a specified
+       rank value (adaptmap.c).  Added mechanism for memory
+       management of pix (pix1.c).  Added selective morphology by
+       region given by a mask (morphapp.c).  Fixed prototype extracdtion
+       to work properly with function prototypes as args; released
+       version 1.2 of xtractprotos (parseprotos.c, xtractprotos.c).
+       Add a boxa field for pixaa, along with serialization (pixabasic.c),
+       and modified display of pixaa to include this (pixafunc.c).
+       Coalesced the version numbers for pixa, pixaa, boxa, and boxaa
+       serialization (pix.h).
+       New progs: modifyhuesat displays modified versions on a grid;
+       textlinemask shows simple methods for extracting textline masks.
+
+1.52   25 Nov 07
+       Implemented Breuel&#39;s whitespace partitioning algorithm (partition.c).
+       Generalized pixColorMagnitude() to allow different methods
+       for computing the color amount of a pixel (colorcontent.c).
+       New methods for computing overlap of boxes (boxfunc.c).
+       New methods for painting (solid) and drawing (outline) of boxes,
+       replacing boxaDisplay() with pixDrawBoxa*() and pixPaintBoxa*()
+       (pix2.c, boxfunc.c).
+       Ray Smith fixed bug in the distance function (seedfilllow.c).
+       For pixConvertTo1() and pixConvertTo8(), treat input pixs as a
+       const and never return a clone or altered cmap (pixconv.c).
+       Make pixGlobalNormalRGB() crash-proof (adaptmap.c).
+       Tony Dovgal added ability to read jpeg comment (jpegio.c).
+
+1.51   21 Oct 07
+       Improved histogramming of gray and color images (pix3.c)
+       Histogram statistics (numafunc.c).  Better handling of tiff
+       formats, testing rle and packbits output and improving
+       level 2 postscript conversion efficiency (readfile.c, psio.c).
+       Test program for r/w and display of Sels (prog/seliotest.c).
+       Use endiantest to determine automatically which flags to set
+       when compiling for big- or little-endians (endiantest.c)
+       Compute a color magnitude for each rgb pixel (colorcontent.c).
+       Allow separate modification of hue and saturation (enhance.c).
+       Global transform of color image for arbitrary white point (adaptmap.c).
+
+1.50   07 Oct 07
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       NOTE CAREFULLY: The  image format enum in imageio.h has
+       changed.  This is an ABI change, and it requires
+       recompilation of the library.
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       Suggestions by David Bryan again resulted in several changes,
+       including improvements to the dwa generating functions and interfaces.
+       Major improvements for dwa code generation, including an
+       optional filename for the output code, adding function prototypes
+       to the code so it can easily be linked outside the library.
+       Addition of 2-way composable dwa functions for bricks, with
+       code addition to the library, and a new interpreter for dwa
+       composable brick sequences  (fmorphauto.c, fhmtauto.c,
+       morphtemplate1.c, hmttemplate1.c, morphdwa.c, dwacomb*.2.c, morphseq.c)
+       Exhaustively tested in six programs (prog/binmorph*_reg,
+       prog/dwamorph*_reg).
+       New input modes for Sels, from both color bitmap editors
+       and a simple file format (sel1.c).
+       Better Sel generation functions in sel2.c, including combs for
+       composable brick operations and linear bricks for comparison.
+       Removed unnecessary copies for more efficient border add&#39;n &amp; removal.
+       Added RLE basline enc/dec for tiff.
+       Binary morphology documentation on the web page updated for these
+       changes/additions.
+       William Rucklidge unrolled inner loops and added LUTs to
+       speed up several more functions, including correlation
+       (correlscore.c), centroid calculation (morphapp.c),
+       2x linear interp grayscale scanning (scalelow.c),
+       thresholding to binary (grayquantlow.c), and removal
+       of colormaps to gray (pixconv.c).
+
+1.49   23 Sep 07
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       NOTE CAREFULLY: The  image format enum in imageio.h has
+       changed.  This is an ABI change, and it requires
+       recompilation of the library.
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       Suggestions by David Bryan resulted in several changes.
+       pixUnpackBinary() unpacks to all depths.
+       Can now write and read tiff in LZW and ZIP (gzip) formats.
+       These, like uncompressed tiff, work on all bit depths.
+       Also enabled pnm 16 bpp r/w, both non-ascii and ascii.
+       ioFormatTest() now has better coverage and clarity; this is
+       used in prog/ioformats_reg.c.
+       Rewrite of morphautogen code to implement opening and closing atomically.
+       Cleaner interaction with new text templates (fmorphauto.c,
+       fhmtauto.c, sarray.c, *template*.txt,).
+       More regression testing (e.g., binmorph1_reg.c, binmorph3_reg.c).
+
+1.48   30 Aug 07
+       William Rucklidge sped up pixCorrelationScore() by in-lining
+       all bit operations (jbclass.c).
+       Generalized rank filtering from 8 bpp to color (rank.c).
+       Fixed many functions that take a dest pix so that they don&#39;t fail if
+       the dimensions or depth are not consistent with the src pix.
+       The underlying change for this is to pixCopy() (pix1.c).
+       Improved display of Sel as a pix; added selaDisplayInPix() to
+       display all Sels in a Sela, orthogonal rotations of Sels (sel1.c).
+       New functions for thinning and thickening while preserving connectivity
+       and avoiding both free end erosion and dendritic cruft (ccthin.c,
+       prog/ccthin1_reg.c, prog/ccthin2_reg.c).
+       New function pixaDisplayTiledInRows() for compactly tiling pix
+       in a pixa, plus documentation of different existing methods. (pixafunc.c)
+
+1.47   22 Jul 07
+       New brick rank order filter (rank.c, prog/ranktest.c, prog/rank_reg.c).
+       Use mirror reflection b.c. to avoid special processing at
+       boundaries (pix2.c).  Simple sobel edge detector (edge.c).
+       Utility for assempling level 2 compressed images in PostScript
+       (psio.c, prog/convertfilestops.c).  Enable read/write of 16 bpp,
+       grayscale tiff (tiffio.c, pix2.c).
+       New function for finding the number of c.c., which is a bit
+         faster than finding the b.b. or the component images (conncomp.c)
+       New functions for finding local extrema in grayscale image (seedfill.c)
+
+1.46   28 Jun 07
+       Added interpreted mode for color morphology (morphseq.c).
+       In functions, make effort to consistently do early initialization
+       of ptrs to objects returned on the heap.  This is to try to
+       avoid letting functions return uninitialized objects, even if
+       the return early because of bad input.
+       Split pixa.c into 2 files; revised the component filtering
+       in both pixafunc.c and boxfunc.c.  Added component filtering
+       for &quot;thin&quot; components.
+       Added subsampling functions for numa and pta.
+       Word segmentation now works at both full and half resolution.
+       Better methods for displaying and tiling (for debugging),
+       using pixDisplayWrite(), pixaReadFiles() and pixaDisplayTiledAndScaled().
+
+1.45   27 May 07
+       Further improvements of orientation and mirror flip detection
+       (flipdetect.c).  Added 2x rank downscaling and general integer
+       replicative expansion (scale.c).  Simplified interface for
+       averaging, and included tiled averaging, which is yet another
+       integer reduction scaling function (pix3.c).
+
+1.44   1 May 07
+       Split pix2.c into (pix2.c, pix3.c), with basic housekeeping
+       functions (e.g., ops on borders, padding) in pix2.c.
+       Split numarray.c into (numabasic.c, numafunc.c), with
+       constructors and accessors in numabasic.c.  Added a number
+       of histogram, rank value and interpolation functions to numafunc.c.
+       Add rms and rank difference comparison functions (compare.c).
+       Separated orientation and mirror flip detection; fixed the latter
+       (flipdetect.c).
+
+1.43   24 Mar 07
+       New and fixed functions for handling word boxes (classapp.c)
+       More consistent use of L_* flags (e.g., sarray.h, morph.h)
+       Morphology on color images (gray ops on each component) (colormorph.c)
+       New methods for generating sels; we now have five methods in
+       sel1.c and 3 others in selgen.c.  Also a function that
+       displays Sels as an image, for use in documentation (sel1.c)
+       New high-level converters, such as pixConvertTo8(), pixConvertTo32(),
+        pixConvertLossless()   (pixconv.c)
+       Identify regression tests, and rename them as prog/*_reg.c.
+       Complete revision of plotting package (gplot.c)
+       New functions for comparing pix (compare.c)
+       New morph application functions, such as the ability to run a
+       morph sequence separately on selected c.c. in an image, and
+       a fast, quasi-tophat function (morphapp.c)
+       Cleanup and new interfaces to border representations of c.c. (ccbord.c)
+       Page segmentation application (pageseg.c)
+       Better serialization with version control for all major structs.
+       Morphological brick operations with 2-way composite sels (morph.c)
+
+1.42   26 Dec 06
+       New sorting functions, including 2-d sorting, for boxa and pixa,
+       and functions that sort by index (e.g., pixa --&gt; pixa and
+       for 2d, pixa --&gt; pixaa; ditto for boxa).
+       New accessors for pix dimensions.  A new strtokSafe() to
+       substitute for strtok_r (utils.c).
+       Page flip detection, using both rasterop and dwa morphology
+       (flipdetect.c), with dwa generation (fliphmtgen.c) and testing
+       (prog/fliptest.c).
+       Increased basic sels from 42 to 52 (sel2.c).
+       Better high-level interfaces for binary morphology with
+       brick (separable) sels, both for rasterop (morph.c) and for
+       dwa (morphdwa.c); fully tested for both asymmetric and
+       symmetric b.c. (prog/morphtest3.c).  Faster area mapping
+       reduction for power-of-2 scaling.
+
+1.41   5 Nov 06
+       Simplified morph enums, removing all unused ones (morph.h).
+       Added new high-level interfaces for adaptive mapping (adaptmap.c).
+       New method to extract color content of images (colorcontent.c).
+       New method to generate sels from text strings, and to identify
+       roman text that is not properly oriented (thanks to Adam Langley).
+       Fast grayscale min/max (rank) scale reduction by integer factors.
+       New accessors for box and sel, that should be used when possible.
+       Thresholding grayscale mask by bandpass (grayquant.c).
+       Use of strtok_r() for thread safety.
+
+1.40   15 Oct 06
+       Fixed xtractprotos for cygwin.  Minor fixes and improved documentation
+       (baseline.c, conncomp.c, pix2.c, morphseq.c, pts.c, numarray.c,
+       utils.c, skew.c).  Add ability to quantize an rgb image to a
+       specified colormap (colorquant.c); tested in prog/cmapquanttest.c.
+       Modifications to allow conditional compilation on MS VC++,
+       and to allow I/O calls to be stubbed out (new files: *iostub.c,
+       zlibmemstub.c, pstdint.h, arrayaccess.h.ms60)
+
+1.39   31 Aug 06
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       NOTE CAREFULLY:  There has been an interface change to make
+       affine, bilinear and projective transforms more general.
+       The implementation has been changed to allow them to handle
+       all image types and to make them faster (esp. with both sampled
+       and interpolated mapping on color images).
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       Added prog/Makefile.mingw to build executables.  This is still
+       in a relatively raw state.  It is necessary to download
+       gnuwin32 packages for 4 libraries (jpeg, png, zlib, tiff)
+       to link with leptonlib and the main, and I still have not
+       been able to build static executables (they require jpeg2b.dll, etc.).
+
+1.38   8 Aug 06
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       NOTE CAREFULLY: There has been an interface change to both
+       simplify and generalize the grayscale morphology operations:
+           pixErodeGray(), pixDilateGray(), pixOpenGray(),
+           pixCloseGray(), pixTophat() and pixMorphGradient().
+       The prototypes are not changed; old code will compile, but
+       it will be wrong!  The old interface had a size and a type
+       (horizontal, vertical, square).  The new interface takes
+       horizontal and vertical Sel dimensions.
+       |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+       For cross-compilation to make windows programs, you can use
+       src/Makefile.mingw to make a windows version of the library.
+       6x scale-to-gray function donated by Alberto Accomazzi.
+       Interpreter added for sequence of grayscale morphological
+       operations, including the tophat (morphseq.c).
+       Pixacc container added to simplify the interface
+       for accumulator arithmetic using Pix.
+       Removed fmorph.c and fmorphlow.c from the library.  These are
+       very limited and were deprecated in favor of fmorphauto(), which
+       autogens the code from (nearly) any Sel.
+       Fixed some of the gray morphology operations, which had errors
+       on the boundary.  All gray morph ops should now be rigorously
+       OK (graymorph.c).  For testing of graymorph dualities, the
+       the graymorph interpreter, etc., see prog/morphgraytest.c.
+
+1.37   10 Jul 06
+       [After v.36 was released, Jeff Breidenbach built a Debian
+       distribution of Leptonica based on v.36, and you can now get Leptonica
+       as a Debian package.  Use &quot;apt-cache search leptonica&quot; to see
+       what is available.]  The libraries are now combined into a single
+       library (liblept.a, liblept.so) and the function prototypes are
+       also in a single file (leptprotos.h).  cextract was found not
+       to work on recent versions of linux that support 64 bit data types,
+       and it is no longer distributed with leptonica.  Instead, I wrote
+       a prototype extractor in leptonica (xtractprotos).  When you
+       &#39;make allprotos&#39;, it now uses this program.  The shared libraries
+       now have major and minor numbers corresponding to the version.
+
+1.36   17 Jun 06
+       Line graphics generation (graphics.c) reorganized; separated out pta
+       generation from rendering.  Can now render with alpha blending.
+       Examples of use are given in prog/graphicstest.c.
+       Sort functions for basic geometrical objects now have the option
+       of returning a numa giving the sort order on the original array.
+       The pixa sort can sort with either clones or copies of the pix.
+
+1.35   21 May 06
+       The efficiency of the multipage jbig unsupervised classifier is
+       significantly improved due to a NumaHash struture implemented
+       by Adam Langley.  Functions for computing runlength in 1 bpp
+       images have been added.
+
+1.34   7 May 06
+       Completely rewrote the jbig unsupervised classifier.
+       It now works on multiple pages, and is more accurate in performing
+       visually lossless substitutions.  You can classify by connected
+       components, characters, or words.  The old data structures
+       and interfaces have been removed.  New unpackers from 1 to 2 and
+       1 to 4 bpp, with and without colormaps in the dest.
+
+1.33   18 Mar 06
+       Generalized color snap to have different src and target colors,
+       and to include colormaps (blend.c).  Distribute into root directory
+       that specifies the version number (e.g., 1.33).  Add color
+       space conversion between rgb and hsv.  Re-bundle thresholding
+       code from (binarize*.c, dibitize*.c) to grayquant*.c.
+       pixThreshold8() now also quantizes 8 bpp --&gt; 8 bpp.
+       High-level pixRotate() that optionally expands image sufficiently
+       so that no pixels are lost in any sequence of rotations (rotate.c).
+       Generalize shear to specify color of pixels brought in, including
+       for in-place operation (shear.c, rotateshear.c).  Faster version of
+       color rotation by area mapping, both about center and about UL corner.
+       You can now use the standard color rotator (pixRotateAM) and get
+       nearly the same speed as with the &quot;Fast&quot; one.
+
+1.32   4 Feb 06
+       Ability to specify a sequence of binary morphological
+       (&amp; binary reduction/expansion) operations in a single
+       function (morphseq.c).  Fast downscaling combined with conversion
+       from rbg to gray and to binary (scale.c).  Utility for
+       segmenting images by color (colorseg.c).
+
+1.31   7 Jan 06
+       Remove more complicated functions that threshold to 2 bpp,
+       retaining the simplest interface.  Retest all thresholding and
+       dithering.  Add &quot;ascii&quot; write of PNM.  Improve graphics writing
+       of lines; generalize to colormaps.  New colorization functions
+       (paintcmap.c, blend.c).
+
+1.30   22 Dec 05
+       Remove most instances of fprintf(stderr, ...), except within
+       DEBUG or encapsulated in error, warning or info macros.
+       As a result, there is no output to stderr if NO_CONSOLE_IO is defined.
+       Adaptive mapping to make bg uniform (adaptmap.c).  A few bug fixes.
+       New PostScript output functions for embedding PS files
+       (prog/converttops).  Generalized some image enhancement functions.
+       New functions for generating hit-miss sels.
+
+1.29   12 Nov 05
+       More flexible blending of two images, with and without colormaps
+       (see blend.c).  Painting colormapped images through masks, etc
+       (see paintcmap.c).  More flexible interface for gamma and
+       contrast enhancement (see enhance.c).
+
+1.28   8 Oct 05
+       Removed all pix colormaps for 1 bpp.  Allow programmatic resetting
+       of binary morphology boundary conditions.  Added (yet) another
+       simple octcube color quantizer.  New colormap operations.
+
+1.27   24 Sep 05
+       Renamed many of the enums and typedefs to avoid namespace
+       collisions.  This includes structs and typedefs for BMP.
+       Interface change to pixClipRectangle(); apologies to everyone
+       whose code is broken by these changes -- I hope it&#39;s worth it.
+       Removed colormap.h; simplified all colormap usage, hiding details
+       from all but a few colormap functions.  Am now saving file format
+       in the pix when an image is read, and can by default write
+       out in this format.  Resolution info added for jpeg and png.
+       Added L_INFO* macros and l_info* fctns for printing
+       (e.g., debugging) info.  Suggestions and code kindly
+       supplied by Dave Bryan, who helped solve compatibility issues
+       with MINGW32 (e.g., in timing and directory functions).
+       Added some blending and linear TRC functions.
+       Generalized pixEqual() to include all cases with and without
+       colormaps.  New regression tests in prog: ioformats, equaltest.
+
+1.26   24 Jul 05
+       Generalized affine pointwise to do interpolation as well as
+       sampling.  For both projective and bilinear transforms,
+       implemented using both sampling and interpolation.
+       Added function to remove keystoning by computing the necessary
+       projective transform and doing it.  Also find baselines in text images.
+       Added downscaling using accurate area-mapping over subpixels.
+
+1.25   25 Jun 05
+       Better endian conversion fctns for 2 and 4 byte words.
+       Remove colormaps before converting by thresholds.
+       Added functions to read header parameters for png and tiff.
+
+1.24   5 Jun 05
+       Added image splitting to allow printing in tiles (as several pages).
+       Added new octree quantization function to generate 4 and 8 bpp
+       colormapped output (not dithered).  Fixed bmp resolution.
+       Added new flag for colormap removal (using dest depth based on
+       src colormap).  Added I/O tests (prog/ioformats.c)
+
+1.23   10 Apr 05
+       Added thresholding from 8 bpp to 2 and 4 bpp, allowing specification
+       of both the number of output levels and whether or not a colormap
+       is made.
+
+1.22   27 Mar 05
+       Add pointer queue facility.  To demonstrate it, you can now
+       generate a binary maze using a cellular automaton and find
+       the shortest path between two points in the maze.  Add heap
+       of pointers (keyed on the first field), which is used to
+       implement a priority queue.  This is applied to search for
+       a &quot;least cost&quot; path on a grayscale image (a generalization
+       of a binary maze).
+
+1.21   28 Feb 05
+       Read/write of colormaps to file.  For gplot, add a new
+       latex output terminal.  Bring ptrs into 21st century by
+       including stdint.h, and using uintptr_t for the ptr address
+       arithmetic in arrayaccess.*.  This seems to be OK back to
+       RH 7.0, but if you run into trouble with an earlier
+       C compiler, let me know.  Also, use enums for global
+       constants whenever possible, and qualify named constants
+       (e.g., ADD --&gt; ARITH_ADD, HORIZ --&gt; MORPH_HORIZ) to avoid
+       possible interactions with other libraries.
+
+1.20   31 Jan 05
+       Speed up of tiffio and pngio with byte swap generating new pix.
+       In textops.c, ability to split string into paragraphs,
+       in preparation for more general typesetting.
+       Automatic hit-miss Sel generation for pattern matching.
+       Fast downscaling using a lowpass filter and subsampling.
+       Generalization of several grayscale and color operations
+       to work on colormapped images.  Improved scale-to-gray and
+       scaling reduction operations to be antialiased for best results.
+
+1.19   30 Nov 04
+       Additions to fileIO: (1) new jpeg reading options, such as
+       returning warnings and scaled raster; (2) ability to write
+       custom tiff flags.  Better tiling functions.
+       Edge extraction, both with grayscale morphology
+       and clipped convolution filters.  More general painting
+       through a binary mask: pixSetMaskedGeneral().
+       Unpacking from binary to 8, 16 and 32 bpp.  Thresholding
+       and dithering from 8 bpp to 2 bpp (&quot;dibitization&quot;).  New bitmap
+       font facility, using a single rendered font in a variety of
+       sizes: allows painting the text on an image (binary, gray, RGB).
+       (People have asked for the ability to write text on images).
+
+1.18   25 Aug 04
+       Changed typedefs of built-in types to avoid possible conflicts.
+       Cleaned up and tested all programs in the prog directory.
+       Simplified and fixed the pixSetMasked() and pixCombineMasked()
+       functions.
+
+1.17   31 May 04
+       Implemented distance function for 16 bpp.  We can now generate
+       out 16 bpp PNG.  Simple programs for generating PS from a
+       directory of g4tiff or jpeg images.  Changed implementation of
+       erosion to allow either asymmetric or symmetric boundary conditions.
+       The distinction is described on the binary morphology web page.
+       Allow read/write of multipage TIFF files.  Implemented
+       read/write of PNM files.
+
+1.16   31 Mar 04
+       New depth conversion functions, improved conversion to false color,
+       new contour rendering (onto 1 bpp or onto the src grayscale image),
+       new orthogonal rotations, better interface for doing arithmetic
+       on 2-d arrays using a pix, improved distance function.
+
+1.15   31 Jan 04
+       Fast interpolated color rotation with 4x4 subpixels; has
+       nearly the accuracy of the slower method using 16x16 subpixels.
+       Demonstration of line removal from grayscale sketch in
+       prog/lineremoval.c.  Conversion of grayscale to false color.
+       Fixed shear and rotation functions to handle angle = 0.0 properly.
+       Other small fixes and interface improvements.
+
+1.14   30 Nov 03
+       Small implementation changes to list.c.  Better sorting
+       routines for number arrays (numa), plus sorting for box
+       arrays (boxa) and pix arrays (pixa).  PostScript wrapper
+       for jpeg.  Better handling of colormaps, and a simple
+       function to convert an RGB pix with not more than 256
+       colors to the smallest colormapped pix.  PS output wrappers
+       for JFIF JPEG and TIFF G4 files.  Comments compatible
+       with doxygen for automatic documentation.
+
+1.13   31 Oct 03
+       Cleaned up documentation in src.  Made libraries and test programs
+       ANSI C++ compliant.  Added special cases to rasterops for
+       alignment to word boundaries.  Fixed pngio.c to work with
+       most recent libpng (1.2.5).
+
+1.12   30 Jun 03
+       Implemented border chain representation from a binary image,
+       writes/reads a compressed version, and renders the original
+       image back from the borders.   Also writes outline file out
+       in svg format.  Number arrays (numa) and point arrays (pta)
+       are also extended to 2nd level arrays (numaa, ptaa).
+       Serialized I/O for boxa, pta, and pixa.
+
+1.11   31 May 03
+       Implemented generic list handling, for doubly-linked
+       list cons cells and arbitrary objects.
+
+1.10   14 Apr 03
+       Implemented simple image enhancements in gray and color:
+       gamma correction, contrast enhancement, unsharp masking.
+       Extended smoothing via block convolution to color.
+       Implemented auto-gen&#39;d DWA version of hit-miss transform;
+       the code for generating these hmt routines is very similar to
+       that for DWA auto-gen&#39;d erosion and dilation.
+
+1.9    28 Feb 03
+       Implemented a safe, expandable byte queue.  As an example of
+       its use, implemented memory-to-memory compression and decompression
+       using zlib.  Generalized PS write to include RGB color.
+       Implemented a method to find image skew.
+
+1.8    31 Jan 03
+       Implemented a simple 1-pass color quantization with dithering,
+       and improved the 2-pass octree color quantization.
+       Documented with an application page, that includes jbig2.
+       Added new general sampling operations and made a table
+       that summarizes the available scaling operations.
+
+1.7    31 Dec 02
+       Added pixHtmlViewer(), a formatter that allows portable viewing of
+       a set of images (like a slide show) in a browser.
+       Implemented better octree color quantization, with variable
+       number of colors, pruning the octree for good color clusters,
+       and fast traversal for pixel assignment to colormap.
+
+1.6    30 Nov 02
+       Generalized shear and shear rotation to arbitrary locations
+       about which the operation is performed.  Implemented in-place
+       translation using pixRasteropIP().  Implemented arbitrary
+       affine transform of image two ways: pointwise and sequential.
+       Added binarization by error diffusion.  Added simple color
+       quantization by octree.
+
+1.5    31 Oct 02
+       Put jpeglib.h in local directory.  This, along with the jmorecfg.h
+       file there prevents compiler warnings about redefined typedefs.
+       Compiled everything with g++ to make strictly ansi C compatible.
+       Added interface gplotFromFile() for simple file-based plotting with
+       gnuplot 3.7.2.   Added functions to convert 2, 4 and 8 bpp
+       color-mapped (i.e., palletted) images to 24 bpp color or
+       8 bpp grayscale.  Added several jbig2 application cores that
+       only require a simple wrapper to make into programs.
+
+1.4    30 Sep 02
+       Added interface to gnuplot 3.7.2 and to x11 display of images.
+       Added new functions with arrays of images for use in applications
+       such as jbig2 encoders, along with a simple jbig2 implementation
+       using either hausdorff or correlation scoring.  Added centroid
+       finder for images.  For accessing image arrays from arrays of
+       image arrays, added a &quot;new reference&quot; (NEW_REF) flag, with a
+       ref count attached to the array.  Added power-of-2 binary
+       expansion and reduction.
+
+1.3    30 Jun 02
+       Extended connected components to 8.  Added morphological
+       operations tophat and hdome, along with clipped arithmetic
+       operators on grayscale images.  Fixed memory error in
+       rasteropGeneralLow() that was found using valgrind.
+       Tested most operations with valgrind for memory errors.
+       Replaced integer arrays with number arrays, to include floats.
+       Added arithmetic functions on grayscale images.
+
+1.2    30 May 02
+       Added connected component utility, stack utility, pix arrays,
+       line drawing and seed filling.  Binary reconstruction,
+       both morphological and raster-oriented, are now supported
+       for 4 and 8 connected fills.  Added the distance function
+       on binary images, grayscale reconstruction, and grayscale
+       morphology using the Gil-Werman method.
+
+1.1    30 Apr 02
+       Added orthogonal rotations, binary scaling, PS output,
+       binary reconstruction, integer arrays, structuring element
+       input/output.
+
+1.0    25 Feb 02
+       Initial distribution, with rasterops, binary morphology (two
+       implementations: rasterops and dwa), affine transforms
+       (translation, shear, scaling, rotation), fast convolution,
+       and basic i/o (BMP, PNG and JPEG).
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Version Notes for Leptonica</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#aug-10">1.66 &#8211; 3 Aug 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apr-10">1.65 &#8211; 5 Apr 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jan-10">1.64 &#8211; 3 Jan 10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nov-09">1.63 &#8211; 8 Nov 09</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jul-09">1.62 &#8211; 26 Jul 09</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apr-09">1.61 &#8211; 26 Apr 09</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jan-09">1.60 &#8211; 19 Jan 09</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1.59 &#8211; 11 Jan 09</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#earlier-versions">Earlier Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/version-notes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="glossary.html" title="Glossary"
+             >next</a></li>
+        <li class="right" >
+          <a href="about-the-name.html" title="What is the Significance of the Name “leptonica”?"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

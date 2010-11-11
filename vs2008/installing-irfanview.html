@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing IrfanView to view images &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Leptonica &amp; Visual Studio 2008" href="index.html" />
+    <link rel="next" title="Installing gnuplot to view plots" href="installing-gnuplot.html" />
+    <link rel="prev" title="Installing Cygwin coreutils" href="installing-cygwin.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="installing-gnuplot.html" title="Installing gnuplot to view plots"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="installing-cygwin.html" title="Installing Cygwin coreutils"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-irfanview-to-view-images">
+<h1>Installing IrfanView to view images<a class="headerlink" href="#installing-irfanview-to-view-images" title="Permalink to this headline">¶</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">pixDisplay()</span></tt> function is used throughout <span class="filesystem">leptonlib</span> to display
+images for debugging purposes. Under Windows this uses the free
+<a class="reference external" href="http://www.irfanview.com/">IrfanView</a> image viewer application. We
+have to assume the presence of IrfanView because many Leptonica routines
+don&#8217;t use file extensions when naming files. Since Windows depends on
+the file extension to determine a file&#8217;s type (unlike Linux), it is
+unable to automatically determine what application to use when opening
+extensionless files. In addition, unlike other Windows image viewers
+(for example, <a class="reference external" href="http://store.acdsee.com/store/acd/en_US/DisplayProductDetailsPage/productID.106893200">ACDSee&#8217;s Photo Manager</a>), IrfanView will correctly display an image file even if it
+doesn&#8217;t have an extension.</p>
+<p>Besides installing IrfanView, you also have to add the location of
+<span class="filesystem">i_view32.exe</span> (normally <span class="filesystem">C:\Program Files\IrfanView</span>) to your
+system&#8217;s <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable.</p>
+<p>Each time <tt class="docutils literal"><span class="pre">pixDisplay()</span></tt> is called, it will display an image using
+IrfanView and wait for it to be closed. You can hit the <tt class="kbd docutils literal"><span class="pre">&lt;Escape&gt;</span></tt>
+key to quickly close IrfanView.</p>
+<p>Alternatively, you can manually edit <tt class="docutils literal"><span class="pre">pixDisplayWithTitle()</span></tt> in
+<span class="filesystem">src\writefile.c</span> to change the executable used to display images under
+Windows.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../leptonica/index.html">The Leptonica Image Processing Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Leptonica &amp; Visual Studio 2008</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="directory-organization.html">Directory organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-prog-dir.html">Building the <span class="filesystem">prog</span> directory programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Installing IrfanView to view images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="versions.html">Version Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/vs2008/installing-irfanview.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="installing-gnuplot.html" title="Installing gnuplot to view plots"
+             >next</a></li>
+        <li class="right" >
+          <a href="installing-cygwin.html" title="Installing Cygwin coreutils"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

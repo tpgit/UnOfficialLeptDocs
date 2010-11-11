@@ -1,0 +1,663 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Grayscale Morphology &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Operations" href="operations.html" />
+    <link rel="next" title="Fast Convolution" href="convolution.html" />
+    <link rel="prev" title="Binary Morphology" href="binary-morphology.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="convolution.html" title="Fast Convolution"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="binary-morphology.html" title="Binary Morphology"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="grayscale-morphology">
+<span id="id1"></span><h1>Grayscale Morphology<a class="headerlink" href="#grayscale-morphology" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Jul 18, 2007</td>
+</tr>
+</tbody>
+</table>
+<div class="contents local topic" id="contents">
+<ul>
+<li><p class="first"><a class="reference internal" href="#what-is-grayscale-morphology" id="id2">What is grayscale morphology?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#implementation-using-the-van-herk-gil-werman-algorithm" id="id3">Implementation using the van Herk/Gil-Werman algorithm</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#the-tophat-and-h-dome-transforms" id="id4">The Tophat and H-dome transforms</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#generalization-rank-order-filters" id="id5">Generalization: rank order filters</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#definition" id="id6">Definition</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#how-is-a-brick-rank-order-filter-implemented-efficiently" id="id7">How is a brick rank order filter implemented efficiently?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#points-of-interest-in-the-implementation" id="id8">Points of interest in the implementation</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="what-is-grayscale-morphology">
+<h2><a class="toc-backref" href="#id2">What is grayscale morphology?</a><a class="headerlink" href="#what-is-grayscale-morphology" title="Permalink to this headline">¶</a></h2>
+<p>If you are not familiar with <em>binary</em> morphology, you may want to read
+about it <a class="reference internal" href="binary-morphology.html"><em>first</em></a>. As mentioned in the section
+on binary morphology, grayscale morphology is simply a generalization
+from 1 bpp (binary) images to images with multiple bits/pixel, where the
+<em>Max</em> and <em>Min</em> operations are used in place of the OR and AND
+operations, respectively, of binary morphology. The following should be
+noted:</p>
+<ul>
+<li><p class="first">These operations, as with binary morphology, are nonlinear. The
+significance of nonlinear operations, as opposed to linear operations,
+is that <em>nonlinear operations can be used directly for making
+decisions about regions of the image</em>. Nonlinear operations are
+therefore of particular use in <em>image analysis</em>.</p>
+</li>
+<li><p class="first">The generalization can be seen in reverse: binary morphology is a
+specialization of grayscale morphology. The Max of a set of values {0,
+1} is equivalent to an OR, and the Min is equivalent to an AND.</p>
+</li>
+<li><p class="first">The generalization only applies to <em>flat</em> structuring elements. With
+grayscale images, dilation and erosion can be defined with non-uniform
+structuring elements. These are rarely used, and will not be discussed
+further.</p>
+</li>
+<li><p class="first">With flat structuring elements, grayscale morphology is itself a
+specialization of <em>rank-order filters</em>. When a rank-order filter acts
+on a source image, it generates a dest image where each pixel is
+computed as follows: place the structuring element with its origin on
+the corresponding source pixel, and choose the rank (ordered) pixel in
+the set of source pixels that is covered by the structuring element.
+Erosion is thus a rank-order filter with rank = 0.0; dilation has rank
+= 1.0; and the median filter, which is useful for removing noise, has
+rank 0.5. (To be completely accurate, when doing a dilation as
+described here, invert the structuring element about its origin.)</p>
+</li>
+<li><p class="first">Because the standard photometry of binary and grayscale images is
+opposite (white is min val in binary and max val in grayscale),
+grayscale dilation lightens a grayscale image and erosion darkens it,
+visually.</p>
+</li>
+<li><p class="first">Without special hardware registers that do Min and Max comparisons on
+4 or 8 bytes simultaneously, grayscale morphology must be done by
+comparing integers, one pixel at a time. It is thus much more than 8
+times slower than implementations of binary morphology that pack 32
+pixels into each 32-bit word.</p>
+</li>
+<li><p class="first">This inefficiency is somewhat offset by the existence of a simple
+algorithm that computes grayscale morphological operations in a time
+<em>independent of the size of the structuring element</em>.</p>
+</li>
+</ul>
+<p>For the general case of an arbitrary SE of size <em>A</em>, where <em>A</em>, the
+&#8220;area&#8221; of the SE, is the number of hits, the computation of the Max or
+Min requires <em>A</em> pixel comparisons on the src image for each pixel of
+the dest. However, things get more efficient when the SE is a <em>brick</em>,
+by which we mean it is a solid rectangle of hits. For a brick SE,
+dilation (or erosion) can be decomposed into a sequence of 2 dilations
+(or erosions) on 1-D horizontal and vertical SEs. Each 1-D grayscale
+morphological operation can be done with less comparisons than the
+&#8220;brute-force&#8221; method. Luc Vincent described one such method, that uses
+an ordered queue of pixels, given by the set of pixels currently under
+the SE. The queue is ordered so that the Min or Max can be read off
+from the end. When the SE is moved one position, one pixel is removed
+from the queue, and a new pixel is placed into it, in the proper
+location. Most of the work goes into sorting the queue to maintain the
+order.</p>
+<p>More recently, van Herk, Gil and Werman have described an algorithm that
+uses a maximum of 3 comparisons for a linear SE, regardless of the size
+of the SE. This method is described <a class="reference internal" href="#van-herk-gil-werman"><em>below</em></a>,
+and it is the method we have implemented here.</p>
+<p>Some useful image transforms are composed of a sequence of grayscale
+operations. For example, the <em>tophat</em> operator is often used to find
+local maxima as seeds for some filling operation. It is defined as the
+<em>difference between an image and the opening of the image by a
+structuring element of given size</em>. Another local maximum finder is
+called the <em>h-dome</em> operator, and it uses a <a class="reference internal" href="filling.html#seed-filling-grayscale"><em>grayscale
+reconstruction</em></a> method for seed filling.  (Yes,
+with h-domes, you do a seed-filling operation to find seeds for another
+operation!). These are discussed in detail in the <a class="reference internal" href="#tophat-hdome"><em>section on
+tophats and h-domes</em></a> below.</p>
+</div>
+<div class="section" id="implementation-using-the-van-herk-gil-werman-algorithm">
+<span id="van-herk-gil-werman"></span><h2><a class="toc-backref" href="#id3">Implementation using the van Herk/Gil-Werman algorithm</a><a class="headerlink" href="#implementation-using-the-van-herk-gil-werman-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>The van Herk/Gil-Werman (vHGW) algorithm is similar to our <a class="reference internal" href="convolution.html#binary-rank-order-and-median-filter-using-accumulator"><em>fast
+method for convolution with a flat kernel</em></a>, where we first
+computed an accumulation matrix and then used it to quickly generate the
+convolution for any rectangular kernel. vHGW differs in that we compute
+a localized running Max (or Min) array that is specific to the size of
+the linear SE, and we then use the array to compute the result pixels
+locally (over a length equal to the SE size).</p>
+<p>The vHGW algorithm was published by van Herk in <cite>A fast algorithm
+for local minimum and maximum filters on rectangular and octagonal
+kernels</cite>, <cite class="journal">Patt. Recog. Letters</cite>, <cite class="jvolume">13</cite>, pp. 517-521,
+1992 and by Gil and Werman in <cite>Computing 2-D min, median and max
+filters</cite>, <cite class="journal">IEEE Trans PAMI</cite>, <cite class="jvolume">15</cite>(5),
+pp. 504-507, 1993. (There appears to be some priority dispute, so I take
+a neutral position and give credit to both sets of authors.) This was
+the first grayscale morphology algorithm to compute dilation and erosion
+with complexity independent of the size of the SE. It is simple and
+elegant, and the surprise is that it was only discovered as recently
+as 1992. It works for SEs composed of horizontal and/or vertical linear
+elements, and requires not more than 3 pixel value comparisons for each
+output pixel. The algorithm has been recently refined by Gil and Kimmel,
+in <cite>Efficient Dilation, Erosion, Opening and Closing Algorithms,</cite>
+given at ISMM (International Symposium on Mathematical Morphology) 2000,
+Palo Alto, CA, June 2000, and was published in <cite>Mathematical
+Morphology and its Applications to Image and Signal Processing</cite>,
+<cite class="publisher">Kluwer Acad. Pub</cite>, pp. 301-310. They bring the number down
+below 1.5 comparisons per output pixel, at a cost of significantly
+increased complexity. Consequently, we&#8217;ll describe and implement the
+original method.</p>
+<p>We describe dilation; for erosion, substitute <em>Min</em> for <em>Max</em>. In
+brief, the image is divided into pixel groups of length L, where L, an
+odd number, is the size of the SE. We describe the case for a
+horizontal SE with its origin at the center position (L/2). Vertical
+SEs are handled similarly, except the pixels are selected in vertical
+groups. On each raster line of length w, we compute output pixels
+starting at x = L/2 (to avoid boundary effects) and operate on N = (w
+- 2 * (L/2))/L segments of length L. N takes this particular form to
+avoid boundary effects on the right side as well, so that the last
+segment of length L is guaranteed to have the SE entirely within the
+image at all L points. As a result, we do not evaluate the first L/2
+pixels and, in the worst case, the last 3L/2 pixels. To get reasonable
+results on all pixels in the image, we embed the actual image in a
+larger image with these augmented dimensions, where the added border
+pixels are appropriately initialized (to 0 for dilation and to 255 for
+erosion). The algorithm proceeds for each group of L pixels in 2
+steps. In the first, we form the running Max array; in the second, we
+evaluate the output pixel values.</p>
+<p>For each group of L pixels, we consider a window of 2L+1 pixels in the
+source image that extends L/2 pixels to either side. The pixel at the
+center of the L pixels is also at the center of this larger window.
+Form an array A[] of length 2L+1, consisting of backward and forward
+running Max pixel values, which are computed starting at the source
+pixel at the center of the group of L pixels. This array will coincide
+with the larger window of 2L+1 pixels. Now, consider the very first
+group in the raster. The larger window starts at the left edge (x = 0)
+and proceeds to x = 2L. The center value of the Max array, A[L], is
+given by the pixel at x = L. The value to the left of that, A[L-1], is
+given by the Max of the values of the pixel at x = L and the pixel at
+x = L-1, and so on progressively to the value at the beginning of the
+array, A[0], which is the Max of all pixels from x = L back to x = 0.
+The array values to the right of A[L] are likewise found by taking the
+Max of all pixels from x = L up to that point, progressing finally to
+the value at the end of the array, A[2L], which is the Max of all
+pixels from x = L to x = 2L. In all, this step requires computing
+2(L-1) Max functions.</p>
+<p>The generation of the running Max array A[] from the source image I is
+shown below. We display the domain over which a raster line of the image
+I is defined, but we do not display I[x] itself. As shown, there are N=9
+pixel groups of length L for which output pixels can be computed. We
+magnify the first interval of length 2L+1 in I. This covers the relevant
+pixels in I that are used for generating the first pixel group of L
+output pixels in I\&#8217;:</p>
+<div align="center" class="align-center"><img alt="Generation of running Max array" class="border align-center" src="../_images/maxarray.jpg" /></div>
+<p>Once this array is formed, the values of the dilated pixels, that are
+written to the destination image, can easily be read off. For this
+first interval of length L, the L output image pixels from x = L/2 to
+x = 3L/2 are computed by imagining that the SE is placed on the array
+A with its center at one of these L locations; namely, at each pixel
+for which the SE fits entirely within the array A. We start at x =
+L/2, where the end points of the SE are at x = 0 and x = L, and take
+the Max(A[0], A[L]) = A[0]. (We know here that A[0] &gt;= A[L], by the
+construction of the array A.) Then at x = L/2 + 1, we take Max(A[1],
+A[L+1]), and so on, up to the last value at x = 3L/2, which is
+Max(A[L] + A[2L]) = A[2L], again by construction. In all, this step
+requires computing L-2 Max functions.</p>
+<p>The method for computing the destination (dilated) pixel values I\&#8217;[J]
+from the source image I, for the first pixel group given by L/2 &lt;= x
+&lt;= 3L/2, is shown below. The computation of the output pixel at x = J
+is shown explicitly.</p>
+<div align="center" class="align-center"><img alt="Computing destinaion (dilated) pixel values" class="border align-center" src="../_images/dilation.jpg" /></div>
+<p>The total number of comparisons per output pixel is 3 - 4/L, which is
+never greater than 3. The calculation described above is repeated at
+each of the N segments of length L on the raster line.</p>
+<p>The implementation is straightforward. We set up two buffers, one to
+hold an entire raster line (or column, for vertical SEs) of the image,
+and the second to hold the running Max(Min) array of size 2L+1. The
+raster line buffer is used to hold the pixels in byte order. For
+little-endian machines, this is exactly opposite to the standard pixel
+order for 32-bit words, which puts the pixels in MSB-to-LSB order; i.e.,
+3, 2, 1, 0. The pixel order in each 32-bit word is reversed as pixels
+are copied to the buffer. (For big-endian machines, no pixel reshuffling
+is necessary.) For vertical SEs, we just take the pixels in a column in
+order from top to bottom. See the source code in <span class="filesystem">graymorphlow.c</span> for
+other details.</p>
+<p>As with binary morphology, opening and closing are defined as a
+sequence of erosion/dilation and v.v. These operations are idempotent,
+so one simple test for correctness is to open an image with a SE and
+then <em>open the result</em>. The second opening should give the same image
+as the original one. Our implementation permits morphological
+operations with SEs that are linear (horizontal or vertical) and
+square (implemented as a sequence of horizontal and vertical
+operations). The speed is independent of the size of the SE and
+proceeds at about 120 P3 machine cycles per output pixel, for large
+images.</p>
+</div>
+<div class="section" id="the-tophat-and-h-dome-transforms">
+<span id="tophat-hdome"></span><h2><a class="toc-backref" href="#id4">The Tophat and H-dome transforms</a><a class="headerlink" href="#the-tophat-and-h-dome-transforms" title="Permalink to this headline">¶</a></h2>
+<p>The <em>tophat</em> transform is a composite operation that uses the
+morphological opening or closing. The <em>h-dome</em> transform uses grayscale
+reconstruction. Both give local extrema (minima and maxima) in grayscale
+images that can be used as seeds in a segmentation algorithm. To
+motivate the use of these image transforms as generators of seeds, we
+give a quick review of segmentation here.</p>
+<p>Binary segmentation most simply is carried out by selecting connected
+components in the image, using a seed image, a mask image (which is
+typically the actual image), and <a class="reference internal" href="filling.html"><em>filling selected connected
+components</em></a> in the mask that have seeds in them. Here, the
+mask is used to clip the filling process. In a more complicated
+situation, typified by a binary image of touching coffee beans, you need
+to split binary connected components. This can be done using the
+<a class="reference internal" href="filling.html#distance-function-within-connected-components"><em>distance function</em></a>
+and looking for low saddle points that are most easily cut through. How
+do you do that? Put the distance function upside-down. Then the seeds,
+which are the local maxima of the distance function (the points that are
+farthest from the boundaries) are at the bottom of the inverted
+function. The boundaries are at the highest point, and the &#8220;low passes&#8221;
+through the saddle are on the boundaries of the catchment
+basins. Segmentation is achieved by filling the basins to define the
+<em>watersheds</em>, which are all the points that drain into the same basin.</p>
+<p>Similarly, grayscale segmentation usually proceeds by finding <em>markers</em>,
+or &#8220;seeds,&#8221; and an image of catchment basins surrounded by walls at the
+boundaries. The catchment filling &#8220;mask&#8221; can be computed in various
+ways; a popular one is to use a properly smoothed morphological
+gradient, which has large peaks at places where the image intensity is
+rapidly varying &#8212; a likely position to find a segmentation
+boundary. Filling then proceeds from the seeds into these basins.</p>
+<p>There are various ways to get the seeds. Two popular ones are <em>tophat</em>
+and <em>h-dome</em> transforms. The tophat is simpler, and you can envision
+its operation as follows. Suppose you have a dark grayscale image with
+some <em>small bright</em> regions. To identify those regions, apply the
+tophat, using a SE that is larger than the extent of the regions. The
+opening is a <em>Min</em> operation that removes those bright regions that
+are smaller in dimension than the SE used in the opening. Then,
+subtracting this image with the thin peaks cut off from the original
+image gives you just those peaks, plus some low amplitude noise. The
+tophat is typically followed by a thresholding operation on the peaks.
+We&#8217;ve just described the <em>white</em> tophat. There is a <em>black</em> tophat
+that is a dual to the white tophat, and it subtracts the original
+image from the closing with a SE. The black tophat gives large pixel
+values in the result where there were <em>small dark</em> regions in the
+original image.</p>
+<p>The <em>h-domes</em> are another method for finding local maxima. They use a
+<a class="reference internal" href="filling.html#seed-filling-grayscale"><em>grayscale reconstruction (seed filling) method</em></a>, where the original image is the mask and the
+seed is derived from the mask by subtracting a constant value &#8220;h&#8221; from
+each pixel value. Reconstruction expands the seed into the original
+image (mask). This is visualized as having each local maximum of the
+seed expand horizontally until it hits a value of the mask that is of
+equal or greater value, at which point it can expand no further.  To
+complete the h-dome transform, the filled seed is then subtracted from
+the original image, resulting in an image composed of the &#8220;domes&#8221; of
+local maxima of the original, none of which can exceed the value h in
+size.</p>
+<p>You can find implementations of the tophat transform <tt class="docutils literal"><span class="pre">pixTophat()</span></tt> and
+the hdome transform <tt class="docutils literal"><span class="pre">pixHDome()</span></tt> in <span class="filesystem">morphapp.c</span>. We have implemented
+both black and white tophat transforms, even though they are trivially
+related. Intuitively, applying a black tophat to find small dark regions
+should be equivalent to applying a white tophat to the inverse of the
+image. (The inverse of an image is found by replacing each pixel by its
+reflection in the light-dark axis; specifically, if the pixel has value
+<em>v</em>, it is replaced by the value <em>255 - v</em>.) And, in fact, this is
+correct. These operations have exactly that simple duality relation:
+<em>the white tophat on an image is equal to the black tophat on the
+inverse of the image, and v.v.</em> The proof, which uses the duality of the
+opening and closing operations, is very simple. Let the opening of an
+image I with a structuring element S be given by O<sub>s</sub>(I), and
+the closing of I by S be C<sub>s</sub>(I). From here on, due to a
+typographic limitation of HTML, we&#8217;ll suppress the &#8220;S&#8221;. Denote the
+inverse of an image I by <span class="underline">I</span>, where <span class="underline">I</span> = 255 -
+I. The opening and closing are dual, in the sense that <span class="underline">O(I)</span>
+= C(<span class="underline">I</span>). (Note that this is a different sense of &#8220;dual&#8221; than
+for the black and white tophats, which we are in the process of
+showing.)  Denote the white tophat by Tw(I) = I - O(I) and the black
+tophat by Tb(I) = C(I) - I. Then the black tophat on the inverse of I is
+given by:</p>
+<blockquote>
+Tb(<span class="underline">I</span>) = C(<span class="underline">I</span>) - <span class="underline">I</span> =
+<span class="underline">O(I)</span> - <span class="underline">I</span> = 255 - O(I) - 255 + I = I - O(I) =
+Tw(I)</blockquote>
+<p>which is the result that was to be proven. By the way, the duality
+relations for opening and closing, <span class="underline">O(I)</span> =
+C(<span class="underline">I</span>), or <span class="underline">C(I)</span> = O(<span class="underline">I</span>), can be
+stated in words in several ways. Here&#8217;s one for the second of the pair:
+<em>The closing of an image can be equivalently found by inverting the
+opening of the inverted image.</em> This holds for binary as well as
+grayscale, of course.</p>
+<p>High frequency noise, which is not well filtered by the white tophat,
+can be greatly reduced by doing a closing first. Likewise, an opening is
+often necessary before a black tophat. The size of the SE in the opening
+or closing can be comparable to that used in the tophat.</p>
+<p>(Parenthetical note. For seeing the results clearly, we provide a
+function <tt class="docutils literal"><span class="pre">pixMaxDynamicRange()</span></tt> that expands the dynamic range to
+cover the full set of 256 values for an 8 bpp image. We let you do
+this with either a linear or log transform. The latter is useful for
+images that cover a large dynamic range to begin with and have small
+values that you wish to see and which appear black on a linear scale.)</p>
+</div>
+<div class="section" id="generalization-rank-order-filters">
+<h2><a class="toc-backref" href="#id5">Generalization: rank order filters</a><a class="headerlink" href="#generalization-rank-order-filters" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="definition">
+<h3><a class="toc-backref" href="#id6">Definition</a><a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h3>
+<p>For simplicity and implementation efficiency, we consider only brick
+(rectangular: wf x hf) filters. A brick rank order filter evaluates, for
+every pixel in the image, a rectangular set of n = wf x hf pixels in its
+neighborhood (where the pixel in question is at the &#8220;center&#8221; of the
+rectangle and is included in the evaluation). It determines the value of
+the neighboring pixels that is the r-th smallest in the set, where r is
+some integer between 1 and n. The input rank is a fraction between 0.0
+and 1.0, where 0.0 represents the smallest value (r = 1) and 1.0
+represents the largest value (r = n). A median filter is a rank filter
+where rank = 0.5. The rank order filter is a generalization of grayscale
+erosion and dilation. The erosion is equivalent to rank = 0.0 (because
+we&#8217;re choosing the minimum in the set), and a dilation is equivalent to
+rank = 1.0 (the maximum). The min and max are much easier to calculate
+than the general rank value, thanks to the <a class="reference internal" href="#van-herk-gil-werman"><em>van Herk/Gil-Werman</em></a> algorithm. The brick grayscale erosion and
+dilation are separable, which also increases the efficiency of
+implementation, whereas the general rank order filter is not. In our
+implementation, if these extremal ranks are specified, and the filter
+dimensions are both odd, the appropriate separable morphological
+operation is dispatched by the rank order function
+<tt class="docutils literal"><span class="pre">pixRankFilterGray()</span></tt>.</p>
+</div>
+<div class="section" id="how-is-a-brick-rank-order-filter-implemented-efficiently">
+<h3><a class="toc-backref" href="#id7">How is a brick rank order filter implemented efficiently?</a><a class="headerlink" href="#how-is-a-brick-rank-order-filter-implemented-efficiently" title="Permalink to this headline">¶</a></h3>
+<p>The brute force method is to <em>sort</em> all the neighboring pixels, and pick
+the value of the r^th one. The best sorting algorithms are O(n*logn),
+where n, the area of the filter, is the number of values to be
+sorted. For a 50x50 filter, the number of operations at each pixel is
+over 10,000, which is not practical. (These are not machine operations.)</p>
+<p>However, we only need the r-th largest pixel. So our problem is really a
+&#8220;selection&#8221; one (e.g., quickselect), not a sorting problem. Now it turns
+out that using a variation of quicksort, selection of any specific rank
+value is O(n). This is because for selection you only need to sort the
+appropriate segment at each bifurcation in the quicksort method, rather
+than the entire tree. (For details, see <cite>Numerical Recipes in C</cite>,
+2nd edition, 1992, p. 355ff.) There is a constant 2 in front of the n,
+relative to quicksort, so this brings the count down to 5,000 for our
+example, which is still ridiculously large.</p>
+<p>Actually, we only need to do an incremental selection or sorting,
+because moving the filter down by one pixel causes one filter-width of
+pixels to be added and another to be removed. Can we do this
+incrementally in an efficient manner? Perhaps, but I don&#8217;t know how.
+The sorted values will be in an array. Even if the filter width is 1, we
+can expect to have to move O(n) pixels, because insertion and deletion
+can happen anywhere in the array. By comparison, heapsort is excellent
+for incremental sorting, where the cost for insertion or deletion is
+O(logn), because the array itself doesn&#8217;t need to be sorted into
+strictly increasing order. The heap, which is represented by an array,
+only needs to be in &#8220;heap&#8221; order, so just a few elements must be
+rearranged. However, heapsort only gives the max (or min) value, not the
+general rank value.</p>
+<p>The conclusion is that sorting and selection are far too slow. All is
+not lost, because we can still use a histogram of pixel values. But how
+is this to be represented?</p>
+<p>Suppose we represent the histogram as an array of 256 bins, which is the
+usual situation. At each new filter location, the histogram must be
+updated and the rank value computed. The problem we face is that, in
+general, to find the rank value, a significant fraction of the entire
+histogram must be summed. Suppose the filter size is 5x5. There are at
+most 25 different bins occupied, and we will mostly be adding zeros to
+the sum of bin occupancies. That is painful!</p>
+<p>We can instead use a linked list, so that there won&#8217;t be any unoccupied
+cells and the sum can be quickly done. However, we lose random access
+for insertion and deletion, so those operations become unacceptably
+slow.</p>
+<p>However, we can mostly overcome the empty bin problem and retain random
+access by using <em>two</em> histograms represented as arrays, with bin sizes 1
+and 16. Each of these histograms is updated for each pixel added or
+removed when the filter is moved. To find the rank value, proceed from
+coarse to fine, first locating the coarse bin for the given rank value,
+of which there are only 16. Then for the fine histogram with bin size 1
+and 256 entries, we need look only at a maximum of 16 bins. On average,
+there will be a total of about 16 sums.</p>
+</div>
+<div class="section" id="points-of-interest-in-the-implementation">
+<h3><a class="toc-backref" href="#id8">Points of interest in the implementation</a><a class="headerlink" href="#points-of-interest-in-the-implementation" title="Permalink to this headline">¶</a></h3>
+<p>The implementation is in <span class="filesystem">rank.c</span>. There are several things to notice:</p>
+<ul>
+<li><p class="first">Two histograms are maintained throughout: a 16-bin coarse histogram
+and a 256-bin fine histogram, as mentioned above.</p>
+</li>
+<li><p class="first">The histograms are updated incrementally, using either row major order
+or column major order, depending on the aspect ratio of the
+filter. For row major order, which is used when the filter height hf
+is larger than the width wf, the fast scan is down the column. For
+that case, for each column, generate the histogram for the entire
+filter at the first location (the top of the column). Then as the
+filter is moved down, remove the values for the old top row and add
+the values for the new bottom row.</p>
+</li>
+<li><p class="first">Avoid special-case processing for pixels near the boundary by
+expanding the image by half the filter dimension on each side
+(specifically, half the horizontal dimension on left and right sides,
+and half the vertical dimension on top and bottom).</p>
+</li>
+<li><p class="first">To avoid bias as far as possible in the added boundary pixels, we
+mirror the pixel values across the boundary.</p>
+</li>
+<li><p class="first">For convenience, choose the filter &#8220;origin&#8221; implicitly at the UL
+corner. Then we can simply march through dimensions of the width and
+height of the original (un-bordered) image to generate the destination
+(rank-order) image.</p>
+</li>
+<li><p class="first">If both filter dimensions are odd and the rank is either 0.0 or 1.0,
+we use instead grayscale erosion or dilation, respectively. The reason
+both dimensions have to be odd is that grayscale erosion and dilation
+are only computed using filters of odd width and height.</p>
+</li>
+<li><p class="first">If the input rank is 0.0 or 1.0, with at least one filter dimension
+being even, it is necessary to use the slower rank order function.
+However, we move the rank value slightly off the input value (e.g.,
+move 0.0 to 0.0001) to allow use of a simpler comparison in the inner
+loop that does the sum over histogram bins.</p>
+</li>
+</ul>
+<p>The operation is reasonably fast, considering its complexity. The speed
+is essentially independent of the size of the larger dimension of the
+filter. The time is approximately a constant plus a term that is linear
+in the smaller dimension of the filter (generated by
+<span class="filesystem">prog/rank_reg.c</span>). In the figure below we show the operation time per
+Mpixel vs the smaller filter dimension.</p>
+<div align="center" class="align-center"><img alt="sec/Mpixel vs filter size" class="border align-center" src="../_images/rank-timing.png" /></div>
+<p>Note that a rank operation with a horizontal filter is faster than with
+a vertical filter when the small dimension is very small, but the
+incremental increase in time as the small dimension expands is larger
+for the horizontal filter. The latter effect can be understood because
+for the horizontal filter, the incremental pixel addressing is over two
+vertical columns, which is slower than addressing across two rows.  For
+a moderate sized filter with a smallest dimension of 20, the rank order
+filter operates at about 4 MPix/sec on a 3 GHz machine. If you can speed
+this function up significantly, please let me know.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Grayscale Morphology</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-grayscale-morphology">What is grayscale morphology?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implementation-using-the-van-herk-gil-werman-algorithm">Implementation using the van Herk/Gil-Werman algorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-tophat-and-h-dome-transforms">The Tophat and H-dome transforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generalization-rank-order-filters">Generalization: rank order filters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html">Fast Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html">Image Scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html">Image Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html">Grayscale and Color Image Enhancement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html">Grayscale Mapping and Binarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/grayscale-morphology.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="convolution.html" title="Fast Convolution"
+             >next</a></li>
+        <li class="right" >
+          <a href="binary-morphology.html" title="Binary Morphology"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

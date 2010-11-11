@@ -1,0 +1,560 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Rasterop (a.k.a. Bitblt) &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Operations" href="operations.html" />
+    <link rel="next" title="Binary Morphology" href="binary-morphology.html" />
+    <link rel="prev" title="Image Processing Operations" href="operations.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="binary-morphology.html" title="Binary Morphology"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="operations.html" title="Image Processing Operations"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="rasterop-a-k-a-bitblt">
+<span id="rasterops"></span><h1>Rasterop (a.k.a. Bitblt)<a class="headerlink" href="#rasterop-a-k-a-bitblt" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Nov 23, 2006</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="what-is-rasterop">
+<h2>What is rasterop?<a class="headerlink" href="#what-is-rasterop" title="Permalink to this headline">¶</a></h2>
+<p>One of the most useful operations in image composition, image
+transformation and image analysis is the <strong>rasterop</strong>. This is the
+low-level operation that your window system uses to paint bitmap
+characters to your frame buffer, and to paint and repaint windows when
+they are generated, resized, or moved.</p>
+<p>This operation has a long and distinguished history, with the driving
+force being the desire to use bitmapped graphics terminals for realtime
+I/O. According to Eric Raymond&#8217;s <em>New Hacker&#8217;s Dictionary</em> (1991, MIT
+Press), the PDP-10 had a BLT (BLock Transfer) machine instruction to
+copy or move a contiguous block of data within memory. (This is not to
+be confused with the common BLT (Branch if Less Than zero) assembly
+instruction, or the BLT (Bacon Lettuce and Tomato) sandwich.) Suppose
+you have an image that is represented by a contiguous block of memory in
+line raster order, but you want to copy or move data between rectangular
+sub-blocks. In general, this data will be composed of disconnected
+fragments of the original block of data. One version of rasterop that
+worked on rectangular two-dimensional subimages of the display buffer
+was implemented at Xerox PARC in the early 1970s by Dan Ingalls. This
+utility was used to display character bitmaps on the Alto, a 16-bit
+computer derived from the Data General Nova minicomputer. At Xerox, the
+operation was called <em>Bitblt</em>, pronounced &#8220;bit blit&#8221;, which is short for
+&#8220;Bit Block Transfer.&#8221; (The Alto displays were 1 bit/pixel, monochrome.)
+Many implementations were subsequently written for other computers with
+bitmapped graphics displays, such as Sun&#8217;s Unix workstations dating from
+the early 1980s that used Sun&#8217;s proprietary <em>Sunview</em> window system.</p>
+<p>For efficiency, some of the display bitblt operations need to work <em>in
+place</em>, so that the display buffer is both the source and the
+destination of the pixels. In such situations, bits have to be copied in
+a particular order so as not to overwrite bits that need to be moved
+later. Some bitblt (rasterop) operations do not use the display buffer
+as either the source or destination of the bits. Such memory-to-memory
+operations are used, for example, by <em>imagers</em> that compose page images
+for display or printing, or, as we shall see, for many image processing
+operations in general.</p>
+<p>There are two well-tested versions of rasterop in open source that I
+know of: one with X windows and one with ghostscript. However, these are
+both complicated by internal reference to graphical display imaging, and
+they have a very large set of operators. They do not have a clean
+interface to the low-level bit manipulation routines, and they are
+encumbered by Gnu&#8217;s GPL &#8220;copyleft&#8221; (for X) and by Aladdin&#8217;s own copyleft
+(for ghostscript). For these reasons, I have made a set of efficient
+low-level routines for rasterop, with a clean interface between the
+user&#8217;s image data structure and low-level data. If you want to use a
+different image data structure, it is a simple matter to rewrite the
+interface shim to the low-level operations.</p>
+<p>The general binary rasterop function replaces a rectangular part of a
+destination (<tt class="docutils literal"><span class="pre">dest</span></tt>) image with a bitwise combination of the pixels in
+the <tt class="docutils literal"><span class="pre">dest</span></tt> and those in an arbitrary rectangle of the same size in a
+source (<tt class="docutils literal"><span class="pre">src</span></tt>) image. The bitwise combination can be one of the
+following:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX_SRC                             s      (replacement)
+PIX_NOT(PIX_SRC)                   ~s      (replacement with bit inversion)
+PIX_SRC | PIX_DST                   s | d
+PIX_SRC &amp; PIX_DST                   s &amp; d
+PIX_SRC ^ PIX_DST                   s ^ d
+PIX_NOT(PIX_SRC) | PIX_DST         ~s | d
+PIX_NOT(PIX_SRC) &amp; PIX_DST         ~s &amp; d
+PIX_NOT(PIX_SRC) ^ PIX_DST         ~s ^ d
+PIX_SRC | PIX_NOT(PIX_DST)          s | ~d
+PIX_SRC &amp; PIX_NOT(PIX_DST)          s &amp; ~d
+PIX_SRC ^ PIX_NOT(PIX_DST)          s ^ ~d
+PIX_NOT(PIX_SRC | PIX_DST)         ~(s | d)
+PIX_NOT(PIX_SRC &amp; PIX_DST)         ~(s &amp; d)
+PIX_NOT(PIX_SRC ^ PIX_DST)         ~(s ^ d)
+</pre></div>
+</div>
+<p>where the version on the left uses the macros that Sun originally
+defined around 1981 for their Pixrect library, and the version on the
+right is an obvious shorthand. The first two are independent of the data
+in the <tt class="docutils literal"><span class="pre">dest</span></tt>, but they are &#8220;binary&#8221; in the sense that the low-level
+functions need to index into both the <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">dest</span></tt> arrays. Of
+these 14 operations, only 12 are unique. The following three operations
+are identical:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX_NOT(PIX_SRC) ^ PIX_DST         ~s ^ d
+PIX_SRC ^ PIX_NOT(PIX_DST)          s ^ ~d
+PIX_NOT(PIX_SRC ^ PIX_DST)         ~(s ^ d)
+</pre></div>
+</div>
+<p>In addition to the 12 unique binary operations, there are two unary
+rasterop functions, that operate on the <tt class="docutils literal"><span class="pre">dest</span></tt> and only depend on the
+the <tt class="docutils literal"><span class="pre">dest</span></tt>:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX_DST                             d   (this is a no-op)
+PIX_NOT(PIX_DST)                   ~d   (bit inversion)
+</pre></div>
+</div>
+<p>And finally there are two unary operations that operate on the <tt class="docutils literal"><span class="pre">dest</span></tt>
+and are independent of both <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">dest</span></tt>:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX_CLR                             (set all bits to 0)
+PIX_SET                             (set all bits to 1)
+</pre></div>
+</div>
+<p>In all, there are a total of 16 unique boolean operations. The Sun
+definition of these macros, along with an analysis of how they work
+properly in composition, is given in <span class="filesystem">rop.c</span>.  Before we go into any
+details, let me explain some of the things besides image composition
+that rasterop can do.</p>
+</div>
+<div class="section" id="what-else-can-you-do-with-rasterop">
+<span id="what-else-rasterops"></span><h2>What else can you do with rasterop?<a class="headerlink" href="#what-else-can-you-do-with-rasterop" title="Permalink to this headline">¶</a></h2>
+<p>Affine transforms are the set of linear geometrical transforms on a
+two-dimensional image that encompass translation, shear, rotation and
+scaling. Except for scaling, all of these operations can be implemented
+using rasterop! Translation is obvious: you choose entire image as the
+source block, and place it, appropriately translated, in the
+destination. Shear is implemented by translating blocks of image by
+different amounts. For example, you can imagine a horizontal &#8220;clockwise&#8221;
+shear about the center of the image where horizontal full width blocks
+are shoved to the right above the center and to the left below the
+center. Blocks near the top and bottom are pushed farther than blocks
+near the center; the distance a block moves horizontally increases
+linearly with the vertical distance of the block from the center of the
+image. Rotation is accomplished by three successive shears, alternating
+in horizontal and vertical directions; the details are given in the
+source code. (For small angles, a two-shear approximation to a rotation
+can be used. Th resulting rotation angle is correct, but the
+length-to-width ratio is altered by a fraction equal to the square of
+the angle. So for a 1 degree rotation angle, the two-shear rotation
+changes the length-to-width ratio by about 1/3000 &#8211; about 1 pixel for a
+typical document image.) It should be noted that all these operations
+can be done <em>in-place</em>, by which we mean that the <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">dest</span></tt>
+are the same image. In such situations when there is translation, care
+must be taken to clear those parts of the image that are not translated.</p>
+<p>Binary morphology is most easily implemented by full-image rasterop. A
+<em>dilation</em> takes a (bit) <em>union</em> of various translates of the <tt class="docutils literal"><span class="pre">src</span></tt>
+image, whereas an <em>erosion</em> takes a (bit) <em>intersection</em> of
+translates. Dilation and erosion are <em>dual</em> operations, in that a
+dilation on the foreground is equivalent to an erosion of the
+background, and v.v. However, we typically visualize binary images
+non-symmetrically, with emphasis on the foreground (ON) pixels. Viewed
+this way, dilation has the effect of smearing out the foreground,
+whereas erosion thins the foreground and acts as a pattern matching
+operation for foreground patterns. The pattern that specifies the
+translations for a dilation or erosion is called a <em>structuring
+element</em>. If we view a morphological operation from the vantage point of
+each <tt class="docutils literal"><span class="pre">dest</span></tt> pixel, we see that the outcome (ON or OFF) depends on a
+set of pixels in the <tt class="docutils literal"><span class="pre">src</span></tt> image whose positions relative to the
+<tt class="docutils literal"><span class="pre">dest</span></tt> pixel are given by the structuring element.</p>
+<p>The morphological <em>opening</em> and <em>closing</em> operations are derived from
+dilation and erosion: the opening is a sequence of erosion and dilation,
+using the same structuring element; the closing is a dilation/erosion
+sequence. Opening and closing have the particularly nice property of
+<em>idempotence</em>, so that repeated opening or dilation has no further
+effect. This is a filtering property that we associate with ideal sieves
+or projection operators, and for this reason image morphology operations
+are often called morphological <em>filters</em>. For a further introduction, go
+to the section on <a class="reference internal" href="binary-morphology.html"><em>Binary Morphology</em></a>.</p>
+<p>Grayscale morphology is a generalization of binary morphology to images
+with more than one bit/pixel, with dilation and erosion being defined as
+a <em>max</em> and <em>min</em>, respectively, of a set of pixels. Binary morphology
+occupies a central role in document image analysis, because
+(particularly with multiscale extensions) it is able to extract both
+shape and texture. For an introduction to these methods, see
+<a class="reference external" href="http://leptonica.com/papers/mrm-icdar.pdf">Multiresolution morphological approach to document image
+analysis</a>, published in <cite class="journal">SPIE Conf. 1818</cite>,
+Boston, Nov. 1992.</p>
+</div>
+<div class="section" id="how-is-rasterop-implemented-efficiently">
+<h2>How is rasterop implemented efficiently?<a class="headerlink" href="#how-is-rasterop-implemented-efficiently" title="Permalink to this headline">¶</a></h2>
+<p>Rasterop is implemented by shifting and masking operations, that use the
+low-level bit arithmetic operations available to the C compiler. These
+include the binary bit logical operations (|, &amp;, ^), the unary bit
+negation operation (~), and the bit shifting operations (&lt;&lt; and
+&gt;&gt;). There are three basic things one must do to make an efficient and
+flexible rasterop function.</p>
+<ol class="arabic">
+<li><p class="first"><strong>Pack the image data.</strong> The pixels must be bit-contiguous within
+words. For example, for binary images, which have 1 bit/pixel (1
+<em>bpp</em>), 32 pixels are put in each 32-bit word.</p>
+</li>
+<li><p class="first"><strong>Access the data by word.</strong> The word today is typically 32 bits.
+Using word access allows the maximum number of pixels to be affected
+by each machine operation. If and when 64-bit registers become the
+standard &#8220;word&#8221; size, the routines should be altered to handle 8
+bytes at a time.</p>
+</li>
+<li><p class="first"><strong>Order the image data.</strong> The pixels, ordered from left to right,
+must be placed in bytes with the <em>most significant byte</em> (MSB) in
+each word to the left. This is required so that pixels within each
+word shift properly across byte boundaries. For big-endian machines
+(e.g., Sun) the byte order from left to right is 0123; for
+little-endian machines (e.g., Intel) the byte order is 3210. The CPUs
+are internally wired so that 32 bit words shift properly from MSB
+&lt;&#8211;&gt; LSB with the &lt;&lt; and &gt;&gt; bit shift operators.</p>
+</li>
+</ol>
+<p>Using 32-bit operations, the speed of a general rasterop is
+approximately 2 binary pixels/machine cycle. With a 1 GHz processor, you
+can expect to operate on <em>2 x 10</em><sup>9</sup> destination pixels/second!</p>
+</div>
+<div class="section" id="what-special-cases-have-been-implemented">
+<h2>What special cases have been implemented?<a class="headerlink" href="#what-special-cases-have-been-implemented" title="Permalink to this headline">¶</a></h2>
+<p>It is also important to treat the special cases efficiently. For
+example, suppose you know in advance that the <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">dest</span></tt>
+blocks are bit-aligned within 32-bit words. A vertical block shift is
+such a special case. In such a situation, a large fraction of the
+shifting and masking operations are not required, and a special
+low-level function for aligned blocks is used. Besides efficiency,
+however, it is useful to have this function, <tt class="docutils literal"><span class="pre">rasteropVAlignedLow()</span></tt>,
+because the general rasterop function <tt class="docutils literal"><span class="pre">rasteropGeneralLow()</span></tt> can be
+derived as a straightforward generalization of the special one. This is
+a common situation, where to write the general function it is easiest
+first to write and debug a simpler, special case, and then to generalize
+that. An even more specialized rasterop is one where both the <tt class="docutils literal"><span class="pre">src</span></tt>
+and <tt class="docutils literal"><span class="pre">dest</span></tt> rectangles have their left edges on a 32-bit word boundary.
+This is a common situation, such as when the rectangle comprises each
+entire image, and a specialized function <tt class="docutils literal"><span class="pre">rasteropWordAlignedLow()</span></tt>
+handles it.</p>
+<p>Another set of special cases are unary rasterops that operate on a
+general rectangular region of a single image. There are only 3
+non-trivial operations:</p>
+<div class="highlight-none"><div class="highlight"><pre>PIX_CLR, PIX_SET, and PIX_NOT(PIX_DST).
+</pre></div>
+</div>
+<p>These operations are implemented as special cases of word-aligned binary
+rasterops. When called with the high-level, 9 parameter
+<tt class="docutils literal"><span class="pre">pixRasterop()</span></tt> function, the last 3 arguments (src Pix and UL corner
+coordinates) are ignored. There is even a special case of unary rasterop
+where the left edge of the rectangle is aligned on a 32-bit word
+boundary.</p>
+<p>Yet another special case of unary rasterops has been implemented to
+<em>move</em> pixels <em>in-place</em> within special rectangular regions. These two
+functions are</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">rasteropVipLow()</span></tt>. This does an in-place full height vertical block
+transfer, moving a set of pixel columns up or down by a given amount,
+and clearing the region that was not &#8220;blitted&#8221; into. For example, when
+a pixel column is moved down by n pixels, the lowest rows are moved
+first, and then the first n rows at the top of the column must be
+cleared.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">rasteropHipLow()</span></tt>. This does an in-place full width horizontal
+block transfer, moving a set of pixel rows left or right by a given
+amount, and clearing the region that was unchanged.</p>
+</li>
+</ul>
+<p>For example, for a vertical block transfer, the columns are moved by
+copying words, properly masked, that have been shifted up or down in the
+image. If the columns are moved upward, the words are taken row by row,
+moving sequentially down the image, and written up a number of rows
+given by the shift amount; and v.v. for shifting a column down. These
+unary (in-place) block shift functions are particularly useful for
+performing in-place shear and rotation of an image.</p>
+<p>These horizontal and vertical in-place operations have been combined.
+By taking the block to be moved equal to the entire image,
+<tt class="docutils literal"><span class="pre">pixRasteropIP()</span></tt> is the high-level function that performs an
+arbitrary in-place shift of an image.</p>
+<p>That&#8217;s the big picture. We now look down at a few of the internal
+details.</p>
+</div>
+<div class="section" id="what-is-the-calling-sequence-for-rasterops">
+<h2>What is the calling sequence for rasterops?<a class="headerlink" href="#what-is-the-calling-sequence-for-rasterops" title="Permalink to this headline">¶</a></h2>
+<p>The top-level function <tt class="docutils literal"><span class="pre">pixRasterop()</span></tt> should be thought of as the
+application programmer&#8217;s interface (API) for rasterop. It is in essence
+a shim that accepts pointers to the <tt class="docutils literal"><span class="pre">PIX</span></tt> data structure for the
+images, along with a description of the rectangular areas to be operated
+on. It extracts the image data, decides if the operation is a unary or
+binary rasterop, and passes the image data to the appropriate low-level
+routine:</p>
+<div class="highlight-none"><div class="highlight"><pre>(9 args) pixRasterop(PIX  *pixd,
+                     INT32 dx, INT32 dy, INT32 dw, INT32 dh,
+                     INT32 op,
+                     PIX *pixs,
+                     INT32 sx, INT32 sy);
+</pre></div>
+</div>
+<p>If the operation is unary, the last three arguments of <tt class="docutils literal"><span class="pre">pixRasterop()</span></tt>
+are ignored, and <tt class="docutils literal"><span class="pre">rasteropUniLow()</span></tt> is called with 10 arguments. The
+width is scaled and the rectangle is clipped if necessary, and the
+remaining 7 arguments are passed to either
+<tt class="docutils literal"><span class="pre">rasteropUniWordAlignedLow()</span></tt> or to the more general function
+<tt class="docutils literal"><span class="pre">rasteropUniGeneralLow()</span></tt>. These do the work.</p>
+<p>If the operation is binary, all the arguments in <tt class="docutils literal"><span class="pre">pixRasterop()</span></tt> are
+used, and <tt class="docutils literal"><span class="pre">rasteropLow()</span></tt> is called with 16 arguments:</p>
+<div class="highlight-none"><div class="highlight"><pre>(16 args) --&gt; rasteropLow(UINT32 *datad,
+                          INT32 dpixw, INT32 dpixh, INT32 depth, INT32 dwpl,
+                          INT32 dx, INT32 dy, INT32 dw, INT32 dh,
+                          INT32 op,
+                          UINT32 *datas,
+                          INT32 spixw, INT32 spixh, INT32 swpl,
+                          INT32 sx, INT32 sy);
+</pre></div>
+</div>
+<p>At this point, two simple operations are carried out immediately:</p>
+<ol class="arabic">
+<li><p class="first">The depth of the image is set to 1 and the width is scaled
+appropriately. The rectangle size and left edge are also scaled. This
+generalizes the binary rasterop so that it can be used on an image of
+any depth.</p>
+</li>
+<li><p class="first">The rectangle is clipped to both the <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">dest</span></tt>. This is
+done to minimize computation and prevent any operation beyond the
+array bounds. Sun&#8217;s rasterop macros used a bit that determined
+whether or not clipping was enabled, presumably because they were
+typically &#8220;blitting&#8221; small character images for which no overflow
+checking was needed and they were taking all possible measures to
+save compute cycles. We ignore this flag bit and always clip the
+rectangle(s).</p>
+</li>
+</ol>
+<p>After width scaling and clipping (if necessary), the left edge alignment
+of the rectangle in both <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">dest</span></tt> are compared. We
+distinguish three cases:</p>
+<ol class="arabic">
+<li><p class="first">If they are both aligned on a 32-bit word boundary, the simple
+function <tt class="docutils literal"><span class="pre">rasteropWordAlignedLow()</span></tt> is called;</p>
+</li>
+<li><p class="first">Else, if they have the same relative 32-bit alignment, the function
+<tt class="docutils literal"><span class="pre">rasteropVAlignedLow()</span></tt> is called;</p>
+</li>
+<li><p class="first">Otherwise, the most general function <tt class="docutils literal"><span class="pre">rasteropGeneralLow()</span></tt> is
+called.</p>
+</li>
+</ol>
+<p>Each of these three functions has the same 11 arguments, e.g.:</p>
+<div class="highlight-none"><div class="highlight"><pre>(11 args) --&gt; rasteropGeneralLow(UINT32 *datad,
+                                 INT32 dwpl,
+                                 INT32 dx, INT32 dy, INT32 dw, INT32 dh,
+                                 INT32 op,
+                                 UINT32 *datas,
+                                 INT32 swpl,
+                                 INT32 sx, INT32 sy);
+</pre></div>
+</div>
+<p>Due to the width adjustment and clipping that are performed in
+<tt class="docutils literal"><span class="pre">rasteropLow()</span></tt>, the low-level function that does all the work,
+<tt class="docutils literal"><span class="pre">rasteropGeneralLow()</span></tt>, does not need five of the arguments passed to
+<tt class="docutils literal"><span class="pre">rasteropLow()</span></tt>; namely, the width, height and depth of the <tt class="docutils literal"><span class="pre">dest</span></tt>
+and the width and height of the <tt class="docutils literal"><span class="pre">src</span></tt>.</p>
+<p>Note that because <tt class="docutils literal"><span class="pre">rasteropLow()</span></tt> does width adjustment and clipping,
+it is safe to call it directly with an arbitrary image depth and
+un-clipped rectangular regions. It also makes it easier to call these
+low-level functions using a different high-level shim that uses some
+other packed image data structure. This separation between high-level
+functions that use the Pix image data structure and low-level functions
+that use only built-in C data types makes it much easier to port the
+low-level functions to applications that use other image data
+structures.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>On abbreviations</p>
+<ul class="last">
+<li><p class="first"><em>bpp</em> bits/pixel. A binary image has 1 bpp.</p>
+</li>
+<li><p class="first"><em>ppi</em> pixels/inch. Yes, this non-metric measure shows our North
+American provincialism.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">Rasterop (a.k.a. Bitblt)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-rasterop">What is rasterop?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-else-can-you-do-with-rasterop">What else can you do with rasterop?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-is-rasterop-implemented-efficiently">How is rasterop implemented efficiently?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-special-cases-have-been-implemented">What special cases have been implemented?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-the-calling-sequence-for-rasterops">What is the calling sequence for rasterops?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html">Grayscale Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html">Fast Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html">Image Scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html">Image Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enhancement.html">Grayscale and Color Image Enhancement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html">Grayscale Mapping and Binarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/rasterops.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="binary-morphology.html" title="Binary Morphology"
+             >next</a></li>
+        <li class="right" >
+          <a href="operations.html" title="Image Processing Operations"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

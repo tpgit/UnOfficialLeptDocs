@@ -1,0 +1,741 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>(Optional) Building zlib, libjpeg, libpng, libtiff and giflib &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Leptonica &amp; Visual Studio 2008" href="index.html" />
+    <link rel="next" title="(Optional) Building the leptonlib library" href="building-leptonlib.html" />
+    <link rel="prev" title="c# and leptonlib" href="csharp-and-leptonlib.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="building-leptonlib.html" title="(Optional) Building the leptonlib library"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="csharp-and-leptonlib.html" title="c# and leptonlib"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="optional-building-zlib-libjpeg-libpng-libtiff-and-giflib">
+<span id="building-requisite-libraries"></span><h1>(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span><a class="headerlink" href="#optional-building-zlib-libjpeg-libpng-libtiff-and-giflib" title="Permalink to this headline">¶</a></h1>
+<p>For some reason, you might want to build the image libraries <span class="filesystem">leptonlib</span>
+uses. The process involves downloading and extracting the library
+sources, building them, and then copying the required header files to
+<span class="filesystem">BuildFolder\include</span>, and the libraries to <span class="filesystem">BuildFolder\lib</span>.</p>
+<div class="section" id="image-library-links">
+<h2>Image library links<a class="headerlink" href="#image-library-links" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s a summary of the image libraries that <span class="filesystem">leptonlib</span> can use and
+their dependencies:</p>
+<pre class="literal-block">
+<a class="reference external" href="http://www.zlib.net">zlib</a>
+  current version: <a class="reference external" href="http://www.zlib.net/zlib125.zip">http://www.zlib.net/zlib125.zip</a>
+  zlib has no other dependencies.
+  An older Visual Studio Workspace file is provided
+   (but Visual 2008 can convert it to a Solution)
+
+<a class="reference external" href="http://libpng.org/pub/png/libpng.html">libpng</a>
+  current version: <a class="reference external" href="http://prdownloads.sourceforge.net/libpng/lpng143.zip">http://prdownloads.sourceforge.net/libpng/lpng143.zip</a>
+  libpng depends on zlib.
+  A Visual Studio solution file is provided.
+  libpng can also build zlib but we build zlib separately.
+
+<a class="reference external" href="http://www.ijg.org/">libjpeg</a>
+  current version: <a class="reference external" href="http://www.ijg.org/files/jpegsr8b.zip">http://www.ijg.org/files/jpegsr8b.zip</a>
+  libjpeg has no other dependencies.
+  A Visual Studio 2010 solution file is provided.
+
+<a class="reference external" href="http://www.remotesensing.org/libtiff/">libtiff</a>
+  current version: <a class="reference external" href="http://download.osgeo.org/libtiff/tiff-3.9.4.zip">http://download.osgeo.org/libtiff/tiff-3.9.4.zip</a>
+  libtiff depends on libjpeg and zlib.
+  Only a nmake file is provided.
+
+<a class="reference external" href="http://sourceforge.net/projects/giflib/">giflib</a>
+  current version:
+  <a class="reference external" href="http://sourceforge.net/projects/giflib/files/giflib%204.x/giflib-4.1.6/giflib-4.1.6.tar.gz/download">http://sourceforge.net/projects/giflib/files/giflib%204.x/giflib-4.1.6/giflib-4.1.6.tar.gz/download</a>
+  giflib has no other dependencies.
+</pre>
+</div>
+<div class="section" id="using-the-same-runtime-library">
+<h2>Using the same runtime library<a class="headerlink" href="#using-the-same-runtime-library" title="Permalink to this headline">¶</a></h2>
+<p>A very important consideration to keep in mind is that <em class="bold-italic">all</em> parts
+of a program have to be built with references to the exact same
+runtime library. Or as <a class="reference external" href="http://msdn.microsoft.com/en-us/library/2kzt1wy3.aspx">Visual C++ Compiler Options /MD, /MT, /LD (Use
+Run-Time Library)</a> succinctly
+states:</p>
+<blockquote>
+All modules passed to a given invocation of the linker must have
+been compiled with the same run-time library compiler option (<tt class="docutils literal"><span class="pre">/MD</span></tt>,
+<tt class="docutils literal"><span class="pre">/MT</span></tt>, <tt class="docutils literal"><span class="pre">/LD</span></tt>).</blockquote>
+<p>In our case this means consistently using the <strong>Multi-threaded Debug
+DLL</strong> (<tt class="docutils literal"><span class="pre">/MDd</span></tt>) or the <strong>Multi-threaded DLL</strong> (<tt class="docutils literal"><span class="pre">/MD</span></tt>) compiler
+option. See <a class="reference external" href="http://support.microsoft.com/kb/140584">How to link with the correct C Run-Time (CRT) library</a> for more details. If you
+attempt to mix and match libraries and object files built with
+references to different runtime libraries you&#8217;ll get lots of warning
+messages similar to the following:</p>
+<div class="highlight-none"><div class="highlight"><pre>LINK : warning LNK4098: defaultlib &#39;LIBCMT&#39; conflicts with use of
+other libs; use /NODEFAULTLIB:library
+
+LIBCMTD.lib(crt0dat.obj) : error LNK2005: _exit already defined in
+MSVCRTD.lib(MSVCR90D.dll)
+</pre></div>
+</div>
+<p>In particular you can&#8217;t even mix and match libraries built with
+references to the Multi-threaded Debug DLL (<tt class="docutils literal"><span class="pre">/MDd</span></tt>) runtime library
+with those built with references to the Multi-threaded DLL (<tt class="docutils literal"><span class="pre">/MD</span></tt>)
+runtime library. This is the reason why the libraries built in this
+section have such long filenames. They are needed to make sure that only
+libraries referencing the same runtime library are used together.</p>
+<p>To diagnose these kinds of issues you can use <tt class="docutils literal"><span class="pre">dumpbin</span> <span class="pre">/directives</span>
+<span class="pre">somelibrary.lib</span></tt> from the command line to see which runtime
+library <span class="filesystem">somelibrary.lib</span> was built to use.</p>
+<p>The <tt class="docutils literal"><span class="pre">/MD</span></tt> and <tt class="docutils literal"><span class="pre">/MDd</span></tt> switches were chosen because the <tt class="docutils literal"><span class="pre">/clr</span></tt>
+option which enables linking with .NET languages can only be used with
+those runtime libraries. See <a class="reference external" href="http://msdn.microsoft.com/en-us/library/abx4dbyh.aspx">C Run-Time Libraries</a> for more
+details.</p>
+</div>
+<div class="section" id="download-and-extract-the-image-libraries">
+<h2>Download and extract the image libraries<a class="headerlink" href="#download-and-extract-the-image-libraries" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Download <span class="filesystem">zlib125.zip</span> and extract its contents to
+<span class="filesystem">BuildFolder\zlib</span>.  Note that the <span class="filesystem">libpng.sln</span> provided with
+<span class="filesystem">libpng</span> <em class="bold-italic">requires</em> <span class="filesystem">zlib</span> to be in this location.</p>
+</li>
+<li><p class="first">Download <span class="filesystem">lpng143.zip</span>, <span class="filesystem">jpegsr8b.zip</span>, <span class="filesystem">tiff-3.9.4.zip</span> and
+<span class="filesystem">giflib-4.1.6</span>. Extract them to <span class="filesystem">BuildFolder</span>. You should now have:</p>
+<pre class="literal-block">
+BuildFolder\
+  giflib-4.1.6\
+  include\
+  jpeg-8b\
+  leptonlib-1.67\
+  lib\
+  libtiff-3.9.4\
+  lpng143\
+  zlib\
+</pre>
+</li>
+</ol>
+<p>At this point you might want to empty your <span class="filesystem">include</span> and <span class="filesystem">lib</span>
+directories to get rid of any files that were supplied with the
+pre-built binaries archive.</p>
+</div>
+<div class="section" id="building-zlib">
+<h2>Building <span class="filesystem">zlib</span><a class="headerlink" href="#building-zlib" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Open a Command Prompt window and execute <span class="filesystem">C:\Program
+Files\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat</span> to set
+some environmental variables correctly.</p>
+</li>
+<li><p class="first"><span class="command">cd</span> to the <span class="filesystem">BuildFolder\zlib\contrib\masmx86</span>
+directory. Then execute:</p>
+<div class="highlight-none"><div class="highlight"><pre>bld_ml32.bat
+</pre></div>
+</div>
+<p>to assemble the <span class="filesystem">asm</span> files required for the <span class="filesystem">zlib</span> Release
+configuration.</p>
+</li>
+<li><p class="first">Using Visual Studio 2008, open
+<span class="filesystem">BuildFolder\zlib\contrib\vstudio\vc9\zlibvc.sln</span>.</p>
+</li>
+<li><p class="first">Select the desired build configuration (either <em class="guilabel">Debug</em> or
+<em class="guilabel">Release</em> and probably <em class="guilabel">Win32</em>).</p>
+</li>
+<li><p class="first">Right-click <em class="guilabel">zlibstat</em> and choose
+<em class="menuselection">Properties</em>. Change <em class="guilabel">Configuration
+Properties | C/C++ | Code Generation | Runtime Library</em> to either
+<em class="guilabel">Multi-threaded Debug DLL (/MDd)</em> if building a
+<em class="guilabel">Debug</em> configuration or <em class="guilabel">Multi-threaded DLL
+(/MD)</em> if building a <em class="guilabel">Release</em> configuration.</p>
+<p>Also remove <span class="filesystem">ZLIB_WINAPI</span> from <em class="guilabel">Configuration Properties |
+C/C++ | Preprocessor | Preprocessor Definitions</em>. If you don&#8217;t do
+this you&#8217;ll get <span class="filesystem">undefined symbol</span> error messages when trying to
+build <span class="filesystem">libpng</span> and <span class="filesystem">libtiff</span>.</p>
+</li>
+<li><p class="first">Right-click <em class="guilabel">zlibstat</em> and choose
+<em class="menuselection">Build</em>. This will make <span class="filesystem">zlibstat.lib</span>. It will be in
+<span class="filesystem">zlib\contrib\vstudio\vc9\x86\ZlibStatDebug</span> or
+<span class="filesystem">zlib\contrib\vstudio\vc9\x86\ZlibStatRelease</span>. Copy it to
+<span class="filesystem">BuildFolder\lib</span>. To avoid confusion (and to match what the
+<span class="filesystem">leptonlib.vcproj</span> settings say), rename it to follow the ClanLib
+naming conventions.  So they should be:</p>
+<div class="highlight-none"><div class="highlight"><pre>zlib-static-mtdll.lib or
+zlib-static-mtdll-debug.lib
+</pre></div>
+</div>
+</li>
+<li><p class="first">Copy <span class="filesystem">zlib\zlib.h</span> and <span class="filesystem">zconf.h</span> to <span class="filesystem">BuildFolder\include</span>.</p>
+</li>
+</ol>
+<p>To test the <span class="filesystem">zlib</span> static library, you first have to change the
+<em class="guilabel">testzlib</em> project (the supplied project just directly
+includes the <span class="filesystem">.c</span> source files instead of linking with the static
+library).</p>
+<ol class="arabic">
+<li><p class="first">From its Source Files solution folder, remove all files except for
+<span class="filesystem">testzlib.c</span>.</p>
+<p>Then right-click <em class="guilabel">testzlib</em> and choose
+<em class="menuselection">Properties</em>. Change <em class="guilabel">Configuration
+Properties | Linker | General | Additional Library Directories</em> to
+<span class="filesystem">x86/ZlibStatRelease</span>. To <em class="guilabel">Configuration Properties |
+Linker | Input | Additional Dependencies</em> add <span class="filesystem">zlibstat.lib</span>.</p>
+</li>
+<li><p class="first">Right-click <em class="guilabel">testzlib</em> and choose
+<em class="menuselection">Properties</em>. Change <em class="guilabel">Configuration
+Properties | C/C++ | Code Generation | Runtime Library</em> to either
+<em class="guilabel">Multi-threaded Debug DLL (/MDd)</em> if building a
+<em class="guilabel">Debug</em> configuration or <em class="guilabel">Multi-threaded DLL
+(/MD)</em> if building a <em class="guilabel">Release</em> configuration.</p>
+<p>Also remove <span class="filesystem">ZLIB_WINAPI</span> from <em class="guilabel">Configuration Properties |
+C/C++ | Preprocessor | Preprocessor Definitions</em>.</p>
+<p>Change <em class="guilabel">Configuration Properties | Linker | Manifest File |
+Generate Manifest</em> to <em class="guilabel">Yes</em>, otherwise when you attempt to
+run <span class="filesystem">testzlib.exe</span> you&#8217;ll get a &#8220;MSVCR90.dll was not found&#8221; error.</p>
+</li>
+<li><p class="first">Right-click <em class="guilabel">testzlib</em> and choose <em class="menuselection">Build</em>.</p>
+</li>
+<li><p class="first">In a Command Prompt window, <span class="command">cd</span> to the
+<span class="filesystem">BuildFolder\zlib\contrib\vstudio\vc9\x86\TestZlibRelease</span>
+directory. Then execute:</p>
+<div class="highlight-none"><div class="highlight"><pre>testzlib.exe testzlib.pdb
+</pre></div>
+</div>
+<p>You should see the following:</p>
+<div class="highlight-none"><div class="highlight"><pre>file testzlib.pdb read, 1100800 bytes
+total compress size = 178215, in 34 step
+time = 125 msec = 0.125000 sec
+defcpr time QP = 129 msec = 0.129000 sec
+defcpr result rdtsc = 1025607f
+
+total uncompress size = 1100800, in 34 step
+time = 16 msec = 0.016000 sec
+uncpr  time QP = 0 msec = 0.000000 sec
+uncpr  result rdtsc = 139d5ce
+
+compare ok
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="building-libpng">
+<h2>Building <span class="filesystem">libpng</span><a class="headerlink" href="#building-libpng" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Open <span class="filesystem">BuildFolder\lpng143\projects\visualc71\libpng.sln</span> (Just
+click <em class="guilabel">Next</em> thru the Visual Studio Conversion
+Wizard). There are five different configurations you can
+build. Normally you&#8217;ll want <em class="guilabel">LIB Release</em> or <em class="guilabel">LIB
+Debug</em>.</p>
+</li>
+<li><p class="first">To be compatible with the way the other library Debug versions are
+built, you might want to change the <em class="guilabel">LIB Debug
+Configuration Properties | C/C++ | General | Debug Information
+Format</em> from <em class="guilabel">Program Database for Edit &amp; Continue (/ZI)</em>
+to <em class="guilabel">C7 Compatible (/Z7)</em>. This embeds debug information
+directly in the generated <span class="filesystem">.lib</span> so you don&#8217;t have to worry about
+also copying <span class="filesystem">.pdb</span> files.</p>
+</li>
+<li><p class="first">Build the <em class="guilabel">libpng</em> by right-clicking it and choosing
+<em class="menuselection">Build</em>. This will make <span class="filesystem">libpng.lib</span> (or
+<span class="filesystem">libpngd.lib</span>). They&#8217;ll be in
+<span class="filesystem">lpng143\projects\visualc71\Win32_LIB_Release</span> or
+<span class="filesystem">lpng143\projects\visualc71\Win32_LIB_Debug</span>. Copy them to
+<span class="filesystem">BuildFolder\lib</span>. To avoid confusion (and to match what the
+<span class="filesystem">leptonlib.vcproj</span> settings say), rename them following the ClanLib
+naming conventions.  So they should be:</p>
+<div class="highlight-none"><div class="highlight"><pre>libpng-static-mtdll.lib or
+libpng-static-mtdll-debug.lib
+</pre></div>
+</div>
+<p>The <em class="guilabel">libpng</em> project erroneously includes a dependency on
+the <em class="guilabel">zlib</em> project, so you&#8217;ll get an error message about
+not being able to find <span class="filesystem">gzio.c</span>. Since you previously made <span class="filesystem">zlib</span>
+separately (specifically to avoid this problem), you can ignore this
+message.</p>
+</li>
+<li><p class="first">Copy <span class="filesystem">lpng143\png.h</span> and <span class="filesystem">pngconf.h</span> to <span class="filesystem">BuildFolder\include</span>.</p>
+</li>
+</ol>
+<p>You can test <span class="filesystem">libpng</span> by building <span class="filesystem">pngtest.exe</span>.</p>
+<ol class="arabic">
+<li><p class="first">Right-click <em class="guilabel">pngtest</em> and choose
+<em class="menuselection">Properties</em>. Change <em class="guilabel">Configuration
+Properties | Linker | General | Additional Library Directories</em> to
+<span class="filesystem">..\..\..\lib</span>. To <em class="guilabel">Configuration Properties | Linker |
+Input | Additional Dependencies</em> add <span class="filesystem">zlib-static-mtdll-debug.lib</span>.</p>
+</li>
+<li><p class="first">Build and run <em class="guilabel">pngtest</em> by right-clicking it and choosing
+<em class="menuselection">Build</em>.</p>
+<p>You should see the following:</p>
+<div class="highlight-none"><div class="highlight"><pre>2&gt;Testing...
+2&gt; Testing libpng version 1.4.3
+2&gt;   with zlib   version 1.2.5
+2&gt;libpng version 1.4.3 - June 26, 2010
+  Copyright (c) 1998-2010 Glenn Randers-Pehrson
+  Copyright (c) 1996-1997 Andreas Dilger
+  Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc. library (10403):
+  libpng version 1.4.3 - June 26, 2010
+2&gt; pngtest (10403): libpng version 1.4.3 - June 26, 2010
+2&gt; sizeof(png_struct)=656, sizeof(png_info)=288
+2&gt; Testing ..\..\pngtest.png:
+2&gt; Pass 0: rwrwrwrwrwrwrwrwrw
+2&gt; Pass 1: rwrwrwrwrwrwrwrwrw
+2&gt; Pass 2: rwrwrwrwrwrwrwrw
+2&gt; Pass 3: rwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrw
+2&gt; Pass 4: rwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrw
+2&gt; Pass 5: rwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrw
+2&gt;         rwrwrwrw
+2&gt; Pass 6: rwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrwrw
+2&gt;         rwrwrwrwrw
+2&gt; PASS (9782 zero samples)
+2&gt; Filter 0 was used 21 times
+2&gt; Filter 1 was used 15 times
+2&gt; Filter 2 was used 52 times
+2&gt; Filter 3 was used 10 times
+2&gt; Filter 4 was used 33 times
+2&gt; tIME = 7 Jun 1996 17:58:08 +0000
+2&gt; libpng passes test
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="building-libjpeg">
+<span id="id1"></span><h2>Building <span class="filesystem">libjpeg</span><a class="headerlink" href="#building-libjpeg" title="Permalink to this headline">¶</a></h2>
+<p>Unfortunately, as of <span class="filesystem">jpeg-8b</span> Visual Studio 2008 is no longer
+supported, only Visual Studio 2010. This seems a bit premature to me but
+the solution recommended by the developers is to download <span class="filesystem">jpeg-8a</span> and
+copy the required solution and project files.</p>
+<p>Therefore, I supply a Visual Studio 2008 Solution for <span class="filesystem">jpeg-8b</span> in
+<span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\vs2008\jpeg-8b-vs2008.zip</span>. Extract it to
+<span class="filesystem">BuildFolder\jpeg-8b</span>.</p>
+<ol class="arabic">
+<li><p class="first">Open <span class="filesystem">BuildFolder\jpeg-8bjpeg.sln</span>.</p>
+</li>
+<li><p class="first">Select the desired build configuration (either <em class="guilabel">Debug</em> or
+<em class="guilabel">Release</em> and probably <em class="guilabel">Win32</em>).</p>
+</li>
+<li><p class="first">Build the Solution.</p>
+</li>
+<li><p class="first">Copy <span class="filesystem">BuildFolder\jpeg-8b\Release\jpeg.lib</span> to <span class="filesystem">BuildFolder\lib</span>.
+Rename it to: <span class="filesystem">libjpeg-static-mtdll.lib</span></p>
+<p>and/or copy <span class="filesystem">BuildFolder\jpeg-8b\Debug\jpeg.lib</span> to <span class="filesystem">BuildFolder\lib</span>.
+Rename it to: <span class="filesystem">libjpeg-static-mtdll-debug.lib</span>.</p>
+</li>
+<li><p class="first">Copy <span class="filesystem">jpeglib.h</span>, <span class="filesystem">jconfig.h</span>, <span class="filesystem">jmorecfg.h</span>, and <span class="filesystem">jerror.h</span> to
+<span class="filesystem">BuildFolder\include</span>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="building-libtiff">
+<span id="id2"></span><h2>Building <span class="filesystem">libtiff</span><a class="headerlink" href="#building-libtiff" title="Permalink to this headline">¶</a></h2>
+<p>After a long quiet period, <span class="filesystem">libtiff</span> is undergoing a flurry of changes
+so it seems best to get the latest version (currently 3.9.4).</p>
+<ol class="arabic">
+<li><p class="first"><a class="reference external" href="http://www.remotesensing.org/libtiff/build.html#PC">Building the Software under Windows 95/98/NT/2000 with MS VC++</a> explains the
+overall process of building <span class="filesystem">libtiff</span>. However, in order to use the
+correct <span class="filesystem">include</span> and <span class="filesystem">lib</span> dirs, and allow creation of Debug builds
+without manual editing of the <span class="filesystem">nmake.opt</span> file, I supply
+<span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\vs2008\libtiff3.9.2-vs2008-makefiles-for-leptonica.zip</span> which
+contains custom versions of <span class="filesystem">nmake.opt</span>, <span class="filesystem">libtiff\Makefile.vc</span> and
+<span class="filesystem">tools\Makefile.vc</span>.</p>
+</li>
+<li><p class="first">Extract <span class="filesystem">libtiff3.9.2-vs2008-makefiles-for-leptonica.zip</span> to
+<span class="filesystem">BuildFolder\tiff-3.9.4</span>. This will overwrite the existing
+versions of the above files so you might want to back them up
+first.</p>
+</li>
+<li><p class="first">To build <span class="filesystem">libtiff</span> open a Command Prompt window and first
+execute <span class="filesystem">C:\Program Files\Microsoft Visual Studio
+9.0\VC\bin\vcvars32.bat</span> to set some environmental variables
+correctly.</p>
+</li>
+<li><p class="first"><span class="command">cd</span> to the <span class="filesystem">BuildFolder\tiff-3.9.4\libtiff</span>
+directory. Then do:</p>
+<div class="highlight-none"><div class="highlight"><pre>nmake /f makefile.vc clean
+</pre></div>
+</div>
+<p>Then to make a Debug build of libtiff:</p>
+<div class="highlight-none"><div class="highlight"><pre>nmake /f makefile.vc DEBUG=1
+nmake /f makefile.vc DEBUG=1 install
+</pre></div>
+</div>
+<p>or to make a Release build:</p>
+<div class="highlight-none"><div class="highlight"><pre>nmake /f makefile.vc
+nmake /f makefile.vc install
+</pre></div>
+</div>
+<p>The last <span class="command">nmake</span> command copies the required <span class="filesystem">libtiff</span> header
+files and the library to the <span class="filesystem">BuildFolder\include</span> and
+<span class="filesystem">BuildFolder\lib</span> directories.</p>
+</li>
+<li><p class="first">(Optional but recommended) To build the tiff tools, <span class="command">cd</span> to the
+<span class="filesystem">BuildFolder\tiff-3.9.4</span> directory.</p>
+<p>Then to make the tiff tools:</p>
+<div class="highlight-none"><div class="highlight"><pre>nmake /f makefile.vc DEBUG=1
+</pre></div>
+</div>
+<p>or to make a Release build:</p>
+<div class="highlight-none"><div class="highlight"><pre>nmake /f makefile.vc
+</pre></div>
+</div>
+<p>You can&#8217;t build the tiff tools and <span class="filesystem">libtiff</span> together initially
+because the linker expects to find <span class="filesystem">.pdb</span> files where the
+<span class="filesystem">.lib</span> is. Thus you first have to make and <em class="bold-italic">install</em>
+<span class="filesystem">libtiff-static-mtdll(-debug).lib</span> so that the linker can find
+<span class="filesystem">libjpeg-static-mtdll.pdb</span> and
+<span class="filesystem">libjpeg-static-mtdll-debug.pdb</span>.</p>
+<p>To test your build of <span class="filesystem">libtiff</span>, <span class="command">cd</span> to the
+<span class="filesystem">BuildFolder\tiff-3.9.4\tools</span> directory, then execute the
+following from the command line:</p>
+<pre class="literal-block">
+tiffinfo.exe ..\..\leptonlib-1.67\prog\feyn.tif
+</pre>
+<p>You should see the following output:</p>
+<div class="highlight-none"><div class="highlight"><pre>TIFF Directory at offset 0x1989e (104606)
+  Image Width: 2528 Image Length: 3300
+  Resolution: 300, 300 pixels/inch
+  Bits/Sample: 1
+  Compression Scheme: CCITT Group 4
+  Photometric Interpretation: min-is-white
+  Orientation: row 0 top, col 0 lhs
+  Samples/Pixel: 1
+  Rows/Strip: 3300
+  Planar Configuration: single image plane
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="building-giflib">
+<span id="id3"></span><h2>Building <span class="filesystem">giflib</span><a class="headerlink" href="#building-giflib" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">I supply a Visual Studio 2008 Solution for <span class="filesystem">giflib</span> in
+<span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\vs2008\giflib4.1.6.zip</span>. Extract it to
+<span class="filesystem">BuildFolder\giflib-4.1.6\windows</span>.</p>
+</li>
+<li><p class="first"><span class="filesystem">giflib</span> requires <span class="filesystem">stdint.h</span> Before building it you’ll need to
+download <a class="reference external" href="http://www.azillionmonkeys.com/qed/pstdint.h">http://www.azillionmonkeys.com/qed/pstdint.h</a>, rename it to
+stdint.h, and then move it to the standard Visual C++ include
+directory: <span class="filesystem">C:\Program Files\Microsoft Visual Studio
+9.0\VC\include</span>.</p>
+</li>
+<li><p class="first">Open <span class="filesystem">BuildFolder\giflib-4.1.6\windows\giflib\giflib.sln</span>.</p>
+</li>
+<li><p class="first">Select the desired build configuration (either <em class="guilabel">Debug</em> or
+<em class="guilabel">Release</em> and probably <em class="guilabel">Win32</em>).</p>
+<p><em class="guilabel">Debug</em> builds use the following C compiler options:</p>
+<div class="highlight-none"><div class="highlight"><pre>/Od
+/D &quot;WIN32&quot; /D &quot;WINDOWS32&quot; /D &quot;_DEBUG&quot; /D &quot;_LIB&quot; /D &quot;_OPEN_BINARY&quot;
+/D &quot;HAVE_IO_H&quot; /D &quot;HAVE_FCNTL_H&quot; /D &quot;HAVE_STDARG_H&quot; /D &quot;HAVE_BASETSD_H&quot;
+/D &quot;HAVE_STDINT_H&quot; /D &quot;HAVE_SYS_TYPES_H&quot; /D &quot;_MBCS&quot;
+/FD /EHsc /RTC1 /MDd /Fo&quot;Debug\\&quot; /Fd&quot;Debug\vc90.pdb&quot;
+/W3 /nologo /c /Z7 /errorReport:prompt
+</pre></div>
+</div>
+<p><em class="guilabel">Release</em> builds use the following C compiler options:</p>
+<div class="highlight-none"><div class="highlight"><pre>/O2 /Oi
+/D &quot;WIN3&quot; /D &quot;WINDOWS32&quot; /D &quot;NDEBUG&quot; /D &quot;_LIB&quot; /D &quot;_OPEN_BINARY&quot;
+/D &quot;HAVE_IO_H&quot; /D &quot;HAVE_FCNTL_H&quot; /D &quot;HAVE_STDARG_H&quot; /D &quot;HAVE_BASETSD_H&quot;
+/D &quot;HAVE_STDINT_H&quot; /D &quot;HAVE_SYS_TYPES_H&quot; /D &quot;_MBCS&quot;
+/FD /EHsc /MD /Fo&quot;Release\\&quot; /Fd&quot;Release\vc90.pdb&quot;
+/W3 /nologo /c /errorReport:prompt
+</pre></div>
+</div>
+</li>
+<li><p class="first">Build the Solution.</p>
+<p>This will make <span class="filesystem">giflib.lib</span> (or <span class="filesystem">giflibd.lib</span>). They&#8217;ll be in
+<span class="filesystem">BuildFolder\giflib-4.1.6\windows\giflib\Release</span> or
+<span class="filesystem">BuildFolder\giflib-4.1.6\windows\giflib\Debug</span>. Copy them to
+<span class="filesystem">BuildFolder\lib</span>. To avoid confusion (and to match what the
+<span class="filesystem">leptonlib.vcproj</span> settings say), rename them following the ClanLib
+naming conventions.  So they should be:</p>
+<div class="highlight-none"><div class="highlight"><pre>giflib-static-mtdll.lib or
+giflib-static-mtdll-debug.lib
+</pre></div>
+</div>
+</li>
+<li><p class="first">Copy <span class="filesystem">giflib-4.1.6\lib\gif_lib.h</span> to <span class="filesystem">BuildFolder\include</span>.</p>
+</li>
+<li><p class="first">To help test <span class="filesystem">giflib</span>, the Solution also makes <span class="command">giftext</span> in the
+same directory that it puts the library. <span class="command">cd</span> to that directory
+and then run the following command:</p>
+<div class="highlight-none"><div class="highlight"><pre>giftext ..\..\..\pic\porsche.gif
+</pre></div>
+</div>
+<p>You should see the following:</p>
+<div class="highlight-none"><div class="highlight"><pre>..\..\..\pic\porsche.gif:
+        Screen Size - Width = 320, Height = 200.
+        ColorResolution = 4, BitsPerPixel = 5, BackGround = 0.
+        Has Global Color Map.
+Image #1:
+        Image Size - Left = 0, Top = 0, Width = 320, Height = 200.
+        Image is Non Interlaced.
+        No Image Color Map.
+Gif file terminated normally.
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="re-adding-gif-support-to-leptonlib">
+<h2>Re-adding <span class="filesystem">GIF</span> support to <span class="filesystem">leptonlib</span><a class="headerlink" href="#re-adding-gif-support-to-leptonlib" title="Permalink to this headline">¶</a></h2>
+<p>The <span class="filesystem">include\leptonica\environ.h</span> that is part of the pre-built binary
+package already has GIF support enabled. However, if you are building
+from the official distribution of <span class="filesystem">leptonlib</span> you have to turn on
+<span class="filesystem">giflib</span> support yourself.</p>
+<ol class="arabic">
+<li><p class="first">Edit <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\src\environ.h</span>. Change:</p>
+<div class="highlight-none"><div class="highlight"><pre>#define  HAVE_LIBGIF      0
+</pre></div>
+</div>
+<p>to:</p>
+<div class="highlight-none"><div class="highlight"><pre>#define  HAVE_LIBGIF      1
+</pre></div>
+</div>
+</li>
+<li><p class="first">Copy the changed <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\src\environ.h</span> to
+<span class="filesystem">BuildFolder\include\leptonica</span>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="statically-linking-with-giflib">
+<span id="testing-giflib"></span><h2>Statically linking with <span class="filesystem">giflib</span><a class="headerlink" href="#statically-linking-with-giflib" title="Permalink to this headline">¶</a></h2>
+<p>Any applications that statically link with either
+<span class="filesystem">leptonlib-static-mtdll.lib</span> or <span class="filesystem">leptonlib-static-mtdll-debug.lib</span> will
+also have to be linked with <span class="filesystem">giflib</span> now. This is already done with the
+supplied <span class="filesystem">ioformats_reg</span> project but we&#8217;ll demonstrate the process
+anyway by building a <em class="guilabel">LIB Debug</em> version of <span class="filesystem">gifio_reg</span> to
+make sure the library was built correctly.</p>
+<ol class="arabic">
+<li><p class="first">See <a class="reference internal" href="building-prog-dir.html#using-create-prog-project-addin"><em>Using the Create Leptonica prog Project AddIn</em></a> to create a Visual Studio
+2008 Project for <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\prog\gifio_reg.c</span>.</p>
+</li>
+<li><p class="first">In Solution Explorer right-click <em class="guilabel">gifio_reg</em>, then choose
+<em class="menuselection">P<span class="accelerator">r</span>operties</em> from the context menu.</p>
+</li>
+<li><p class="first">Set <em class="guilabel"><span class="accelerator">C</span>onfiguration:</em> to <em class="guilabel">LIB Debug</em>.</p>
+</li>
+<li><p class="first">Add <span class="filesystem">giflib-static-mtdll-debug.lib</span> to <em class="guilabel">Configuration
+Properties | Linker | Input | Additional Dependencies</em>. (You would
+add <span class="filesystem">giflib-static-mtdll.lib</span> if you were building <em class="guilabel">LIB
+Release</em>)</p>
+</li>
+<li><p class="first">Right-click <em class="guilabel">gifio_reg</em> and choose <em class="menuselection">Set as
+St<span class="accelerator">a</span>rtup Project</em>.</p>
+</li>
+<li><p class="first">Choose <em class="menuselection"><span class="accelerator">B</span>uild ‣ B<span class="accelerator">u</span>ild gifio_reg</em> (<tt class="kbd docutils literal"><span class="pre">Shift+F6</span></tt>).</p>
+</li>
+<li><p class="first">Choose <em class="menuselection"><span class="accelerator">D</span>ebug ‣ <span class="accelerator">S</span>tart Debugging</em> (<tt class="kbd docutils literal"><span class="pre">F5</span></tt>).</p>
+<p>A Command Prompt window will pop-up, and show something like the
+following:</p>
+<div class="highlight-none"><div class="highlight"><pre>Read time for 8 Mpix 1 bpp:   0.281 sec
+Write time for 8 Mpix 1 bpp:   0.438
+Correct for feyn.tif
+   depth: pixs = 1, pix1 = 1
+Correct for weasel2.4g.png
+   depth: pixs = 2, pix1 = 2
+Correct for weasel4.16c.png
+   depth: pixs = 4, pix1 = 4
+Info in pixEqualWithCmap: colormap sizes are different
+Correct for dreyfus8.png
+   depth: pixs = 8, pix1 = 8
+Info in pixEqualWithCmap: colormap sizes are different
+Correct for weasel8.240c.png
+   depth: pixs = 8, pix1 = 8
+Correct for test8.jpg
+   depth: pixs = 8, pix1 = 8
+Correct for test16.tif
+   depth: pixs = 16, pix1 = 8
+Info in pixConvertRGBToColormap: More than 256 colors; using octree quant with dithering
+Correct for marge.jpg
+   depth: pixs = 32, pix1 = 8
+</pre></div>
+</div>
+<p>And then an IrFanview Thumbnails window will appear showing you a number
+of png&#8217;s. Hit the <tt class="kbd docutils literal"><span class="pre">Escape</span></tt> key to close the window and exit the
+program.</p>
+</li>
+</ol>
+<div align="center" class="align-center"><img alt="gifio_reg IrFanview Thumbnail window output" class="align-center" src="../_images/gifio_reg-thumbs.png" /></div>
+</div>
+<div class="section" id="build-leptonlib">
+<h2>Build <span class="filesystem">leptonlib</span><a class="headerlink" href="#build-leptonlib" title="Permalink to this headline">¶</a></h2>
+<p>Since header files may have changed, build <span class="filesystem">leptonlib</span> by following
+these <a class="reference internal" href="building-leptonlib.html#building-leptonlib"><em>instructions</em></a>.</p>
+<p>At this point you should build and create <span class="filesystem">ioformats_reg</span> by following
+the instructions for either the <a class="reference internal" href="building-prog-dir.html#building-prog-programs-commandline"><em>command
+line</em></a> or <a class="reference internal" href="building-prog-dir.html#building-prog-programs-vs2008"><em>Visual Studio
+2008</em></a> to make sure all the image
+libraries were built successfully.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../leptonica/index.html">The Leptonica Image Processing Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Leptonica &amp; Visual Studio 2008</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="directory-organization.html">Directory organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-prog-dir.html">Building the <span class="filesystem">prog</span> directory programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#image-library-links">Image library links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-the-same-runtime-library">Using the same runtime library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-and-extract-the-image-libraries">Download and extract the image libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-zlib">Building <span class="filesystem">zlib</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-libpng">Building <span class="filesystem">libpng</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-libjpeg">Building <span class="filesystem">libjpeg</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-libtiff">Building <span class="filesystem">libtiff</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-giflib">Building <span class="filesystem">giflib</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#re-adding-gif-support-to-leptonlib">Re-adding <span class="filesystem">GIF</span> support to <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#statically-linking-with-giflib">Statically linking with <span class="filesystem">giflib</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-leptonlib">Build <span class="filesystem">leptonlib</span></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="versions.html">Version Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/vs2008/building-image-libraries.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="building-leptonlib.html" title="(Optional) Building the leptonlib library"
+             >next</a></li>
+        <li class="right" >
+          <a href="csharp-and-leptonlib.html" title="c# and leptonlib"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

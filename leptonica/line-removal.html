@@ -1,0 +1,389 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Removing dark lines from a light pencil drawing &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Applications" href="applications.html" />
+    <link rel="next" title="Dewarping Text Pages" href="dewarping.html" />
+    <link rel="prev" title="Image Processing Applications" href="applications.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="dewarping.html" title="Dewarping Text Pages"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="applications.html" title="Image Processing Applications"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" accesskey="U">Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="removing-dark-lines-from-a-light-pencil-drawing">
+<h1>Removing dark lines from a light pencil drawing<a class="headerlink" href="#removing-dark-lines-from-a-light-pencil-drawing" title="Permalink to this headline">¶</a></h1>
+<p>Here is an interesting exercise in grayscale image processing (see
+<span class="filesystem">prog/lineremoval.c</span>), The goal is to remove some (nearly) horizontal
+lines from a scanned image, so that it is not obvious that the lines
+were ever there. The image is a pencil drawing that has relatively light
+pencil marks over dark lines that were printed on a ruled pad. The
+subject is Dave Carman, a venerable Exum Mountain Guide in Grand Teton
+National Park.</p>
+<div class="figure align-center">
+<img alt="Original Image" class="border" src="../_images/dave-start.png" />
+<p class="caption">Fig 1. &#8211;  Original image</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pixs = pixRead(&quot;dave-orig.png&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is the original, scanned in grayscale and scaled down to about
+2/3 size for easy viewing here. I first summarize the approach, and
+then show you the details. Here are the main steps:</p>
+<ol class="arabic">
+<li><p class="first"><strong>Deskew the image.</strong> We want the lines to be horizontal so the can
+be effectively removed by large morphological openings.</p>
+</li>
+<li><p class="first"><strong>Extract the horizontal lines.</strong> Ideally, we want just these
+lines, but we get some of the background as well.</p>
+</li>
+<li><p class="first"><strong>Remove the background.</strong> If the light background is not removed,
+we will lighten the final result when we remove the lines. The light
+background is removed by setting to white given a threshold.</p>
+</li>
+<li><p class="first"><strong>Darken the lines.</strong> If the lines are not dark enough, they will
+not be entirely removed. The lines are darkened by setting to black
+given a threshold.</p>
+</li>
+<li><p class="first"><strong>Remove the lines from the deskewed version of the original.</strong>
+This is done by adding the inverse (value &#8211;&gt; 255 - value) of the line
+image.</p>
+</li>
+<li><p class="first"><strong>Reconstitute the missing pixels.</strong> Set those pixels to the
+minimum values above and below, using morphological opening followed
+by pixel selection.</p>
+</li>
+</ol>
+<p>The total time to run all the processing on a 1 megapixel image is
+about 1 second on a fast P4! The details follow.</p>
+<div class="figure align-center">
+<img alt="Threshold to binary" class="border" src="../_images/dave-proc1.png" />
+<p class="caption">Fig 2.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pix1 = pixThresholdToBinary(pixs, 150);
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first step is to deskew the image, so that the lines are
+horizontal. We will then be able to apply large filters to extract the
+lines. First threshold to binary, extracting enough of the lines to make
+a good measurement, as shown in <strong>Fig. 2</strong>.</p>
+<div class="figure align-center">
+<img alt="Deskew image" class="border" src="../_images/dave-proc2.png" />
+<p class="caption">Fig 3.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pixFindSkew(pix1, &amp;angle, &amp;conf);
+pix2 = pixRotateAMGray(pixs, deg2rad * angle);
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then compute the skew angle, which turns out to be 0.66 degrees
+clockwise, and deskew using an interpolated rotator for anti-aliasing
+(to avoid jaggies). The result is in <strong>Fig. 3</strong>.</p>
+<div class="figure align-center">
+<img alt="Extract lines via grayscale closing" class="border" src="../_images/dave-proc3.png" />
+<p class="caption">Fig 4.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pix3 = pixCloseGray(pix2, 51, HORIZ);
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, extract the lines to be removed, trying not to get too much else in
+the process. Unfortunately, we get a lot of light background stuff that
+we&#8217;re going to eventually want to save. This is done with a grayscale
+morphological closing with a large horizontal structuring element, as
+shown in <strong>Fig. 4</strong>.</p>
+<div class="figure align-center">
+<img alt="Grayscale vertical erosion" class="border" src="../_images/dave-proc4.png" />
+<p class="caption">Fig 5.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pix4 = pixErodeGray(pix3, 5, VERT);
+</pre></div>
+</div>
+</div>
+</div>
+<p>Not only did we get some background that we didn&#8217;t want, we also got
+lines that are narrower than the actual lines. We need to solidify them
+in the vertical direction, and do this with a small grayscale vertical
+erosion. The result is in <strong>Fig. 5</strong>.</p>
+<div class="figure align-center">
+<img alt="Threshold 210 to white" class="border" src="../_images/dave-proc5.png" />
+<p class="caption">Fig 6.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pix5 = pixThresholdToValue(pix4, 210, 255);
+</pre></div>
+</div>
+</div>
+</div>
+<p>This solidifies the lines, but it also darkens the other background that
+we want to save! Now, we want to remove the lines, which we will do by
+adding the inverse. But first we need to get as much of the background
+set to white as possible; otherwise, the addition will lighten the gray
+regions. To do the cleaning, choose a threshold and for any pixel
+lighter than the threshold, set it to white (255). We have to set the
+threshold very high (210) because the lines themselves are very
+light. The result is in <strong>Fig. 6,</strong> where you can see that the light
+gray has been removed. Notice that there is still some stuff we want to
+keep that we may eventually lose.</p>
+<div class="figure align-center">
+<img alt="Threshold 200 to black" class="border" src="../_images/dave-proc6.png" />
+<p class="caption">Fig 7.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pix6 = pixThresholdToValue(pix5, 200, 0);
+</pre></div>
+</div>
+</div>
+</div>
+<p>It turns out that the smearing of the lines has made them lighter in the
+center than the original lines. If we add the inverse as it is, we&#8217;ll
+get black residuals in the center. We must darken the lines, and we do
+it with the same grayscale thresholding function, but this time setting
+the pixels to black (and still using a high threshold because the lines
+are quite light). The result is in <strong>Fig. 7</strong>.</p>
+<div class="figure align-center">
+<img alt="Threshold 210 to black" class="border" src="../_images/dave-proc7.png" />
+<p class="caption">Fig 8.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pix7 = pixThresholdToBinary(pix6, 210);
+</pre></div>
+</div>
+</div>
+</div>
+<p>Carrying on, the basic idea is to remove the lines, then close up the
+holes. But when we close up the holes, with a vertical opening, we also
+smear the image. So we will want to select only those pixels in the gap
+from the opened image. Thus, we need a paint-through selection mask,
+which is simply a binarized version of the image of lines that we just
+made. The threshold we use here is the same as the one used in the
+previous step (210), but here we are making a binary image where all
+pixels in the lines that are below 210 become black; the rest are
+white. The mask is in <strong>Fig. 8</strong>, and we&#8217;ll put it aside and use it
+later.</p>
+<div class="figure align-center">
+<img alt="Invert and add gray" class="border" src="../_images/dave-proc8.png" />
+<p class="caption">Fig 9.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pixInvert(pix6, pix6);
+pix8 = pixAddGray(NULL, pix2, pix6);
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now invert the grayscale lines and add the result to the original
+(rotated) image. Shown in <strong>Fig. 9</strong>, the lines mostly vanish, but we
+lose some stuff that we really want where the lines were. Because we
+previously whitened the other parts, we don&#8217;t damage the light gray
+areas that are not on the lines. (Addition is clipped to 255 (white), so
+that any sum larger than 255 is white.)</p>
+<div class="figure align-center">
+<img alt="Grayscale vertical opening" class="border" src="../_images/dave-proc9.png" />
+<p class="caption">Fig 10.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pix9 = pixOpenGray(pix8, 9, VERT);
+</pre></div>
+</div>
+</div>
+</div>
+<p>Of course, we don&#8217;t know what the missing pixel values would have been
+in the absence of the lines, so we make a &#8220;guess&#8221; that they&#8217;re similar
+to the values above and below the white stripes. We implement this by a
+grayscale opening in the vertical direction, as shown in <strong>Fig.
+10</strong>. This smears the image (<tt class="docutils literal"><span class="pre">pix9</span></tt>), making it look quite fuzzy. But
+not to worry. We&#8217;re only going to use the parts of this image that are
+under the line mask (<tt class="docutils literal"><span class="pre">pix7</span></tt>); for the rest, we use the previous image
+(<tt class="docutils literal"><span class="pre">pix8</span></tt>).</p>
+<div class="figure align-center">
+<img alt="Final image" class="border" src="../_images/dave-result.png" />
+<p class="caption">Fig 11.</p>
+<div class="legend">
+<div class="highlight-none"><div class="highlight"><pre>pixCombineMasked(pix8, pix9, pix7);
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is composed of two grayscale images, with a binary
+selector mask choosing which pixels come from which, and is shown in
+<strong>Fig. 11</strong>.</p>
+<p>We&#8217;ll stop here. It isn&#8217;t perfect yet, but it shows what can be done
+with a little experimentation.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="applications.html">Image Processing Applications</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">Removing dark lines from a light pencil drawing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewarping.html">Dewarping Text Pages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skew-measurement.html">Measuring the Skew of Document Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html">Color Quantization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html">Color Segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html">Border Representations of Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="document-image-analysis.html">Document Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html">Jbig2 Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/line-removal.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="dewarping.html" title="Dewarping Text Pages"
+             >next</a></li>
+        <li class="right" >
+          <a href="applications.html" title="Image Processing Applications"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" >Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

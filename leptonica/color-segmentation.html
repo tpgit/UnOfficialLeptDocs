@@ -1,0 +1,365 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Color Segmentation &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Applications" href="applications.html" />
+    <link rel="next" title="Border Representations of Connected Components" href="border-rep.html" />
+    <link rel="prev" title="Color Quantization" href="color-quantization.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="border-rep.html" title="Border Representations of Connected Components"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="color-quantization.html" title="Color Quantization"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" accesskey="U">Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="color-segmentation">
+<h1>Color Segmentation<a class="headerlink" href="#color-segmentation" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Aug 31, 2006</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="what-is-color-segmentation-and-why-do-it">
+<h2>What is color segmentation and why do it?<a class="headerlink" href="#what-is-color-segmentation-and-why-do-it" title="Permalink to this headline">¶</a></h2>
+<p>There is an entire industry devoted to the problem of searching images
+in a large collection of images. These are typically images of scenes
+taken with a camera, rather than drawings or other composed images.
+The query protocol for the search is typically to choose some image
+and request &#8220;all images that are similar.&#8221; A related problem is to
+place each image in the collection into a subset of similar images,
+doing some type of unsupervised classification. These operations
+require the ability to calculate a meaningful &#8220;distance&#8221; between two
+images. Unsupervised classification follows a simple algorithm. Given
+a distance function and a threshold, each image is sequentially placed
+either into an existing class or starts a new class, depending on the
+distance of that image from the representatives of each existing
+class. The first image to start each class is the representative for
+the class, at least on the first iteration. There may be subsequent
+iterations where the parameters of the classes are averaged to find a
+&#8220;center&#8221; for each class in the parameter space.</p>
+<p>How is the distance between images determined? That&#8217;s the hard part &#8212;
+there&#8217;s no obvious way. In fact, for two-dimensional images, there are
+very few distance metrics (satisfying the triangle inequality) that have
+been found. One of them is the Hausdorff metric, which we use for
+classification of binary shapes; e.g., see <a class="reference internal" href="jbig2.html"><em>Jbig2 image compressing</em></a>.  For color images, no useful metric distance is known.</p>
+<p>IBM had a big R&amp;D program called &#8220;Query By Image Content,&#8221; or <em>QBIC</em>
+for short. None of the published methods work very well, so it
+continues to be an &#8220;interesting&#8221; problem to academics. Image search
+works much better if there is some text associated with the images:
+you do a text search and don&#8217;t bother about the pixels in the image.
+After an initial fanfare, IBM seemed to give up on the QBIC project
+near the end of the last century.</p>
+<p>But if you wanted to write a QBIC program, what parameters would you
+choose? Intuitively, you want to include both color and shape
+information. Images of natural scenes usually have many colors and
+complicated shapes. So the first logical step would be to simplify both
+the colors and the shapes. Once that is done, you still have the
+difficult problem of finding a good way to use your simplified colors
+and shapes to generate a meaningful &#8220;distance.&#8221; The color segmentation
+in <strong>Leptonica</strong> tackles the easy part: finding regions of significant
+size and nearly uniform color. We offer it as a starting point for any
+QBIC-like image search application.</p>
+<p>There are other reasonable approaches to this problem, notably involving
+textures. Rather than smoothing out regions and looking for a few
+representative colors, you can identify regular or irregular patterns of
+colored shapes. Textures are sufficiently varied that taxonomies are
+non-trivial and somewhat arbitrary. A possible implementation would omit
+the smoothing step (described below), and would select binary textures
+formed by assigning fg and bg to two specific colors.  For N colors,
+there are N(N-1)/2 color pairs, and for small N (say, less than 8) a
+search of all pairs is feasable. We won&#8217;t pursue this any further here,
+but we do use textures implicitly in morphological analysis of document
+images, for segmentation.</p>
+</div>
+<div class="section" id="how-does-color-segmentation-differ-from-color-quantization">
+<h2>How does color segmentation differ from color quantization?<a class="headerlink" href="#how-does-color-segmentation-differ-from-color-quantization" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of <a class="reference internal" href="color-quantization.html"><em>color quantization</em></a> is to
+generate an approximation to the original image with a smaller palette
+of colors. If there is a relatively small number of colors, without a
+high frequency pattern such as halftoning, such an image will compress
+very well losslessly, often much better than with lossy compression such
+as jpeg, where a fine-grained set of RGB colors is used. In <strong>Leptonica</strong>
+we use octcube partitioning and octree indexing because it allows fast
+color quantization with arbitrary color accuracy. For best accuracy, an
+octree that represents the most important colors is combined with
+error-diffusion dithering to approximate the original colors accurately
+in each small region of the image. However, dithered images do not
+compress well losslessly.</p>
+<p>In color segmentation, fidelity to the original image is not a goal.
+Instead, you want a small set of regions, of significant extent and
+with smooth boundaries, each of which is of a uniform color, and with
+a relatively small total number of colors in the image. We want the
+few resulting colors to be the best representative of each subset of
+pixels. The result is an image that has been &#8220;simplified,&#8221; both in
+colors and shapes. As will be shown, octcube indexing can be used to
+accelerate some steps of the classification process. Although it&#8217;s not
+important for the application, color segmented images have excellent
+lossless compression.</p>
+</div>
+<div class="section" id="how-do-we-generate-the-color-segmented-images">
+<h2>How do we generate the color segmented images?<a class="headerlink" href="#how-do-we-generate-the-color-segmented-images" title="Permalink to this headline">¶</a></h2>
+<p>The best description of the method used here is the code itself
+(<span class="filesystem">colorseg.c</span>). The top-level function, <tt class="docutils literal"><span class="pre">pixColorSegment()</span></tt>, has four
+parameters, of which two &#8212; the smoothing parameter and the number of
+final colors &#8212; are the most important. The other two parameters could
+be generated programmatically, but an argument can be made to keep them
+for experimentation. One of these parameters is the maximum number of
+colors to be quantized in the first phase, and as a rough guide, this
+should be at least twice the final number of colors. The other parameter
+is the initial guess for the threshold euclidean distance for
+determining if a color belongs to an existing class. This distance is
+related to the radius of the resulting clusters, which is related to the
+maximum number of clusters that will be found in the RGB
+space. Guidelines are also given for the relation between the input
+euclidean distance and the maximum number of clusters.</p>
+<p>The process has four phases:</p>
+<ol class="arabic">
+<li><p class="first"><em>Greedy, unsupervised classification</em>. This is an iterative
+procedure. We start with the threshold cluster radius and the maximum
+number of colors. Pixels are taken in raster order. The first pixel
+becomes the representative for the first cluster. Successive pixels
+are assigned to this or other existing clusters, or become
+representatives for new clusters. If the maxcolors limit is exceeded,
+the threshold radius is increased by a multiplicative constant and the
+process is repeated, until a cluster assignment is made that obeys the
+maxcolors constraint. The average cluster color is computed during
+accumulation.</p>
+</li>
+<li><p class="first"><em>Reclassification using the cluster averages</em>. Each pixel is
+re-assigned to the cluster whose average color is closest to the
+pixel color. This improves the assignment. The cluster averages are
+stored in a colormap. We make the time to compute the assignment
+independent of the number of pixel clusters, by constructing an
+octcube in RGB space and assigning to each cube the nearest color in
+the colormap.  Then for each pixel, we use table-lookup twice: first
+to find the index of the containing octcube, and second to find the
+nearest color in the colormap to that octcube. We also keep track of
+the number of pixels assigned to each cluster.</p>
+</li>
+<li><p class="first"><em>Smoothing regions and boundaries</em>. Starting with the color
+cluster with the most pixels, we generate a binary mask where those
+pixels are fg and all other pixels are bg. Then do a closing with a
+Sel size given by the smoothing parameter. Xor the result with the
+initial mask to find the new pixels to be assigned to this color, and
+reassign them. Repeat for all colors.</p>
+</li>
+<li><p class="first"><em>Reduce the number of colors to the input &#8216;finalcolors&#8217;</em>. Identify
+all the pixels that are not in the most populated color clusters, by
+building a binary mask over them. Assign all these pixels temporarily
+to one of the color clusters that will be saved. Then remove unused
+colors from the colormap. This does a compression of the colormap,
+causing a reassignment of the pixel values (which are just the
+colormap indices). Finally, reassign all the pixels under the mask to
+their closest color in the colormap. We can use the same function from
+the second phase to do this, except this time we only reassign the
+masked pixels.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="how-does-a-color-segmented-image-look">
+<h2>How does a color segmented image look?<a class="headerlink" href="#how-does-a-color-segmented-image-look" title="Permalink to this headline">¶</a></h2>
+<p>Here is a fairly busy image:</p>
+<div align="center" class="align-center"><img alt="Fairly busy image" class="border align-center" src="../_images/colorseg.jpg" /></div>
+<p>Suppose we want finalcolors = 4, and we use a 5x5 <em>Sel</em> for smoothing.
+The rule-of-thumb says to choose maxcolors = 8 (approximately), and we
+get:</p>
+<div align="center" class="align-center"><img alt="Maxcolors = 8, Finalcolors = 4" class="border align-center" src="../_images/colorseg-8-4.png" /></div>
+<p>This isn&#8217;t bad for using only four colors in the final result. If we
+choose maxcolors = 4, the result is more random in the final
+assignment:</p>
+<div align="center" class="align-center"><img alt="Maxcolors = 4, Finalcolors = 4" class="border align-center" src="../_images/colorseg-4-4.png" /></div>
+<p>whereas going to the other extreme, starting with maxcolors = 16, the
+result is very noisy:</p>
+<div align="center" class="align-center"><img alt="Maxcolors = 16, Finalcolors = 4" class="border align-center" src="../_images/colorseg-16-4.png" /></div>
+<p>This is due to the fact that the smoothing step in phase 3 was
+performed with many colors, and hence was relatively ineffective. Then
+in phase 4, many of the pixels were reassigned based on color rather
+than proximity. This suggests that we should perhaps reduce the number
+of colors to the final value <em>before</em> smoothing. I will leave it to
+the users of the library to experiment further. Please let me know
+when you get some interesting results, and I will post them here.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="applications.html">Image Processing Applications</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewarping.html">Dewarping Text Pages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skew-measurement.html">Measuring the Skew of Document Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color-quantization.html">Color Quantization</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Color Segmentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-color-segmentation-and-why-do-it">What is color segmentation and why do it?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-does-color-segmentation-differ-from-color-quantization">How does color segmentation differ from color quantization?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-do-we-generate-the-color-segmented-images">How do we generate the color segmented images?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-does-a-color-segmented-image-look">How does a color segmented image look?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html">Border Representations of Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="document-image-analysis.html">Document Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html">Jbig2 Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/color-segmentation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="border-rep.html" title="Border Representations of Connected Components"
+             >next</a></li>
+        <li class="right" >
+          <a href="color-quantization.html" title="Color Quantization"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" >Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

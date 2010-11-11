@@ -1,0 +1,324 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview of the Leptonica Library &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="Supplemental Notes on Using the Library" href="library-notes.html" />
+    <link rel="prev" title="Source Downloads" href="source-downloads.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="library-notes.html" title="Supplemental Notes on Using the Library"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="source-downloads.html" title="Source Downloads"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overview-of-the-leptonica-library">
+<h1>Overview of the Leptonica Library<a class="headerlink" href="#overview-of-the-leptonica-library" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">March 27, 2005 &#8211; <strong>Under construction!</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>First, if you haven&#8217;t already done so, read the <a class="reference internal" href="README.html#readme"><em>README</em></a>.</p>
+<p>A set of web pages is provided for many of the fundamental imaging
+operations in the library. These describe the underlying algorithmic
+details, as well as some of the implementations to be found in
+leptonica.</p>
+<p>After you read this file, you may find that a more detailed
+<a class="reference internal" href="library-notes.html#library-notes"><em>description</em></a> of the contents of the leptonica
+library is helpful. This is also a guide to programs in the <span class="filesystem">/prog</span>
+directory, containing regression tests and other scripts for testing and
+demonstrating the library functions.</p>
+<p>These various descriptions (README, library overview, web pages on
+algorithms, library notes) have been written because the leptonica
+library covers a wide array of tools for both image processing and image
+analysis, including fundamental imaging operations, affine transforms,
+rendering techniques, I/O, and a number of examples of useful
+applications, such as color quantization, jbig2 classification, document
+image deskew and segmentation, PostScript wrapping for various print and
+display applications, etc. If you are to use leptonica effectively, you
+need to be aware of these diverse functions.</p>
+<p>If anything is not clear in these descriptions, it should help to scan
+the source code, which is the final arbiter. I have made an attempt to
+document the code sufficiently so that if you know what it is supposed
+to do, you will be able to understand all the implementation details.</p>
+<p>Leptonica has a very small number of data structures, and a relatively
+large number of operations on them. We use an object-oriented approach
+throughout. The data structures go through a life-cycle where they are
+created, acted upon, and destroyed. Implementation is through functions
+whose name typically begins with the name of the primary data structure
+involved. We attempt to follow a set of <a class="reference internal" href="design-principles.html#design-principles"><em>design principles</em></a> that make the code as safe, portable and
+transparent to use as possible (with C). For writing your own
+applications, you should find it useful to look at the programs in the
+<span class="filesystem">prog</span> directory, which were written to test functions in the
+library. Most of these have been run through <a class="reference external" href="http://valgrind.org/">valgrind</a>, and I strongly encourage you to use valgrind
+on your applications. You may also want to look at a description of some
+of the <a class="reference internal" href="testing-methods.html#testing-methods"><em>testing methods</em></a> we have used in
+Leptonica.</p>
+<p>The functions are divided into two libraries: a high-level one that uses
+the sparse set of data structures such as <tt class="docutils literal"><span class="pre">Pix</span></tt>, <tt class="docutils literal"><span class="pre">Box</span></tt>, etc., and a
+low-level library that uses only intrinsic C data types. When you build
+the libraries, you also make a single library that combines both of
+these. The low-level library file names have &#8220;low&#8221; appended to the name
+of the corresponding high-level file. The function names also follow a
+pattern: the low-level function name is generated from the high-level
+function by removing the object prefix and appending &#8220;Low&#8221;.  For
+example, <tt class="docutils literal"><span class="pre">pixScaleToGray4()</span></tt> calls <tt class="docutils literal"><span class="pre">scaleToGray4Low()</span></tt> to do the
+work.  When a data structure is aggregated into an array, the name of
+the struct has an &#8220;a&#8221; appended. For example, the struct <tt class="docutils literal"><span class="pre">Pixa</span></tt>
+contains an array of struct <tt class="docutils literal"><span class="pre">Pix</span></tt>.</p>
+</div>
+<div class="section" id="reading-and-writing-images">
+<h2>Reading and writing images<a class="headerlink" href="#reading-and-writing-images" title="Permalink to this headline">¶</a></h2>
+<p>Before you can do anything with images, you need to be able to read and
+write them. Of the large number of image formats in existence, we
+support a small set that are the most useful. Some like BMP and PNM are
+very simple, but the most important support compressed file formats with
+open libraries. These include the two formats supported by all browsers,
+PNG and (JFIF) JPEG. There is also TIFF-wrapped CCITT-G4 compression,
+which, for some strange reason is not supported by browsers. Note that
+Leptonica doesn&#8217;t support GIF, because the specific universal
+compression scheme it uses (LZW) has until recently been covered by
+patents that Burroughs-Sperry-Rand attempted to enforce. You&#8217;ll also
+find that PNG, which uses gzip compression in libz, is usually about 10%
+more efficient than GIF, and the Burrows-Wheeler encoder used in bzip2
+is better still.</p>
+<p>Most of the fileio functions can be found in <span class="filesystem">readfile.c</span> and
+<span class="filesystem">writefile.c</span>. The top-level functions are <tt class="docutils literal"><span class="pre">pixRead()</span></tt> and
+<tt class="docutils literal"><span class="pre">pixWrite()</span></tt>.  Specific encoders are supported by functions in files
+that end in &#8220;<span class="filesystem">io.c</span>&#8221;. These functions, most of which use streams for
+I/O, are the link between our image data structure, the <tt class="docutils literal"><span class="pre">Pix</span></tt>, and the
+low-level code that reads and writes the image data. There are also
+special high-level functions. For example, <span class="filesystem">tiffio.c</span> has functions for
+reading and writing files containing multiple images and writing files
+with special tiff tags embedded in the header. See <span class="filesystem">prog/mtifftest.c</span>
+for examples. Also, <span class="filesystem">jpegio.c</span> has a function that reads jpeg files,
+optionally converting RGB to 8 bpp with a colormap, reducing by a power
+of 2, and returning warnings if the compressed data is corrupted.</p>
+<p>Additionally, you can write PostScript files in a variety of formats,
+both level 1 (uncompressed) and level 2 (using DCT aka JPEG) and
+CCITT-G4 compression with the option to paint through the binary mask.
+This is implemented in <span class="filesystem">psio.c</span>, where you will find a number of
+functions that support these two compressed formats, as well as as the
+ascii85 error-correction encoder that encodes 4 bytes of binary data
+into 5 bytes of ascii. See <span class="filesystem">prog/psiotest.c</span> for examples.</p>
+<p>What about reading PostScript files into raster images? Fortunately, we
+have Aladdin&#8217;s ghostscript to do this. I have put several bash scripts
+in <span class="filesystem">prog</span>, such as <span class="command">ps2png</span>, that use ghostscript with various
+output devices to convert a PostScript file to a set of compressed image
+files, one file per page. PDF files are also easily generated from
+PostScript using Aladdin&#8217;s <span class="command">ps2pdf</span>, which is a shell script that
+also runs ghostscript with the appropriate output device.</p>
+</div>
+<div class="section" id="affine-transforms">
+<h2>Affine transforms<a class="headerlink" href="#affine-transforms" title="Permalink to this headline">¶</a></h2>
+<p>Affine transforms are linear transformations that generate coordinates
+in the dest image (x&#8217;, y&#8217;) from those in the source (x, y). Three
+corresponding points in the source and dest are sufficient to specify
+the affine transform completely. There are thus 3 linear equations, with
+6 coefficients. The set of affine transforms is {translation, rotation,
+shear, scaling}, and any set of those 6 coefficients is equivalent to an
+instance of this set. It is actually a surprising amount of work to
+implement all these transforms efficiently on images of various pixel
+depths, including RGB, and we have tutorial pages for each of these
+transforms. Translation is a special case of rasterops, which is
+described in detail because of its universal importance in image
+composition and analysis. Rotation can be implemented by three shears,
+and, for small angles, approximated by two shears. Shear is efficiently
+implemented with rasterops, as a set of translations. Scaling here can
+be anisotropic, with different scaling factors in orthogonal
+directions. We give a quick overview here, leaving the details for the
+specific pages...</p>
+<div class="section" id="rasterops">
+<h3>Rasterops<a class="headerlink" href="#rasterops" title="Permalink to this headline">¶</a></h3>
+<p>Rasterops is the single most useful image processing function. It
+performs an arbitrary logical operation between two rectangles of source
+and dest images, storing the result in the dest image. See the
+<a class="reference internal" href="rasterops.html#rasterops"><em>rasterops page</em></a> to understand how it is used for many
+different purposes, such as image composition, display, translation,
+binary morphology, etc. It works on images of arbitrary depth, and does
+the minimum clipping required to stay within the allocated rasters. The
+high-level interface to rasterops is implemented in <span class="filesystem">rop.c</span>. The general
+function <tt class="docutils literal"><span class="pre">pixRasterop()</span></tt> takes nine arguments: 5 for the dest image
+and rectangle, 3 for the source image and rectangle corner to be used,
+and 1 to specify the actual operation. Simple translation can be done
+either between a source and dest image using the general function, or
+in-place using <tt class="docutils literal"><span class="pre">pixRasteropIP()</span></tt>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Overview of the Leptonica Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reading-and-writing-images">Reading and writing images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#affine-transforms">Affine transforms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rasterops">Rasterops</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/library-overview.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="library-notes.html" title="Supplemental Notes on Using the Library"
+             >next</a></li>
+        <li class="right" >
+          <a href="source-downloads.html" title="Source Downloads"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

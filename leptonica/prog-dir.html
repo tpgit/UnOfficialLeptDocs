@@ -1,0 +1,1977 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>/prog Directory Contents &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
+    <link rel="next" title="Image Processing Operations" href="operations.html" />
+    <link rel="prev" title="/src Directory Contents" href="src-dir.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="operations.html" title="Image Processing Operations"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="src-dir.html" title="/src Directory Contents"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="prog-directory-contents">
+<span id="prog-dir"></span><h1><span class="filesystem">/prog</span> Directory Contents<a class="headerlink" href="#prog-directory-contents" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="file-summary-by-category">
+<h2>File Summary by Category<a class="headerlink" href="#file-summary-by-category" title="Permalink to this headline">¶</a></h2>
+
+ <table class="centered docutils sorted table-autosort:0
+               table-stripeclass:alternate"
+               id="progs-1.67-categorysummary">
+  <thead>
+   <tr>
+    <th class="table-sortable:ignorecase" title="Click to sort">Category</th>
+    <th class="table-sortable:numeric" title="Click to sort">#</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr>
+    <td>Basic Box, Boxa and Boxaa Functions</td>
+    <td>2</td>
+   </tr>
+   <tr>
+    <td>Basic Image Operations</td>
+    <td>12</td>
+   </tr>
+   <tr>
+    <td>Basic Pix Array Functions</td>
+    <td>7</td>
+   </tr>
+   <tr>
+    <td>Basic Pix Functions</td>
+    <td>10</td>
+   </tr>
+   <tr>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>8</td>
+   </tr>
+   <tr>
+    <td>Connected Components in Binary Images</td>
+    <td>8</td>
+   </tr>
+   <tr>
+    <td>Formatted I/O</td>
+    <td>8</td>
+   </tr>
+   <tr>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>12</td>
+   </tr>
+   <tr>
+    <td>Image Display</td>
+    <td>1</td>
+   </tr>
+   <tr>
+    <td>Image Morphology</td>
+    <td>30</td>
+   </tr>
+   <tr>
+    <td>Image Operations With Filling</td>
+    <td>6</td>
+   </tr>
+   <tr>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>20</td>
+   </tr>
+   <tr>
+    <td>Image Scaling</td>
+    <td>6</td>
+   </tr>
+   <tr>
+    <td>Line Graphics and Special Output</td>
+    <td>4</td>
+   </tr>
+   <tr>
+    <td>Low-level Pixel Access</td>
+    <td>1</td>
+   </tr>
+   <tr>
+    <td>Misc</td>
+    <td>5</td>
+   </tr>
+   <tr>
+    <td>Other Geometric Image Transformations</td>
+    <td>14</td>
+   </tr>
+   <tr>
+    <td>Postscript</td>
+    <td>4</td>
+   </tr>
+   <tr>
+    <td>Printing</td>
+    <td>3</td>
+   </tr>
+   <tr>
+    <td>Specialized Document Image Processing</td>
+    <td>29</td>
+   </tr>
+   <tr>
+    <td>Specialized Image Filters</td>
+    <td>9</td>
+   </tr>
+  </tbody>
+  <tfoot>
+   <tr>
+    <td>21 Categories</td>
+    <td>199</td>
+   </tr>
+  </tfoot>
+ </table>
+</div>
+<div class="section" id="file-summary-by-type">
+<h2>File Summary by Type<a class="headerlink" href="#file-summary-by-type" title="Permalink to this headline">¶</a></h2>
+
+ <table class="centered docutils sorted table-autosort:0
+               table-stripeclass:alternate"
+               id="progs-1.67-typesummary">
+  <thead>
+   <tr>
+    <th class="table-sortable:ignorecase" title="Click to sort">Type</th>
+    <th class="table-sortable:numeric" title="Click to sort">#</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr>
+    <td>Example</td>
+    <td>44</td>
+   </tr>
+   <tr>
+    <td>Exploration</td>
+    <td>18</td>
+   </tr>
+   <tr>
+    <td>Helper</td>
+    <td>11</td>
+   </tr>
+   <tr>
+    <td>Regression Test</td>
+    <td>96</td>
+   </tr>
+   <tr>
+    <td>Test</td>
+    <td>6</td>
+   </tr>
+   <tr>
+    <td>Utility</td>
+    <td>24</td>
+   </tr>
+  </tbody>
+  <tfoot>
+   <tr>
+    <td>6 Types</td>
+    <td>199</td>
+   </tr>
+  </tfoot>
+ </table>
+</div>
+<div class="section" id="file-descriptions">
+<h2>File Descriptions<a class="headerlink" href="#file-descriptions" title="Permalink to this headline">¶</a></h2>
+
+ <table class="centered docutils sorted table-autosort:1 table-autofilter
+               table-stripeclass:alternate table-secondary:0
+               table-filtered-rowcount:t1filtercount table-rowcount:t1allcount"
+               id="progs-1.67">
+  <thead>
+   <tr>
+    <th class="table-sortable:ignorecase title="Click to sort">Filename</th>
+    <th class="table-sortable:ignorecase title="Click to sort">Main Type</th>
+    <th class="table-sortable:ignorecase title="Click to sort">Category</th>
+    <th>Description</th>
+    <th>Example File</th>
+    <th>Needs Input File</th>
+   </tr>
+   <tr>
+    <th title="Enter text to match"><input name="filter" size="10" onkeyup="Table.filter(this,this)"></input></th>    <th class="table-filterable"></th>
+    <th class="table-filterable"></th>
+    <th title="Enter text to match"><input name="filter" size="30" onkeyup="Table.filter(this,this)"></input></th>    <th></th>
+    <th></th>
+   </tr>
+
+   <tr>
+    <th colspan="6"><span id="t1filtercount">199</span>&nbsp;of <span id="t1allcount">199</span>&nbsp;rows match filter(s)</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr>
+    <td>adaptmaptest.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Generates adaptive mappings in both gray and color, testing individual parts. Uses pixGetBackgroundGrayMap(), pixGetInvBackgroundMap(), pixApplyInvBackgroundGrayMap(), pixGetBackgroundRGBMap(), pixBackgroundNorm().</td>
+    <td>wet-day.jpg</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>arithtest.c</td>
+    <td>Example</td>
+    <td>Basic Image Operations</td>
+    <td>Demonstrates grayscale image arithmetic using pixAccumulate(), pixMultConstAccumulate(), and pixFinalAccumulate().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>barcodetest.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>For each barcode in the image, if the barcode format is supported, this deskews and crops it, and then decodes it twice: (1) as is (deskewed) (2) after 180 degree rotation.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>baselinetest.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates keystone warping correction using a projective transform and finding text baselines.</td>
+    <td>keystone.png</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>buffertest.c</td>
+    <td>Example</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Demonstrates using the bbuffer (byte buffer) operations.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>cctest1.c</td>
+    <td>Example</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Demonstrates using pixConnComp() and testing its speed.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>colorsegtest.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates unsupervised color segmentation using pixColorSegment().</td>
+    <td>tetons.jpg</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>colorspacetest.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates various color techniques using pixConvertRGBToHSV(), pixOctreeQuantNumColors(), pixColorContent(), pixGlobalNormRGB(), pixColorMagnitude().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>comparepages.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates comparing text pages using the location of word bounding boxes with pixGetWordBoxesInTextlines() and numaaCompareImagesByBoxes(),  The goal is to get a fast and robust determination for whether two pages are the same.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>converttogray.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates converting a file to grayscale.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>cornertest.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates using pixFindCornerPixels().</td>
+    <td>witten.tif</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>dewarptest.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates image dewarping based on text lines</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>dithertest.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates dithering using: pixDitherToBinary(), pixDitherTo2bpp(), pixScaleGray2xLIDither(), and pixScaleGray4xLIDither().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>edgetest.c</td>
+    <td>Example</td>
+    <td>Specialized Image Filters</td>
+    <td>Demontrates edge detection using pixSobelEdgeFilter().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>falsecolortest.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates conversion from grayscale to false color using pixConvertGrayToFalseColor(), where the colormap is modeled after the Matlab "jet" configuration.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>findpattern1.c</td>
+    <td>Example</td>
+    <td>Image Morphology</td>
+    <td>Demonstrates using a hit-miss sel to find the letter "c" in feyn.tif.</td>
+    <td>feyn.tif</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>findpattern2.c</td>
+    <td>Example</td>
+    <td>Image Morphology</td>
+    <td>Demonstrates generating a hit-miss sel by extracting the letter "c" and the word "Caltech" from feyn.tif and using pixGenerateSelRandom().</td>
+    <td>feyn.tif</td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>findpattern3.c</td>
+    <td>Example</td>
+    <td>Image Morphology</td>
+    <td>Demonstrates generating a hit-miss sel by extracting the letter "c" and the word "Caltech" from feyn.tif and using pixGenerateSelBoundary().</td>
+    <td>feyn.tif</td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>graphicstest.c</td>
+    <td>Example</td>
+    <td>Line Graphics and Special Output</td>
+    <td>Demonstrates line graphics using: pixRenderLineArb(), pixRenderLineBlend(), pixRenderBoxArb(), pixRenderBoxaBlend(), and pixRenderPolylineBlend().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>jbcorrelation.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates unsupervised classification of collections of connected components in binary images using jbCorrelation().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>jbrankhaus.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates unsupervised classification of collections of connected components in binary images using jbRankHaus().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>jbwords.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates extracting and classifying words in textline order.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>lineremoval.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates removing dark lines from a light pencil drawing (see http://leptonica.com/line-removal.html for details).</td>
+    <td>dave-orig.png</td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>livre_adapt.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Shows two ways to normalize a document image for uneven illumination.  It is somewhat more complicated than using the morphological tophat.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>livre_hmt.c</td>
+    <td>Example</td>
+    <td>Image Morphology</td>
+    <td>Makes Figures 7-8 in Chapter 18, "Document Image Applications" of the book "Mathematical morphology: from theory to applications"; demonstrates use of pixGenerateSelBoundary() to generate a hit-miss Sel.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>livre_makefigs.c</td>
+    <td>Example</td>
+    <td>Image Morphology</td>
+    <td>Makes all the figures in Chapter 18, "Document Image Applications" of the book "Mathematical morphology: from theory to applications", edited by Laurent Najman and hugues Talbot. Published by Hermes Scientific Publishing, Ltd, 2010.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>livre_orient.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Generates an image of the set of 4 HMT Sels that are used for counting ascenders and descenders to detect text orientation.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>livre_pageseg.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Makes Figures 2-5 in Chapter 18, "Document Image Applications" of the book "Mathematical morphology: from theory to applications"; demonstrates page segmentation</td>
+    <td>pageseg2.tif</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>livre_seedgen.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Makes Figure 1 in Chapter 18, "Document Image Applications" of the book "Mathematical morphology: from theory to applications"; demonstrates page segmentation</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>livre_tophat.c</td>
+    <td>Example</td>
+    <td>Image Morphology</td>
+    <td>Makes Figure 9 in Chapter 18, "Document Image Applications" of the book "Mathematical morphology: from theory to applications"; demonstrates tophat background cleaning.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>misctest1.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates: 
+Combining two grayscale images using a mask with pixCombineMaskedGeneral()
+Combining two binary images using a mask with pixCombineMaskedGeneral()
+Doing a restricted seedfill with pixSeedfillBinaryRestricted()
+Colorizing a grayscale image with pixaDisplayRandomCmap()
+Converting color images to grayscale with pixConvertRGBToGray()</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>modifyhuesat.c</td>
+    <td>Example</td>
+    <td>Specialized Image Filters</td>
+    <td>Demonstrates modifying the hue and saturation of an image.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>otsutest1.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates theory behind Otsu splitting by generating plots of histogram and Otsu score function.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>otsutest2.c</td>
+    <td>Example</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Demonstrates the usefulness of the modified version of Otsu for thresholding an image that doesn't have a well-defined background color.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pagesegtest1.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates Top level page segmentation using pixGetRegionsBinary().</td>
+    <td>feyn1.tif
+witten.tif
+pageseg1.tif
+pageseg2.tif
+pageseg4.tif</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>pagesegtest2.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates the use of binary morphology for some simple and fast document segmentation operations using: pixScaleToGray2(), pixReduceRankBinaryCascade(), pixOpenBrick(), pixCloseSafeBrick(), pixSeedfillBinary(), pixMorphCompSequence(), pixGetOuterBordersPtaa(). Probably same basic thing that pixGetRegionsBinary() does?</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>partitiontest.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates Bruel algorithm for extracting large whitespace boxes from a binary image using boxaGetWhiteblocks().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>rotatefastalt.c</td>
+    <td>Example</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Alternative (slightly slower) method for rotating color images, with antialiasing.  This is here just for comparison with the better methods in the library.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>rotatetest2.c</td>
+    <td>Example</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Demonstrates image rotation.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>runlengthtest.c</td>
+    <td>Example</td>
+    <td>Low-level Pixel Access</td>
+    <td>Demonstrates labeling pixels by membership in runs using pixRunlengthTransform().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>snapcolortest.c</td>
+    <td>Example</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Demonstrates adjusting one or more colors to a target color using pixSnapColor().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>sorttest.c</td>
+    <td>Example</td>
+    <td>Basic Pix Array Functions</td>
+    <td>Demonstrates sorting pix arrays.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>watershedtest.c</td>
+    <td>Example</td>
+    <td>Image Operations With Filling</td>
+    <td>Demonstrates the watershed algorithmn using wshedCreate(), pixLocalExtrema(), pixSelectMinInConnComp(), and pixRemoveSeededComponents().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>wordsinorder.c</td>
+    <td>Example</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Demonstrates finding word boxes in line order by using pixGetWordBoxesInTextlines().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>bincompare.c</td>
+    <td>Exploration</td>
+    <td>Basic Image Operations</td>
+    <td>Exploration of various ways to bitwise compare two binary images.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>blendtest1.c</td>
+    <td>Exploration</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Exploration of various pixel blending techniques.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>convolvetest.c</td>
+    <td>Exploration</td>
+    <td>Basic Image Operations</td>
+    <td>Exploration of various convolution operations using: pixBlockconvGray(), pixBlockconv(), pixBlockrank(), pixBlocksum(), pixCensusTransform(), and pixConvolve().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>gammatest.c</td>
+    <td>Exploration</td>
+    <td>Specialized Image Filters</td>
+    <td>Exploration of gamma adjustment using pixGammaTRC() and numaGammaTRC().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>graymorphtest.c</td>
+    <td>Exploration</td>
+    <td>Image Morphology</td>
+    <td>Exploration of basic grayscale morphology.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>listtest.c</td>
+    <td>Exploration</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Exploration of the main functions in the generic list facility, given in list.c and list.h.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>morphtest1.c</td>
+    <td>Exploration</td>
+    <td>Image Morphology</td>
+    <td>Exploration of rasterop-based morphological operations.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>mtifftest.c</td>
+    <td>Exploration</td>
+    <td>Formatted I/O</td>
+    <td>Exploration of multi-page tiff I/O and writing special tiff tags.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>renderfonts.c</td>
+    <td>Exploration</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Exploration of various text drawing techniques.</td>
+    <td>marge.jpg</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>rotateorthtest1.c</td>
+    <td>Exploration</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Exploration of 90 and 180 degree rotations.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>rotatetest1.c</td>
+    <td>Exploration</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Exploration of image rotation techniques.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>scaletest1.c</td>
+    <td>Exploration</td>
+    <td>Image Scaling</td>
+    <td>Exploration of image scaling techniques.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>scaletest2.c</td>
+    <td>Exploration</td>
+    <td>Image Scaling</td>
+    <td>Exploration of scale-to-gray and color scaling.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>seedfilltest.c</td>
+    <td>Exploration</td>
+    <td>Image Operations With Filling</td>
+    <td>Exploration of hole-filling and seedfilling.</td>
+    <td>hole-filler.png</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>sheartest.c</td>
+    <td>Exploration</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Exploration of image shearing techniques.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>skewtest.c</td>
+    <td>Exploration</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Exploration of various skew finding methods, optionally deskewing the input (binary) image.  The best version does a linear sweep followed by a binary (angle-splitting) search.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>textlinemask.c</td>
+    <td>Exploration</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Exploration of ways to find textline masks for very simple geometries.  To do this task for more general layout, use pagesegtest* programs.</td>
+    <td>arabic.png</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>warpertest.c</td>
+    <td>Exploration</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Tests stereoscopic warp and associated shear and stretching functions. Uses gthumb for visually identifying problems.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>digitprep1.c</td>
+    <td>Helper</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Extract barcode digits and put in a pixaa (a resource file for readnum.c).</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>dwalinear.3.c</td>
+    <td>Helper</td>
+    <td>Image Morphology</td>
+    <td>Top-level fast binary morphology with auto-generated sels</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>dwalineargen.c</td>
+    <td>Helper</td>
+    <td>Image Morphology</td>
+    <td>Generates the C code for the full set of linear Sels, for dilation, erosion, opening and closing, and for both horizontal and vertical operations, from length 2 to 63. These are put in files: dwalinear.3.c and dwalinearlow.3.c.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>dwalinearlow.3.c</td>
+    <td>Helper</td>
+    <td>Image Morphology</td>
+    <td>Low-level fast binary morphology with auto-generated sels.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>endiantest.c</td>
+    <td>Helper</td>
+    <td>Misc</td>
+    <td>Allows efficient computation of the endian flag as part of the normal compilation process.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>fcombautogen.c</td>
+    <td>Helper</td>
+    <td>Image Morphology</td>
+    <td>This program is used to generate the two files of dwa code for combs, that are used in linear composite dwa operations for brick Sels. These two files, when compiled, are used to implement all the composite dwa operations for brick Sels, that are generated by selaAddDwaCombs().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>fhmtautogen.c</td>
+    <td>Helper</td>
+    <td>Image Morphology</td>
+    <td>This program is used to generate the two files of dwa code for the hit-miss transform. These two files, when compiled, implement hit-miss dwa operations for all sels generated by selaAddHitMiss().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>flipselgen.c</td>
+    <td>Helper</td>
+    <td>Image Morphology</td>
+    <td>Generates dwa code for hit-miss transform (hmt) that is used in pixPageFlipDetectDWA().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>fmorphautogen.c</td>
+    <td>Helper</td>
+    <td>Image Morphology</td>
+    <td>This program is used to generate the two files of dwa code for the basic morphological operations. These two files, when compiled, implement dwa operations for all sels generated by selaAddBasic().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>genfonts.c</td>
+    <td>Helper</td>
+    <td>Specialized Document Image Processing</td>
+    <td>This program can be used to generate characters for a font and save them in .pixa format.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>xtractprotos.c</td>
+    <td>Helper</td>
+    <td>Misc</td>
+    <td>This program accepts a list of C files on the command line and outputs the C prototypes to stdout.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>adaptnorm_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Normalizes background by expanding dynamic range using pixContrastNorm() for very light text, or for rapidly varying background using pixBackgroundNormFlex().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>affine_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Tests various affine transformations: pixAffineSequential(), pixAffineSampledPta(), pixAffinePta(), and pixAffine().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>alltests_reg.c</td>
+    <td>Regression Test</td>
+    <td>Misc</td>
+    <td>Tests all the reg tests.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>alphaclean_reg.c</td>
+    <td>Regression Test</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Tests transparency and cleaning under alpha</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>alphaxform_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Tests the alpha blending functions when used with various transforms (scaling, rotation, affine, projective, bilinear)</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>bilinear_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Tests various bilinear transformations: pixBilinearSampledPta() and pixBilinearPta().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>binarize_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Tests Sauvola local binarization using pixSauvolaBinarize() and pixSauvolaBinarizeTiled().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>binmorph1_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>This is a thorough regression test of different methods for doing binary morphology.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>binmorph2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Thorough regression test for binary separable rasterops, using the sequence interpreters.  This compares the results for 2-way composite Sels with unitary Sels, all invoked on the separable block morph ops.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>binmorph3_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>This is a regression test of dwa functions.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>binmorph4_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Regression test for dwa brick morph operations.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>binmorph5_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Regression test for expanded dwa morph operations.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>blend_reg.c</td>
+    <td>Regression Test</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Regression test for pixBlendGray(), pixBlendGrayAdapt(), and pixBlendColor().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>blend2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Regression test for pixBlendWithGrayMask().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>blendcmaptest.c</td>
+    <td>Regression Test</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Regression test for blending colormaps using pixBlendCmap().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>ccthin1_reg.c</td>
+    <td>Regression Test</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Tests the "best" cc-preserving thinning functions. Displays all the strong cc-preserving 3x3 Sels.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>ccthin2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Tests the examples in pixThinExamples().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>cmapquant_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Tests quantization of rgb image to a specific colormap. Does this by starting with a grayscale image, doing a grayscale quantization with a colormap in the dest, then adding new colors, scaling (which removes the colormap), and finally re-quantizing back to the original colormap.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>colorquant_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Regression test for various color quantizers.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>colorseg_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>This explores the space of the four parameters input for color segmentation: maxdist (the maximum distance between pixels that get clustered), selsize (responsible for smoothing the result), maxcolors and finalcolors.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>compfilter_reg.c</td>
+    <td>Regression Test</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Tests filters that select components based on size, areaPerimRatio, areaFraction, etc.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>conncomp_reg.c</td>
+    <td>Regression Test</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Regression test for connected components (both 4 and 8 connected), including regeneration of the original image from the components.  This is also an implicit test of rasterop.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>conversion_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Regression test (_reg) for depth conversion functions including some of the octcube quantization.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>convolve_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Tests a number of convolution functions</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>dewarp_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Regression test for image dewarp based on text lines</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>distance_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Operations With Filling</td>
+    <td>This tests pixDistanceFunction() for a variety of usage with all 8 combinations of these parameters: connectivity (4 or 8), dest depth (8 or 16), and boundary cond (L_BOUNDARY_BG or L_BOUNDARY_FG).</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>dwamorph1_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Implements full regression test, including autogen of code, compilation, and running the result. (Works by running make so won't work under Windows)</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>dwamorph2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Fairly thorough regression test for autogen'd dwa.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>enhance_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Image Filters</td>
+    <td>Enhance with various gamma TRC mappings, hue, saturation, contrast, and sharpening.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>equal_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Tests the pixEqual() function in many situations. This also tests the quantization of grayscale and color images (to generate a colormapped image), and removal of the colormap to either RGB or grayscale.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>expand_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Scaling</td>
+    <td>Tests of various image expansion techniques.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>extrema_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Tests procedure for locating extrema (minima and maxima) of a sampled function.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>fhmtauto_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Basic regression test for hit-miss transform: rasterops &amp; dwa. Tests hmt from a set of hmt structuring elements by comparing the full image rasterop results with the automatically generated dwa results.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>findpattern_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Uses pixGenerateSelBoundary() to generate hit-miss Sels that are a good fit for two 1 bpp patterns: a "T" in the banner name and the banner name ("Tribune").</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>flipdetect_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Tests 90 degree orientation of text and whether the text is  mirror reversed.  Compares the rasterop with dwa implementations for speed.  Shows the typical 'confidence' outputs from the functions in flipdetect.c.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>fmorphauto_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Basic regression test for erosion &amp; dilation: rasterops &amp; dwa. Tests erosion and dilation from 58 structuring elements by comparing the full image rasterop results with the automatically generated dwa results.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>fpix_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Regression test for a number of functions in the FPix utility. FPix allows you to do floating point operations such as convolution, with conversions to and from Pix.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>gifio_reg.c</td>
+    <td>Regression Test</td>
+    <td>Formatted I/O</td>
+    <td>This tests reading and writing gif for various image types.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>grayfill_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Operations With Filling</td>
+    <td>Regression test for various grayscale seed filling: pixSeedfillGray(), pixSeedfillGrayInv(), pixSeedfillGrayBasin(), and pixAddConstantGray().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>graymorph1_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>(1) Tests the interpreter for grayscale morphology, as given in morphseq.c.
+(2) Tests composite operations: tophat and hdome.
+(3) Tests duality for grayscale erode/dilate, open/close, and black/white tophat.
+(4) Demonstrates closing plus white tophat.  Note that this combination of operations can be quite useful.
+(5) Demonstrates a method of doing contrast enhancement by taking 3 * pixs and subtracting from this the closing and opening of pixs.
+(6) Playing around: extract the feynman diagrams from the stamp, using the tophat.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>graymorph2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Compares graymorph results with special (3x1, 1x3, 3x3) cases against the general case</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>grayquant_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Tests gray thresholding to 1, 2 and 4 bpp, with and without colormaps</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>hardlight_reg.c</td>
+    <td>Regression Test</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Regression test for pixBlendHardLight().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>heap_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Tests the heap utility.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>ioformats_reg.c</td>
+    <td>Regression Test</td>
+    <td>Formatted I/O</td>
+    <td>This is the primary Leptonica regression test for lossless read/write I/O to standard image files (png, tiff, bmp, etc.)</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>kernel_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Test kernel creation, convolution, </td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>locminmax_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Operations With Filling</td>
+    <td>Tests pixLocalExtrema().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>logicops_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Tests pix3.c boolean operations.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>lowaccess_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Test low-level accessors: GET_DATA_BIT(), l_getDataBit(), pixGetPixel(), etc.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>maze_reg.c</td>
+    <td>Regression Test</td>
+    <td>Misc</td>
+    <td>Tests the functions in maze.c: binary and gray maze search, largest rectangle in bg or fg.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>morphseq_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Simple regression test for binary morph sequence (interpreter), showing display mode and rejection of invalid sequence components.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>numa_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Tests various numa functions: numaMakeHistogramClipped(), numaMakeSequence(), numaMakeHistogramAuto(), numaGetStatsUsingHistogram(), numaHistogramGetRankFromVal(), etc.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>overlap_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Box, Boxa and Boxaa Functions</td>
+    <td>Tests the function that combines boxes that overlap into their bounding regions.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>paint_reg.c</td>
+    <td>Regression Test</td>
+    <td>Line Graphics and Special Output</td>
+    <td>Test various painting techniques: pixColorGray(), pixPaintThroughMask(), pixSetSelectCmap(), pixRenderLineArb(), pixRenderBoxArb(), pixRenderLineBlend(), and pixRenderBoxBlend().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>paintmask_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Regression test for painting through a mask onto various depth images.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixa1_reg.c</td>
+    <td>Regression Test</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Tests removal of components using: pixConnComp() and pixSelectBySize().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixa2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Array Functions</td>
+    <td>Tests various replacement functions on pixa.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixaatest.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Array Functions</td>
+    <td>Regression test of pix splitting and pix array handling using pixaSplitPix().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixadisp_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Array Functions</td>
+    <td>Exercises various pixaDisplay*() functions: pixaDisplay(), pixaDisplayRandomCmap(), pixaDisplayOnLattice(), pixaDisplayUnsplit(), pixaDisplayTiled(), pixaDisplayTiledInRows(), and pixaDisplayTiledAndScaled().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixalloc_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Tests custom pix allocator.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixcomp_reg.c</td>
+    <td>Regression Test</td>
+    <td>Formatted I/O</td>
+    <td>Regression test for compressed pix and compressed pix arrays in memory.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixmem_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Tests the low-level pix data accessors, and functions that call them using: pixCopy(), pixTransferAllData(), pixClone(), pixExtractData(), and pixSetData().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixserial_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Tests the fast (uncompressed) serialization of pix to a string in memory and the deserialization back to a pix.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pixtile_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Array Functions</td>
+    <td>Test pix tiling using: pixTilingCreate(), pixTilingGetTile(), pixTilingPaintTile(), and pixTilingDestroy().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>plottest.c</td>
+    <td>Regression Test</td>
+    <td>Line Graphics and Special Output</td>
+    <td>Regression test of the gplot library functions that generate the plot commands and data required for input to gnuplot.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>projection_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Tests projection stats for rows and columns.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>projective_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Test projective image transformations using pixProjectiveSampledPta() and pixProjectivePta().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>psio_reg.c</td>
+    <td>Regression Test</td>
+    <td>Formatted I/O</td>
+    <td>Tests writing of images in PS, with arbitrary scaling and translation, in the following formats:
+ uncompressed
+ DCT compressed (jpeg for 8 bpp grayscale and RGB)
+ CCITT-G4 compressed (g4 fax compression for 1 bpp)
+ Flate compressed (gzip compression)</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>psioseg_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Document Image Processing</td>
+    <td>This tests the PostScript output for images with mixed text and images, coming from source of different depths, with and without colormaps. Illustrates binary halftone segmentation, combining images with masks, PS generation.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>pta_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>This tests several ptaa functions, including: ptaaGetBoundaryPixels(),  pixRenderRandomCmapPtaa(), and ptaaGetPta().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>ptra1_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Testing basic ptra operations using: ptraRemove(), ptraInsert(), ptraSwap(), and ptraAdd().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>ptra2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Testing basic ptra and ptraa operations, bin sort using ptra, boxaEqual() and pixaEqual().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rank_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Tests grayscale rank functions: pixRankFilterGray(), pixScaleGrayMinMax(), and pixScaleGrayRankCascade().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rankbin_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Tests rank bin functions: numaDiscretizeRankAndIntensity() and numaGetRankBinValues().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rankhisto_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Pix Functions</td>
+    <td>Tests grayscale rank functions: pixGetRankColorArray() and numaDiscretizeRankAndIntensity().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rasterop_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>This is a fairly rigorous test of rasterop. It demonstrates both that the results are correct with many different rop configurations, and, if done under valgrind, that no memory violations occur.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rasteropip_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Tests in-place operation using the general 2-image pixRasterop(). The in-place operation works because there is no overlap between the src and dest rectangles.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rotate_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Regression test for rotation by shear and area mapping. Displays many images to the screen.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rotate1_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Regression test for rotation by shear and area mapping. Displays results when images are rotated sequentially multiple times.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rotate2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Regression test for rotation by shear, sampling and area mapping. Displays results from all the various types of rotations.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>rotateorth_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Regression test for all rotateorth functions</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>scale_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Scaling</td>
+    <td>This tests a number of scaling operations, through the pixScale() interface.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>seedspread_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Operations With Filling</td>
+    <td>Tests the seedspreading (voronoi finding &amp; filling) function for both 4 and 8 connectivity.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>selio_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Morphology</td>
+    <td>Runs a number of tests on reading and writing of Sels.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>shear_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Regression test for shear, both IP and to new pix.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>shear2_reg.c</td>
+    <td>Regression Test</td>
+    <td>Other Geometric Image Transformations</td>
+    <td>Regression test for quadratic shear, both sampled and interpolated.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>skew_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Regression test for skew detection.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>smallpix_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Scaling</td>
+    <td>This is a regression test for scaling and rotation. The question to be answered is: in the quantization, where, if anywhere, do we add 0.5? The answer is that it should usually, but not always, be omitted. To see this, we operate on a very small pix and for visualization,  scale up with replication to avoid aliasing and shifting.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>smoothedge_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Image Filters</td>
+    <td>Analyzes edges of a 1 bpp (connected component) image for smoothness.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>splitcomp_reg.c</td>
+    <td>Regression Test</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Regression test for splittings of a single component and for an image composed of several components, using different components and  parameters.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>string_reg.c</td>
+    <td>Regression Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>This tests several sarray functions.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>subpixel_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Regression test for subpixel scaling.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>threshnorm_reg.c</td>
+    <td>Regression Test</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Regression test for adaptive threshold normalization using: pixThresholdSpreadNorm() and pixThresholdToBinary().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>warper_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Regression test for captchas using pixRandomHarmonicWarp() and pixSimpleCaptcha().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>writetext_reg.c</td>
+    <td>Regression Test</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Regression test for writing a block of text in one of 4 locations relative to a pix.  This tests writing on 8 different types of images.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>xformbox_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Box, Boxa and Boxaa Functions</td>
+    <td>Tests ordered box transforms (rotation, scaling, translation). Also tests the various box hashing graphics operations.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>ccbordtest.c</td>
+    <td>Test</td>
+    <td>Connected Components in Binary Images</td>
+    <td>Comprehensive test for border-following representations of binary images.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>colormorphtest.c</td>
+    <td>Test</td>
+    <td>Image Morphology</td>
+    <td>Tests color image morphology.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>inserttest.c</td>
+    <td>Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Demonstrates removing and inserting to various array structures using: numaInsertNumber(), boxaInsertBox(), pixaInsertPix().</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>iotest.c</td>
+    <td>Test</td>
+    <td>Formatted I/O</td>
+    <td>Tests all I/O except multipage/custom tiff and PostScript, which are separately tested in mtifftest and psiotest, respectively.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>ranktest.c</td>
+    <td>Test</td>
+    <td>Basic Image Operations</td>
+    <td>Tests rank filters on 8 and 32 bpp images.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>sudokutest.c</td>
+    <td>Test</td>
+    <td>Misc</td>
+    <td>Tests sudoku solver.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>comparetest.c</td>
+    <td>Utility</td>
+    <td>Basic Pix Functions</td>
+    <td>Compares two images, using either the absolute value of the pixel differences or the difference clipped to 0.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>contrasttest.c</td>
+    <td>Utility</td>
+    <td>Specialized Image Filters</td>
+    <td>Enhances contrast of image using pixContrastTRC().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>convertfilestops.c</td>
+    <td>Utility</td>
+    <td>Postscript</td>
+    <td>Converts all files in the given directory with matching substring to a level 3 compressed PostScript file, at the specified resolution.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>convertformat.c</td>
+    <td>Utility</td>
+    <td>Formatted I/O</td>
+    <td>Converts an image file from one format to another.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>convertsegfilestops.c</td>
+    <td>Utility</td>
+    <td>Postscript</td>
+    <td>Converts all image files in a 'page' directory, using optional corresponding segmentation mask files in a 'mask' directory, to a level 2 compressed PostScript file.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>converttops.c</td>
+    <td>Utility</td>
+    <td>Postscript</td>
+    <td>Convert any image file to PS for embedding.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>croptext.c</td>
+    <td>Utility</td>
+    <td>Specialized Document Image Processing</td>
+    <td>Simple program that crops text pages to a given border.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>fileinfo.c</td>
+    <td>Utility</td>
+    <td>Basic Pix Functions</td>
+    <td>Returns information about the image data file</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>histotest.c</td>
+    <td>Utility</td>
+    <td>Image Quantization/Depth Conversion</td>
+    <td>Makes histograms of grayscale and color pixels from a pix using pixOctcubeHistogram() or pixGetGrayHistogram().  For RGB color, this uses rgb --&gt; octcube indexing.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>maketile.c</td>
+    <td>Utility</td>
+    <td>Basic Pix Array Functions</td>
+    <td>Generates a single image tiling of all images of a specific depth in a directory.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>numaranktest.c</td>
+    <td>Utility</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Generates histogram rank vs value &amp; value vs rank plots.</td>
+    <td>w91frag.jpg</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>printimage.c</td>
+    <td>Utility</td>
+    <td>Printing</td>
+    <td>Prints an image file.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>printsplitimage.c</td>
+    <td>Utility</td>
+    <td>Printing</td>
+    <td>Prints an image file on multiple pages.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>printtiff.c</td>
+    <td>Utility</td>
+    <td>Printing</td>
+    <td>Prints a multipage tiff file to a printer.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>reducetest.c</td>
+    <td>Utility</td>
+    <td>Image Scaling</td>
+    <td>Generate reduced image via a rank binary cascade of up to four 2x reductions using pixReduceRankBinaryCascade().</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>removecmap.c</td>
+    <td>Utility</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Removes colormap from image.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>scaleandtile.c</td>
+    <td>Utility</td>
+    <td>Basic Pix Array Functions</td>
+    <td>Generates a single image tiling of all images in a directory whose filename contains a given substring.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>sharptest.c</td>
+    <td>Utility</td>
+    <td>Specialized Image Filters</td>
+    <td>Generate unsharp mask of image.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>showedges.c</td>
+    <td>Utility</td>
+    <td>Specialized Image Filters</td>
+    <td>Generates edges by using pixHalfEdgeByBandpass(), along with thresholding.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>splitimage2pdf.c</td>
+    <td>Utility</td>
+    <td>Postscript</td>
+    <td>Generates pdf of image tiles.  Rotates the image before tiling if the tiles otherwise will have larger width than height.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>trctest.c</td>
+    <td>Utility</td>
+    <td>Specialized Image Filters</td>
+    <td>Generate gamma adjusted image using pixGammaTRC().</td>
+    <td>wet-day.jpg</td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>viewertest.c</td>
+    <td>Utility</td>
+    <td>Line Graphics and Special Output</td>
+    <td>Generate smaller images for viewing and write html.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>writemtiff.c</td>
+    <td>Utility</td>
+    <td>Formatted I/O</td>
+    <td>Writes all matched files into a multipage tiff.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+   <tr>
+    <td>xvdisp.c</td>
+    <td>Utility</td>
+    <td>Image Display</td>
+    <td>Display an image with xv.</td>
+    <td></td>
+    <td>Yes</td>
+   </tr>
+  </tbody>
+ </table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href=""><span class="filesystem">/prog</span> Directory Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-summary-by-category">File Summary by Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-summary-by-type">File Summary by Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-descriptions">File Descriptions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/prog-dir.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="operations.html" title="Image Processing Operations"
+             >next</a></li>
+        <li class="right" >
+          <a href="src-dir.html" title="/src Directory Contents"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

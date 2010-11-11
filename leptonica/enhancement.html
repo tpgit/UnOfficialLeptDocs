@@ -1,0 +1,450 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Grayscale and Color Image Enhancement &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Operations" href="operations.html" />
+    <link rel="next" title="Grayscale Mapping and Binarization" href="binarization.html" />
+    <link rel="prev" title="Seed Filling and Connected Components" href="filling.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="binarization.html" title="Grayscale Mapping and Binarization"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="filling.html" title="Seed Filling and Connected Components"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="grayscale-and-color-image-enhancement">
+<span id="grayscale-color-image-enhancement"></span><h1>Grayscale and Color Image Enhancement<a class="headerlink" href="#grayscale-and-color-image-enhancement" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Sept 27, 2008</td>
+</tr>
+</tbody>
+</table>
+<div class="contents local topic" id="contents">
+<ul>
+<li><p class="first"><a class="reference internal" href="#what-do-we-mean-by-grayscale-and-color-image-enhancement" id="id3">What do we mean by grayscale and color image enhancement?</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#what-other-types-of-enhancement-operations-exist" id="id4">What other types of enhancement operations exist?</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><a class="reference internal" href="#gamma-correction" id="id5">Gamma correction</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#contrast-enhancement" id="id6">Contrast enhancement</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#unsharp-masking-edge-enhancement" id="id7">Unsharp masking (edge enhancement)</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#image-smoothing" id="id8">Image smoothing</a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="what-do-we-mean-by-grayscale-and-color-image-enhancement">
+<h2><a class="toc-backref" href="#id3">What do we mean by grayscale and color image enhancement?</a><a class="headerlink" href="#what-do-we-mean-by-grayscale-and-color-image-enhancement" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;ve put a few operations here that are relatively simple and in wide
+use for improving the appearance of grayscale and color images. Each
+one will be described below. The first two, <em>gamma correction</em> and
+<em>contrast enhancement</em> are trivial to implement because they only
+require a lookup table to map from the source pixel value to the dest
+pixel value. The last two, <em>unsharp masking</em> and <em>image smoothing</em> are
+a little more complicated because they use some set of neighboring
+pixels in the source to determine the dest pixel value. All four
+operations work separately on each color sample, so the color
+implementation for each one just uses its grayscale implementation
+three times (once for each color sample). There are many other image
+processing operations that can be included here, and they will be
+added as occasion permits. If you have a favorite that&#8217;s not here, ask
+me.</p>
+<div class="section" id="what-other-types-of-enhancement-operations-exist">
+<h3><a class="toc-backref" href="#id4">What other types of enhancement operations exist?</a><a class="headerlink" href="#what-other-types-of-enhancement-operations-exist" title="Permalink to this headline">¶</a></h3>
+<p><em>Image restoration</em> takes an image that has been degraded by some
+known (typically statistical) process and attempts to regenerate
+something closer to the original image. These methods are often
+Bayesian, selecting destination pixels using a <em>maximum a posteriori</em>
+procedure. The basic idea is very simple. You have a statistical model
+for the degradation process, given as a set of conditional
+probabilities for observing a specific degraded pixel when you started
+with some original pixel. You also have an estimate of the prior
+probabilities for the original image pixels (or groups of them). Bayes
+law then lets you estimate the posterior conditional probabilities,
+which are the probabilities that, given an observed (degraded) pixel,
+you started with some original one; and you select the maximum of
+these over the set of all possible original ones. By doing this, <em>you
+select the original image pixel that is most likely to have produced
+the observed pixel.</em></p>
+<p>If the noise is known to be <em>sparse additive gaussian</em> (&#8220;sparse&#8221;
+meaning that only a small fraction of the pixels are affected), an
+obvious operation to apply is a <em>median filter</em>, which is very good at
+removing outliers without seriously affecting other pixels. It is
+nonlinear, has some smoothing effect, and tends to change pixels at
+sharp edges.</p>
+<p>For <em>binary images</em>, enhancement involves a number of operations, such
+as removal of pepper noise. If the image has been scanned, cleanup can
+involve deskew, removal of black pixels near the edge, and special
+operations on binarized pictorial regions. The latter can involve
+conversion to gray, followed by grayscale enhancement and halftone
+screening back to binary. Many scanners give you binary output, and if
+they threshold the pictorial regions without halftoning or dithering,
+the result is a high contrast image where much of the gray information
+can be lost.</p>
+<p>If the image is a binary scan that is composed of connected components,
+many of which are similar (such as text characters), it can be enhanced
+on a component basis. Use the jbig2 clustering algorithms in
+<strong>Leptonica</strong> to put all instances of connected components that are
+sufficiently similar into the same <em>class</em>. Then from that set of
+instances, generate a template with less edge noise.  This template can
+be either binary or grayscale; the latter gives an improved appearance
+because the edge pixels will be gray, causing the edge to appear
+smoother. Then build the reconstructed (enhanced) image by substituting
+the template image for each of the instances that were used in deriving
+it. See the page on the <a class="reference internal" href="jbig2.html"><em>Jbig2 Classifier</em></a> for more details.</p>
+</div>
+</div>
+<div class="section" id="gamma-correction">
+<span id="id1"></span><h2><a class="toc-backref" href="#id5">Gamma correction</a><a class="headerlink" href="#gamma-correction" title="Permalink to this headline">¶</a></h2>
+<p>(<em>The discussion in this section almost certainly contains
+inaccuracies. I will remove this caveat when I have sufficient
+confidence in its accuracy.</em>) Cathode ray tubes (CRTs) have a
+nonlinear response between current from the thermionic tube and
+applied voltage. Plotted this way, the current has positive curvature
+with voltage, which corresponds typically to a <em>gamma</em> of about
+1./2.2. By this we mean that the output current is proportional to the
+input voltage raised to the power 2.2. Low voltages have very low
+currents. Now, because we want the response to be linear, so that what
+we see on the CRT is the same as the actual image taken with a digital
+camera, the cameras are calibrated to compensate for the display
+device by having a gamma of 2.2. All pixels in the captured image are
+lightened, with dark areas being lightened relatively more. It would
+be nice if all display devices were calibrated so that they would
+display images similarly. In a perfect world everyone would follow the
+same rules, but Apple sets up its CRTs to have a gamma of 2.4.</p>
+<p>But things get much more complicated with flat panel displays. Whereas
+CRTs emit light from the phosphor that is proportional to the electron
+current hitting it, flat displays use a white illumination with light
+subtraction due to absorption in the dyes. Flat panels do not have a
+built-in physical gamma to darken the image; consequently, images look
+much brighter than on CRTs.</p>
+<p>There is also a calibration for displays that has to do with the
+relative amount of different colors used to produce white. This is
+expressed by the temperature of the black body radiator that would
+produce this color distribution. The standard is 6500 degrees K, but
+manufacturers have found that if they use higher equivalent
+temperatures, the displays are brighter, and the extra blue is not too
+noticeable because the eye is relatively insensitive to blue. So, for
+example, an inexpensive CRT may be calibrated to 12000 degrees K.</p>
+<p>What about printing? If you print from a digital camera image without
+using a gamma correction, the image will appear light and washed out.
+So printing software typically compensates for the high gamma of the
+camera.</p>
+<p>From a psychophysical viewpoint, people experience intensity
+logarithmically. Each doubling of the intensity is perceived as an
+additive constant to the apparent brightness. Our eyes have a dynamic
+range of about 10<sup>6</sup>, whereas your camera has a mere 8 bits
+(256 levels) in each color. If the camera were linear, a scene with
+both light and shadowed regions could have both the shadowed region
+too dark and the light region washed out. The positive gamma built in
+to cameras helps somewhat in this respect. The apparent dynamic range
+in the dark parts of the image is increased, because more of the
+actual range is assigned to these darker pixels. This gives the camera
+a logarithmic response. Of course, the lighter part gets even lighter,
+but not by as much.</p>
+<p>So gamma mapping is used both to compensate for nonlinearities in the
+display devices and to increase the apparent dynamic range. The output
+is related to the input by raising it to the factor (1 / gamma),
+properly scaled so that the end points are not adjusted. The mapping
+function looks like this:</p>
+<div align="center" class="align-center"><img alt="Gamma Correction" class="border align-center" src="../_images/gamma-correction.png" /></div>
+<p>The plot was made using <span class="filesystem">prog/gammatest.c</span>. If gamma &lt; 1.0, the
+image is darkened, with the biggest effect happening for the dark (low
+input) pixel values. If gamma &gt; 1.0, the image is brightened overall,
+with the largest changes happening again for the dark shadows.</p>
+<p>We provide a top-level interface <tt class="docutils literal"><span class="pre">pixGammaCorrect()</span></tt> in
+<span class="filesystem">enhance.c</span>. For display on a CRT, depending on the source of the
+image, you may want to apply a gamma in the range 1.5 to 2.0. For
+printing, again depending on the image source, you may want to apply a
+gamma that is less than 1.0 to darken the image.</p>
+</div>
+<div class="section" id="contrast-enhancement">
+<h2><a class="toc-backref" href="#id6">Contrast enhancement</a><a class="headerlink" href="#contrast-enhancement" title="Permalink to this headline">¶</a></h2>
+<p>To increase the contrast, the pixels above some mid-value are
+lightened, while those below are darkened. For an image that is washed
+out, and still has too little contrast after gamma correction to
+darken, using a gamma &lt; 1.0, the contrast can be increased by applying
+a sigmoid-shaped mapping function to the input pixels.</p>
+<p>How does one generate a sigmoid curve? One obvious way is to integrate
+under a gaussian; this gives a set of curves with a single parameter.
+Unfortunately, such an integral is not an elementary function, so
+you&#8217;d have to use a table. As an alternative, consider integrating
+under a lorentzian. The lorentzian goes as 1/(a<sup>2</sup> + x<sup>2</sup>), and consequently has large tails compared to the gaussian.
+But the lorentzian integrates simply to the arctan function. This
+makes a transition between -pi/2 and +pi/2 as the angle goes from
+large negative to large positive values. Using a single parameter to
+scale the angle, the result is to take a slice of the function
+centered about 0. The parameter is just the width of the slice, in
+appropriate units. As the parameter approaches 0, the width gets
+small, so we&#8217;re using the arctan function near 0, which is linear and
+hence sets the output equal to the input. As the parameter increases,
+the contrast increases. The output is scaled and translated so that
+the min and max values of input and output coincide (here, at 0 and
+255). The mapping function looks like this:</p>
+<div align="center" class="align-center"><img alt="Contrast Enhancement" class="border align-center" src="../_images/contrast-enhance.png" /></div>
+<p>The plot was made using <span class="filesystem">prog/contrasttest.c</span>. See that file or the
+implementation in <tt class="docutils literal"><span class="pre">pixEnhanceContrastGray()</span></tt> for details. Values of
+the input parameter greater than 0.0 increase the contrast. (Values
+less than 0.0 should decrease it; this is not implemented, however.)
+The top level interface, which takes both 8 bpp grayscale and full
+color images, is <tt class="docutils literal"><span class="pre">pixEnhanceContrast()</span></tt> in <span class="filesystem">enhance.c</span>.</p>
+</div>
+<div class="section" id="unsharp-masking-edge-enhancement">
+<span id="unsharp-masking"></span><h2><a class="toc-backref" href="#id7">Unsharp masking (edge enhancement)</a><a class="headerlink" href="#unsharp-masking-edge-enhancement" title="Permalink to this headline">¶</a></h2>
+<p>When an image has been degraded by blurring, due to a low-pass filter in
+the optics or subsequent image processing, the pixels most affected are
+at &#8220;edges&#8221; where the intensity changes quickly in some particular
+direction. These edges can be sharpened by running a high-pass filter to
+emphasize the pixels near edges and then adding some of this back into
+the image. It should to be done in such a way that the overall intensity
+of the image is unchanged, and this requires that the high-pass image be
+shifted downward to have an average pixel value of 0.  Then bright edge
+pixels give values that are added to the original, whereas dark edge
+pixel values are subtracted.</p>
+<p>The method implemented here is called <em>unsharp masking</em>. The high pass
+&#8220;edge&#8221; image is generated by convolving the image with an
+approximation to a laplacian filter. In such a filter, the center has
+a value 1.0 and some set of N surrounding pixels each has a value
+-1.0/N. For a 3x3 filter, this would look like:</p>
+<div class="highlight-none"><div class="highlight"><pre>-1/8   -1/8   -1/8
+-1/8     1    -1/8
+-1/8   -1/8   -1/8
+</pre></div>
+</div>
+<p>We implement this 3x3 high-pass filter by first generating a low-pass
+image using a 3x3 smoothing filter:</p>
+<div class="highlight-none"><div class="highlight"><pre>1/9    1/9    1/9
+1/9    1/9    1/9
+1/9    1/9    1/9
+</pre></div>
+</div>
+<p>and then subtracting it from the original image. The result is:</p>
+<div class="highlight-none"><div class="highlight"><pre>-1/9   -1/9   -1/9
+-1/9    8/9   -1/9
+-1/9   -1/9   -1/9
+</pre></div>
+</div>
+<p>which is identical with the laplacian given above except for an
+overall scaling factor of 8/9.</p>
+<p>Once the edge image has been generated, some fraction of it is added
+to the original image. Thus, there are two parameters:</p>
+<ol class="arabic">
+<li><p class="first">The size of the smoothing filter, given by 2s + 1. For s = 0, the
+filter has unit size (support), and hence it is the identity. The edge
+image is then 0, so there is no edge sharpening. The 3x3 filters given
+above are used to generate the edge image when s = 1.</p>
+</li>
+<li><p class="first">The fraction f of the edge image added back. Typical useful values
+of f range between 0.2 and 0.7.</p>
+</li>
+</ol>
+<p>The low-pass image is generated using the block convolution function,
+which does the convolution in a time <em>independent of the size of the
+filter</em>. The arithmetic is all done on 16 bit unsigned arrays, with
+appropriate shifting to represent negative values. Details can be found
+in <tt class="docutils literal"><span class="pre">pixUnsharpMaskGray()</span></tt> in <span class="filesystem">enhance.c</span> The top level interface,
+which takes both 8 bpp grayscale and full color images, is
+<tt class="docutils literal"><span class="pre">pixUnsharpMask()</span></tt>.</p>
+</div>
+<div class="section" id="image-smoothing">
+<span id="id2"></span><h2><a class="toc-backref" href="#id8">Image smoothing</a><a class="headerlink" href="#image-smoothing" title="Permalink to this headline">¶</a></h2>
+<p>I have included this for completeness, as image smoothing is one step in
+the edge enhancement method described above. This is a low-pass
+filtering operation. The top level interface, which takes both 8 bpp
+grayscale and full color images, is <tt class="docutils literal"><span class="pre">pixBlockconv()</span></tt>. The method uses
+an intermediate accumulation matrix so that the speed is independent of
+the size of the filter. The filter is restricted to a rectangular kernel
+of constant (normalized) height.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grayscale-morphology.html">Grayscale Morphology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convolution.html">Fast Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaling.html">Image Scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotation.html">Image Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="affine.html">Affine Transformations (and cousins)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filling.html">Seed Filling and Connected Components</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Grayscale and Color Image Enhancement</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-do-we-mean-by-grayscale-and-color-image-enhancement">What do we mean by grayscale and color image enhancement?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gamma-correction">Gamma correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#contrast-enhancement">Contrast enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unsharp-masking-edge-enhancement">Unsharp masking (edge enhancement)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#image-smoothing">Image smoothing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="binarization.html">Grayscale Mapping and Binarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thinning.html">Connectivity-preserving Thinning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Image Processing Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/enhancement.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="binarization.html" title="Grayscale Mapping and Binarization"
+             >next</a></li>
+        <li class="right" >
+          <a href="filling.html" title="Seed Filling and Connected Components"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>

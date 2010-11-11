@@ -1,0 +1,812 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Color Quantization &mdash; Leptonica Documentation v1.67 documentation</title>
+    <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.67',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="up" title="Image Processing Applications" href="applications.html" />
+    <link rel="next" title="Color Segmentation" href="color-segmentation.html" />
+    <link rel="prev" title="Measuring the Skew of Document Images" href="skew-measurement.html" />
+ 
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
+  <script src="/javascripts/other/MathJax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "https://" + document.location.host + "/assets/MathJax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://" + document.location.host + "/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="color-segmentation.html" title="Color Segmentation"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="skew-measurement.html" title="Measuring the Skew of Document Images"
+             accesskey="P">previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" accesskey="U">Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="color-quantization">
+<h1>Color Quantization<a class="headerlink" href="#color-quantization" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Sept 4, 2008</td>
+</tr>
+</tbody>
+</table>
+<div class="contents local topic" id="contents">
+<ul>
+<li><p class="first"><a class="reference internal" href="#how-did-the-need-for-color-quantization-arise" id="id2">How did the need for color quantization arise?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#what-are-the-basic-problems-in-color-quantization" id="id3">What are the basic problems in color quantization?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#why-is-error-diffusion-dithering-important" id="id4">Why is error diffusion dithering important?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#what-methods-have-been-proposed-for-color-quantization" id="id5">What methods have been proposed for color quantization?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#modified-median-cut-implementation" id="id6">Modified median cut implementation</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#octree-implementation" id="id7">Octree implementation</a></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#what-is-the-octree-data-structure-used-in-leptonica" id="id8">What is the octree data structure used in <strong>Leptonica</strong>?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#how-is-the-octree-formed" id="id9">How is the octree formed?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#what-color-is-associated-with-each-octcube-in-the-color-table" id="id10">What color is associated with each octcube in the color table?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#how-are-color-indices-assigned-to-the-image-pixels" id="id11">How are color indices assigned to the image pixels?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#how-is-the-error-diffusion-dithering-applied" id="id12">How is the error diffusion dithering applied?</a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="#how-fast-is-the-implementation" id="id13">How fast is the implementation?</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><a class="reference internal" href="#for-further-reading-on-color-quantization" id="id14">For further reading on color quantization . . .</a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="how-did-the-need-for-color-quantization-arise">
+<h2><a class="toc-backref" href="#id2">How did the need for color quantization arise?</a><a class="headerlink" href="#how-did-the-need-for-color-quantization-arise" title="Permalink to this headline">¶</a></h2>
+<p>In the old days when computers were slow and memory was expensive, it
+was difficult to display color images. One couldn&#8217;t simply put 24 MB for
+frame buffers on a video display card. To display color, rather than
+using 24 bits &#8212; 8 bits for each of Red, Green and Blue &#8212; per pixel,
+each pixel was typically only 8 bits deep. These 8 bits then used as an
+index into a <em>palette</em>, or <em>color table</em>. The color table was in fact a
+set of three tables, one for each color. Then, using the R, G and B
+tables in the color table, a single 8-bit index could be used to specify
+up to 256 different 24-bit colors.</p>
+</div>
+<div class="section" id="what-are-the-basic-problems-in-color-quantization">
+<h2><a class="toc-backref" href="#id3">What are the basic problems in color quantization?</a><a class="headerlink" href="#what-are-the-basic-problems-in-color-quantization" title="Permalink to this headline">¶</a></h2>
+<p>Some interesting problems arise. Of the possible 16 million colors
+that can be described by 24-bit RGB, how do you choose a mere 256 to
+be the representatives in the color table? How do you display these
+256 colors to eliminate visual artifacts from such a small number of
+colors? And once you have the color table, how do you quickly do the
+inverse process of finding the best index for each RGB pixel in the
+image?</p>
+<p>The first problem, that of choosing a good set of approximate
+representatives from a distribution of instances in a much larger set,
+is an example of vector quantization (VQ). Each of the representatives
+is a &#8220;vector&#8221; with Red, Green and Blue components. Each representative
+will be used as an approximation to the color of some number of actual
+pixels, and the set of representatives is typically chosen to minimize
+some error criterion for the actual distribution of colors in the
+image. The solution of the first problem is represented as a color
+table for the image.</p>
+<p>VQ differs from scalar quantization in that for the latter, the
+quantization would be an outer product of separate scalar quantizations
+in each of the three colors. VQ is better because it allows far more
+flexibility in the way the full color space can be divided up.</p>
+<p>Once the color table is selected, the image must be scanned and all
+pixels assigned an index in the color table. This requires an inverse
+color map. One brute force approach, by which the 24 bits of RGB are
+used as an index into a table with 16 million 8-bit indices, requires
+too much memory. Likewise, another brute force method where for each
+pixel, the distance to each of the 256 representatives is computed and
+the smallest is chosen, is impractical because it requires too much
+computation.</p>
+<p>The inverse color map must be performed efficiently. We provide two
+methods of color quantization, both of which yield efficient (in space
+and computation) methods for generating the colormap index from the
+RGB pixel value. The first is a subdivision of the color space into
+arbitrary rectangles; the second is the octree. Both can be
+implemented in a way that gives very good results.</p>
+</div>
+<div class="section" id="why-is-error-diffusion-dithering-important">
+<h2><a class="toc-backref" href="#id4">Why is error diffusion dithering important?</a><a class="headerlink" href="#why-is-error-diffusion-dithering-important" title="Permalink to this headline">¶</a></h2>
+<p>However, even with the best set of 256 colors, there are many images
+that look bad. They have visible contouring in regions where the color
+changes slowly. Flesh colors can be notably poor. The best solution to
+this problem is <em>error diffusion dithering</em> (EDD), which has the
+interesting aspect that it typically increases the mean square error.
+EDD works by computing the error between the pixel value and its
+nearest representative, and then propagating that error to nearby
+pixels that have not yet been assigned to a color in the color map.
+After using EDD, the average color in a small region is very close to
+the average color in the original, but the individual colors are
+constrained to be taken from the set defined by the color map. By
+propagating the error in order to achieve visual color accuracy, EDD
+thus trades spatial resolution for resolution in depth. Using EDD, a
+surprisingly bad color quantization can be made to look remarkably
+good. The point is not that it is OK to do a lousy job of color
+quantization; rather, if you use dithering, it is not necessary to do
+an optimal quantization.</p>
+<p>There is another interaction between EDD and the inverse color map.
+Without EDD, the inverse color map needs only be defined for those RGB
+values that are found in the initial full color RGB image. However, with
+EDD, the RGB values can be anywhere in the color space, and thus the
+inverse color map procedure must find a good indexed color for any RGB
+value.</p>
+<p>Finally, for EDD to accurately represent every color, it is necessary
+that the actual colors fall within the convex hull of the
+representative colors in the color table. That way, each color can be
+interpolated between the limited set of colors in the color table. To
+take an extreme example, if all of the representative colors have a
+Blue value of 0, it would be impossible to represent any amount of
+blue in any pixel. In practice, the convex hull criterion is not
+strictly possible. However, it is important that the representative
+colors span the color space so that this condition is approximately
+satisfied.</p>
+</div>
+<div class="section" id="what-methods-have-been-proposed-for-color-quantization">
+<h2><a class="toc-backref" href="#id5">What methods have been proposed for color quantization?</a><a class="headerlink" href="#what-methods-have-been-proposed-for-color-quantization" title="Permalink to this headline">¶</a></h2>
+<p>Going back to the problem of finding a good set of colors, several
+methods have been proposed. The simplest is a fixed color
+partitioning, such as one that uses equal volumes of color space. This
+has the virtue that it can cover the entire color space and does not
+require a first pass over the image to generate the partitioning. We
+have implemented a one-pass quantizer, using equal volumes, where each
+quantized volume is composed of two octcubes that are 32/256 of the
+color space in each dimension. Using the center of the volume as the
+representative color, the maximum errors in the (red,green,blue)
+values are (16,16,32). Partitioning by octcubes is a way of minimizing
+the maximum pixel error.</p>
+<p>Of course, a partitioning that is adapted to use the statistics of the
+pixel colors in an image will do a better job. This requires two
+passes, although the first pass, which gathers statistics, need not
+sample every pixel in the image. There are three types of such
+adaptive color quantizations for which practical implementations have
+been made: <em>popularity</em>, <em>median cut</em> and <em>octree</em>. The division of
+the color space can be represented by a tree, and this tree can be
+generated either by starting with the entire color space and splitting
+it up, or by starting with a large number of small volumes and merging
+them. The division of colors along a line can be either flat or
+hierarchical. The popularity method uses a simple selection of colors
+from the color space, the median cut method uses a splitting algorithm
+designed to have roughly equal number of pixels in the resulting
+rectangular volumes, and the octree method is hierarchical and is
+naturally amenable to an algorithm that merges (as well as splits)
+regions of color space.</p>
+<p>Before we discuss these, I should mention that there is another type
+of clustering, called <em>K-means</em>, along with related vector
+quantization methods such as the <em>Linde-Buzo-Gray</em> algorithm for
+clustering for data compression. In K-means, you start with an initial
+set of centers, make a pass over the image to assign each pixel to its
+nearest center, compute the centroids of each cluster so obtained, and
+use these centroids as the centers for the next iteration. The total
+error is guaranteed not to increase from one iteration to the next, so
+the method will converge to a locally optimal solution. However, it is
+not guaranteed to be globally optimal; the final centers will depend
+on the initial centers that are chosen. The LBG algorithm is similar.
+These clustering methods are not practical for color quantization
+because, in addition to sensitivity to initial conditions, they
+require many iterations and are very slow.</p>
+<p>The popularity method selects the color representatives from the set
+of most popular colors. Make a histogram of the actual colors in an
+image (say, clipped to 15 bits so that you have a significant number
+of pixels in the most popular colors), and choose the top 256, for
+example. This method does poorly for images that have many different
+colors represented. For example, if the image has a small number of
+pixels of some particular colors, these colors will not be represented
+at all. It also does poorly when using dithering (see below) because
+dithering can only interpolate within the convex hull of the
+representatives. Consequently, we have not implemented this.</p>
+<p>The median cut method attempts to put roughly equal numbers of pixels
+in each color cell. It is implemented by repeatedly dividing the space
+in planes perpendicular to one of the color axes. The plane can be
+chosen to divide the largest side and to leave about half the pixels
+in each of the resulting regions. This method does well for pixels in
+a high density region in color space, where both the cell volume and
+color error is very small, but the volume of a cell in a low density
+part of the color space can be very large, resulting in large color
+errors.</p>
+<p>In the open source jpeg library implementation, half the
+representatives are chosen by the median cut, and half are chosen by
+dividing up the volume in the largest remaining regions. This reduces
+the largest color errors that may occur, and spreads the
+representative colors out more evenly through the color space. The
+latter allows better results with dithering.</p>
+<p>Octrees are another good way to divide up the color space, while
+allowing fast indexing for an inverse color table. One method has been
+published, by M. Gervautz and W. Purgathofer, a summary of which can be
+found in Glassner&#8217;s <cite>Graphics Gems I</cite>, 1990. This method builds
+an octree by taking pixels, one at a time, and either making a new color
+or merging them with an existing color. After the prescribed number of
+colors in the color table have been established, the new pixel either
+makes a new color (causing merging of two existing colors), or it is
+merged with an existing color. Each color is represented by an octcube,
+or set of octcubes, so the merging operation effectively prunes the
+(potential) octree. This method has the advantage that only up to 256
+colors need be stored at any time. It has the disadvantage that the
+merging operations are complicated, and it is not easy to understand how
+to represent the full color space, which is necessary for dithering. In
+fact, the description was so sketchy that I can only commend D. Clark
+for providing an implementation in <cite>Dr. Dobb&#8217;s Journal</cite>
+(<a class="reference internal" href="#color-quantization-references"><em>reference</em></a> at the end of this
+section).</p>
+<p><strong>Leptonica</strong> provides two methods of color quantization: Modified Median
+Cut Quantization (MMCQ) and octree quantization (OQ). Both can be
+designed to be fast, to give reasonably good results without dithering,
+and to give very satisfactory results with dithering.</p>
+<p>In MMCQ, as in the median cut method, the color space is divided up
+into a set of 3D rectangular regions (called &#8220;vboxes&#8221;). These are
+derived by splitting from a large vbox that contains all the original
+pixels in the image. Further, if dithering is allowed, the original
+vbox must be the entire RGB space, to assure that any possible RGB
+value is in one of the final subdivided vboxes. Quantization of color
+space is to a fixed level, given by the number of bits that are
+retained for each component. We call the smallest possible vbox the
+&#8220;quantum volume.&#8221; Typically, when using a colormap of 256 colors or
+less, 5 bits are sufficent for each component, so there are 2<sup>15</sup> of these quantum volumes filling the entire color space.
+With respect to the 8 bit/component quantization of the original RGB
+image, each quantum volume is then a cube holding 2<sup>9</sup> = 512 of
+the original 2<sup>24</sup> colors. The smallest vbox is one quantum
+volume. Because there are 2<sup>15</sup> of them in the color space, on
+average, each vbox has 64 quantum volumes. For a typical image, the
+highly populated vboxes will be relatively small, and, as we will see,
+the largest vboxes will be nearly unoccupied.</p>
+<p>In adaptive (2-pass) OQ, the entire color space is represented by the
+root octcube. The octcubes at each level are further subdivided,
+depending on occupancy. This is somewhat more difficult to visualize
+than MMCQ. It is described in more detail <a class="reference internal" href="#color-quantization-octree-implementation"><em>below</em></a>, and in the code in
+<span class="filesystem">colorquant1.c</span>.</p>
+</div>
+<div class="section" id="modified-median-cut-implementation">
+<h2><a class="toc-backref" href="#id6">Modified median cut implementation</a><a class="headerlink" href="#modified-median-cut-implementation" title="Permalink to this headline">¶</a></h2>
+<p>In <span class="filesystem">colorquant2.c</span>, we&#8217;ve implemented a modified version of Paul
+Heckbert&#8217;s median cut algorithm, which he published in <cite>Color
+Image Quantization for Frame Buffer Display</cite>, in
+<cite class="journal">Proc. SIGGRAPH &#8216;82</cite>, Boston, July 1982, pp. 297-307.</p>
+<p>The Heckbert &#8220;Median Cut&#8221; algorithm says to repeatedly divide 3D
+regions in colorspace in such a way that the two parts have roughly
+equal number of pixels. Heckbert also suggests choosing the axis for
+subdivision based either on the length of the side or the variance of
+pixel values along that axis. The implementation starts with a
+computation of the histogram in quantum volumes, which is typically an
+array of size 2<sup>15</sup>. This is used to determine which vboxes to
+split and where to split them. After all splitting is done, the
+colormap is assigned, with one color for each vbox, and the histogram
+is converted to an inverse colormap containing the colormap index for
+each quantized rgb value. Finally, the inverse colormap is used to
+generate the quantized image. This is conceptually very simple.</p>
+<p>A number of important implementation decisions are not discussed.
+Consequently, different &#8220;implementations&#8221; of &#8220;median cut&#8221; will
+significantly vary in the quality of the quantization, depending on
+the pixel distribution in color space and the details of the
+implementation. This is important to keep in mind when you are told
+how well an algorithm performs: <em>the algorithm has to be sufficiently
+specified so that it can be constructed in a unique way from the
+specification.</em></p>
+<p>Heckbert&#8217;s paper was written in 1982. Today, with open source, an
+algorithm can be fully specified with the code itself. I found that
+implementing median cut was a very interesting exercise. First, doing
+an implementation brings up various decisions that must be made.
+Second, I found that median cut doesn&#8217;t work well on images, such as
+paintings, that have small amounts of spot color that need to be in
+the colormap. The flaws in the method then led to an understanding of
+the requirements for a successful approach to quantization.</p>
+<p>One immediately sees that there are three main decisions outside of
+the original description that must be made.</p>
+<ol class="arabic">
+<li><p class="first">How do we schedule the existing set of vboxes for further
+subdivision?</p>
+</li>
+<li><p class="first">How do we decide the axis along which to divide the vbox?</p>
+</li>
+<li><p class="first">When dividing the vbox along the chosen axis, in which part do we
+put the bucket containing the median pixel?</p>
+</li>
+</ol>
+<p>Following one of Heckbert&#8217;s suggestions, I chose the axis to be the
+largest dimension of the vbox. For the third question, suppose we
+represent each component in color space by 5 bits. Then the maximum
+length in quantized units of a vbox is 32. Suppose we have a vbox
+where the maximum length is N. Choose that direction, and build a
+histogram of the number of pixels falling inside each of the N
+buckets, by summing over the region in the other two directions.
+Suppose the median pixel falls into the Mth bucket, where buckets are
+numbered from 0 to N - 1. Then there are M buckets to the &#8220;left&#8221; of
+the Mth bucket, and N - M - 1 buckets to the &#8220;right&#8221;. When you
+subdivide, put the Mth bucket into the smaller of the &#8220;left&#8221; and
+&#8220;right&#8221; parts. This has the effect of making the two parts closer in
+size, because the partition line is moved into the larger of the
+parts. For the first question, the obvious choices are using a simple
+queue and using a priority queue based on total occupancy. The
+priority queue is preferable for several reasons, one of which is that
+it does a much better job of breaking up the high occupancy regions so
+that they are as close to equal population as possible. The effect on
+image quality is that washes composed of many pixels with slow spatial
+color variation are well-quantized to avoid posterization.</p>
+<p>But even if you make all these choices, you will find that small color
+clusters will not be represented in the color map. The reason is that
+any small cluster that is included in a vbox with a large cluster
+(that is not so big that it is further subdivided) will be represented
+by a colormap color determined by the large cluster. For these
+situations, median cut does poorly.</p>
+<p>However, a simple modification of median cut does a much better job
+representing the small clusters. We want to cleanly separate the small
+clusters from the larger ones. To do this, move the partition line even
+farther into the larger side (&#8220;left&#8221; or &#8220;right&#8221;). Surprisingly, the best
+results appear to happen when we place the partition line not near the
+median pixel, but <em>in the center of the larger of the two blocks (&#8220;left&#8221;
+and &#8220;right&#8221;) on either side of it!</em>. What is happening?  By putting the
+cut line far from the dominant cluster, we give the small cluster a
+chance to be properly represented in the colormap. And because we are
+using a priority queue, it doesn&#8217;t matter that the larger cluster wasn&#8217;t
+partitioned: it will come right back to near the head of the queue for
+further subdivision. Higher density clusters will be repeatedly
+subdivided into smaller regions, and the modification only applies when
+the larger of the &#8220;left&#8221; and &#8220;right&#8221; blocks is 2 or more. This
+modification is part of the reason I&#8217;m calling the algorithm MMCQ &#8212;
+we&#8217;re not really splitting close to the median.</p>
+<p>But we&#8217;re not finished with necessary modifications. There are still
+flaws in the result. If we choose all partitioning based on
+population, there may be very large vboxes with considerable
+population that are not split. Without dither, these can appear as
+large posterized regions; with dither, serious artifacts can develop,
+where the error is significant and the accumulated error manifests
+itself periodically in pixels of very different color. This situation
+must be avoided.</p>
+<p>The dither oscillations can easily be prevented by putting an upper
+bound on the amount of error that is propagated to neighboring pixels.
+It is reasonable to do this for safety. But a more general improvement
+is needed, that will split regions that are large with a significant
+population, but may not have enough pixels to get to the head of the
+queue. The jpeg quantizer uses population to schedule half the splits
+and vbox size for the other half. Here&#8217;s what we do:</p>
+<ol class="arabic">
+<li><p class="first">Generate a fraction <em>f</em> of the requested output colors by splitting
+vboxes based on the number of pixels in the box.</p>
+</li>
+<li><p class="first">Then generate the remaining fraction <em>(1 - f)</em> of colors by
+splitting based on the <em>product</em> of the population times the volume of
+the vbox. If we were to use simply the volume, we would waste colors
+by splitting vboxes that have no pixels.</p>
+</li>
+</ol>
+<p>We need a nonzero value of <em>f</em> because it is important to balance the
+splitting of the most populous vboxes with the splitting of the
+largest well-occupied vboxes. It turns out that the result is not
+strongly dependent on the fraction <em>f</em>, and very good results can be
+obtained for <em>f</em> between 0.3 and 0.9. The independence of the
+quantization quality with respect to <em>f</em> is encouraging, because it
+indicates that good results can be generally obtained with a single
+choice of this parameter.</p>
+<p>Overall, the undithered MMCQ gives comparable results to the Two-pass
+Octcube Quantizer (OQ). Comparing the two methods on the <span class="filesystem">test24.jpg</span>
+painting, we see:</p>
+<ul>
+<li><p class="first">For rendering spot color (the various reds and pinks in the image),
+MMCQ is not quite as good as OQ.</p>
+</li>
+<li><p class="first">For rendering majority color regions, MMCQ does a better job of
+avoiding posterization. That is, it does better dividing the color
+space up in the most heavily populated regions.</p>
+</li>
+</ul>
+<p>After splitting the colorspace, we generate a pix colormap by
+representing the color in each vbox by the average color of the pixels
+there. (If there are no pixels, we use the center of the vbox.) At
+this point we no longer need to keep the histogram of pixels in each
+quantum volume, so we turn the histogram into an inverse colormap,
+where every quantum volume in a vbox is labelled by the colormap index
+representing the vbox. The final step in quantization is to compute,
+for each image pixel, the value of the colormap index to use. The
+inverse colormap allows this to be done with a simple table lookup. If
+we are dithering, there is some added computation to propagate the
+error to pixels that have not yet been indexed.</p>
+<p>For a summary of our modified median cut quantization algorithm, I&#8217;ve
+written a <a class="reference external" href="http://leptonica.com/papers/mediancut.pdf">report</a>.</p>
+</div>
+<div class="section" id="octree-implementation">
+<span id="color-quantization-octree-implementation"></span><h2><a class="toc-backref" href="#id7">Octree implementation</a><a class="headerlink" href="#octree-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-the-octree-data-structure-used-in-leptonica">
+<h3><a class="toc-backref" href="#id8">What is the octree data structure used in <strong>Leptonica</strong>?</a><a class="headerlink" href="#what-is-the-octree-data-structure-used-in-leptonica" title="Permalink to this headline">¶</a></h3>
+<p>The method we use in <strong>Leptonica</strong> is fairly simple, both conceptually
+and in implementation. Our basic data structure is a pyramid of
+arrays, describing the leaves of an octree at each of the levels 0
+through 4 (or 5 or 6). At each level, there are 8 cubes that
+correspond to a single cube at the level above. The cubes are indexed
+so that the cube <em>i</em> at level <em>l</em> contains the eight cubes <em>8i+j</em>, <em>j
+= 0, ... 7</em> at level <em>l+1</em>. The cube index is computed from the RGB
+values by taking the most significant bits of the three samples in
+order:</p>
+<div class="highlight-none"><div class="highlight"><pre>r7 g7 b7 r6 g6 b6 r5 g5 b5 r4 g4 b4 r3 g3 b3 ...
+</pre></div>
+</div>
+<p>down to the level of interest. For example, at level 5, the index
+consists of the 15 bits that are shown above. For any RGB value, it is
+easy to compute the cube indices at any level of the octree, and we
+provide lookup tables to make this fast. Note that the octree that is
+represented by this set of arrays is <em>virtual</em>, given by the indexing
+relation above, because there are no pointers going between different
+levels! We just have arrays of these cube data structures, with fast
+indexing into the arrays. Keep this &#8220;pyramid&#8221; in mind in the following
+description of the algorithm</p>
+</div>
+<div class="section" id="how-is-the-octree-formed">
+<h3><a class="toc-backref" href="#id9">How is the octree formed?</a><a class="headerlink" href="#how-is-the-octree-formed" title="Permalink to this headline">¶</a></h3>
+<p>There are two passes. The octree with the selected <em>color table
+entries</em> (CTEs) is built in the first pass. To build this, we only
+need to label the specific octcubes within these arrays that are to
+represent the CTEs; we do not need to build any other data structures.
+How do we determine which cubes to label? In the first pass, we place
+the pixels in octcube leaves at a designated depth or <em>level</em>, which
+can be 4, 5 or 6. With level 5, there are 2<sup>15</sup> = 32K leaves.
+We store only the number of pixels in each of these leaves. The tree
+is then pruned in the following way. Starting at the deepest level,
+and iterating for every cube at that level, check the octcubes in sets
+of eight, where the eight octcubes are those that compose the octcube
+at the next level up. For each set of eight octcubes, one of the
+following will pertain:</p>
+<ol class="arabic">
+<li><p class="first">One or more of the cubes has enough pixels to become a CTE. Make it
+a new CTE.</p>
+</li>
+<li><p class="first">One or more of the cubes has already been selected as a CTE.</p>
+</li>
+<li><p class="first">None of the cubes is already a CTE or has enough pixels to become a
+CTE.</p>
+</li>
+</ol>
+<p>In both the first and second cases, the octcube at the next level up
+automatically becomes a CTE, which contains those pixels that are not
+in a subcube that already is a CTE. In the third case, the pixels are
+simply aggregated into the octcube at the next level up. When all
+cubes are done at that level, the procedure is repeated at the next
+level up.</p>
+<p>The decision for forming a new CTE is that the number of pixels in the
+cube exceeds a threshold that is proportional to the number of pixels
+yet to be assigned to a color divided by the number of colors left to
+be assigned. We actually hold back 64 colors in reserve, because when
+we get to the second level we require that each of these 64 octcubes
+be a CTE by default. In this way, we constrain the maximum color error
+while insuring that the entire color space is covered by the color
+table. The value 1.0 for the proportionality constant at each level
+works well. (The proportionality constants for levels 0, 1 and 2 are
+not used, because the octcubes at level 2 become CTEs automatically.)</p>
+</div>
+<div class="section" id="what-color-is-associated-with-each-octcube-in-the-color-table">
+<h3><a class="toc-backref" href="#id10">What color is associated with each octcube in the color table?</a><a class="headerlink" href="#what-color-is-associated-with-each-octcube-in-the-color-table" title="Permalink to this headline">¶</a></h3>
+<p>We associate with each octcube in the color table the coordinates of
+the center of the cube. This is easier than maintaining a running
+centroid, and has very little effect on the result. In fact, because
+the octcubes at each level are indexed as they would appear in the
+octree from left to right, we can quickly compute the center of the
+octcube in which any pixel would fall, so we don&#8217;t even need to store
+it.</p>
+</div>
+<div class="section" id="how-are-color-indices-assigned-to-the-image-pixels">
+<h3><a class="toc-backref" href="#id11">How are color indices assigned to the image pixels?</a><a class="headerlink" href="#how-are-color-indices-assigned-to-the-image-pixels" title="Permalink to this headline">¶</a></h3>
+<p>The second pass, where the pixels are assigned their index, can be
+done very quickly in two different ways, of which we implemented the
+second:</p>
+<ol class="arabic">
+<li><p class="first">Make an explicit inverse colormap. Compute and store the index in
+the leaf array at the deepest level (in the place where we initially
+stored the histogram). Then for each pixel, convert the RGB value of
+the pixel to the truncated octcube index at that level, and look up
+the colortable index from the pre-computed array.</p>
+</li>
+<li><p class="first">For each pixel, run down the tree from the root to find the octcube
+that it belongs in. Do this by converting the RGB value to an index
+into the array of octcubes at each successive level, stopping when you
+find an octcube that is marked as a CTE and the octcube at the next
+level down is <em>not</em> a CTE. (If you reach the bottom level, take that
+octcube.) Then take the colortable index from the CTE octcube. For
+dithering, you also need to know the center of the octcube, which can
+either be computed or read from the value stored there.</p>
+</li>
+</ol>
+<p>This octree method has the drawback of not generating exactly the
+number of colors requested for the color table. It typically has a few
+less. The actual number depends on the distribution of colors in the
+image. Note that if enough pixels are present to make a CTE from an
+octcube at level 6, then CTEs for the containing octcubes will be
+generated automatically at levels 5, 4, and 3, regardless of the
+number of unassigned pixels in those cubes. (The only exception is if
+all 8 subcubes of an octcube are already CTEs, the containing octcube
+will be labelled as a leaf for purposes of traversing the tree in the
+labelling step, but will not be assigned a color).</p>
+</div>
+<div class="section" id="how-is-the-error-diffusion-dithering-applied">
+<h3><a class="toc-backref" href="#id12">How is the error diffusion dithering applied?</a><a class="headerlink" href="#how-is-the-error-diffusion-dithering-applied" title="Permalink to this headline">¶</a></h3>
+<p>To maximize the accuracy of the color appearance, we use EDD in the
+second pass. The error in each of the three samples is passed down to
+three adjacent pixels whose indices have not yet been computed. We use
+just three pixels, with fractions of 3/8, 3/8 and 1/4, for simplicity.
+The implementation uses six color buffers for the pixels in the
+current line and the next line, and does all computation in integers
+with a multiplying factor of 64 to reduce the roundoff error. To the
+extent that the actual RGB pixel colors are within the convex hull of
+the CTE values, EDD will accurately reproduce the original pixel color
+when averaged over a few pixels.</p>
+</div>
+<div class="section" id="how-fast-is-the-implementation">
+<h3><a class="toc-backref" href="#id13">How fast is the implementation?</a><a class="headerlink" href="#how-fast-is-the-implementation" title="Permalink to this headline">¶</a></h3>
+<p>For efficiency, the first pass, where the octree color table is
+generated, can be done on a subsampled version of the input image. For
+an image with a million pixels, subsampling by 4x in each direction is
+perfectly adequate, as it leaves about 70K pixels to form the octree.
+The conversion speed for generating a colormapped image from an RGB
+image depends on the deepest level at which pixels are allowed to form
+CTE octcubes. On a million pixel RGB image, using a 3 GHz Pentium, the
+total conversion time in seconds is:</p>
+<table border="1" class="centered centercells docutils">
+<caption>Timings for Image Generation using Octree Color Tables</caption>
+<colgroup>
+<col width="31%" />
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head" rowspan="2">&nbsp;</th>
+<th class="head" colspan="3">octree levels</th>
+</tr>
+<tr><th class="head">4</th>
+<th class="head">5</th>
+<th class="head">6</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>no dither</td>
+<td>0.03</td>
+<td>0.04</td>
+<td>0.08</td>
+</tr>
+<tr><td>dither</td>
+<td>0.08</td>
+<td>0.09</td>
+<td>0.13</td>
+</tr>
+</tbody>
+</table>
+<p>All details are found in the code in <span class="filesystem">colorquant1.c</span> and <span class="filesystem">colorquant.h</span>,
+where you will find 8 different implementations. The two-pass adaptive
+method gives the best results (in fact, typically a little better than
+the median cut). However, other octcube-based implementations are useful
+for specific types of images. For example, map images with a relatively
+small number of well-populated colors, but having a large number of
+different colors due to anti-aliasing, are quantized well using
+<tt class="docutils literal"><span class="pre">pixOctreeQuantByPopulation()</span></tt>. See the regression test,
+<span class="filesystem">prog/colorquant_reg.c</span> for usage and results on a number of different
+images. It should be emphasized that when using error diffusion
+dithering, you get a reasonable job of visually representing the color,
+even for simple, non-adaptive methods of quantization. However, without
+EDD, non-adaptive methods look poor on most images. In the examples
+below, <tt class="docutils literal"><span class="pre">pixFixedOctcubeQuant256()</span></tt> is used for one-pass quantization,
+and <tt class="docutils literal"><span class="pre">pixOctreeColorQuant()</span></tt> is used for two-pass quantization.</p>
+<p>For more information on octree color quantization, I&#8217;ve written a
+<a class="reference external" href="http://leptonica.com/papers/colorquant.pdf">report</a>. There are five comparative images
+referenced in the report. These are given below. It should be noted that
+the actual rendering of these images will depend on the browser, the
+frame buffer depth (8, 16 or 24 bits) of the computer, and the video
+display card.</p>
+<div class="figure align-center">
+<img alt="One-pass quantization, no dithering" class="border" src="../_images/simple-nodither.jpg" />
+<p class="caption">One-pass quantization, no dithering</p>
+</div>
+<div class="figure align-center">
+<img alt="One-pass quantization, with dithering" class="border" src="../_images/simple-dithered.jpg" />
+<p class="caption">One-pass quantization, with dithering</p>
+</div>
+<div class="figure align-center">
+<img alt="Two-pass octree quantization, no dithering" class="border" src="../_images/tree-nodither.jpg" />
+<p class="caption">Two-pass octree quantization, no dithering</p>
+</div>
+<div class="figure align-center">
+<img alt="Two-pass octree quantization, with dithering" class="border" src="../_images/tree-dithered.jpg" />
+<p class="caption">Two-pass octree quantization, with dithering</p>
+</div>
+<div class="figure align-center">
+<img alt="Full RGB color image" class="border" src="../_images/full-color.jpg" />
+<p class="caption">Full RGB color image</p>
+</div>
+</div>
+</div>
+<div class="section" id="for-further-reading-on-color-quantization">
+<span id="color-quantization-references"></span><h2><a class="toc-backref" href="#id14">For further reading on color quantization . . .</a><a class="headerlink" href="#for-further-reading-on-color-quantization" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><a class="reference external" href="http://en.wikipedia.org/wiki/Color_quantization">Color quantization</a> in the wikipedia.</p>
+</li>
+<li><p class="first">Paul Heckbert&#8217;s original paper. <cite>Color image quantization for
+frame buffer display</cite>, <cite class="journal">Computer Graphics</cite>, <cite class="jvolume">Vol 16,
+No. 3</cite>, pp. 297-307, 1982.</p>
+</li>
+<li><p class="first"><cite>The popularity algorithm</cite>, D. Clark, <cite class="journal">Dr. Dobb&#8217;s
+Journal</cite>, pp.  121-128, July 1995.</p>
+</li>
+<li><p class="first"><cite>Median-cut color quantization</cite>, A. Kruger,
+<cite class="journal">Dr. Dobb&#8217;s Journal</cite>, pp. 46-54, 91-92, September 1994.</p>
+</li>
+<li><p class="first"><cite>Color quantization using octrees</cite>, D. Clark,
+<cite class="journal">Dr. Dobb&#8217;s Journal</cite>, pp. 52-57, 102-104, January 1996.</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="../_static/moller52-smaller.jpg" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+
+
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local-sources.html">Source Code and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="applications.html">Image Processing Applications</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewarping.html">Dewarping Text Pages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skew-measurement.html">Measuring the Skew of Document Images</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Color Quantization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-did-the-need-for-color-quantization-arise">How did the need for color quantization arise?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-are-the-basic-problems-in-color-quantization">What are the basic problems in color quantization?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-is-error-diffusion-dithering-important">Why is error diffusion dithering important?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-methods-have-been-proposed-for-color-quantization">What methods have been proposed for color quantization?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modified-median-cut-implementation">Modified median cut implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#octree-implementation">Octree implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#for-further-reading-on-color-quantization">For further reading on color quantization . . .</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="color-segmentation.html">Color Segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="border-rep.html">Border Representations of Connected Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="document-image-analysis.html">Document Image Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jbig2.html">Jbig2 Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="byte-addressing.html">Byte Addressing for Efficiency and Portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-methods.html">What is &#8220;Well-Tested&#8221; C Code?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-principles.html">Some Issues in Software Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recent-pubs.html">Selected Papers on Image Processing and Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vs2008/index.html">Leptonica &amp; Visual Studio 2008</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/index.html">Other Topics</a></li>
+</ul>
+
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/leptonica/color-quantization.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="color-segmentation.html" title="Color Segmentation"
+             >next</a></li>
+        <li class="right" >
+          <a href="skew-measurement.html" title="Measuring the Skew of Document Images"
+             >previous</a> |</li>
+  <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
+  
+        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
+          <li><a href="applications.html" >Image Processing Applications</a> &raquo;</li> 
+      </ul>
+    </div>
+  <div class="footer">
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="../_static/creativecommons-88x31.png"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+  </body>
+</html>
