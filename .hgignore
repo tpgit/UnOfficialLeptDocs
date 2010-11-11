@@ -1,0 +1,7 @@
+.git/
+_build/
+backups/
+outdir/
+#^leptonica/(.*?)\.html$
+\.log$
+~$

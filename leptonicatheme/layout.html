@@ -1,0 +1,65 @@
+{# -*- mode: jinja-html-mumamo;-*- #}
+{% extends "default/layout.html" %}
+
+{%- block extrahead %}
+{{ super() }}
+    <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
+    <script type="text/javascript" src="{{ pathto("_static/sort-filter-table-compact.js", 1) }}"></script>
+{% endblock %}
+
+{% block rootrellink %}
+  <li><a href="http://www.leptonica.com">Leptonica Home</a>{{ reldelim1 }}</li>
+  {{ super() }}
+{% endblock %}
+
+{#
+{% block relbar1 %}
+
+<div style="background-color: #ffffe4; text-align: center">
+<img align="middle" href="http://www.leptonica.com" src="{{ pathto("_static/Leptonica-yellow.jpg", 1) }}" border="0" alt="Leptonica"/>
+</div>
+{{ super() }}
+{% endblock %}
+#}
+
+{% block sidebarlogo %}
+<div style="text-align: center; padding-right: 5px;">
+ <a href="http://www.leptonica.com" >
+  <img src="{{ pathto("_static/moller52-smaller.jpg", 1) }}" border="0" alt="Leptonica Home"/>
+ </a>
+</div>
+{% endblock %}
+
+
+{%- block footer %}
+  <div class="footer">
+
+    {%- if last_updated %}
+      {% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}.{% endtrans %}
+    {%- endif %}
+
+   <p class="creativecommons">
+    <a href="http://creativecommons.org/licenses/by/3.0/us/" >
+      <img src="{{ pathto("_static/creativecommons-88x31.png", 1) }}"
+	   border="0" alt="Creative Commons License"/>
+     </a>
+    Leptonica by 
+    <a href="http://leptonica.com/www.leptonica.org">
+    Dan Bloomberg
+    </a>
+    is licensed under a
+    <a href="http://creativecommons.org/licenses/by/3.0/us/">
+     Creative Commons Attribution 3.0 United States License.
+    </a>
+   </p>
+
+
+   <p class="sphinxcredit">{% trans sphinx_version=sphinx_version|e %}Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
+   </p>
+    <script type="text/javascript">
+      _uacct = "UA-144810-1";
+      urchinTracker();
+    </script>
+  </div>
+{%- endblock %}
+

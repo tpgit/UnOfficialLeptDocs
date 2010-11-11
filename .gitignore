@@ -1,0 +1,6 @@
+.hg/
+_build/
+backups/
+outdir/
+*.log
+*~
