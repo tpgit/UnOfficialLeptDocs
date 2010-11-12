@@ -95,7 +95,7 @@ cd BuildFolder\leptonlib-1.67\prog\Debug
 </pre>
 <p>Then copy and paste the following <span class="command">cl</span> command to build a Debug
 version of <span class="filesystem">ioformats_reg.exe</span>:</p>
-<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /xI ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D &quot;snprintf=_snprintf&quot; /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
+<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D &quot;snprintf=_snprintf&quot; /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
 </pre></div>
 </div>
 <p>To try it out do the following:</p>

@@ -471,15 +471,16 @@ you are using the static makefiles and customizing <span class="filesystem">envi
 <p>to include all the function prototypes and struct definitions for the
 leptonica library!</p>
 <p>It is this simple to write a program using <strong>Leptonica</strong>:</p>
-<div class="highlight-none"><div class="highlight"><pre>#include &quot;allheaders.h&quot;
-main(int argc, char **argv) {
-    PIX *pixs = pixRead(&quot;example.png&quot;);
-    PIX *pixd = pixScale(pixs, 0.35, 0.35);  // downscale by 0.35
-    pixWrite(&quot;downscaled-example.png&quot;, pixd, IFF_PNG);
-    pixDestroy(&amp;pixs);
-    pixDestroy(&amp;pixd);
-    return 0;
-}
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &quot;allheaders.h&quot;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">PIX</span> <span class="o">*</span><span class="n">pixs</span><span class="p">,</span> <span class="o">*</span><span class="n">pixd</span><span class="p">;</span>
+    <span class="n">pixs</span> <span class="o">=</span> <span class="n">pixRead</span><span class="p">(</span><span class="s">&quot;example.png&quot;</span><span class="p">);</span>
+    <span class="n">pixd</span> <span class="o">=</span> <span class="n">pixScale</span><span class="p">(</span><span class="n">pixs</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">);</span>  <span class="cm">/* downscale by 0.35 */</span>
+    <span class="n">pixWrite</span><span class="p">(</span><span class="s">&quot;downscaled-example.png&quot;</span><span class="p">,</span> <span class="n">pixd</span><span class="p">,</span> <span class="n">IFF_PNG</span><span class="p">);</span>
+    <span class="n">pixDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pixs</span><span class="p">);</span>
+    <span class="n">pixDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pixd</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
