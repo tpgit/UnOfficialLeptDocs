@@ -1,4 +1,4 @@
-:version: $RCSfile: version-notes.rst,v $ $Revision: 693361f85272 $ $Date: 2010/08/23 15:08:52 $
+:version: $RCSfile: version-notes.rst,v $ $Revision: 0631ab298a88 $ $Date: 2010/11/11 15:38:02 $
 
 .. default-role:: fs
 
@@ -10,6 +10,56 @@
 
 .. Note:: The following are highlights of the changes in each version.
           They are *not* a complete listing of the modifications.
+
+1.67 --  9 Nov 10
+=================
+
+* **Autoconf**: now built with James Cuirot's config files that build the
+  library and all 200 progs.
+
+* New sudoku solver.  Just a game, but there are interesting aspects.
+
+* Modified `parseprotos.c` to reject a type of "``extern``" decl.
+
+* Add faster implementation for very small gray morphology operations
+  (3x1, 1x3, 3x3).
+
+* Eliminate warnings on recent gcc if you don't check return values from
+  ``fread``, ``fscanf``, ``fgets``, ``system``, etc.
+
+* **Convolution**: new functions for windowed variance and stdev; allow
+  non-square kernel for windowed mean square.
+
+* Put `stdio.h` and `stdlib.h` in `alltypes.h`, so they're not required
+  in any `.c` files.
+
+* Replace ``numaConvolve()``, which is just a windowed mean, by windowed
+  statistics functions (mean, mean square, variance).
+
+* Generalize ``pixExtractOnLine()`` for arbitrary lines.
+
+* Add pix interface to webp (`webpio.c`, `webpiostub.c`). This is a new
+  open source codec, based on the video codec vpx (webm).
+
+* Serialization of ``FPix`` and ``DPix``.
+
+* Interconversion between ``FPix`` and `DPix``.
+
+* Integer scaling of ``FPix`` and ``DPix``; includes the last row and
+  column.
+
+* New `convertfiles.c`: depth conversion on files in a directory.
+
+* Testing programs in `prog`:
+
+  * `convolve_reg.c`, `numa_reg.c`: expanded test set
+  
+  * `projection_reg.c` (tests ``pixRowStats()``, ``pixColumnStats()``)
+
+  * `dewarptest.c`: output ps and pdf files
+
+  * `writemtiff.c`: simple driver to write images to a single file
+
 
 1.66 -- 3 Aug 10
 ================

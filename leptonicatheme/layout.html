@@ -5,6 +5,18 @@
 {{ super() }}
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="{{ pathto("_static/sort-filter-table-compact.js", 1) }}"></script>
+  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
+    if (window.location.protocol == "https:") {
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
+    } else {
+      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
+    }
+    MathJax.Hub.Config({
+      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+      jax: ["input/TeX", "output/HTML-CSS"]
+    })
+  </script>
+
 {% endblock %}
 
 {% block rootrellink %}

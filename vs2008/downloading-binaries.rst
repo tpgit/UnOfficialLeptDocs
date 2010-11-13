@@ -1,4 +1,4 @@
-:version: $RCSfile: downloading-binaries.rst,v $ $Revision: 440c6687684b $ $Date: 2010/11/09 23:19:38 $
+:version: $RCSfile: downloading-binaries.rst,v $ $Revision: 0191b0f4799d $ $Date: 2010/11/11 12:02:43 $
 
 .. default-role:: fs
 
@@ -10,8 +10,8 @@ Downloading |leptonlib| pre-built binaries and header files for Windows
 
 The easiest way to use |leptonlib| is to download the latest version of
 `leptonica-`\ |versionF|\ `-win32-lib-include-dirs.zip`, the pre-built
-binary archive, from `the Leptonica website
-<http://www.leptonica.com/download.html#VS2008>`_.
+binary archive, from :ref:`the Leptonica website
+<windows-pre-built-binaries>`.
 
 It contains the entire `lib` and `include` directories needed to build
 Windows-based programs that use the static or dynamic versions of the

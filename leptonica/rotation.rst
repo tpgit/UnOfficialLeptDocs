@@ -1,4 +1,4 @@
-:version: $RCSfile: rotation.rst,v $ $Revision: efffb0e4678e $ $Date: 2010/11/09 16:11:51 $
+:version: $RCSfile: rotation.rst,v $ $Revision: 6c095cf844e8 $ $Date: 2010/11/11 18:09:46 $
 
 .. default-role:: fs
 
@@ -186,6 +186,8 @@ For most applications, the loss in accuracy (relative to the 16 x 16
 subpixel version) is minimal, and the rotation speed for RGB images on
 a 3 GHz processor is about 18 million pixels/second.
 
+
+.. _orthogonal_rotations:
 
 Special rotations by 90, 180 or 270 degrees
 ===========================================

@@ -1,5 +1,5 @@
 
-:version: $RCSfile: overview.rst,v $ $Revision: 440c6687684b $ $Date: 2010/11/09 23:19:38 $
+:version: $RCSfile: overview.rst,v $ $Revision: 0191b0f4799d $ $Date: 2010/11/11 12:02:43 $
 
 .. default-role:: fs
 
@@ -20,7 +20,7 @@ included.
 static and dynamic libraries support the JPEG, PNG, TIFF, and GIF file
 formats.
 
-Also `available <http://www.leptonica.com/download.html#VS2008>`_ is a
+Also :ref:`available <microsoft-visual-studio-download>` is a
 :doc:`Visual Studio 2008 solution <vs2008-solution>` that lets you build
 the :doc:`library <building-leptonlib>` and the :doc:`executables
 <building-prog-dir>` in the Leptonica `/prog` directory. It contains a

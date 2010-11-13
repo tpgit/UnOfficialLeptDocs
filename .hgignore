@@ -2,6 +2,7 @@
 _build/
 backups/
 outdir/
+githtml/
 #^leptonica/(.*?)\.html$
 \.log$
 ~$

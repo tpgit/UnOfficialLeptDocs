@@ -1,4 +1,4 @@
-:version: $RCSfile: building-prog-dir.rst,v $ $Revision: 26bd0c5c4b08 $ $Date: 2010/08/14 01:12:28 $
+:version: $RCSfile: building-prog-dir.rst,v $ $Revision: 58b19a418dd0 $ $Date: 2010/11/12 13:34:38 $
 
 .. default-role:: fs
 
@@ -45,7 +45,7 @@ files, make subdirectories for Debug and Release builds:
 Then copy and paste the following :cmd:`cl` command to build a Debug
 version of `ioformats_reg.exe`::
    
-   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /xI ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D "snprintf=_snprintf" /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
+   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D "snprintf=_snprintf" /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
 
 To try it out do the following::
 

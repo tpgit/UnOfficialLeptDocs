@@ -1,4 +1,4 @@
-:version: $RCSfile: source-downloads.rst,v $ $Revision: 63dbb54495e2 $ $Date: 2010/08/15 19:48:25 $
+:version: $RCSfile: source-downloads.rst,v $ $Revision: 0631ab298a88 $ $Date: 2010/11/11 15:38:02 $
 
 .. default-role:: fs
 
@@ -8,7 +8,7 @@
  Source Downloads
 ==================
 
-:date: Aug 9, 2010
+:date: Nov 9, 2010
 
 .. epigraph::
 
@@ -35,7 +35,10 @@ subsequent releases, are available for download at
 `code.google.com/p/leptonica
 <http://code.google.com/p/leptonica/downloads/list>`_
 
-Current version: 1.66 (8/9/10)
+Current version: 1.67 (11/9/10)
+   :sourceurl:`leptonlib-1.67.tar.gz`
+
+Version: 1.66 (8/9/10)
    :sourceurl:`leptonlib-1.66.tar.gz`
 
 Version: 1.65 (4/7/10)
@@ -43,10 +46,6 @@ Version: 1.65 (4/7/10)
 
 Version: 1.64 (1/3/10)
    :sourceurl:`leptonlib-1.64.tar.gz`
-
-Version: 1.63 (11/8/09)
-   :sourceurl:`leptonlib-1.63.tar.gz`
-
 
 .. _microsoft-visual-studio-download:
 
@@ -58,7 +57,10 @@ project files for building the library and executables that link
 standard file I/O libraries. See his :ref:`developer package notes
 <building-leptonlib>` for where to unzip this file.
 
-Current version: vs2008-1.66 (8/9/10)
+Current version: vs2008-1.67 (11/9/10)
+   :sourceurl:`vs2008-1.67.zip`
+
+Version: vs2008-1.66 (8/9/10)
    :sourceurl:`vs2008-1.66.zip`
 
 Version vs2008-1.65 (4/7/10)
@@ -78,9 +80,11 @@ library versions of `zlib`, `libpng`, `libjpeg`, `libtiff`, and
 </vs2008/downloading-binaries>` for version details, including where to
 unzip this file.
 
-Current version: leptonica-1.66-win32-lib-include-dirs (8/9/10)
-   :sourceurl:`leptonica-1.66-win32-lib-include-dirs.zip`
+Current version: leptonica-1.67-win32-lib-include-dirs (8/9/10)
+   :sourceurl:`leptonica-1.67-win32-lib-include-dirs.zip`
 
+Previous version: leptonica-1.66-win32-lib-include-dirs (8/9/10)
+   :sourceurl:`leptonica-1.66-win32-lib-include-dirs.zip`
 
 .. _xtractlib-download:
 

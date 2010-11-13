@@ -2,5 +2,6 @@
 _build/
 backups/
 outdir/
+githtml/
 *.log
 *~

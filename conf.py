@@ -37,7 +37,7 @@ todo_include_todos = True
 #mathjax_path = '/MathJax/MathJax.js'
 
 #TEMPORARY! Use above line for real releases!
-mathjax_path = 'file:///F:/MathJax/MathJax.js'
+#mathjax_path = 'file:///F:/MathJax/MathJax.js'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -76,7 +76,7 @@ release = '1.67'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["leptonica/glossary", ]
+exclude_patterns = ["leptonica/glossary", "githtml/*", ]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -128,7 +128,7 @@ html_theme_path = [ "" ]
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
-html_short_title = u"v%s Documentation" % version
+html_short_title = u"Unofficial v%s Documentation" % version
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.

@@ -1,10 +1,10 @@
-:version: $RCSfile: local-sources.rst,v $ $Revision: 693361f85272 $ $Date: 2010/08/23 15:08:52 $
+:version: $RCSfile: local-sources.rst,v $ $Revision: 0631ab298a88 $ $Date: 2010/11/11 15:38:02 $
 
 =============================
  Source Code and Information
 =============================
 
-:date: Jan 5, 2010
+:date: Nov 9, 2010
 
 .. epigraph::
 
@@ -28,10 +28,11 @@ functions and some design methods. A full set of affine transformations
 is included, with the exception that some of the scaling methods do not
 work at all depths. There are also implementations of binary morphology,
 grayscale morphology, convolution and rank order filters, and
-applications such as jbig2 image processing and color quantization.  You
-will also find basic utilities for the safe and efficient handling of
-arrays (of strings, numbers, number pairs and image-related geometrical
-objects), byte queues, generic stacks, generic lists, and
+applications such as jbig2 image processing and color quantization.
+
+You will also find basic utilities for the safe and efficient handling
+of arrays (of strings, numbers, number pairs and image-related
+geometrical objects), byte queues, generic stacks, generic lists, and
 endian-independent indexing into 32-bit arrays.
 
 There are summaries of the files in the :doc:`src <src-dir>` and
@@ -48,7 +49,7 @@ Download
 ========
 
 Click :ref:`here <source-downloads>` to download the source. [**update:
-Jan 3, 2010**]
+Nov 9, 2010**]
 
 Be sure to download the :ref:`README` as well.
 

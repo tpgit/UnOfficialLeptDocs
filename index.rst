@@ -1,8 +1,8 @@
-:version: $RCSfile: index.rst,v $ $Revision: 63dbb54495e2 $ $Date: 2010/08/15 19:48:25 $
+:version: $RCSfile: index.rst,v $ $Revision: b751cba010b8 $ $Date: 2010/11/11 11:29:47 $
 
-======================================
- Leptonica v\ |version| Documentation
-======================================
+=================================================
+ Unofficial Leptonica v\ |version| Documentation
+=================================================
 
 .. toctree::
    :maxdepth: 2
