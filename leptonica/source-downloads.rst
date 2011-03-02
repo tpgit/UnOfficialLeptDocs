@@ -1,4 +1,4 @@
-:version: $RCSfile: source-downloads.rst,v $ $Revision: b360d13fb35f $ $Date: 2011/02/07 21:57:53 $
+:version: $RCSfile: source-downloads.rst,v $ $Revision: de28fa565272 $ $Date: 2011/03/02 18:18:50 $
 
 .. default-role:: fs
 
@@ -8,7 +8,7 @@
  Source Downloads
 ==================
 
-:date: Nov 9, 2010
+:date: Mar 3, 2011
 
 .. epigraph::
 
@@ -35,7 +35,10 @@ subsequent releases, are available for download at
 `code.google.com/p/leptonica
 <http://code.google.com/p/leptonica/downloads/list>`_
 
-Current version: 1.67 (11/9/10)
+Current version: 1.68 (3/3/11)
+   :sourceurl:`leptonica-1.68.tar.gz`
+
+Version: 1.67 (11/9/10)
    :sourceurl:`leptonlib-1.67.tar.gz`
 
 Version: 1.66 (8/9/10)
@@ -44,8 +47,6 @@ Version: 1.66 (8/9/10)
 Version: 1.65 (4/7/10)
    :sourceurl:`leptonlib-1.65.tar.gz`
 
-Version: 1.64 (1/3/10)
-   :sourceurl:`leptonlib-1.64.tar.gz`
 
 .. _http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#microsoft-visual-studio-2008:
 
@@ -57,7 +58,10 @@ project files for building the library and executables that link
 standard file I/O libraries. See his :ref:`developer package notes
 <building-liblept>` for where to unzip this file.
 
-Current version: vs2008-1.67 (11/9/10)
+Current version: vs2008-1.68 (3/3/11)
+   :sourceurl:`vs2008-1.68.zip`
+
+Version: vs2008-1.67 (11/9/10)
    :sourceurl:`vs2008-1.67.zip`
 
 Version: vs2008-1.66 (8/9/10)
@@ -66,8 +70,6 @@ Version: vs2008-1.66 (8/9/10)
 Version vs2008-1.65 (4/7/10)
    :sourceurl:`vs2008-1.65.zip`
 
-Version vs2008-1.64 (1/5/10)
-   :sourceurl:`vs2008-1.64.zip`
 
 .. _http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#windows-pre-built-binaries:
 
@@ -80,10 +82,13 @@ library versions of `zlib`, `libpng`, `libjpeg`, `libtiff`, and
 </vs2008/downloading-binaries>` for version details, including where to
 unzip this file.
 
-Current version: leptonica-1.67-win32-lib-include-dirs (8/9/10)
+Current version: leptonica-1.68-win32-lib-include-dirs (3/3/11)
+   :sourceurl:`leptonica-1.68-win32-lib-include-dirs.zip`
+
+Version: leptonica-1.67-win32-lib-include-dirs (8/9/10)
    :sourceurl:`leptonica-1.67-win32-lib-include-dirs.zip`
 
-Previous version: leptonica-1.66-win32-lib-include-dirs (8/9/10)
+Version: leptonica-1.66-win32-lib-include-dirs (8/9/10)
    :sourceurl:`leptonica-1.66-win32-lib-include-dirs.zip`
 
 .. _xtractlib-download:
