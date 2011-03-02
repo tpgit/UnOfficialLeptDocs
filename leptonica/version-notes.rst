@@ -1,4 +1,4 @@
-:version: $RCSfile: version-notes.rst,v $ $Revision: 0631ab298a88 $ $Date: 2010/11/11 15:38:02 $
+:version: $RCSfile: version-notes.rst,v $ $Revision: 37d6fa039681 $ $Date: 2011/03/02 17:31:30 $
 
 .. default-role:: fs
 
@@ -10,6 +10,48 @@
 
 .. Note:: The following are highlights of the changes in each version.
           They are *not* a complete listing of the modifications.
+
+1.68 --  3 Mar 11
+=================
+
+* Fixed windows issues with passing pointers across C-runtime boundaries
+  when using DLLs, by providing special functions (e.g.,
+  ``lept_fopen()``).
+
+* Proper version numbers are now set with :cmd:`automake`.
+
+* New utility (`quadtree.c`) for generating quadtree statistics.
+
+* New utility (in `colorspace.c`) for conversions to and from YUV.
+
+* Refactored functions for assembling image data for generating either
+  PS or PDF images using g4, jpeg or flate encoding.
+
+* Better tempfile names, using current time in microseconds.
+
+* Functions for getting resolution from jpeg and png files.
+
+* Use ``size_t`` throughout for reading and writing binary data.
+
+* Deprecate ``arrayRead*()`` and ``arrayWrite()`` functions; replace in
+  the library with ``l_binaryRead*()`` and ``l_binaryWrite()``.
+
+* Better handling of colormap images for in-place rasterop and shear.
+
+* New utility (`bytearray.c`) for parsing and handling binary data; used
+  for generating PDF files.
+
+* New utility (`pdfio.c`) for generating PDF files.
+
+* Refactored ``regutils`` functions to make them simpler to use.
+
+* Top-level deskew now works on any image.
+
+* Added functions in `utils.c` for cross-platform development, mostly
+  for functions that make and remove directories, copy, move and delete
+  files, etc.  It should now be straightforward to write programs that
+  will compile and run on windows.
+
 
 1.67 --  9 Nov 10
 =================

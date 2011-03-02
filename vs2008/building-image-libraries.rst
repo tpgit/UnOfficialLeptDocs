@@ -1,4 +1,4 @@
-:version: $RCSfile: building-image-libraries.rst,v $ $Revision: 26bd0c5c4b08 $ $Date: 2010/08/14 01:12:28 $
+:version: $RCSfile: building-image-libraries.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
 
 .. default-role:: fs
 
@@ -8,7 +8,7 @@
  (Optional) Building `zlib`, `libjpeg`, `libpng`, `libtiff` and `giflib`
 =========================================================================
 
-For some reason, you might want to build the image libraries |leptonlib|
+For some reason, you might want to build the image libraries |liblept|
 uses. The process involves downloading and extracting the library
 sources, building them, and then copying the required header files to
 `BuildFolder\\include`, and the libraries to `BuildFolder\\lib`.
@@ -17,7 +17,7 @@ sources, building them, and then copying the required header files to
 Image library links
 ===================
 
-Here's a summary of the image libraries that |leptonlib| can use and
+Here's a summary of the image libraries that |liblept| can use and
 their dependencies:
 
 .. parsed-literal::
@@ -35,7 +35,7 @@ their dependencies:
      libpng can also build zlib but we build zlib separately.
 
    `libjpeg <http://www.ijg.org/>`_
-     current version: http://www.ijg.org/files/jpegsr8b.zip
+     current version: http://www.ijg.org/files/jpegsr8c.zip
      libjpeg has no other dependencies.
      A Visual Studio 2010 solution file is provided.
 
@@ -87,7 +87,8 @@ libraries referencing the same runtime library are used together.
 
 To diagnose these kinds of issues you can use ``dumpbin /directives
 somelibrary.lib`` from the command line to see which runtime
-library `somelibrary.lib` was built to use.
+library `somelibrary.lib` was built to use. Use ``dumpbin /imports
+somelibrary.dll`` to check dynamic-link libraries.
 
 The ``/MD`` and ``/MDd`` switches were chosen because the ``/clr``
 option which enables linking with .NET languages can only be used with
@@ -103,16 +104,17 @@ Download and extract the image libraries
    `BuildFolder\\zlib`.  Note that the `libpng.sln` provided with
    `libpng` :bi:`requires` `zlib` to be in this location.
 
-#. Download `lpng143.zip`, `jpegsr8b.zip`, `tiff-3.9.4.zip` and
-   `giflib-4.1.6`. Extract them to |BuildFolder|. You should now have:
+#. Download `lpng143.zip`, `jpegsr8c.zip`, `tiff-3.9.4.zip` and
+   `giflib-4.1.6.tar.gz`. Extract them to |BuildFolder|. You should now
+   have:
 
    .. parsed-literal::
 
       BuildFolder\\
         giflib-4.1.6\\
         include\\
-        jpeg-8b\\
-        leptonlib-|version|\ \\
+        jpeg-8c\\
+        leptonica-|version|\ \\
         lib\\
         libtiff-3.9.4\\
         lpng143\\
@@ -161,11 +163,11 @@ Building `zlib`
    `zlib\\contrib\\vstudio\\vc9\\x86\\ZlibStatDebug` or
    `zlib\\contrib\\vstudio\\vc9\\x86\\ZlibStatRelease`. Copy it to
    `BuildFolder\\lib`. To avoid confusion (and to match what the
-   `leptonlib.vcproj` settings say), rename it to follow the ClanLib
+   `leptonica.vcproj` settings say), rename it to follow the ClanLib
    naming conventions.  So they should be::
 
-      zlib-static-mtdll.lib or 
-      zlib-static-mtdll-debug.lib
+      zlib125-static-mtdll.lib or 
+      zlib125-static-mtdll-debug.lib
 
 #. Copy `zlib\\zlib.h` and `zconf.h` to `BuildFolder\\include`.
 
@@ -243,11 +245,11 @@ Building `libpng`
    `lpng143\\projects\\visualc71\\Win32_LIB_Release` or
    `lpng143\\projects\\visualc71\\Win32_LIB_Debug`. Copy them to
    `BuildFolder\\lib`. To avoid confusion (and to match what the
-   `leptonlib.vcproj` settings say), rename them following the ClanLib
+   `leptonica.vcproj` settings say), rename them following the ClanLib
    naming conventions.  So they should be::
 
-      libpng-static-mtdll.lib or 
-      libpng-static-mtdll-debug.lib
+      libpng143-static-mtdll.lib or 
+      libpng143-static-mtdll-debug.lib
 
    The :guilabel:`libpng` project erroneously includes a dependency on
    the :guilabel:`zlib` project, so you'll get an error message about
@@ -263,7 +265,7 @@ You can test `libpng` by building `pngtest.exe`.
    :menuselection:`Properties`. Change :guilabel:`Configuration
    Properties | Linker | General | Additional Library Directories` to
    `..\\..\\..\\lib`. To :guilabel:`Configuration Properties | Linker |
-   Input | Additional Dependencies` add `zlib-static-mtdll-debug.lib`.
+   Input | Additional Dependencies` add `zlib125-static-mtdll-debug.lib`.
 
 
 #. Build and run :guilabel:`pngtest` by right-clicking it and choosing
@@ -311,25 +313,88 @@ supported, only Visual Studio 2010. This seems a bit premature to me but
 the solution recommended by the developers is to download `jpeg-8a` and
 copy the required solution and project files.
 
-Therefore, I supply a Visual Studio 2008 Solution for `jpeg-8b` in
-`leptonlib-`\ |versionF|\ `\\vs2008\\jpeg-8b-vs2008.zip`. Extract it to
-`BuildFolder\\jpeg-8b`.
+Therefore, I supply a Visual Studio 2008 Solution for `jpeg-8c` in
+`leptonica-`\ |versionF|\ `\\vs2008\\jpeg-8c-vs2008.zip`. Extract it to
+`BuildFolder\\jpeg-8c`.
 
-#. Open `BuildFolder\\jpeg-8b\jpeg.sln`.
+#. Open `BuildFolder\\jpeg-8c\\jpeg.sln`.
 
 #. Select the desired build configuration (either :guilabel:`Debug` or
    :guilabel:`Release` and probably :guilabel:`Win32`).
 
 #. Build the Solution.
 
-#. Copy `BuildFolder\\jpeg-8b\\Release\\jpeg.lib` to `BuildFolder\\lib`.
-   Rename it to: `libjpeg-static-mtdll.lib`
+#. Copy `BuildFolder\\jpeg-8c\\Release\\jpeg.lib` to `BuildFolder\\lib`.
+   Rename it to: `libjpeg8c-static-mtdll.lib`
 
-   and/or copy `BuildFolder\\jpeg-8b\\Debug\\jpeg.lib` to `BuildFolder\\lib`.
-   Rename it to: `libjpeg-static-mtdll-debug.lib`.
+   and/or copy `BuildFolder\\jpeg-8c\\Debug\\jpeg.lib` to `BuildFolder\\lib`.
+   Rename it to: `libjpeg8c-static-mtdll-debug.lib`.
 
 #. Copy `jpeglib.h`, `jconfig.h`, `jmorecfg.h`, and `jerror.h` to
    `BuildFolder\\include`.
+
+To test `libjpeg8c` do the following:
+
+#. Open `BuildFolder\\jpeg-8c\\apps.sln`.
+
+#. Select the :guilabel:`Release` and probably :guilabel:`Win32` build
+   configuration.
+
+#. Build the Solution.
+
+#. Make a new directory called `BuildFolder\\jpeg-8c\\bin` and copy
+   `BuildFolder\\jpeg-8c\\cjpeg\\Release\\cjpeg.exe`,
+   `BuildFolder\\jpeg-8c\\djpeg\\Release\\djpeg.exe`, and
+   `BuildFolder\\jpeg-8c\\jpegtran\\Release\\jpegtran.exe` to your new
+   `BuildFolder\\jpeg-8c\\bin` directory.
+
+#. Copy all the test images from `BuildFolder\\jpeg-8c` to
+   `BuildFolder\\jpeg-8c\\bin`.
+
+#. Copy `BuildFolder\\jpeg-8c\\makefile.vc` to
+   `BuildFolder\\jpeg-8c\\bin`.
+
+#. Open up a Command Prompt window, :cmd:`cd` to
+   `BuildFolder\\jpeg-8c\\bin` and run::
+
+      /nmake makefile.vc test
+
+   You should see something like::
+
+      Microsoft (R) Program Maintenance Utility Version 9.00.30729.01
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+
+      IF EXIST testout* del testout*
+      .\djpeg -dct int -ppm -outfile testout.ppm  testorig.jpg
+      .\djpeg -dct int -bmp -colors 256 -outfile testout.bmp  testorig.jpg
+      .\cjpeg -dct int -outfile testout.jpg  testimg.ppm
+      .\djpeg -dct int -ppm -outfile testoutp.ppm testprog.jpg
+      .\cjpeg -dct int -progressive -opt -outfile testoutp.jpg testimg.ppm
+      .\jpegtran -outfile testoutt.jpg testprog.jpg
+      fc /b testimg.ppm testout.ppm
+      Comparing files testimg.ppm and TESTOUT.PPM
+      FC: no differences encountered
+
+      fc /b testimg.bmp testout.bmp
+      Comparing files testimg.bmp and TESTOUT.BMP
+      FC: no differences encountered
+
+      fc /b testimg.jpg testout.jpg
+      Comparing files testimg.jpg and TESTOUT.JPG
+      FC: no differences encountered
+
+      fc /b testimg.ppm testoutp.ppm
+      Comparing files testimg.ppm and TESTOUTP.PPM
+      FC: no differences encountered
+
+      fc /b testimgp.jpg testoutp.jpg
+      Comparing files testimgp.jpg and TESTOUTP.JPG
+      FC: no differences encountered
+
+      fc /b testorig.jpg testoutt.jpg
+      Comparing files testorig.jpg and TESTOUTT.JPG
+      FC: no differences encountered
+
 
 .. _building-libtiff:
 
@@ -344,17 +409,17 @@ so it seems best to get the latest version (currently 3.9.4).
    overall process of building `libtiff`. However, in order to use the
    correct `include` and `lib` dirs, and allow creation of Debug builds
    without manual editing of the `nmake.opt` file, I supply
-   `leptonlib-`\ |versionF|\ 
-   `\\vs2008\\libtiff3.9.2-vs2008-makefiles-for-leptonica.zip` which
-   contains custom versions of `nmake.opt`, `libtiff\\Makefile.vc` and
-   `tools\\Makefile.vc`.
+   `leptonica-`\ |versionF|\
+   `\\vs2008\\libtiff3.9.4-vs2008-makefiles-for-leptonica.zip` which
+   contains custom versions of `Makefile.vc`, `nmake.opt`,
+   `libtiff\\Makefile.vc` and `tools\\Makefile.vc`.
 
-#. Extract `libtiff3.9.2-vs2008-makefiles-for-leptonica.zip` to
+#. Extract `libtiff3.9.4-vs2008-makefiles-for-leptonica.zip` to
    `BuildFolder\\tiff-3.9.4`. This will overwrite the existing
    versions of the above files so you might want to back them up
    first.
 
-#. To build `libtiff` open a Command Prompt window and first
+#. To build `libtiff`, open a Command Prompt window and first
    execute `C:\\Program Files\\Microsoft Visual Studio
    9.0\\VC\\bin\\vcvars32.bat` to set some environmental variables
    correctly.
@@ -392,9 +457,9 @@ so it seems best to get the latest version (currently 3.9.4).
    You can't build the tiff tools and `libtiff` together initially
    because the linker expects to find `.pdb` files where the
    `.lib` is. Thus you first have to make and :bi:`install`
-   `libtiff-static-mtdll(-debug).lib` so that the linker can find
-   `libjpeg-static-mtdll.pdb` and
-   `libjpeg-static-mtdll-debug.pdb`.
+   `libtiff394-static-mtdll(-debug).lib` so that the linker can find
+   `libjpeg8c-static-mtdll.pdb` and
+   `libjpeg8c-static-mtdll-debug.pdb`.
 
    To test your build of `libtiff`, :cmd:`cd` to the
    `BuildFolder\\tiff-3.9.4\\tools` directory, then execute the
@@ -402,7 +467,7 @@ so it seems best to get the latest version (currently 3.9.4).
 
    .. parsed-literal::
 
-      tiffinfo.exe ..\\..\\leptonlib-|version|\\prog\\feyn.tif
+      tiffinfo.exe ..\\..\\leptonica-|version|\\prog\\feyn.tif
 
    You should see the following output::
 
@@ -424,7 +489,7 @@ Building `giflib`
 =================
 
 #. I supply a Visual Studio 2008 Solution for `giflib` in
-   `leptonlib-`\ |versionF|\ `\\vs2008\\giflib4.1.6.zip`. Extract it to
+   `leptonica-`\ |versionF|\ `\\vs2008\\giflib4.1.6.zip`. Extract it to
    `BuildFolder\\giflib-4.1.6\\windows`.
 
 #. `giflib` requires `stdint.h` Before building it you’ll need to
@@ -462,11 +527,11 @@ Building `giflib`
    `BuildFolder\\giflib-4.1.6\\windows\\giflib\\Release` or
    `BuildFolder\\giflib-4.1.6\\windows\\giflib\\Debug`. Copy them to
    `BuildFolder\\lib`. To avoid confusion (and to match what the
-   `leptonlib.vcproj` settings say), rename them following the ClanLib
+   `leptonica.vcproj` settings say), rename them following the ClanLib
    naming conventions.  So they should be::
 
-      giflib-static-mtdll.lib or 
-      giflib-static-mtdll-debug.lib
+      giflib416-static-mtdll.lib or 
+      giflib416-static-mtdll-debug.lib
 
 #. Copy `giflib-4.1.6\\lib\\gif_lib.h` to `BuildFolder\\include`.
 
@@ -489,15 +554,15 @@ Building `giflib`
       Gif file terminated normally.
 
 
-Re-adding `GIF` support to |leptonlib|
+Re-adding `GIF` support to |liblept|
 ======================================
 
 The `include\\leptonica\\environ.h` that is part of the pre-built binary
 package already has GIF support enabled. However, if you are building
-from the official distribution of |leptonlib| you have to turn on
+from the official distribution of |liblept| you have to turn on
 `giflib` support yourself.
 
-#. Edit `leptonlib-`\ |versionF|\ `\\src\\environ.h`. Change::
+#. Edit `leptonica-`\ |versionF|\ `\\src\\environ.h`. Change::
 
       #define  HAVE_LIBGIF      0
 
@@ -505,7 +570,7 @@ from the official distribution of |leptonlib| you have to turn on
 
       #define  HAVE_LIBGIF      1
 
-#. Copy the changed `leptonlib-`\ |versionF|\ `\\src\\environ.h` to
+#. Copy the changed `leptonica-`\ |versionF|\ `\\src\\environ.h` to
    `BuildFolder\\include\\leptonica`.
 
 
@@ -514,25 +579,26 @@ from the official distribution of |leptonlib| you have to turn on
 Statically linking with `giflib`
 ================================
 
-Any applications that statically link with either
-`leptonlib-static-mtdll.lib` or `leptonlib-static-mtdll-debug.lib` will
+Any applications that statically link with either `liblept`\ |vnumF|\
+`-static-mtdll.lib` or `liblept`\ |vnumF|\ `-static-mtdll-debug.lib` will
 also have to be linked with `giflib` now. This is already done with the
 supplied `ioformats_reg` project but we'll demonstrate the process
 anyway by building a :guilabel:`LIB Debug` version of `gifio_reg` to
 make sure the library was built correctly.
 
 #. See :ref:`using-create-prog-project-addin` to create a Visual Studio
-   2008 Project for `leptonlib-`\ |versionF|\ `\\prog\\gifio_reg.c`.
+   2008 Project for `leptonica-`\ |versionF|\ `\\prog\\gifio_reg.c`.
 
 #. In Solution Explorer right-click :guilabel:`gifio_reg`, then choose
    :menuselection:`P&roperties` from the context menu.
 
 #. Set :guilabel:`&Configuration:` to :guilabel:`LIB Debug`.
 
-#. Add `giflib-static-mtdll-debug.lib` to :guilabel:`Configuration
-   Properties | Linker | Input | Additional Dependencies`. (You would
-   add `giflib-static-mtdll.lib` if you were building :guilabel:`LIB
-   Release`)
+#. Add `giflib$(GIFLIB_VERSION)-static-mtdll-debug.lib` to
+   :guilabel:`Configuration Properties | Linker | Input | Additional
+   Dependencies`. (You would add
+   `giflib$(GIFLIB_VERSION)-static-mtdll.lib` if you were building
+   :guilabel:`LIB Release`)
 
 #. Right-click :guilabel:`gifio_reg` and choose :menuselection:`Set as
    St&artup Project`.
@@ -575,11 +641,11 @@ make sure the library was built correctly.
    :alt: gifio_reg IrFanview Thumbnail window output
 
 
-Build |leptonlib|
+Build |liblept|
 =================
 
-Since header files may have changed, build |leptonlib| by following
-these :ref:`instructions <building-leptonlib>`.
+Since header files may have changed, build |liblept| by following
+these :ref:`instructions <building-liblept>`.
 
 At this point you should build and create `ioformats_reg` by following
 the instructions for either the :ref:`command

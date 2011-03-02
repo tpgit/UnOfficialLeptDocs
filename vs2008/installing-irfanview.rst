@@ -1,4 +1,4 @@
-:version: $RCSfile: installing-irfanview.rst,v $ $Revision: 9edcdd8f1ac9 $ $Date: 2010/03/30 15:49:08 $
+:version: $RCSfile: installing-irfanview.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
 
 .. default-role:: fs
 
@@ -6,14 +6,14 @@
  Installing IrfanView to view images
 =====================================
 
-The ``pixDisplay()`` function is used throughout |leptonlib| to display
+The ``pixDisplay()`` function is used throughout |liblept| to display
 images for debugging purposes. Under Windows this uses the free
 `IrfanView <http://www.irfanview.com/>`_ image viewer application. We
 have to assume the presence of IrfanView because many Leptonica routines
 don't use file extensions when naming files. Since Windows depends on
 the file extension to determine a file's type (unlike Linux), it is
 unable to automatically determine what application to use when opening
-extensionless files. In addition, unlike other Windows image viewers
+extension-less files. In addition, unlike other Windows image viewers
 (for example, `ACDSee's Photo Manager
 <http://store.acdsee.com/store/acd/en_US/DisplayProductDetailsPage/productID.106
 893200>`_), IrfanView will correctly display an image file even if it

@@ -1,5 +1,5 @@
 
-:version: $RCSfile: overview.rst,v $ $Revision: 0191b0f4799d $ $Date: 2010/11/11 12:02:43 $
+:version: $RCSfile: overview.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
 
 .. default-role:: fs
 
@@ -9,26 +9,31 @@
  Overview
 ==========
 
-|leptonlib| is a library of image processing routines written in C. This
+|liblept| is a library of image processing routines written in C. This
 document discusses :doc:`linking <building-other-programs>` with
 :doc:`pre-built Windows 32-bit binaries <downloading-binaries>` to
 create working executables with Microsoft's Visual Studio 2008. A brief
 section on using :doc:`Visual Studio 2010 <vs2010-notes>` is also
 included.
 
-|leptonlib| can process a number of image file types. The supplied
+|liblept| can process a number of image file types. The supplied
 static and dynamic libraries support the JPEG, PNG, TIFF, and GIF file
 formats.
 
-Also :ref:`available <microsoft-visual-studio-download>` is a
-:doc:`Visual Studio 2008 solution <vs2008-solution>` that lets you build
-the :doc:`library <building-leptonlib>` and the :doc:`executables
+Also `available
+<http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#microsoft-visual-studio-2008>`_
+is a :doc:`Visual Studio 2008 solution <vs2008-solution>` that lets you
+build the :doc:`library <building-liblept>` and the :doc:`executables
 <building-prog-dir>` in the Leptonica `/prog` directory. It contains a
 complete hierarchy of all the `/prog` directory programs listed by type,
 category, and filename to make browsing the many files easier.
 
 Detailed :doc:`instructions <building-image-libraries>` are given on
 rebuilding the supplied image libraries.
+
+See :doc:`versions` for important information about each new
+release.
+
 
 ..
    Local Variables:

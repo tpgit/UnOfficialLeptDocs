@@ -2,7 +2,7 @@
  <table class="centered docutils sorted table-autosort:1 table-autofilter
                table-stripeclass:alternate table-secondary:0
                table-filtered-rowcount:t1filtercount table-rowcount:t1allcount"
-               id="srcs-1.67">
+               id="srcs-1.68">
   <thead>
    <tr>
     <th class="table-sortable:ignorecase title="Click to sort">Filename</th>
@@ -10,11 +10,11 @@
     <th>Description</th>
    </tr>
    <tr>
-    <th title="Enter text to match"><input name="filter" size="10" onkeyup="Table.filter(this,this)"></input></th>    <th class="table-filterable"></th>
-    <th title="Enter text to match"><input name="filter" size="30" onkeyup="Table.filter(this,this)"></input></th>   </tr>
+    <th title="Enter regular expression to match"><input name="filter" size="10" onkeyup="Table.filter(this,this)"></input></th>    <th class="table-filterable"></th>
+    <th title="Enter regular expression to match"><input name="filter" size="30" onkeyup="Table.filter(this,this)"></input></th>   </tr>
 
    <tr>
-    <th colspan="3"><span id="t1filtercount">177</span>&nbsp;of <span id="t1allcount">177</span>&nbsp;rows match filter(s)</th>
+    <th colspan="3"><span id="t1filtercount">183</span>&nbsp;of <span id="t1allcount">183</span>&nbsp;rows match filter(s)</th>
    </tr>
   </thead>
   <tbody>
@@ -189,6 +189,11 @@
     <td>Implements PixColormap; colormap conversions, serialization, transforms</td>
    </tr>
    <tr>
+    <td>colorspace.c</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Colorspace conversions between RGB, HSV, and YUV</td>
+   </tr>
+   <tr>
     <td>paintcmap.c</td>
     <td>Colormap Utilities and Related Operations</td>
     <td>Paint onto colormap images - regions, masks</td>
@@ -237,6 +242,11 @@
     <td>leptwin.c</td>
     <td>Formatted I/O</td>
     <td>Leptonica routines needed only on Microsoft Windows</td>
+   </tr>
+   <tr>
+    <td>pdfio.c</td>
+    <td>Formatted I/O</td>
+    <td>Read/write pdf format from/to file and memory</td>
    </tr>
    <tr>
     <td>pngio.c</td>
@@ -299,6 +309,11 @@
     <td>Read/write jpeg format from/to file and memory</td>
    </tr>
    <tr>
+    <td>pdfiostub.c</td>
+    <td>Formatted I/O Stub Functions</td>
+    <td>Read/write pdf format from/to file and memory</td>
+   </tr>
+   <tr>
     <td>pngiostub.c</td>
     <td>Formatted I/O Stub Functions</td>
     <td>Read/write png format from/to file and memory</td>
@@ -327,6 +342,11 @@
     <td>webpiostub.c</td>
     <td>Formatted I/O Stub Functions</td>
     <td>Read/write webp format from/to file</td>
+   </tr>
+   <tr>
+    <td>bytearray.c</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Functions for handling byte arrays, in analogy with C++ 'strings'</td>
    </tr>
    <tr>
     <td>heap.c</td>
@@ -372,6 +392,11 @@
     <td>ptra.c</td>
     <td>Fundamental Data Structures for Computation</td>
     <td>Implements 1d and 2d arrays of generic pointers (Ptra, Ptraa)</td>
+   </tr>
+   <tr>
+    <td>quadtree.c</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Quadtree creation and statistics.</td>
    </tr>
    <tr>
     <td>queue.c</td>
@@ -717,6 +742,11 @@
     <td>endiantest.c</td>
     <td>Miscellaneous Utilities</td>
     <td>When used with the gnu compiler, it allows efficient computation of the endian flag as part of the normal compilation process.</td>
+   </tr>
+   <tr>
+    <td>libversions.c</td>
+    <td>Miscellaneous Utilities</td>
+    <td>Returns string with image library versions.</td>
    </tr>
    <tr>
     <td>parseprotos.c</td>

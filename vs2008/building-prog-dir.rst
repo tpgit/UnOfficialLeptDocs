@@ -1,4 +1,4 @@
-:version: $RCSfile: building-prog-dir.rst,v $ $Revision: 58b19a418dd0 $ $Date: 2010/11/12 13:34:38 $
+:version: $RCSfile: building-prog-dir.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
 
 .. default-role:: fs
 
@@ -6,7 +6,7 @@
  Building the `prog` directory programs
 ========================================
 
-There are three ways to build the programs in the `leptonlib-`\
+There are three ways to build the programs in the `leptonica-`\
 |versionF|\ `\\prog directory`. The quickest way is to use the :cmd:`cl`
 command from a Windows Command Prompt. However, if you plan to spend a
 lot of time investigating how a particular `prog` program works, it's
@@ -18,10 +18,10 @@ excellent program to run if you want to be sure the main image libraries
 were built correctly (it doesn't test `giflib`, see :ref:`this section
 <testing-giflib>` to test that).
 
-Remember to :ref:`make a \\tmp directory <create-tmp-directory>`. The
-`leptonlib-`\ |versionF|\ `\\prog\\ioformats_reg` test will have
-multiple false failures if the `\\tmp` directory doesn't exist.
-
+|Leptonica| will write temporary files to your temp directory. This is
+normally `C:\\Documents and Settings\\<username>\\Local Settings\\Temp`
+but can be changed by setting the ``TEMP`` and ``TMP`` environment
+variables.
 
 .. _building-prog-programs-commandline:
 
@@ -37,15 +37,21 @@ files, make subdirectories for Debug and Release builds:
 
 .. parsed-literal::
 
-   cd BuildFolder\\leptonlib-|version|\\prog
+   cd BuildFolder\\leptonica-|version|\\prog
    md Debug
    md Release
-   cd BuildFolder\\leptonlib-|version|\\prog\\Debug
+   cd BuildFolder\\leptonica-|version|\\prog\\Debug
 
 Then copy and paste the following :cmd:`cl` command to build a Debug
 version of `ioformats_reg.exe`::
-   
-   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D "snprintf=_snprintf" /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
+
+   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept168-static-mtdll-debug.lib
+
+If you've decided to make simplified library filenames by using NTFS
+hardlinks as described in :ref:`about-version-numbers`, you can
+using the following command instead::
+
+   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlibd.lib libpngd.lib libjpeg8cd.lib libtiff394d.lib giflib416d.lib libleptd-static.lib
 
 To try it out do the following::
 
@@ -64,28 +70,35 @@ for more information)::
 
 For Debug builds set the following compiler options::
 
-   SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE /D "snprintf=_snprintf" /D _CRT_SECURE_NO_WARNINGS
+   SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
 
 For Release builds set the following compiler options::
 
-   SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE /D "snprintf=_snprintf" /D _CRT_SECURE_NO_WARNINGS
+   SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
 
-For static Debug builds set the following linker options::
+For static Debug builds set the following linker options:
 
-   SET LINK=zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
+.. parsed-literal::
 
-For static Release builds set the following linker options::
+   SET LINK=zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept\ |vnum|\ -static-mtdll-debug.lib
 
-   SET LINK=zlib-static-mtdll.lib libpng-static-mtdll.lib
-   libjpeg-static-mtdll.lib libtiff-static-mtdll.lib giflib-static-mtdll.lib leptonlib-static-mtdll.lib`
+For static Release builds set the following linker options:
 
-For dynamic Debug builds set the following linker options::
+.. parsed-literal::
 
-   SET LINK=leptonlibd.lib
+   SET LINK=zlib125-static-mtdll.lib libpng143-static-mtdll.lib libjpeg8c-static-mtdll.lib libtiff394-static-mtdll.lib giflib416-static-mtdll.lib liblept\ |vnum|\ -static-mtdll.lib`
 
-For dynamic Release builds set the following linker options::
+For dynamic Debug builds set the following linker options:
 
-   SET LINK=leptonlib.lib
+.. parsed-literal::
+
+   SET LINK=liblept\ |vnum|\ d.lib
+
+For dynamic Release builds set the following linker options:
+
+.. parsed-literal::
+
+   SET LINK=liblept\ |vnum|\ .lib
 
 Then all you have to do to build `ioformats_reg.exe` is::
 
@@ -97,7 +110,7 @@ from the command line. See `How to: Debug an Executable Not Part of a
 Visual Studio Solution
 <http://msdn.microsoft.com/en-us/library/0bxe8ytt.aspx>`_ for more
 information. Once you've imported `ioformats_reg.exe` into the
-|leptonlib| solution by creating an EXE project for it, you can
+|liblept| solution by creating an EXE project for it, you can
 right-click `ioformats_reg.exe` and the choose :menuselection:`Debu&g
 --> &Start new instance` or :menuselection:`Debu&g --> Step &Into new
 instance` from the context menu. You can even set breakpoints in
@@ -109,7 +122,7 @@ instance` from the context menu. You can even set breakpoints in
 Building `prog` programs using Visual Studio 2008
 =================================================
 
-For anything other than just quickly trying out a `leptonlib-`\
+For anything other than just quickly trying out a `leptonica-`\
 |versionF|\ `\\prog` program, you should create a Visual Studio 2008
 project for it.
 
@@ -145,12 +158,13 @@ projects (you only have to do this once):
 
       PATH=..\..\lib;%PATH%
 
-   so that Visual Studio knows where to find `leptonlibd.dll` when
-   debugging applications that link with the DLL version of |leptonlib|.
+   so that Visual Studio knows where to find `liblept`\ |vnumF|\ `d.dll`
+   when debugging applications that link with the DLL version of
+   |liblept|.
 
 #. Click :guilabel:`OK`.
 
-#. Exit and restart Visual Studio (or close and reopen the |leptonlib|
+#. Exit and restart Visual Studio (or close and reopen the |liblept|
    solution).
 
 .. _using-create-prog-project-addin:
@@ -167,7 +181,7 @@ Studio 2008 you have to install it:
 
 #. Restart Visual Studio 2008.
 
-To create a Visual Studio Project for a program in the `leptonlib-`\
+To create a Visual Studio Project for a program in the `leptonica-`\
 |versionF|\ `\\prog\\` directory:
 
 #. Select a file (or files) within the :guilabel:`prog_files` Solution
@@ -187,7 +201,7 @@ To create a Visual Studio Project for a program in the `leptonlib-`\
       :alt: Newly created project
 
    The popup context menu will only contain the :menuselection:`Create
-   &Project for Leptonica Prog program` choice for `leptonlib.sln` and
+   &Project for Leptonica Prog program` choice for `leptonica.sln` and
    only for items within the :guilabel:`prog_files` Solution Folder.
 
    .. _set-startup-project:
@@ -246,13 +260,13 @@ The manual method for creating `prog` program projects
 ------------------------------------------------------
 
 If for some reason my Addin doesn't work or you decide not to use it,
-you can always create projects for `leptonlib-`\ |versionF|\ `\\prog`
+you can always create projects for `leptonica-`\ |versionF|\ `\\prog`
 programs manually by following the steps outlined here.
 
-1. Make a copy of the `BuildFolder\\leptonlib-`\ |versionF|\
+1. Make a copy of the `BuildFolder\\leptonica-`\ |versionF|\
    `\\vs2008\\prog_projects\\ioformats_reg` directory.
 
-#. Rename that directory to the name of the `leptonlib-`\ |versionF|\
+#. Rename that directory to the name of the `leptonica-`\ |versionF|\
    `\\prog` program you are trying to run (in the following it will be
    shown as `<progname>`). The renamed copy of `ioformats_reg` must be
    in the same folder as the original since the project uses relative

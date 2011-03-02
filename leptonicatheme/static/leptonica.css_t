@@ -3,7 +3,7 @@
 /* leptonica custom styles */
 
 div.body {
-  font-family: Georgia, serif;
+  font-family: 'Droid Serif', Georgia, serif;
   background-color: #FFFFE4;
 }
 
@@ -20,10 +20,20 @@ div.bodywrapper {
 }
 
 div.footer {
-  padding: 0;
+  padding: 10px, 0, 0, 0;
+}
+
+div.body h1, 
+div.body h2, 
+div.body h3, 
+div.body h4, 
+div.body h5, 
+div.body h6 {
+  font-family: 'Droid Sans', sans-serif;
 }
 
 pre {
+  font-family: 'Droid Sans Mono', monospace;
   white-space: pre-wrap;
 }
 
@@ -38,24 +48,33 @@ sup
   margin-bottom: 1.5em;
 }
 
-p.creativecommons {
+.creativecommons {
   float: left;
   text-align: left;
   width: 35em;
   padding-bottom: 5px;
 }
 
-p.creativecommons img {
+.creativecommons img {
   float: left;
   padding-left: 10px;
   padding-right: 5px;
+  vertical-align: middle;
 }
 
-p.sphinxcredit {
+.sphinxcredit {
+  text-align: center;
+}
+
+.sphinxcreditr {
   float: right;
-  text-align: right;
-  width: 15em;
   padding-right: 10px;
+}
+
+.mathjaxcredit img {
+  float: right;
+  padding-right: 10px;
+  vertical-align: middle;
 }
 
 /* Comment out stuff that's only useful when using section numbering
@@ -171,7 +190,7 @@ div.admonition.tip {
 
 div.container.subtitle {
   font-size: 160%;
-  font-family: sans-serif;
+  font-family: 'Droid Sans', sans-serif;
   font-weight: normal;
   margin-bottom: 0.5em;
 }
@@ -264,7 +283,7 @@ table caption {
 /* custom text roles */
 
 .filesystem {
-  font-family: monospace;
+  font-family: 'Droid Sans Mono', monospace;
   /*font-size: 125%;*/ /* this breaks IE8 wrapping calculations in sidebar? */
 }
 
@@ -295,7 +314,7 @@ img.border {
 .program,
 .regexp
 {
-  font-family: monospace;
+  font-family: 'Droid Sans Mono', monospace;
 }
 */
 
@@ -304,11 +323,10 @@ img.border {
 .program,
 .regexp
 {
-  font-family: monospace;
+  font-family: 'Droid Sans Mono', monospace;
   white-space: pre-wrap;
   background-color: #ecf0f3;
   padding: 0 1px 0 1px;
-  font-size: 0.95em;
 }
 
 
@@ -320,18 +338,18 @@ img.border {
 }
 
 .command {
-  font-family: monospace;
+  font-family: 'Droid Sans Mono', monospace;
   white-space: pre-wrap;
 }
 
 em.guilabel {
-  font-family: sans-serif;
+  font-family: 'Droid Sans', sans-serif;
   font-style: normal;
   font-weight: bold;
 }
 
 em.menuselection {
-  font-family: sans-serif;
+  font-family: 'Droid Sans', sans-serif;
   font-style: italic;
   font-weight: bold;
 }
@@ -346,8 +364,11 @@ em.std-term {
   font-style: italic;
 }
 
+tt {
+  font-family: 'Droid Sans Mono', monospace;
+}
+
 tt.file {
-  font-family: monospace;
   white-space: pre-wrap;
 }
 

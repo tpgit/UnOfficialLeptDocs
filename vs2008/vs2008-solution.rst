@@ -1,19 +1,19 @@
-:version: $RCSfile: vs2008-solution.rst,v $ $Revision: 26bd0c5c4b08 $ $Date: 2010/08/14 01:12:28 $
+:version: $RCSfile: vs2008-solution.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
 
 .. default-role:: fs
 
 =============================================
- The |leptonlib| Visual Studio 2008 Solution
+ The |liblept| Visual Studio 2008 Solution
 =============================================
 
-.. image:: images/leptonlib-solution-explorer.png
+.. image:: images/liblept-solution-explorer.png
    :align: center
-   :alt: Screenshot of Leptonlib Solution Explorer pane
+   :alt: Screenshot of Liblept Solution Explorer pane
 
 The Visual Studio 2008 Solution Explorer shows these three main
-sections for the |leptonlib| solution:
+sections for the |liblept| solution:
 
-1. :guilabel:`leptonlib-`\ |versionG| is the main project for building
+1. :guilabel:`liblept`\ |vnumG| is the main project for building
    the library.
 
 #. The `prog_projects` Solution Folder contains a sample project for
@@ -23,7 +23,7 @@ sections for the |leptonlib| solution:
    directory.
 
 #. The `prog_files` Solution Folder contains entries for all the `.c`
-   files in the `leptonlib-`\ |versionF|\ `\\prog` folder further broken
+   files in the `leptonica-`\ |versionF|\ `\\prog` folder further broken
    down by filename, type, and category. These are :bi:`not` Visual
    C/C++ projects.  You can't use this Solution Folder to build the
    `prog` programs. It just gives you an easy way to look at the files.
@@ -35,13 +35,14 @@ sections for the |leptonlib| solution:
    :guilabel:`(unavailable)`.
 
 
-`leptonlib.sln` Solution Explorer contents
+`leptonica.sln` Solution Explorer contents
 ==========================================
 
 .. parsed-literal::
     
-   leptonlib-|version|\\            Main project for building leptonlib
+   liblept\ |vnum|\\            Main project for building liblept
     Header files\\
+    Resource Files\\
     Source files\\
    prog_files\\                Solution Folder (NOT projects) for prog directory contents
     ByFilename\\
@@ -78,19 +79,19 @@ sections for the |leptonlib| solution:
     ioformats_reg\\
      Source Files
 
-`BuildFolder\\leptonlib-`\ |versionF| contents
+`BuildFolder\\leptonica-`\ |versionF| contents
 ==============================================
 
 ::
     
    config\                    Not used for Windows builds
    prog\                      Regression tests, examples, utilities
-   src\                       Source files for leptonlib  
+   src\                       Source files for liblept  
    vs2008\                    Visual Studio 2008 specific files
-    DLL Debug\                 leptonlib DLL Debug build output
-    DLL Release\               leptonlib DLL Release build output
-    LIB Debug\                 leptonlib LIB Debug build output
-    LIB Release\               leptonlib LIB Release build output
+    DLL Debug\                 liblept DLL Debug build output
+    DLL Release\               liblept DLL Release build output
+    LIB Debug\                 liblept LIB Debug build output
+    LIB Release\               liblept LIB Release build output
     prog_projects\             Projects for prog programs
      ioformats_reg\             Sample project for prog\ioformats_reg.exe
       DLL Debug\                 DLL Debug build output for sample project
@@ -98,14 +99,14 @@ sections for the |leptonlib| solution:
       LIB Debug\                 LIB Debug build output for sample project
       LIB Release\               LIB Release build output for sample project
       ioformats_reg.vcproj       The ioformats_reg project file
-    leptonlib.sln              The leptonlib solution file
-    leptonlib.vcproj           The leptonlib project file
+    leptonica.sln              The Leptonica solution file
+    leptonica.vcproj           The Leptonica project file
 
 Visual Studio 2008 Tab settings
 ===============================
 
-The |leptonlib| source files assume that tabs are 8 spaces, indents are
-4 spaces wide, and that indentation uses spaces and tabs. To set this in
+The |liblept| source files assume that tabs are 8 spaces, indents are 4
+spaces wide, and that indentation uses just spaces. To set this in
 Visual Studio 2008 choose :menuselection:`&Tools --> &Options`
 :guilabel:`| Text Editor | C/C++ | Tabs` and set as follows:
 

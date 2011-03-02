@@ -1,4 +1,4 @@
-:version: $RCSfile: package-contents.rst,v $ $Revision: 68e004f7b3cf $ $Date: 2010/08/09 20:10:34 $
+:version: $RCSfile: package-contents.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
 
 .. default-role:: fs
 
@@ -8,20 +8,35 @@
 
 This package consists of the following files:
 
-`leptonlib.sln`
-   |leptonlib| Visual Studio 2008 Solution.
+`leptonica.sln`
+   |liblept| Visual Studio 2008 Solution. See :doc:`vs2008-solution` for
+   more information.
 
-`leptonlib.vcproj`
-   |leptonlib| Visual Studio 2008 Project.
+`leptonica.vcproj`
+   |liblept| Visual Studio 2008 Project.
+
+`leptonica_versionnumbers.vsprops`
+   Visual Studio Property Sheet that contains ``*_VERSION`` user macros
+   that simplify specifying possibly changing library filenames to the
+   linker. See :ref:`about-version-numbers` for more information.
+
+`liblept.rc`
+   Version resource file (used to display the :guilabel:`Version` tab on
+   the `liblept`\ |vnumF|\ `.dll` Properties dialog).
+
+`resource.h`
+   Header file for `liblept.rc`. 
 
 `prog_projects\\`
-   `ioformats_reg` Visual Studio 2008 Project.
+   `ioformats_reg` Visual Studio 2008 Project. See
+   :doc:`building-prog-dir` for more information.
 
 `doc\\`
-   Documentation for using |leptonlib| and Visual Studio 2008.
+   Documentation for using |liblept| and Visual Studio 2008.
 
 `CreateLeptonicaProgProjects.AddIn`
-   Visual Studio 2008 AddIn definition file.
+   Visual Studio 2008 AddIn definition file. See
+   :ref:`using-create-prog-project-addin` for more information.
 
 `CreateLeptonicaProgProjects.zip`
    Source for the Create Leptonica `prog\\` Projects AddIn.
@@ -30,7 +45,8 @@ This package consists of the following files:
    The Create Leptonica `prog\\` Projects AddIn.
 
 `LeptonicaVS2008Samples.zip`
-   Examples showing how to call leptonlib from c#.
+   Examples showing how to call liblept from c#. See
+   :doc:`csharp-and-liblept` for more information.
 
 `checkprogs.py`
    Python script that checks for new or removed `prog\\` programs using
@@ -40,7 +56,7 @@ This package consists of the following files:
    Python script that:
 
    + checks for new or removed `src\\` files.
-   + makes sure that all `src\\` files are in `leptonlib.vcprog`.
+   + makes sure that all `src\\` files are in `liblept.vcproj`.
 
 `progs.csv`
    Categorized list of programs in the `prog\\` folder.
@@ -48,16 +64,25 @@ This package consists of the following files:
 `srcs.csv`
    Categorized list of files in the `src\\` folder.
 
-`jpeg-8b-vs2008.zip`
-   jpeg-8b Visual Studio 2008 Solution and Project file.
+`jpeg-8c-vs2008.zip`
+   jpeg-8b Visual Studio 2008 Solution and Project file. See
+   :ref:`building-libjpeg` for more information.
 
-`libtiff3.9.2-vs2008-makefiles-for-leptonica.zip`
-   libtiff3.9.2 makefiles modified for use with |leptonlib|.
+`libtiff3.9.4-vs2008-makefiles-for-leptonica.zip`
+   libtiff3.9.2 makefiles modified for use with |liblept|.  See
+   :ref:`building-libtiff` for more information.
 
 `giflib4.1.6.zip`
-   giblib-4.1.6 Visual Studio 2008 Solution and Project file.
+   giblib-4.1.6 Visual Studio 2008 Solution and Project file.  See
+   :ref:`building-giflib` for more information.
 
+`create_unnumbered_hardlinks.bat`
+   Batch file to create simplified library filenames using NTFS
+   hardlinks.  See :ref:`about-version-numbers` for more information.
 
+`remove_unnumbered_hardlinks.bat`
+   Batch file to remove simplified library filenames created by
+   `create_unnumbered_hardlinks.bat`
 
 ..
    Local Variables:

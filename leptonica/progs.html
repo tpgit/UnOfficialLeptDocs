@@ -2,7 +2,7 @@
  <table class="centered docutils sorted table-autosort:1 table-autofilter
                table-stripeclass:alternate table-secondary:0
                table-filtered-rowcount:t1filtercount table-rowcount:t1allcount"
-               id="progs-1.67">
+               id="progs-1.68">
   <thead>
    <tr>
     <th class="table-sortable:ignorecase title="Click to sort">Filename</th>
@@ -13,14 +13,14 @@
     <th>Needs Input File</th>
    </tr>
    <tr>
-    <th title="Enter text to match"><input name="filter" size="10" onkeyup="Table.filter(this,this)"></input></th>    <th class="table-filterable"></th>
+    <th title="Enter regular expression to match"><input name="filter" size="10" onkeyup="Table.filter(this,this)"></input></th>    <th class="table-filterable"></th>
     <th class="table-filterable"></th>
-    <th title="Enter text to match"><input name="filter" size="30" onkeyup="Table.filter(this,this)"></input></th>    <th></th>
+    <th title="Enter regular expression to match"><input name="filter" size="30" onkeyup="Table.filter(this,this)"></input></th>    <th></th>
     <th></th>
    </tr>
 
    <tr>
-    <th colspan="6"><span id="t1filtercount">199</span>&nbsp;of <span id="t1allcount">199</span>&nbsp;rows match filter(s)</th>
+    <th colspan="6"><span id="t1filtercount">205</span>&nbsp;of <span id="t1allcount">205</span>&nbsp;rows match filter(s)</th>
    </tr>
   </thead>
   <tbody>
@@ -762,6 +762,14 @@ pageseg4.tif</td>
     <td></td>
    </tr>
    <tr>
+    <td>colormask_reg.c</td>
+    <td>Regression Test</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Tests the ability to identify regions in HSV color space by analyzing the HS histogram and building masks that cover peaks in HS.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
     <td>colorquant_reg.c</td>
     <td>Regression Test</td>
     <td>Image Quantization/Depth Conversion</td>
@@ -1143,6 +1151,14 @@ pageseg4.tif</td>
     <td></td>
    </tr>
    <tr>
+    <td>pngio_reg.c</td>
+    <td>Regression Test</td>
+    <td>Formatted I/O</td>
+    <td>Tests reading and writing of images in PNG format for various depths, with and without colormaps.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
     <td>projection_reg.c</td>
     <td>Regression Test</td>
     <td>Fundamental Data Structures for Computation</td>
@@ -1239,14 +1255,6 @@ pageseg4.tif</td>
     <td>Regression Test</td>
     <td>Basic Image Operations</td>
     <td>Tests in-place operation using the general 2-image pixRasterop(). The in-place operation works because there is no overlap between the src and dest rectangles.</td>
-    <td></td>
-    <td></td>
-   </tr>
-   <tr>
-    <td>rotate_reg.c</td>
-    <td>Regression Test</td>
-    <td>Other Geometric Image Transformations</td>
-    <td>Regression test for rotation by shear and area mapping. Displays many images to the screen.</td>
     <td></td>
     <td></td>
    </tr>
@@ -1371,6 +1379,14 @@ pageseg4.tif</td>
     <td></td>
    </tr>
    <tr>
+    <td>translate_reg.c</td>
+    <td>Regression Test</td>
+    <td>Basic Image Operations</td>
+    <td>Regression test for in-place translation.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
     <td>warper_reg.c</td>
     <td>Regression Test</td>
     <td>Specialized Document Image Processing</td>
@@ -1391,6 +1407,14 @@ pageseg4.tif</td>
     <td>Regression Test</td>
     <td>Basic Box, Boxa and Boxaa Functions</td>
     <td>Tests ordered box transforms (rotation, scaling, translation). Also tests the various box hashing graphics operations.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>byteatest.c</td>
+    <td>Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Tests bytearray.c routines.</td>
     <td></td>
     <td></td>
    </tr>
@@ -1427,6 +1451,22 @@ pageseg4.tif</td>
     <td>Yes</td>
    </tr>
    <tr>
+    <td>pdfiotest.c</td>
+    <td>Test</td>
+    <td>Formatted I/O</td>
+    <td>Tests PDF file I/O.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td>quadtreetest.c</td>
+    <td>Test</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Tests quadtree statistical functions.</td>
+    <td></td>
+    <td></td>
+   </tr>
+   <tr>
     <td>ranktest.c</td>
     <td>Test</td>
     <td>Basic Image Operations</td>
@@ -1441,6 +1481,14 @@ pageseg4.tif</td>
     <td>Tests sudoku solver.</td>
     <td></td>
     <td>Yes</td>
+   </tr>
+   <tr>
+    <td>yuvtest.c</td>
+    <td>Test</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Tests the YUV to RGB conversion.</td>
+    <td></td>
+    <td></td>
    </tr>
    <tr>
     <td>comparetest.c</td>

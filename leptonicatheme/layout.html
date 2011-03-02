@@ -3,19 +3,19 @@
 
 {%- block extrahead %}
 {{ super() }}
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="{{ pathto("_static/sort-filter-table-compact.js", 1) }}"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
+   {% if 'usesmathjax' in meta  %}
+   <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js" type="text/javascript">
     MathJax.Hub.Config({
       extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
       jax: ["input/TeX", "output/HTML-CSS"]
     })
-  </script>
+   </script>
+   {% endif %}
 
 {% endblock %}
 
@@ -50,7 +50,7 @@
       {% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}.{% endtrans %}
     {%- endif %}
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="{{ pathto("_static/creativecommons-88x31.png", 1) }}"
 	   border="0" alt="Creative Commons License"/>
@@ -63,11 +63,26 @@
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   {% if 'usesmathjax' in meta  %}
+   <span class="sphinxcredit">
+   {% trans sphinx_version=sphinx_version|e %}Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
+   </span>
 
-   <p class="sphinxcredit">{% trans sphinx_version=sphinx_version|e %}Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
-   </p>
+   <span class="mathjaxcredit">
+    <a href="http://www.mathjax.org/">
+     <img title="Powered by MathJax"
+          src="http://www.mathjax.org/badge.gif"
+          border="0" alt="Powered by MathJax" />
+    </a>
+   </span>
+   {% else %}
+   <span class="sphinxcreditr">
+   {% trans sphinx_version=sphinx_version|e %}Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
+   </span>
+   {% endif %}
+
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

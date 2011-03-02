@@ -1,4 +1,6 @@
-:version: $RCSfile: affine.rst,v $ $Revision: f1256d0ba63d $ $Date: 2010/08/28 08:54:39 $
+:version: $RCSfile: affine.rst,v $ $Revision: 94330ae6447b $ $Date: 2011/02/07 06:22:19 $
+
+:usesmathjax: true
 
 .. default-role:: math
 

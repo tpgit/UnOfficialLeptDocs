@@ -1,4 +1,4 @@
-:version: $RCSfile: source-downloads.rst,v $ $Revision: 0631ab298a88 $ $Date: 2010/11/11 15:38:02 $
+:version: $RCSfile: source-downloads.rst,v $ $Revision: b360d13fb35f $ $Date: 2011/02/07 21:57:53 $
 
 .. default-role:: fs
 
@@ -25,7 +25,7 @@
          <cachedpages/grooks/grooks.html>`
 
 
-.. _leptonica-download:
+.. _http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#leptonica:
 
 Leptonica
 =========
@@ -47,7 +47,7 @@ Version: 1.65 (4/7/10)
 Version: 1.64 (1/3/10)
    :sourceurl:`leptonlib-1.64.tar.gz`
 
-.. _microsoft-visual-studio-download:
+.. _http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#microsoft-visual-studio-2008:
 
 Microsoft Visual Studio 2008
 ==============================================
@@ -55,7 +55,7 @@ Microsoft Visual Studio 2008
 This is Tom Powers' Windows developer package, including scripts and
 project files for building the library and executables that link
 standard file I/O libraries. See his :ref:`developer package notes
-<building-leptonlib>` for where to unzip this file.
+<building-liblept>` for where to unzip this file.
 
 Current version: vs2008-1.67 (11/9/10)
    :sourceurl:`vs2008-1.67.zip`
@@ -69,7 +69,7 @@ Version vs2008-1.65 (4/7/10)
 Version vs2008-1.64 (1/5/10)
    :sourceurl:`vs2008-1.64.zip`
 
-.. _windows-pre-built-binaries:
+.. _http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#windows-pre-built-binaries:
 
 This is Tom Powers' zip file that contains the entire `lib` and
 `include` directories needed to build Windows-based programs using

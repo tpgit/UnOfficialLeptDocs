@@ -1,20 +1,37 @@
-:version: $RCSfile: building-leptonlib.rst,v $ $Revision: 0191b0f4799d $ $Date: 2010/11/11 12:02:43 $
+:version: $RCSfile: building-liblept.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
 
 .. default-role:: fs
 
-.. _building-leptonlib:
+.. _building-liblept:
 
-=============================================
- (Optional) Building the |leptonlib| library
-=============================================
+===========================================
+ (Optional) Building the |liblept| library
+===========================================
 
 Assuming that you've :doc:`downloaded <downloading-binaries>` or
 :doc:`built <building-image-libraries>` the requisite image libraries,
-building |leptonlib| itself is straightforward since a Visual Studio
+building |liblept| itself is straightforward since a Visual Studio
 solution file is provided.
 
-1. Download the latest version of leptonica from :ref:`here
-   <leptonica-download>`. Extract the archive to the |BuildFolder|
+1. Download the latest version of |Leptonica| from `here
+   <http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#leptonica>`__. Extract
+   the archive to the |BuildFolder| directory. You should now have:
+
+   .. parsed-literal::
+
+      BuildFolder\\
+        giflib-4.1.6\\
+        include\\
+        jpeg-8c\\
+        leptonica-|version|\\
+        lib\\
+        libtiff-3.9.4\\
+        lpng143\\
+        zlib\\
+
+#. Download the Microsoft Visual Studio 2008 build package from `here
+   <http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#microsoft-visual-studio-2008>`__. Extract
+   the archive to the `BuildFolder\\leptonica-`\ |versionF|
    directory. You should now have:
 
    .. parsed-literal::
@@ -22,26 +39,13 @@ solution file is provided.
       BuildFolder\\
         giflib-4.1.6\\
         include\\
-        jpeg-8b\\
-        leptonlib-|version|\\
+        jpeg-8c\\
+        leptonica-|version|\\
+          vs2008\\
         lib\\
         libtiff-3.9.4\\
         lpng143\\
         zlib\\
-
-#. Download the Microsoft Visual Studio 2008 build package from
-   :ref:`here <microsoft-visual-studio-download>`. Extract the archive
-   to the `BuildFolder\\leptonlib-`\ |versionF| directory. You should
-   now have:
-
-   .. parsed-literal::
-
-      BuildFolder\\
-        include\\
-        leptonlib-|version|\\
-          vs2008\\
-        lib\\
-        tiff-3.9.4\\
 
 #. `leptprotos.h` has the wrong declaration for
    ``setPixMemoryManager()`` under Windows. Change it from::
@@ -52,10 +56,10 @@ solution file is provided.
 
       LEPT_DLL extern void setPixMemoryManager (void *((*allocator)(size_t)), void ((*deallocator)(void *)) );
 
-#. Copy all the `.h` header files from `leptonlib-`\ |versionF|\ `\\src`
+#. Copy all the `.h` header files from `leptonica-`\ |versionF|\ `\\src`
    to `BuildFolder\\include\\leptonica`.
 
-#. Open `BuildFolder\\leptonlib-`\ |versionF|\ `\\vs2008\\leptonlib.sln` with Visual
+#. Open `BuildFolder\\leptonica-`\ |versionF|\ `\\vs2008\\leptonica.sln` with Visual
    Studio 2008.
 
 #. Select the desired build configuration (either :guilabel:`LIB Debug`,
@@ -66,7 +70,7 @@ solution file is provided.
 
       /Od /I "..\..\include"
       /D "WIN32" /D "_DEBUG" /D "_LIB" /D "L_LITTLE_ENDIAN"
-      /D "snprintf=_snprintf" /D "XMD_H"
+      /D "XMD_H"
       /FD /EHsc /RTC1 /MDd /Fo"LIB Debug\\" /Fd"LIB Debug\vc90.pdb"
       /W3 /nologo /c /Z7 /errorReport:prompt
 
@@ -74,7 +78,7 @@ solution file is provided.
 
       /O2 /I "..\..\include"
       /D "WIN32" /D "NDEBUG" /D "_LIB" /D "L_LITTLE_ENDIAN"
-      /D "snprintf=_snprintf" /D "XMD_H" /D "NO_CONSOLE_IO"
+      /D "XMD_H" /D "NO_CONSOLE_IO"
       /FD /EHsc /MD /Fo"LIB Release\\" /Fd"LIB Release\vc90.pdb"
       /W3 /nologo /c /errorReport:prompt
 
@@ -82,8 +86,8 @@ solution file is provided.
 
        /Od /I "..\..\include"
        /D "WIN32" /D "_DEBUG" /D "_USRDLL" /D "_WINDLL" 
-       /D "LEPTONLIB_EXPORTS" /D "L_LITTLE_ENDIAN"
-       /D "snprintf=_snprintf" /D "XMD_H"
+       /D "LIBLEPT_EXPORTS" /D "L_LITTLE_ENDIAN"
+       /D "XMD_H"
        /FD /EHsc /RTC1 /MDd /Fo"DLL Debug\\" /Fd"DLL Debug\vc90.pdb"
        /W3 /nologo /c /Z7 /errorReport:prompt
 
@@ -91,8 +95,8 @@ solution file is provided.
 
        /O2 /I "..\..\include"
        /D "WIN32" /D "NDEBUG" /D "_USRDLL" /D "_WINDLL"
-       /D "LEPTONLIB_EXPORTS" /D "L_LITTLE_ENDIAN"
-       /D "snprintf=_snprintf" /D "XMD_H" /D "NO_CONSOLE_IO"
+       /D "LIBLEPT_EXPORTS" /D "L_LITTLE_ENDIAN"
+       /D "XMD_H" /D "NO_CONSOLE_IO"
        /FD /EHsc /MD /Fo"DLL Release\\" /Fd"DLL Release\vc90.pdb"
        /W3 /nologo /c /errorReport:prompt
 
@@ -101,7 +105,13 @@ solution file is provided.
 
       /wd4244 /wd4305 /wd4018 /wd4267 /wd4996
 
-#. Right-click :guilabel:`leptonlib-`\ |versionG| in the Solution Explorer and
+   :guilabel:`DLL` releases set the following linker options:
+
+      .. parsed-literal::
+
+         /VERSION:|version|
+
+#. Right-click :guilabel:`liblept`\ |vnumG| in the Solution Explorer and
    Choose :menuselection:`B&uild` or :menuselection:`R&ebuild` from the
    context menu (Choosing :menuselection:`&Build --> &Build Solution`
    (:kbd:`F6`) or :menuselection:`&Build --> &Rebuild Solution` from the
@@ -111,14 +121,14 @@ solution file is provided.
 
    The libraries are named as follows:
 
-   +----------------+-----------------------------------+----------------------------------+
-   |                |           Debug Builds            |         Release Builds           |
-   +================+===================================+==================================+
-   | Static library | leptonlib-static-mtdll-debug.lib  | leptonlib-static-mtdll.lib       |
-   +----------------+-----------------------------------+----------------------------------+
-   | DLL            | | leptonlibd.lib (import library) | | leptonlib.lib (import library) |
-   |                | | leptonlibd.dll                  | | leptonlib.dll                  |
-   +----------------+-----------------------------------+----------------------------------+
+   +----------------+------------------------------------+-----------------------------------+
+   |                |            Debug Builds            |          Release Builds           |
+   +================+====================================+===================================+
+   | Static library | liblept168-static-mtdll-debug.lib  |    liblept168-static-mtdll.lib    |
+   +----------------+------------------------------------+-----------------------------------+
+   | DLL            | | liblept168d.lib (import library) | | liblept168.lib (import library) |
+   |                | | liblept168d.dll                  | | liblept168.dll                  |
+   +----------------+------------------------------------+-----------------------------------+
 
 ..
    Local Variables:
