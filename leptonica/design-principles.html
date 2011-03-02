@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Some Issues in Software Design &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Some Issues in Software Design &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
     <link rel="next" title="Selected Papers on Image Processing and Image Analysis" href="recent-pubs.html" />
     <link rel="prev" title="What is “Well-Tested” C Code?" href="testing-methods.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -57,7 +50,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
@@ -657,8 +650,8 @@ problem. K and P have a three page appendix that is a collection of
 rules, starting with a quotation by Descartes from his <em>Le Discours de
 la Méthode</em>, which reads,</p>
 <blockquote>
-Each truth that I discovered became a rule that served me afterwards
-in the discovery of others.</blockquote>
+<div>Each truth that I discovered became a rule that served me afterwards
+in the discovery of others.</div></blockquote>
 <p>In engineering, a set of rules would suffice. But programming is not
 sufficiently constrained by any known set of rules. For the &#8220;practice&#8221;
 or &#8220;art&#8221; of programming, you also have to decide when to use the rules.</p>
@@ -803,7 +796,7 @@ it</em>. (Again, if you find you need to both add and remove structures from
 the end of an array, you should use a stack or a queue.) Here&#8217;s the rule
 for accessing a structure without removing it:</p>
 <blockquote>
-<p>When you access something within an array using a &#8220;get&#8221; accessor, you
+<div><p>When you access something within an array using a &#8220;get&#8221; accessor, you
 have the choice of receiving a handle to the original structure (this
 is a <em>clone</em>, where the internal reference count has been incremented
 by 1) or a new copy of the original structure. You must use an
@@ -823,7 +816,7 @@ within an array you have two obligations:</p>
 <li><p class="first">To destroy any copies or clones of that structure that you make.</p>
 </li>
 </ol>
-</blockquote>
+</div></blockquote>
 <p>It all comes down to <em>ownership</em>: the entity that is responsible for
 destroying the object. To set up the safest programming environment
 within the limitations of C, we do not allow access to a structure in an
@@ -878,12 +871,12 @@ add the damn parentheses</em>.</p>
 <div class="section" id="anecdotes-on-managing-complexity-in-programming">
 <h2><a class="toc-backref" href="#id8">Anecdotes on managing complexity in programming</a><a class="headerlink" href="#anecdotes-on-managing-complexity-in-programming" title="Permalink to this headline">¶</a></h2>
 <blockquote class="epigraph">
-<div class="line-block">
+<div><div class="line-block">
 <div class="line"><em>Mathematicians stand on each other&#8217;s shoulders,</em></div>
 <div class="line"><em>While computer scientists stand on each other&#8217;s toes,</em></div>
 <div class="line"><em>And computer engineers dig each other&#8217;s graves.</em></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p>If you are going to write large programs, you must handle the complexity
 that comes from interactions between different parts, and, in
 particular, the pervasive influence of the &#8220;interfaces,&#8221; both through
@@ -1055,8 +1048,8 @@ believe this is achievable (or nearly so) using the object paradigm in
 <strong>Leptonica</strong>.</p>
 <p>Perlis&#8217;s ninth epigram is as follows:</p>
 <blockquote>
-It is better to have 100 functions operate on one data structure
-than 10 functions on 10 data structures.</blockquote>
+<div>It is better to have 100 functions operate on one data structure
+than 10 functions on 10 data structures.</div></blockquote>
 <p>One way to view this is to consider functions as verbs and data
 structures as nouns. If you have many nouns, you must worry about the
 results when they are acted on by each of the verbs, and you must insure
@@ -1202,6 +1195,7 @@ mistakes, and to figure out how and where to tune things.</p>
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
@@ -1269,14 +1263,14 @@ mistakes, and to figure out how and where to tune things.</p>
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -1289,11 +1283,14 @@ mistakes, and to figure out how and where to tune things.</p>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

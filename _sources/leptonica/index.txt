@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: 693361f85272 $ $Date: 2010/08/23 15:08:52 $
+:version: $RCSfile: index.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
 
 ========================================
  The Leptonica Image Processing Library
@@ -11,6 +11,7 @@
    source-downloads
    library-overview
    library-notes
+   functions
    src-dir
    prog-dir
    operations

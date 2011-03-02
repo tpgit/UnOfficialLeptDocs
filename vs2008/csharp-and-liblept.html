@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installing gnuplot to view plots &mdash; Leptonica Documentation v1.68 documentation</title>
+    <title>c# and liblept &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="Leptonica &amp; Visual Studio 2008" href="index.html" />
-    <link rel="next" title="c# and liblept" href="csharp-and-liblept.html" />
-    <link rel="prev" title="Installing IrfanView to view images" href="installing-irfanview.html" />
+    <link rel="next" title="(Optional) Building zlib, libjpeg, libpng, libtiff and giflib" href="building-image-libraries.html" />
+    <link rel="prev" title="Installing gnuplot to view plots" href="installing-gnuplot.html" />
  
     <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
@@ -43,10 +43,10 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="csharp-and-liblept.html" title="c# and liblept"
+          <a href="building-image-libraries.html" title="(Optional) Building zlib, libjpeg, libpng, libtiff and giflib"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="installing-irfanview.html" title="Installing IrfanView to view images"
+          <a href="installing-gnuplot.html" title="Installing gnuplot to view plots"
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
@@ -61,24 +61,50 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="installing-gnuplot-to-view-plots">
-<h1>Installing gnuplot to view plots<a class="headerlink" href="#installing-gnuplot-to-view-plots" title="Permalink to this headline">¶</a></h1>
-<p>Leptonica uses <a class="reference external" href="http://www.gnuplot.info/">gnuplot</a> to display
-plots. Download the standard gnuplot Windows version (<em class="bold-italic">not</em> the
-Windows X11 version unless you know what you are doing). Besides
-installing gnuplot you have to set the following environment variables:</p>
-<ol class="arabic">
-<li><p class="first">Add <span class="filesystem">c:\gnuplot\bin</span> to your system&#8217;s <tt class="docutils literal"><span class="pre">PATH</span></tt>.</p>
-</li>
-<li><p class="first">Create a new environment variable called <tt class="docutils literal"><span class="pre">GDFONTPATH</span></tt> and set it to
-<span class="filesystem">c:/windows/fonts</span></p>
-</li>
-<li><p class="first">Create a new environment variable called <tt class="docutils literal"><span class="pre">GNUPLOT_FONTPATH</span></tt> and
-also set it to <span class="filesystem">c:/windows/fonts</span></p>
-</li>
-</ol>
-<p>After showing a plot, the calling program will pause until both the
-plot window and gnuplot window are closed.</p>
+  <div class="section" id="c-and-liblept">
+<h1>c# and <span class="filesystem">liblept</span><a class="headerlink" href="#c-and-liblept" title="Permalink to this headline">¶</a></h1>
+<p><span class="filesystem">vs2008\LeptonicaVS2008Samples.zip</span> contains a sample Visual Studio
+Solution which shows how simple it is to call <span class="filesystem">liblept</span> functions from
+c# (or any other .NET language). Unpack it to <span class="filesystem">BuildFolder</span>. You should
+have:</p>
+<pre class="literal-block">
+BuildFolder\
+  include\
+  leptonica-1.68\
+  LeptonicaVS2008Samples\
+    deskew1bpp\
+    LeptonicaCLR\
+    TestLeptonica\
+    LeptonicaVS2008Samples.sln
+  lib\
+</pre>
+<p><span class="command">deskew1bpp</span> is a standard C++ Win32 Console program, using
+precompiled headers, C++ strings, Unicode support, and ATL macros to
+convert Unicode to null-terminated C strings. In other words, it&#8217;s a
+typical Visual C++ style program. <span class="command">deskew1bpp</span> demonstrates the
+problems with directly rotating 1bpp images. It shows how first
+converting a b&amp;w image to gray, block convolving, rotating using area
+mapping, and then thresholding back to b&amp;w yields better results.</p>
+<p><span class="filesystem">LeptonicaCLR</span> contains the same basic functionality as
+<span class="command">deskew1bpp</span> but written in C++/CLI. In fact two of the routines,
+<tt class="docutils literal"><span class="pre">renderCC()</span></tt> and <tt class="docutils literal"><span class="pre">binImageDiff()</span></tt>, are copied verbatim from
+<span class="filesystem">deskew1bpp.cpp</span> showing how easy it is to port C/C++ to C++/CLI. The
+resultant DLL is a bridge between the native <span class="filesystem">liblept</span> library and the
+.NET Common Language Runtime (CLR). It calls native code while at the
+same time exposing functions to c#. The main difference from a normal
+DLL is that <span class="filesystem">LeptonicaCLR.cpp</span> is compiled with the <tt class="docutils literal"><span class="pre">/clr</span></tt> switch.</p>
+<p><span class="command">TestLeptonica</span> is a c# program that has a Reference to the
+<span class="filesystem">LeptonicaCLR</span> DLL to demonstrate calling <span class="filesystem">liblept</span> functions from
+c#. It does a bit of argument checking and then calls
+<tt class="docutils literal"><span class="pre">LeptonicaCLR.Utils.DeskewBinaryImage()</span></tt> to actually deskew a b&amp;w
+image. If you want to be able to step into <span class="filesystem">liblept</span> functions while
+debugging c#, just right-click the <em class="guilabel">TestLeptonica</em> project and
+choose <em class="menuselection">P<span class="accelerator">r</span>operties</em>. Then make sure <em class="guilabel">Debug |
+Enable unmanaged code debugging</em> is checked.</p>
+<p>You&#8217;ll notice that the <span class="filesystem">liblept</span> project is also included in this
+Solution. As explained <a class="reference internal" href="building-other-programs.html#intellisense-and-liblept"><em>above</em></a>, that&#8217;s
+to allow Visual Studio&#8217;s Intellisense to correctly navigate to
+<span class="filesystem">liblept</span> function definitions.</p>
 </div>
 
 
@@ -107,8 +133,8 @@ plot window and gnuplot window are closed.</p>
 <li class="toctree-l2"><a class="reference internal" href="building-prog-dir.html">Building the <span class="filesystem">prog</span> directory programs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Installing gnuplot to view plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csharp-and-liblept.html">c# and <span class="filesystem">liblept</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">c# and <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-liblept.html">(Optional) Building the <span class="filesystem">liblept</span> library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
@@ -122,7 +148,7 @@ plot window and gnuplot window are closed.</p>
 
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/vs2008/installing-gnuplot.txt"
+    <li><a href="../_sources/vs2008/csharp-and-liblept.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -146,10 +172,10 @@ plot window and gnuplot window are closed.</p>
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="csharp-and-liblept.html" title="c# and liblept"
+          <a href="building-image-libraries.html" title="(Optional) Building zlib, libjpeg, libpng, libtiff and giflib"
              >next</a></li>
         <li class="right" >
-          <a href="installing-irfanview.html" title="Installing IrfanView to view images"
+          <a href="installing-gnuplot.html" title="Installing gnuplot to view plots"
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   

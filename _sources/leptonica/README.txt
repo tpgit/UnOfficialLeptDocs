@@ -1,14 +1,14 @@
-:version: $RCSfile: README.rst,v $ $Revision: 0631ab298a88 $ $Date: 2010/11/11 15:38:02 $
+:version: $RCSfile: README.rst,v $ $Revision: 37d6fa039681 $ $Date: 2011/03/02 17:31:30 $
 
 .. default-role:: fs
 
-.. _`README`:
+.. _README:
 
 ========
  README
 ========
 
-:date: Nov 9, 2010
+:date: Mar 3, 2011
 
 .. contents::
    :local:
@@ -32,8 +32,8 @@
 
 .. parsed-literal::
 
-   gunzip leptonlib-|version|.tar.gz
-   tar -xvf leptonlib-|version|.tar
+   gunzip leptonica-|version|.tar.gz
+   tar -xvf leptonica-|version|.tar
 
 Building |Leptonica|
 ====================
@@ -44,10 +44,10 @@ Overview
 This tar includes:
 
 + :doc:`src <src-dir>`: library source and function prototypes for
-    building `liblept`
+  building `liblept`
 
 + :doc:`prog <prog-dir>`: source for regression test, usage example
-    programs, and sample images
+  programs, and sample images
 
 for building on these platforms:
 
@@ -64,11 +64,13 @@ Libraries, executables and prototypes are easily made, as described
 below.
 
 When you extract from the archive, all files are put in a subdirectory
-`leptonlib-`\ |versionF|. In that directory you will find a `src/`
+`leptonica-`\ |versionF|. In that directory you will find a `src/`
 directory containing the source files for the library, and a `prog/`
 directory containing source files for various testing and example
 programs.
 
+
+.. _building-on-linux:
 
 Building on Linux/Unix/MacOS
 ----------------------------
@@ -100,7 +102,10 @@ There are two ways to build the library:
       make
       make install
 
+
 In more detail:
+
+.. _building-using-static-makefiles:
 
 1. Customization using the static makefiles:
 
@@ -129,8 +134,6 @@ In more detail:
        into a tree whose root is also the parent of the `src` and `prog`
        directories.  This can be changed using the ``ROOT_DIR`` variable
        in `makefile`.
-
-     + Compiling in windows under cygwin [through ``CFLAGS`` in ``$CC``]
 
    + Build the library:
 
@@ -180,7 +183,9 @@ In more detail:
    files in the `prog` directory, and also gives a short description for
    each file.
 
-#. Building using autoconf  (Thanks to James Le Curiot)
+.. _building-using-autoconf:
+
+2. Building using :cmd:`autoconf`  (Thanks to James Le Cuirot)
 
    Use the standard incantation, in the root directory (the
    directory with `configure`)::
@@ -190,6 +195,24 @@ In more detail:
                       versions of all the progs]
       make install   [as root; this puts liblept.a into /usr/local/lib/
                       and all the progs into /usr/local/bin/ ]
+
+   Configure also supports building in a separate directory from the
+   source.  Run :cmd:`/(path-to)/leptonica-`\ |versionC|\
+   :cmd:`/configure` and then :cmd:`make` from the desired build
+   directory.
+
+   Configure has a number of useful options; run :cmd:`configure --help`
+   for details.  If you're not planning to modify the library, adding
+   the :cmd:`--disable-dependency-tracking` option will speed up the
+   build.  By default, both static and shared versions of the library
+   are built.  Add the :cmd:`--disable-shared` or :cmd:`--disable-static`
+   option if one or the other isn't needed.
+
+   By default, the library is built with debugging symbols.  If you do
+   not want these, use :cmd:`CFLAGS=-O2 ./configure` to eliminate
+   symbols for subsequent compilations, or :cmd:`make CFLAGS=-O2` to
+   override for this compilation only.
+
 
 #. Cross-compiling for windows
 
@@ -209,7 +232,7 @@ Building on Windows
       </vs2008/index>`
 
       :ref:`Microsoft Visual Studio 2008 Solution and Project Files
-      <microsoft-visual-studio-download>`
+      <http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#microsoft-visual-studio-2008>`
 
    He has also supplied a zip file that contains the entire `lib` and
    `include` directories needed to build Windows-based programs using
@@ -217,35 +240,49 @@ Building on Windows
    static library versions of `zlib`, `libpng`, `libjpeg`, `libtiff`,
    and `giflib`).
 
-      :sourceurl:`leptonica-1.67-win32-lib-include-dirs.zip`
+      :sourceurl:`leptonica-1.68-win32-lib-include-dirs.zip`
 
-#. Building with a static makefile via `MinGW
-   <http://www.mingw.org/>`_ (cross-compilation)
+#. Building with a static makefile via `MinGW <http://www.mingw.org/>`_
+   (Thanks to David Bryan)
 
-   You can build a windows-compatible version of `liblebt` from
-   linux.  Use `makefile.mingw` and see the usage notes at the top of
-   that file.  You can then build executables in `prog`; see the
-   notes in `prog/makefile.mingw`.
+   MSYS is a Unix-compatible build environment for the mingw compiler.
+   Installing the "MinGW Compiler Suite C Compiler" and the "MSYS Basic
+   System" will allow building the library with :cmd:`autoconf` as
+   :ref:`above <building-using-autoconf>`.  It will also allow building
+   with the static makefile as :ref:`above
+   <building-using-static-makefiles>` if this option is added to the
+   :cmd:`make` command::
 
-#. Building with a static makefile via `Cygwin <http://cygwin.com/>`_
+      CC="gcc -D_BSD_SOURCE -DANSI"
 
-   A default download of Cygwin, with full 'install' of the devel
-   (for gnu :cmd:`make`, :cmd:`gcc`, etc) and graphics (for
-   `libjpeg`, `libtiff`, `libpng`, `libz`) groups provides enough
-   libraries and programs to compile `liblebt` `src` and make the
-   `.exe` execuables in the `prog` directory.
+   Only the static library may be built this way; the :ref:`autoconf
+   method <building-using-autoconf>` must be used if a shared (DLL)
+   library is desired.
 
-   Make the following changes to the `src/makefile`:
+   :ref:`External image libraries <io-libraries>` must be downloaded
+   separately, built, and installed before building the library.
+   Pre-built libraries are available from the GnuWin project.
 
-   a. use the ``$CC`` with ``_CYGWIN_ENVIRON``
+#. Building for `Cygwin <http://cygwin.com/>`_ (Thanks to David Bryan)
 
-   #. for program development, where you want to automatically
-      extract protos with `xtractprotos`, add `.exe` appropriately
+   Cygwin is a Unix-compatible build and runtime environment.
+   Installing the "Base", "Devel", and "Graphics" packages will allow
+   building the library with autoconf as :ref:`above
+   <building-using-autoconf>`.  If the graphics libraries are not
+   present in the `/lib`, `/usr/lib`, or `/usr/local/lib` directories,
+   you must run :cmd:`make` with the ``LDFLAGS=-L/(path-to-image)/lib``
+   option.  It will also allow building with the static makefile as
+   :ref:`above <building-using-static-makefiles>` if this option is
+   added to the make command::
 
-   Make the following changes to the `prog/makefile`:
+     CC="gcc -ansi -D_BSD_SOURCE -DANSI"
 
-      remove ``-fPIC`` from ``$CC``
+   Only the static library may be built this way; the :ref:`autoconf
+   <building-using-autoconf>` method must be used if a shared (DLL)
+   library is desired.
 
+
+.. _io-libraries:
 
 I/O libraries |Leptonica| is dependent on
 =========================================
@@ -278,7 +315,7 @@ The default is to link to these four libraries::
 
    libjpeg.a  (standard jfif jpeg library, version 6b or 7 or 8))
    libtiff.a  (standard Leffler tiff library, version 3.7.4 or later;
-   libpng.a   (standard png library, suggest version 1.2.8 or later)
+   libpng.a   (standard png library, suggest version 1.4.0 or later)
    libz.a     (standard gzip library, suggest version 1.2.3)
                current non-beta version is 3.8.2)
 
@@ -318,6 +355,9 @@ To link these libraries, see `prog/makefile` for instructions on
 selecting or altering the ``ALL_LIBS`` variable.  It would be nice to
 have this done automatically.
 
+See :ref:`Image I/O <supported-image-file-formats>` for more details on
+supported image I/O formats.
+
 
 Developing with |Leptonica|
 ===========================
@@ -325,6 +365,32 @@ Developing with |Leptonica|
 You are encouraged to use the static makefiles if you are developing
 applications using |Leptonica|.  The following instructions assume that
 you are using the static makefiles and customizing `environ.h`.
+
+
+Simplicity
+----------
+
+For virtually any program you write, you only need::
+
+   #include "allheaders.h"
+
+to include all the function prototypes and struct definitions for the
+leptonica library!
+
+It is this simple to write a program using |Leptonica|:
+
+.. code-block:: c
+
+   #include "allheaders.h"
+   int main(int argc, char **argv) {
+       PIX *pixs, *pixd;
+       pixs = pixRead("example.png");
+       pixd = pixScale(pixs, 0.35, 0.35);  /* downscale by 0.35 */
+       pixWrite("downscaled-example.png", pixd, IFF_PNG);
+       pixDestroy(&pixs);
+       pixDestroy(&pixd);
+       return 0;
+   }
 
 
 `leptprotos.h`
@@ -485,6 +551,12 @@ allocator/deallocator in `pixalloc.c`.
 
 What's in |Leptonica|?
 ======================
+
+There is a sortable and searchable categorized list of all the functions
+available in |Leptonica| at :doc:`functions` (Warning: this page may
+take a long time to load). There are also summaries of the files in the
+:doc:`src <src-dir>` and :doc:`prog <prog-dir>` directories with short
+descriptions of each file.
 
 Rasterops
 ---------
@@ -787,12 +859,12 @@ Here's a summary of compression support and limitations:
 + `PNG`, `JPEG`, `TIFF` and `GIF` support image compression; `PNM`
   and `BMP` do not.
 
-+ `WEBP` supports 24 bpp rgb color.
++ `WEBP` supports **only** 24 bpp rgb color.
 
 Use `prog/ioformats_reg` for a regression test on all but `GIF` and
 `WEBP`.  Use `prog/gifio_reg` for testing `GIF`.
 
-We also provide wrappers for `PS` output, from all types of input
+We provide wrappers for `PS` output, from all types of input
 images.  The output can be either uncompressed or compressed with
 level 2 (ccittg4 or dct) or level 3 (flate) encoding.  You have
 flexibility for scaling and placing of images, and for printing at
@@ -809,6 +881,19 @@ different applications.  As examples of usage, see:
 
 + `prog/convertsegfilestops.c` to generate a multipage, mixed
   raster, level 2 compressed `PS` file.
+
+We provide wrappers for PDF output, again from all types of input
+images.  You can do the following for PDF:
+
++ Put any number of images onto a page, with specified input resolution,
+  location and compression.
+
++ Write a mixed raster PDF, given an input image and a segmentation
+  mask.  Non-image regions are written in G4 (fax) encoding.
+
++ Concatenate single-page PDF wrapped images into a single PDF file.
+
++ Build a PDF file of all images in a directory or array of file names.
 
 .. note:: Any or all of these I/O library calls can be stubbed out at
           compile time, using the environment variables in
@@ -888,10 +973,10 @@ Simple data structures are provided for safe and efficient handling of
 arrays of numbers, strings, pointers, and bytes.  The generic pointer
 array is implemented in four ways: as a stack, a queue, a heap (used to
 implement a priority queue), and an array with insertion and deletion,
-from which the stack operations form a subset.  The byte array is
-implemented as a queue.  The string arrays are particularly useful for
-both parsing and composing text.  Generic lists with doubly-linked cons
-cells are also provided.
+from which the stack operations form a subset.  Byte arrays are
+implemented both as a wrapper around the actual array and as a queue.
+The string arrays are particularly useful for both parsing and composing
+text.  Generic lists with doubly-linked cons cells are also provided.
 
 
 Examples of programs that are easily built using the library
@@ -979,10 +1064,10 @@ Versions
 New versions of the |Leptonica| library are released approximately 6
 times a year, and version numbers are provided for each release in the
 `makefile` and in `allheaders.h`.  Version numbers are also available
-programatically via the functions ``getLeptonlibVersion()`` and
-``getImagelibVersions()`` (in `utils.c`). All even versions from 1.42 to
-1.60 are archived at http://code.google.com/p/leptonica, as well as all
-versions after 1.60.
+programatically via the functions ``getLeptonicaVersion()`` (in
+`utils.c`) and ``getImagelibVersions()`` (in `libversions.c`). All even
+versions from 1.42 to 1.60 are archived at
+http://code.google.com/p/leptonica, as well as all versions after 1.60.
 
 A brief version chronology is maintained in :doc:`version-notes`.
 Starting with gcc 4.3.3, error warnings (``-Werror``) are given for

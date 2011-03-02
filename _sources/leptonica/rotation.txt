@@ -1,4 +1,4 @@
-:version: $RCSfile: rotation.rst,v $ $Revision: efffb0e4678e $ $Date: 2010/11/09 16:11:51 $
+:version: $RCSfile: rotation.rst,v $ $Revision: 6c095cf844e8 $ $Date: 2010/11/11 18:09:46 $
 
 .. default-role:: fs
 

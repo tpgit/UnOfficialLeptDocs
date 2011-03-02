@@ -1,4 +1,4 @@
-:version: $RCSfile: local-sources.rst,v $ $Revision: 0631ab298a88 $ $Date: 2010/11/11 15:38:02 $
+:version: $RCSfile: local-sources.rst,v $ $Revision: 37d6fa039681 $ $Date: 2011/03/02 17:31:30 $
 
 =============================
  Source Code and Information
@@ -35,10 +35,12 @@ of arrays (of strings, numbers, number pairs and image-related
 geometrical objects), byte queues, generic stacks, generic lists, and
 endian-independent indexing into 32-bit arrays.
 
-There are summaries of the files in the :doc:`src <src-dir>` and
-:doc:`prog <prog-dir>` directories with short descriptions of each file.
-You can use these to quickly get an idea of where you may find a needed
-function or see how to use it.
+There is a sortable and searchable categorized list of all the functions
+available in |Leptonica| at :doc:`functions` (Warning: this page may
+take a long time to load). There are also summaries of the files in the
+:doc:`src <src-dir>` and :doc:`prog <prog-dir>` directories with short
+descriptions of each file.  You can use these to quickly get an idea of
+where you may find a needed function or see how to use it.
 
 See :ref:`image-processing-operations` and
 :ref:`image-processing-applications` for more detailed information that
@@ -56,7 +58,7 @@ Be sure to download the :ref:`README` as well.
 If you are building the library and applications on Windows, read the
 :ref:`developer notes <vs2008-notes>` by Tom Powers and download his
 Microsoft Visual Studio package from :ref:`here
-<microsoft-visual-studio-download>`. [**--new: Jan 5, 2010**]
+<http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#microsoft-visual-studio-2008>`. [**--new: Jan 5, 2010**]
 
 You may also find these pages useful:
 

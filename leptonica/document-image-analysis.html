@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Document Image Analysis &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Document Image Analysis &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="Image Processing Applications" href="applications.html" />
     <link rel="next" title="Jbig2 Classifier" href="jbig2.html" />
     <link rel="prev" title="Border Representations of Connected Components" href="border-rep.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -57,7 +50,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
           <li><a href="applications.html" accesskey="U">Image Processing Applications</a> &raquo;</li> 
@@ -161,7 +154,7 @@ dark point at 30 and the white point at 180.</p>
 <p>The most simple way to build these programs and generate the figures
 is as follows:</p>
 <ul>
-<li><p class="first">Get the source code from <a class="reference internal" href="source-downloads.html#leptonica-download"><em>here</em></a>.</p>
+<li><p class="first">Get the source code from <a class="reference internal" href="source-downloads.html#http-tpgit-github-com-unofficialleptdocs-leptonica-source-downloads-html-leptonica"><em>here</em></a>.</p>
 </li>
 <li><p class="first">In the <span class="filesystem">src</span> directory, type <span class="command">make</span> to build the <strong>Leptonica</strong>
 library.</p>
@@ -201,6 +194,7 @@ documentation that starts <a class="reference internal" href="index.html"><em>he
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
@@ -263,7 +257,7 @@ documentation that starts <a class="reference internal" href="index.html"><em>he
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
           <li><a href="applications.html" >Image Processing Applications</a> &raquo;</li> 
@@ -271,7 +265,7 @@ documentation that starts <a class="reference internal" href="index.html"><em>he
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -284,11 +278,14 @@ documentation that starts <a class="reference internal" href="index.html"><em>he
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

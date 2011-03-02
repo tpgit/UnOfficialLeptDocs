@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Package Contents &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Package Contents &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="Leptonica &amp; Visual Studio 2008" href="index.html" />
     <link rel="next" title="Version Notes" href="versions.html" />
     <link rel="prev" title="Visual Studio 2010 Notes" href="vs2010-notes.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -57,7 +50,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
       </ul>
@@ -72,22 +65,35 @@
 <h1>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this headline">¶</a></h1>
 <p>This package consists of the following files:</p>
 <dl class="docutils">
-<dt><span class="filesystem">leptonlib.sln</span></dt>
-<dd><span class="filesystem">leptonlib</span> Visual Studio 2008 Solution.</dd>
-<dt><span class="filesystem">leptonlib.vcproj</span></dt>
-<dd><span class="filesystem">leptonlib</span> Visual Studio 2008 Project.</dd>
+<dt><span class="filesystem">leptonica.sln</span></dt>
+<dd><span class="filesystem">liblept</span> Visual Studio 2008 Solution. See <a class="reference internal" href="vs2008-solution.html"><em>The liblept Visual Studio 2008 Solution</em></a> for
+more information.</dd>
+<dt><span class="filesystem">leptonica.vcproj</span></dt>
+<dd><span class="filesystem">liblept</span> Visual Studio 2008 Project.</dd>
+<dt><span class="filesystem">leptonica_versionnumbers.vsprops</span></dt>
+<dd>Visual Studio Property Sheet that contains <tt class="docutils literal"><span class="pre">*_VERSION</span></tt> user macros
+that simplify specifying possibly changing library filenames to the
+linker. See <a class="reference internal" href="downloading-binaries.html#about-version-numbers"><em>About version numbers in library filenames</em></a> for more information.</dd>
+<dt><span class="filesystem">liblept.rc</span></dt>
+<dd>Version resource file (used to display the <em class="guilabel">Version</em> tab on
+the <span class="filesystem">liblept</span><span class="filesystem">168</span><span class="filesystem">.dll</span> Properties dialog).</dd>
+<dt><span class="filesystem">resource.h</span></dt>
+<dd>Header file for <span class="filesystem">liblept.rc</span>.</dd>
 <dt><span class="filesystem">prog_projects\</span></dt>
-<dd><span class="filesystem">ioformats_reg</span> Visual Studio 2008 Project.</dd>
+<dd><span class="filesystem">ioformats_reg</span> Visual Studio 2008 Project. See
+<a class="reference internal" href="building-prog-dir.html"><em>Building the prog directory programs</em></a> for more information.</dd>
 <dt><span class="filesystem">doc\</span></dt>
-<dd>Documentation for using <span class="filesystem">leptonlib</span> and Visual Studio 2008.</dd>
+<dd>Documentation for using <span class="filesystem">liblept</span> and Visual Studio 2008.</dd>
 <dt><span class="filesystem">CreateLeptonicaProgProjects.AddIn</span></dt>
-<dd>Visual Studio 2008 AddIn definition file.</dd>
+<dd>Visual Studio 2008 AddIn definition file. See
+<a class="reference internal" href="building-prog-dir.html#using-create-prog-project-addin"><em>Using the Create Leptonica prog Project AddIn</em></a> for more information.</dd>
 <dt><span class="filesystem">CreateLeptonicaProgProjects.zip</span></dt>
 <dd>Source for the Create Leptonica <span class="filesystem">prog\</span> Projects AddIn.</dd>
 <dt><span class="filesystem">CreateLPP.dll</span></dt>
 <dd>The Create Leptonica <span class="filesystem">prog\</span> Projects AddIn.</dd>
 <dt><span class="filesystem">LeptonicaVS2008Samples.zip</span></dt>
-<dd>Examples showing how to call leptonlib from c#.</dd>
+<dd>Examples showing how to call liblept from c#. See
+<a class="reference internal" href="csharp-and-liblept.html"><em>c# and liblept</em></a> for more information.</dd>
 <dt><span class="filesystem">checkprogs.py</span></dt>
 <dd>Python script that checks for new or removed <span class="filesystem">prog\</span> programs using
 <span class="filesystem">progs.csv</span>.</dd>
@@ -96,7 +102,7 @@
 <ul class="last">
 <li><p class="first">checks for new or removed <span class="filesystem">src\</span> files.</p>
 </li>
-<li><p class="first">makes sure that all <span class="filesystem">src\</span> files are in <span class="filesystem">leptonlib.vcprog</span>.</p>
+<li><p class="first">makes sure that all <span class="filesystem">src\</span> files are in <span class="filesystem">liblept.vcproj</span>.</p>
 </li>
 </ul>
 </dd>
@@ -104,12 +110,21 @@
 <dd>Categorized list of programs in the <span class="filesystem">prog\</span> folder.</dd>
 <dt><span class="filesystem">srcs.csv</span></dt>
 <dd>Categorized list of files in the <span class="filesystem">src\</span> folder.</dd>
-<dt><span class="filesystem">jpeg-8b-vs2008.zip</span></dt>
-<dd>jpeg-8b Visual Studio 2008 Solution and Project file.</dd>
-<dt><span class="filesystem">libtiff3.9.2-vs2008-makefiles-for-leptonica.zip</span></dt>
-<dd>libtiff3.9.2 makefiles modified for use with <span class="filesystem">leptonlib</span>.</dd>
+<dt><span class="filesystem">jpeg-8c-vs2008.zip</span></dt>
+<dd>jpeg-8b Visual Studio 2008 Solution and Project file. See
+<a class="reference internal" href="building-image-libraries.html#building-libjpeg"><em>Building libjpeg</em></a> for more information.</dd>
+<dt><span class="filesystem">libtiff3.9.4-vs2008-makefiles-for-leptonica.zip</span></dt>
+<dd>libtiff3.9.2 makefiles modified for use with <span class="filesystem">liblept</span>.  See
+<a class="reference internal" href="building-image-libraries.html#building-libtiff"><em>Building libtiff</em></a> for more information.</dd>
 <dt><span class="filesystem">giflib4.1.6.zip</span></dt>
-<dd>giblib-4.1.6 Visual Studio 2008 Solution and Project file.</dd>
+<dd>giblib-4.1.6 Visual Studio 2008 Solution and Project file.  See
+<a class="reference internal" href="building-image-libraries.html#building-giflib"><em>Building giflib</em></a> for more information.</dd>
+<dt><span class="filesystem">create_unnumbered_hardlinks.bat</span></dt>
+<dd>Batch file to create simplified library filenames using NTFS
+hardlinks.  See <a class="reference internal" href="downloading-binaries.html#about-version-numbers"><em>About version numbers in library filenames</em></a> for more information.</dd>
+<dt><span class="filesystem">remove_unnumbered_hardlinks.bat</span></dt>
+<dd>Batch file to remove simplified library filenames created by
+<span class="filesystem">create_unnumbered_hardlinks.bat</span></dd>
 </dl>
 </div>
 
@@ -132,17 +147,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Leptonica &amp; Visual Studio 2008</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">liblept</span> pre-built binaries and header files for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="directory-organization.html">Directory organization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">liblept</span> Visual Studio 2008 Solution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-prog-dir.html">Building the <span class="filesystem">prog</span> directory programs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="csharp-and-liblept.html">c# and <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-liblept.html">(Optional) Building the <span class="filesystem">liblept</span> library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Package Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html">Version Notes</a></li>
@@ -185,14 +200,14 @@
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -205,11 +220,14 @@
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

@@ -1,4 +1,4 @@
-:version: $RCSfile: library-notes.rst,v $ $Revision: aa1808cf90ca $ $Date: 2010/08/22 23:25:46 $
+:version: $RCSfile: library-notes.rst,v $ $Revision: 94577bd0ffaa $ $Date: 2011/01/25 01:57:48 $
 
 .. default-role:: fs
 
@@ -19,7 +19,8 @@ This supplements that information in particular areas.
 I/O: File read/write
 ====================
 
-(ref: section 12 of the :ref:`README`)
+(Also see the :ref:`I/O Libraries <io-libraries>` section of the
+:ref:`README`)
 
 When building programs, it is often important to look at images. The
 function

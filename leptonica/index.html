@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Leptonica Image Processing Library &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>The Leptonica Image Processing Library &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,23 +24,16 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="next" title="README" href="README.html" />
-    <link rel="prev" title="Unofficial Leptonica v1.67 Documentation" href="../index.html" />
+    <link rel="prev" title="Unofficial Leptonica v1.68 Documentation" href="../index.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -52,11 +45,11 @@
           <a href="README.html" title="README"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="../index.html" title="Unofficial Leptonica v1.67 Documentation"
+          <a href="../index.html" title="Unofficial Leptonica v1.68 Documentation"
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
  
       </ul>
     </div>  
@@ -79,6 +72,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#i-o-libraries-leptonica-is-dependent-on">I/O libraries <strong>Leptonica</strong> is dependent on</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#developing-with-leptonica">Developing with <strong>Leptonica</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#simplicity">Simplicity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#leptprotos-h"><span class="filesystem">leptprotos.h</span></a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#gnu-runtime-functions-for-stream-redirection-to-memory">GNU runtime functions for stream redirection to memory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#typedefs">Typedefs</a></li>
@@ -142,6 +136,11 @@
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html#grayscale-morphology">Grayscale morphology</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html#block-convolution">Block convolution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html#connected-components">Connected components</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#function-summary-by-category">Function Summary by Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#functions">Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a><ul>
@@ -396,6 +395,7 @@
 <li class="toctree-l1"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="version-notes.html#mar-11">1.68 &#8211;  3 Mar 11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html#nov-10">1.67 &#8211;  9 Nov 10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html#aug-10">1.66 &#8211; 3 Aug 10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html#apr-10">1.65 &#8211; 5 Apr 10</a></li>
@@ -434,6 +434,7 @@
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
@@ -482,17 +483,17 @@
           <a href="README.html" title="README"
              >next</a></li>
         <li class="right" >
-          <a href="../index.html" title="Unofficial Leptonica v1.67 Documentation"
+          <a href="../index.html" title="Unofficial Leptonica v1.68 Documentation"
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
  
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -505,11 +506,14 @@
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

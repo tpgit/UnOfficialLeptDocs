@@ -1,4 +1,4 @@
-:version: $RCSfile: document-image-analysis.rst,v $ $Revision: aa1808cf90ca $ $Date: 2010/08/22 23:25:46 $
+:version: $RCSfile: document-image-analysis.rst,v $ $Revision: b360d13fb35f $ $Date: 2011/02/07 21:57:53 $
 
 .. default-role:: fs
 
@@ -104,7 +104,7 @@ doing this. The eight panels are as follows:
 The most simple way to build these programs and generate the figures
 is as follows:
 
-+ Get the source code from :ref:`here <leptonica-download>`.
++ Get the source code from :ref:`here <http://tpgit.github.com/UnOfficialLeptDocs/leptonica/source-downloads.html#leptonica>`.
 
 + In the `src` directory, type :cmd:`make` to build the |Leptonica|
   library.

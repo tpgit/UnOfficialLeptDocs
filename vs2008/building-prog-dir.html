@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Building the prog directory programs &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Building the prog directory programs &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="Leptonica &amp; Visual Studio 2008" href="index.html" />
     <link rel="next" title="Installing Cygwin coreutils" href="installing-cygwin.html" />
-    <link rel="prev" title="The leptonlib Visual Studio 2008 Solution" href="vs2008-solution.html" />
+    <link rel="prev" title="The liblept Visual Studio 2008 Solution" href="vs2008-solution.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -53,11 +46,11 @@
           <a href="installing-cygwin.html" title="Installing Cygwin coreutils"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="vs2008-solution.html" title="The leptonlib Visual Studio 2008 Solution"
+          <a href="vs2008-solution.html" title="The liblept Visual Studio 2008 Solution"
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
       </ul>
@@ -70,16 +63,17 @@
             
   <div class="section" id="building-the-prog-directory-programs">
 <h1>Building the <span class="filesystem">prog</span> directory programs<a class="headerlink" href="#building-the-prog-directory-programs" title="Permalink to this headline">¶</a></h1>
-<p>There are three ways to build the programs in the <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\prog directory</span>. The quickest way is to use the <span class="command">cl</span>
+<p>There are three ways to build the programs in the <span class="filesystem">leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\prog directory</span>. The quickest way is to use the <span class="command">cl</span>
 command from a Windows Command Prompt. However, if you plan to spend a
 lot of time investigating how a particular <span class="filesystem">prog</span> program works, it&#8217;s
 better to <a class="reference internal" href="#building-prog-programs-vs2008"><em>create a new Visual Studio Project</em></a> for it.</p>
 <p>We&#8217;ll assume that you are going to build <span class="filesystem">ioformats_reg.c</span>. This is an
 excellent program to run if you want to be sure the main image libraries
 were built correctly (it doesn&#8217;t test <span class="filesystem">giflib</span>, see <a class="reference internal" href="building-image-libraries.html#testing-giflib"><em>this section</em></a> to test that).</p>
-<p>Remember to <a class="reference internal" href="building-other-programs.html#create-tmp-directory"><em>make a \tmp directory</em></a>. The
-<span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\prog\ioformats_reg</span> test will have
-multiple false failures if the <span class="filesystem">\tmp</span> directory doesn&#8217;t exist.</p>
+<p><strong>Leptonica</strong> will write temporary files to your temp directory. This is
+normally <span class="filesystem">C:\Documents and Settings\&lt;username&gt;\Local Settings\Temp</span>
+but can be changed by setting the <tt class="docutils literal"><span class="pre">TEMP</span></tt> and <tt class="docutils literal"><span class="pre">TMP</span></tt> environment
+variables.</p>
 <div class="section" id="building-prog-programs-from-the-command-line">
 <span id="building-prog-programs-commandline"></span><h2>Building <span class="filesystem">prog</span> programs from the command line<a class="headerlink" href="#building-prog-programs-from-the-command-line" title="Permalink to this headline">¶</a></h2>
 <p>First, set up the proper environment variables for running the Visual
@@ -88,14 +82,20 @@ Files\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat</span>.</p>
 <p>To avoid cluttering the prog directory with object and executable
 files, make subdirectories for Debug and Release builds:</p>
 <pre class="literal-block">
-cd BuildFolder\leptonlib-1.67\prog
+cd BuildFolder\leptonica-1.68\prog
 md Debug
 md Release
-cd BuildFolder\leptonlib-1.67\prog\Debug
+cd BuildFolder\leptonica-1.68\prog\Debug
 </pre>
 <p>Then copy and paste the following <span class="command">cl</span> command to build a Debug
 version of <span class="filesystem">ioformats_reg.exe</span>:</p>
-<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D &quot;snprintf=_snprintf&quot; /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
+<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept168-static-mtdll-debug.lib
+</pre></div>
+</div>
+<p>If you&#8217;ve decided to make simplified library filenames by using NTFS
+hardlinks as described in <a class="reference internal" href="downloading-binaries.html#about-version-numbers"><em>About version numbers in library filenames</em></a>, you can
+using the following command instead:</p>
+<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlibd.lib libpngd.lib libjpeg8cd.lib libtiff394d.lib giflib416d.lib libleptd-static.lib
 </pre></div>
 </div>
 <p>To try it out do the following:</p>
@@ -113,30 +113,29 @@ SET PATH=C:\BuildFolder\lib;%PATH%
 </pre></div>
 </div>
 <p>For Debug builds set the following compiler options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE /D &quot;snprintf=_snprintf&quot; /D _CRT_SECURE_NO_WARNINGS
+<div class="highlight-none"><div class="highlight"><pre>SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
 </pre></div>
 </div>
 <p>For Release builds set the following compiler options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE /D &quot;snprintf=_snprintf&quot; /D _CRT_SECURE_NO_WARNINGS
+<div class="highlight-none"><div class="highlight"><pre>SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
 </pre></div>
 </div>
 <p>For static Debug builds set the following linker options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET LINK=zlib-static-mtdll-debug.lib libpng-static-mtdll-debug.lib libjpeg-static-mtdll-debug.lib libtiff-static-mtdll-debug.lib giflib-static-mtdll-debug.lib leptonlib-static-mtdll-debug.lib
-</pre></div>
-</div>
+<pre class="literal-block">
+SET LINK=zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept168-static-mtdll-debug.lib
+</pre>
 <p>For static Release builds set the following linker options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET LINK=zlib-static-mtdll.lib libpng-static-mtdll.lib
-libjpeg-static-mtdll.lib libtiff-static-mtdll.lib giflib-static-mtdll.lib leptonlib-static-mtdll.lib`
-</pre></div>
-</div>
+<pre class="literal-block">
+SET LINK=zlib125-static-mtdll.lib libpng143-static-mtdll.lib libjpeg8c-static-mtdll.lib libtiff394-static-mtdll.lib giflib416-static-mtdll.lib liblept168-static-mtdll.lib`
+</pre>
 <p>For dynamic Debug builds set the following linker options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET LINK=leptonlibd.lib
-</pre></div>
-</div>
+<pre class="literal-block">
+SET LINK=liblept168d.lib
+</pre>
 <p>For dynamic Release builds set the following linker options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET LINK=leptonlib.lib
-</pre></div>
-</div>
+<pre class="literal-block">
+SET LINK=liblept168.lib
+</pre>
 <p>Then all you have to do to build <span class="filesystem">ioformats_reg.exe</span> is:</p>
 <div class="highlight-none"><div class="highlight"><pre>cd Debug
 cl ..\ioformats_reg
@@ -146,7 +145,7 @@ cl ..\ioformats_reg
 from the command line. See <a class="reference external" href="http://msdn.microsoft.com/en-us/library/0bxe8ytt.aspx">How to: Debug an Executable Not Part of a
 Visual Studio Solution</a> for more
 information. Once you&#8217;ve imported <span class="filesystem">ioformats_reg.exe</span> into the
-<span class="filesystem">leptonlib</span> solution by creating an EXE project for it, you can
+<span class="filesystem">liblept</span> solution by creating an EXE project for it, you can
 right-click <span class="filesystem">ioformats_reg.exe</span> and the choose <em class="menuselection">Debu<span class="accelerator">g</span>
 ‣ <span class="accelerator">S</span>tart new instance</em> or <em class="menuselection">Debu<span class="accelerator">g</span> ‣ Step <span class="accelerator">I</span>nto new
 instance</em> from the context menu. You can even set breakpoints in
@@ -154,7 +153,7 @@ instance</em> from the context menu. You can even set breakpoints in
 </div>
 <div class="section" id="building-prog-programs-using-visual-studio-2008">
 <span id="building-prog-programs-vs2008"></span><h2>Building <span class="filesystem">prog</span> programs using Visual Studio 2008<a class="headerlink" href="#building-prog-programs-using-visual-studio-2008" title="Permalink to this headline">¶</a></h2>
-<p>For anything other than just quickly trying out a <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\prog</span> program, you should create a Visual Studio 2008
+<p>For anything other than just quickly trying out a <span class="filesystem">leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\prog</span> program, you should create a Visual Studio 2008
 project for it.</p>
 <p>I tried to make the process simpler by creating a Project Template but
 Visual Studio 2008 doesn&#8217;t seem to support them for Visual C++. Instead
@@ -186,12 +185,13 @@ to:</p>
 <div class="highlight-none"><div class="highlight"><pre>PATH=..\..\lib;%PATH%
 </pre></div>
 </div>
-<p>so that Visual Studio knows where to find <span class="filesystem">leptonlibd.dll</span> when
-debugging applications that link with the DLL version of <span class="filesystem">leptonlib</span>.</p>
+<p>so that Visual Studio knows where to find <span class="filesystem">liblept</span><span class="filesystem">168</span><span class="filesystem">d.dll</span>
+when debugging applications that link with the DLL version of
+<span class="filesystem">liblept</span>.</p>
 </li>
 <li><p class="first">Click <em class="guilabel">OK</em>.</p>
 </li>
-<li><p class="first">Exit and restart Visual Studio (or close and reopen the <span class="filesystem">leptonlib</span>
+<li><p class="first">Exit and restart Visual Studio (or close and reopen the <span class="filesystem">liblept</span>
 solution).</p>
 </li>
 </ol>
@@ -208,7 +208,7 @@ Studio 2008 you have to install it:</p>
 <li><p class="first">Restart Visual Studio 2008.</p>
 </li>
 </ol>
-<p>To create a Visual Studio Project for a program in the <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\prog\</span> directory:</p>
+<p>To create a Visual Studio Project for a program in the <span class="filesystem">leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\prog\</span> directory:</p>
 <ol class="arabic">
 <li><p class="first">Select a file (or files) within the <em class="guilabel">prog_files</em> Solution
 Folder.</p>
@@ -219,7 +219,7 @@ Folder.</p>
 <p>The following image shows the result:</p>
 <div align="center" class="align-center"><img alt="Newly created project" class="align-center" src="../_images/newly-created-project.png" /></div>
 <p>The popup context menu will only contain the <em class="menuselection">Create
-<span class="accelerator">P</span>roject for Leptonica Prog program</em> choice for <span class="filesystem">leptonlib.sln</span> and
+<span class="accelerator">P</span>roject for Leptonica Prog program</em> choice for <span class="filesystem">leptonica.sln</span> and
 only for items within the <em class="guilabel">prog_files</em> Solution Folder.</p>
 </li>
 <li id="set-startup-project"><p class="first">Right-click your new project, and choose <em class="menuselection">Set as
@@ -273,12 +273,12 @@ Addins. You have to use the following manual method.</p>
 <div class="section" id="the-manual-method-for-creating-prog-program-projects">
 <h3>The manual method for creating <span class="filesystem">prog</span> program projects<a class="headerlink" href="#the-manual-method-for-creating-prog-program-projects" title="Permalink to this headline">¶</a></h3>
 <p>If for some reason my Addin doesn&#8217;t work or you decide not to use it,
-you can always create projects for <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\prog</span>
+you can always create projects for <span class="filesystem">leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\prog</span>
 programs manually by following the steps outlined here.</p>
 <ol class="arabic">
-<li><p class="first">Make a copy of the <span class="filesystem">BuildFolder\leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\vs2008\prog_projects\ioformats_reg</span> directory.</p>
+<li><p class="first">Make a copy of the <span class="filesystem">BuildFolder\leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\vs2008\prog_projects\ioformats_reg</span> directory.</p>
 </li>
-<li><p class="first">Rename that directory to the name of the <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\prog</span> program you are trying to run (in the following it will be
+<li><p class="first">Rename that directory to the name of the <span class="filesystem">leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\prog</span> program you are trying to run (in the following it will be
 shown as <span class="filesystem">&lt;progname&gt;</span>). The renamed copy of <span class="filesystem">ioformats_reg</span> must be
 in the same folder as the original since the project uses relative
 paths to find the <span class="filesystem">prog</span> directory.</p>
@@ -326,10 +326,10 @@ method if desired.</p>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Leptonica &amp; Visual Studio 2008</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">liblept</span> pre-built binaries and header files for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="directory-organization.html">Directory organization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">liblept</span> Visual Studio 2008 Solution</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Building the <span class="filesystem">prog</span> directory programs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#building-prog-programs-from-the-command-line">Building <span class="filesystem">prog</span> programs from the command line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-prog-programs-using-visual-studio-2008">Building <span class="filesystem">prog</span> programs using Visual Studio 2008</a><ul>
@@ -343,9 +343,9 @@ method if desired.</p>
 <li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="csharp-and-liblept.html">c# and <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-liblept.html">(Optional) Building the <span class="filesystem">liblept</span> library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html">Version Notes</a></li>
@@ -384,18 +384,18 @@ method if desired.</p>
           <a href="installing-cygwin.html" title="Installing Cygwin coreutils"
              >next</a></li>
         <li class="right" >
-          <a href="vs2008-solution.html" title="The leptonlib Visual Studio 2008 Solution"
+          <a href="vs2008-solution.html" title="The liblept Visual Studio 2008 Solution"
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -408,11 +408,14 @@ method if desired.</p>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

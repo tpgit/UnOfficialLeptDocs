@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>/src Directory Contents &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>/src Directory Contents &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
     <link rel="next" title="/prog Directory Contents" href="prog-dir.html" />
-    <link rel="prev" title="Supplemental Notes on Using the Library" href="library-notes.html" />
+    <link rel="prev" title="Leptonica API" href="functions.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -53,11 +46,11 @@
           <a href="prog-dir.html" title="/prog Directory Contents"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="library-notes.html" title="Supplemental Notes on Using the Library"
+          <a href="functions.html" title="Leptonica API"
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
@@ -73,10 +66,10 @@
 <div class="section" id="file-summary-by-category">
 <h2>File Summary by Category<a class="headerlink" href="#file-summary-by-category" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-
+<div>
  <table class="centered docutils sorted table-autosort:0
                table-stripeclass:alternate"
-               id="srcs-1.67-summary">
+               id="srcs-1.68-summary">
   <thead>
    <tr>
     <th class="table-sortable:ignorecase" title="Click to sort">Category</th>
@@ -106,7 +99,7 @@
    </tr>
    <tr>
     <td>Colormap Utilities and Related Operations</td>
-    <td>3</td>
+    <td>4</td>
    </tr>
    <tr>
     <td>Connected Components in Binary Images</td>
@@ -118,15 +111,15 @@
    </tr>
    <tr>
     <td>Formatted I/O</td>
-    <td>13</td>
+    <td>14</td>
    </tr>
    <tr>
     <td>Formatted I/O Stub Functions</td>
-    <td>9</td>
+    <td>10</td>
    </tr>
    <tr>
     <td>Fundamental Data Structures for Computation</td>
-    <td>12</td>
+    <td>14</td>
    </tr>
    <tr>
     <td>Header Files</td>
@@ -162,7 +155,7 @@
    </tr>
    <tr>
     <td>Miscellaneous Utilities</td>
-    <td>9</td>
+    <td>10</td>
    </tr>
    <tr>
     <td>Miscellaneous Utilities Stub Functions</td>
@@ -184,11 +177,11 @@
   <tfoot>
    <tr>
     <td>24 Categories</td>
-    <td>177</td>
+    <td>183</td>
    </tr>
   </tfoot>
  </table>
-</blockquote>
+</div></blockquote>
 </div>
 <div class="section" id="file-descriptions">
 <h2>File Descriptions<a class="headerlink" href="#file-descriptions" title="Permalink to this headline">¶</a></h2>
@@ -196,7 +189,7 @@
  <table class="centered docutils sorted table-autosort:1 table-autofilter
                table-stripeclass:alternate table-secondary:0
                table-filtered-rowcount:t1filtercount table-rowcount:t1allcount"
-               id="srcs-1.67">
+               id="srcs-1.68">
   <thead>
    <tr>
     <th class="table-sortable:ignorecase title="Click to sort">Filename</th>
@@ -204,11 +197,11 @@
     <th>Description</th>
    </tr>
    <tr>
-    <th title="Enter text to match"><input name="filter" size="10" onkeyup="Table.filter(this,this)"></input></th>    <th class="table-filterable"></th>
-    <th title="Enter text to match"><input name="filter" size="30" onkeyup="Table.filter(this,this)"></input></th>   </tr>
+    <th title="Enter regular expression to match"><input name="filter" size="10" onkeyup="Table.filter(this,this)"></input></th>    <th class="table-filterable"></th>
+    <th title="Enter regular expression to match"><input name="filter" size="30" onkeyup="Table.filter(this,this)"></input></th>   </tr>
 
    <tr>
-    <th colspan="3"><span id="t1filtercount">177</span>&nbsp;of <span id="t1allcount">177</span>&nbsp;rows match filter(s)</th>
+    <th colspan="3"><span id="t1filtercount">183</span>&nbsp;of <span id="t1allcount">183</span>&nbsp;rows match filter(s)</th>
    </tr>
   </thead>
   <tbody>
@@ -383,6 +376,11 @@
     <td>Implements PixColormap; colormap conversions, serialization, transforms</td>
    </tr>
    <tr>
+    <td>colorspace.c</td>
+    <td>Colormap Utilities and Related Operations</td>
+    <td>Colorspace conversions between RGB, HSV, and YUV</td>
+   </tr>
+   <tr>
     <td>paintcmap.c</td>
     <td>Colormap Utilities and Related Operations</td>
     <td>Paint onto colormap images - regions, masks</td>
@@ -431,6 +429,11 @@
     <td>leptwin.c</td>
     <td>Formatted I/O</td>
     <td>Leptonica routines needed only on Microsoft Windows</td>
+   </tr>
+   <tr>
+    <td>pdfio.c</td>
+    <td>Formatted I/O</td>
+    <td>Read/write pdf format from/to file and memory</td>
    </tr>
    <tr>
     <td>pngio.c</td>
@@ -493,6 +496,11 @@
     <td>Read/write jpeg format from/to file and memory</td>
    </tr>
    <tr>
+    <td>pdfiostub.c</td>
+    <td>Formatted I/O Stub Functions</td>
+    <td>Read/write pdf format from/to file and memory</td>
+   </tr>
+   <tr>
     <td>pngiostub.c</td>
     <td>Formatted I/O Stub Functions</td>
     <td>Read/write png format from/to file and memory</td>
@@ -521,6 +529,11 @@
     <td>webpiostub.c</td>
     <td>Formatted I/O Stub Functions</td>
     <td>Read/write webp format from/to file</td>
+   </tr>
+   <tr>
+    <td>bytearray.c</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Functions for handling byte arrays, in analogy with C++ 'strings'</td>
    </tr>
    <tr>
     <td>heap.c</td>
@@ -566,6 +579,11 @@
     <td>ptra.c</td>
     <td>Fundamental Data Structures for Computation</td>
     <td>Implements 1d and 2d arrays of generic pointers (Ptra, Ptraa)</td>
+   </tr>
+   <tr>
+    <td>quadtree.c</td>
+    <td>Fundamental Data Structures for Computation</td>
+    <td>Quadtree creation and statistics.</td>
    </tr>
    <tr>
     <td>queue.c</td>
@@ -913,6 +931,11 @@
     <td>When used with the gnu compiler, it allows efficient computation of the endian flag as part of the normal compilation process.</td>
    </tr>
    <tr>
+    <td>libversions.c</td>
+    <td>Miscellaneous Utilities</td>
+    <td>Returns string with image library versions.</td>
+   </tr>
+   <tr>
     <td>parseprotos.c</td>
     <td>Miscellaneous Utilities</td>
     <td>Parse output of cpp to generate ANSII C function prototypes from a file of C functions</td>
@@ -1123,6 +1146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href=""><span class="filesystem">/src</span> Directory Contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#file-summary-by-category">File Summary by Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#file-descriptions">File Descriptions</a></li>
@@ -1175,18 +1199,18 @@
           <a href="prog-dir.html" title="/prog Directory Contents"
              >next</a></li>
         <li class="right" >
-          <a href="library-notes.html" title="Supplemental Notes on Using the Library"
+          <a href="functions.html" title="Leptonica API"
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -1199,11 +1223,14 @@
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

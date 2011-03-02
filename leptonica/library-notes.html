@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Supplemental Notes on Using the Library &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Supplemental Notes on Using the Library &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
-    <link rel="next" title="/src Directory Contents" href="src-dir.html" />
+    <link rel="next" title="Leptonica API" href="functions.html" />
     <link rel="prev" title="Overview of the Leptonica Library" href="library-overview.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -50,14 +43,14 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="src-dir.html" title="/src Directory Contents"
+          <a href="functions.html" title="Leptonica API"
              accesskey="N">next</a></li>
         <li class="right" >
           <a href="library-overview.html" title="Overview of the Leptonica Library"
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
@@ -83,7 +76,8 @@ to use it.</p>
 <p>This supplements that information in particular areas.</p>
 <div class="section" id="i-o-file-read-write">
 <h2>I/O: File read/write<a class="headerlink" href="#i-o-file-read-write" title="Permalink to this headline">¶</a></h2>
-<p>(ref: section 12 of the <a class="reference internal" href="README.html#readme"><em>README</em></a>)</p>
+<p>(Also see the <a class="reference internal" href="README.html#io-libraries"><em>I/O Libraries</em></a> section of the
+<a class="reference internal" href="README.html#readme"><em>README</em></a>)</p>
 <p>When building programs, it is often important to look at images. The
 function</p>
 <div class="highlight-c"><div class="highlight"><pre><span class="n">pixWrite</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">,</span> <span class="n">PIX</span> <span class="o">*</span><span class="n">pix</span><span class="p">,</span> <span class="n">l_int32</span> <span class="n">format</span><span class="p">)</span>
@@ -124,7 +118,7 @@ actually copying the image data to a new array. The <tt class="docutils literal"
 comments in <span class="filesystem">pix1.c</span> at the <tt class="docutils literal"><span class="pre">pixClone()</span></tt> definition.</p>
 <p>Throughout we use these definitions:</p>
 <blockquote>
-<dl class="docutils">
+<div><dl class="docutils">
 <dt>bpp</dt>
 <dd>bits/pixel  (leptonica supports 1, 2, 4, 8, 16 and 32)</dd>
 <dt>ppi</dt>
@@ -134,7 +128,7 @@ comments in <span class="filesystem">pix1.c</span> at the <tt class="docutils li
 <dt>dest</dt>
 <dd>destination image in image processing operation</dd>
 </dl>
-</blockquote>
+</div></blockquote>
 <p>A <tt class="docutils literal"><span class="pre">Pix</span></tt> can also have a colormap, and we support a number of
 operations on colormaps in <span class="filesystem">colormap.c</span>. Colormapped images can have
 depths of 1, 2, 4 or 8 bpp. Where appropriate, functions will handle
@@ -246,7 +240,7 @@ doing it, some of which are described in <a class="reference internal" href="rot
 general rotator is <tt class="docutils literal"><span class="pre">pixRotate()</span></tt> in <span class="filesystem">rotate.c</span>. Here&#8217;s the description
 from the source file:</p>
 <blockquote>
-<div class="highlight-none"><div class="highlight"><pre>The general rotation pixRotate() does the best job for
+<div><div class="highlight-none"><div class="highlight"><pre>The general rotation pixRotate() does the best job for
 rotating about the image center.  For 1 bpp, it uses shear;
 for others, it uses either shear or area mapping.
 If requested, it expands the output image so that no pixels are
@@ -255,7 +249,7 @@ successive shears without expanding beyond the maximum
 necessary size.
 </pre></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p>There are three other top-level rotation source files, each of which
 uses different methods for different purposes:</p>
 <ul>
@@ -416,6 +410,7 @@ again in a time independent of the size of the kernel.</p>
 <li class="toctree-l3"><a class="reference internal" href="#connected-components">Connected components</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
@@ -461,21 +456,21 @@ again in a time independent of the size of the kernel.</p>
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="src-dir.html" title="/src Directory Contents"
+          <a href="functions.html" title="Leptonica API"
              >next</a></li>
         <li class="right" >
           <a href="library-overview.html" title="Overview of the Leptonica Library"
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -488,11 +483,14 @@ again in a time independent of the size of the kernel.</p>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

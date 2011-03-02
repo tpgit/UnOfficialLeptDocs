@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: c86e54b7d564 $ $Date: 2010/11/11 05:20:26 $
+:version: $RCSfile: index.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
 
 .. _vs2008-notes:
 
@@ -6,14 +6,13 @@
  Leptonica & Visual Studio 2008
 ================================
 
-.. container:: 
-   :class: subtitle
+.. container:: subtitle
 
-   Building and Linking with |leptonlib| |BR| using Microsoft Visual
+   Building and Linking with |liblept| |BR| using Microsoft Visual
    Studio 2008
 
 :author: Tom Powers
-:date: November 10, 2010
+:date: March 3, 2011
 
 .. toctree::
 
@@ -27,9 +26,9 @@
    installing-cygwin
    installing-irfanview
    installing-gnuplot
-   csharp-and-leptonlib
+   csharp-and-liblept
    building-image-libraries
-   building-leptonlib
+   building-liblept
    vs2010-notes
    package-contents
    versions

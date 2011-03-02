@@ -1,10 +1,131 @@
-:version: $RCSfile: versions.rst,v $ $Revision: c86e54b7d564 $ $Date: 2010/11/11 05:20:26 $
+:version: $RCSfile: versions.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
 
 .. default-role:: fs
 
 ===============
  Version Notes
 ===============
+
+1.68 -- March 3, 2011
+=====================
+
++ Changed the |Leptonica| library filename from `leptonlib` to `liblept`
+  to match the name used on other platforms.
+
++ Included the version number in all generated library names. For
+  example, `leptonlib-static-mtdll-debug.lib` is now called
+  `liblept168-static-mtdll-debug.lib`.
+
++ Added two new batch files to ease the transition from the old library
+  names and also create simplified
+  versions. `vs2008\\create_unnumbered_hardlinks.bat` creates NTFS
+  "hardlinks" to the new file
+  names. `vs2008\\remove_unnumbered_hardlinks.bat` removes these links.
+
+  For example, after running `create_unnumbered_hardlinks.bat`,
+  `liblept168-static-mtdll-debug.lib` can be referred to as::
+
+     leptonlib-static-mtdll-debug.lib
+     liblept168d-static.lib
+     libleptd-static.lib
+
+  and `libtiff394-static-mtdll-debug.lib` can be referred to as::
+
+     libtiff394-static-mtdll-debug.lib
+     libtiff394d.lib
+     libtiffd.lib
+
+  See :ref:`about-version-numbers` for more details.
+
++ Added references to the new `vs2008\\leptonica_versionnumbers.vsprops`
+  Property Sheet to all Leptonica Visual Studio Projects. It defines
+  version number "user macros". If you copy this file to a known
+  location, refer to it in your own projects, and use the new
+  ``*_VERSION`` macros, you will be isolated from worrying about version
+  number changes in library filenames.
+
+  See :ref:`about-version-numbers` for more details.
+
++ Renamed the Solution file to `leptonica.sln` and the Project file to
+  `leptonica.vcproj`. As a result you'll have to replace any old
+  `CreateLPP.dll` in your Visual Studio 2008 Addins folder (normally
+  `C:\\My Documents\\Visual Studio 2008\\Addins\\`) with the new one in
+  `BuildFolder\\leptonica-`\ |versionF|\ `\\vs2008` to get the
+  :ref:`Create Leptonica prog Project AddIn
+  <using-create-prog-project-addin>` to work again.
+
++ Added a Version resource to :guilabel:`DLL` releases. A Version tab
+  now displays in the `liblept.dll` Properties dialog.
+
++ Fixed getLeptonicaVersion() output for LIB releases. (It said DLL
+  instead of LIB.)
+
++ Set the the ``/Version:1.68`` Linker option for :guilabel:`DLL`
+  releases.
+
++ Removed definition of ``snprintf=_snprintf`` from all
+  projects. (``snprintf`` is changed to ``_snprintf_s`` in `environ.h`.)
+
++ Added the following files to the :guilabel:`liblept-1.68` Project::
+
+   bytearray.c
+   colorspace.c
+   libversions.c
+   pdfio.c
+   pdfiostub.c
+   quadtree.c
+
++ Added the following files to :guilabel:`prog_files` Solution Folder::
+
+   byteatest.c
+   colormask_reg.c
+   pdfiotest.c
+   pngio_reg.c
+   quadtreetest.c
+   translate_reg.c
+   yuvtest.c
+
++ Removed the following files from :guilabel:`prog_files` Solution
+  Folder::
+
+   dwalinear.3.c
+   dwalinearlow.3.c
+   rotate_reg.c
+
++ Added descriptions of the following files to `srcs.csv` file::
+
+   bytearray.c
+   colorspace.c
+   libversions.c
+   pdfio.c
+   pdfiostub.c
+   quadtree.c
+
++ Added descriptions of the following files to `progs.csv` file::
+
+   byteatest.c
+   colormask_reg.c
+   pdfiotest.c
+   pngio_reg.c
+   quadtreetest.c
+   translate_reg.c
+   yuvtest.c
+
++ Removed descriptions of the following files from `progs.csv` file::
+
+   rotate_reg.c
+
++ Updated to `jpeg-8c` and added a section on testing it to
+  :ref:`building-libjpeg`.
+
++ Fixed `tiff-3.9.4 nmake.opt` so the generated DLL name is now `.dll`
+  instead of `.lib.` Also fixed the import library name and handled
+  ``DEBUG`` correctly for DLL builds.
+
++ Updated :doc:`Visual Studio 2010 compatibility <vs2010-notes>` to take
+  into account the new ``lept_free()``, ``lept_fopen()``, and
+  ``lept_fclose()`` functions.
+
 
 1.67 -- November 10, 2010
 =========================
@@ -61,7 +182,7 @@
 
   + Added a :ref:`Quickstart <quickstart>` section.
 
-  + Reorganized now that it's possible to use the |leptonlib|
+  + Reorganized now that it's possible to use the |liblept|
     :doc:`binaries for Windows zip file <downloading-binaries>` instead
     of having to build all the libraries.
 

@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Source Code and Information &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Source Code and Information &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
     <link rel="next" title="Source Downloads" href="source-downloads.html" />
     <link rel="prev" title="README" href="README.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -57,7 +50,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
@@ -79,7 +72,7 @@
 </tbody>
 </table>
 <blockquote class="epigraph">
-<div class="line-block">
+<div><div class="line-block">
 <div class="line">The road to wisdom? &#8211; Well, it&#8217;s plain</div>
 <div class="line">and simple to express:</div>
 <div class="line-block">
@@ -92,8 +85,8 @@
 </div>
 </div>
 <blockquote>
-&#8211;Piet Hein <a class="reference external" href="http://leptonica.com/cachedpages/grooks/grooks.html">(Grooks)</a></blockquote>
-</blockquote>
+<div>&#8211;Piet Hein <a class="reference external" href="http://leptonica.com/cachedpages/grooks/grooks.html">(Grooks)</a></div></blockquote>
+</div></blockquote>
 <p>This site contains <a class="reference internal" href="testing-methods.html#testing-methods"><em>well-tested</em></a> C code for some
 basic image processing operations, along with a description of the
 functions and some design methods. A full set of affine transformations
@@ -106,10 +99,12 @@ applications such as jbig2 image processing and color quantization.</p>
 of arrays (of strings, numbers, number pairs and image-related
 geometrical objects), byte queues, generic stacks, generic lists, and
 endian-independent indexing into 32-bit arrays.</p>
-<p>There are summaries of the files in the <a class="reference internal" href="src-dir.html"><em>src</em></a> and
-<a class="reference internal" href="prog-dir.html"><em>prog</em></a> directories with short descriptions of each file.
-You can use these to quickly get an idea of where you may find a needed
-function or see how to use it.</p>
+<p>There is a sortable and searchable categorized list of all the functions
+available in <strong>Leptonica</strong> at <a class="reference internal" href="functions.html"><em>Leptonica API</em></a> (Warning: this page may
+take a long time to load). There are also summaries of the files in the
+<a class="reference internal" href="src-dir.html"><em>src</em></a> and <a class="reference internal" href="prog-dir.html"><em>prog</em></a> directories with short
+descriptions of each file.  You can use these to quickly get an idea of
+where you may find a needed function or see how to use it.</p>
 <p>See <a class="reference internal" href="operations.html#image-processing-operations"><em>Image Processing Operations</em></a> and
 <a class="reference internal" href="applications.html#image-processing-applications"><em>Image Processing Applications</em></a> for more detailed information that
 expands on what&#8217;s present in the source files.</p>
@@ -120,7 +115,7 @@ Nov 9, 2010</strong>]</p>
 <p>Be sure to download the <a class="reference internal" href="README.html#readme"><em>README</em></a> as well.</p>
 <p>If you are building the library and applications on Windows, read the
 <a class="reference internal" href="../vs2008/index.html#vs2008-notes"><em>developer notes</em></a> by Tom Powers and download his
-Microsoft Visual Studio package from <a class="reference internal" href="source-downloads.html#microsoft-visual-studio-download"><em>here</em></a>. [<strong>&#8211;new: Jan 5, 2010</strong>]</p>
+Microsoft Visual Studio package from <a class="reference internal" href="source-downloads.html#http-tpgit-github-com-unofficialleptdocs-leptonica-source-downloads-html-microsoft-visual-studio-2008"><em>here</em></a>. [<strong>&#8211;new: Jan 5, 2010</strong>]</p>
 <p>You may also find these pages useful:</p>
 <ul>
 <li><p class="first">brief notes on the <a class="reference internal" href="version-notes.html#version-notes"><em>version history</em></a></p>
@@ -163,6 +158,7 @@ processing and image analysis that you might find interesting.</p>
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
@@ -215,14 +211,14 @@ processing and image analysis that you might find interesting.</p>
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -235,11 +231,14 @@ processing and image analysis that you might find interesting.</p>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

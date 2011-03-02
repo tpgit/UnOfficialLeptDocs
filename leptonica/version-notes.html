@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Version Notes for Leptonica &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Version Notes for Leptonica &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
     <link rel="next" title="Glossary" href="glossary.html" />
     <link rel="prev" title="What is the Significance of the Name “leptonica”?" href="about-the-name.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -57,7 +50,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
@@ -74,6 +67,49 @@
 <p class="first admonition-title">Note</p>
 <p class="last">The following are highlights of the changes in each version.
 They are <em>not</em> a complete listing of the modifications.</p>
+</div>
+<div class="section" id="mar-11">
+<h2>1.68 &#8211;  3 Mar 11<a class="headerlink" href="#mar-11" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Fixed windows issues with passing pointers across C-runtime boundaries
+when using DLLs, by providing special functions (e.g.,
+<tt class="docutils literal"><span class="pre">lept_fopen()</span></tt>).</p>
+</li>
+<li><p class="first">Proper version numbers are now set with <span class="command">automake</span>.</p>
+</li>
+<li><p class="first">New utility (<span class="filesystem">quadtree.c</span>) for generating quadtree statistics.</p>
+</li>
+<li><p class="first">New utility (in <span class="filesystem">colorspace.c</span>) for conversions to and from YUV.</p>
+</li>
+<li><p class="first">Refactored functions for assembling image data for generating either
+PS or PDF images using g4, jpeg or flate encoding.</p>
+</li>
+<li><p class="first">Better tempfile names, using current time in microseconds.</p>
+</li>
+<li><p class="first">Functions for getting resolution from jpeg and png files.</p>
+</li>
+<li><p class="first">Use <tt class="docutils literal"><span class="pre">size_t</span></tt> throughout for reading and writing binary data.</p>
+</li>
+<li><p class="first">Deprecate <tt class="docutils literal"><span class="pre">arrayRead*()</span></tt> and <tt class="docutils literal"><span class="pre">arrayWrite()</span></tt> functions; replace in
+the library with <tt class="docutils literal"><span class="pre">l_binaryRead*()</span></tt> and <tt class="docutils literal"><span class="pre">l_binaryWrite()</span></tt>.</p>
+</li>
+<li><p class="first">Better handling of colormap images for in-place rasterop and shear.</p>
+</li>
+<li><p class="first">New utility (<span class="filesystem">bytearray.c</span>) for parsing and handling binary data; used
+for generating PDF files.</p>
+</li>
+<li><p class="first">New utility (<span class="filesystem">pdfio.c</span>) for generating PDF files.</p>
+</li>
+<li><p class="first">Refactored <tt class="docutils literal"><span class="pre">regutils</span></tt> functions to make them simpler to use.</p>
+</li>
+<li><p class="first">Top-level deskew now works on any image.</p>
+</li>
+<li><p class="first">Added functions in <span class="filesystem">utils.c</span> for cross-platform development, mostly
+for functions that make and remove directories, copy, move and delete
+files, etc.  It should now be straightforward to write programs that
+will compile and run on windows.</p>
+</li>
+</ul>
 </div>
 <div class="section" id="nov-10">
 <h2>1.67 &#8211;  9 Nov 10<a class="headerlink" href="#nov-10" title="Permalink to this headline">¶</a></h2>
@@ -244,9 +280,9 @@ to images that are being tiled. (<span class="filesystem">writefile.c</span>)</p
 </li>
 <li><p class="first">New tests in prog:</p>
 <blockquote>
-<p><span class="filesystem">alltests_reg.c</span>, <span class="filesystem">alphaclean_reg.c</span>, <span class="filesystem">psio_reg.c</span>,
+<div><p><span class="filesystem">alltests_reg.c</span>, <span class="filesystem">alphaclean_reg.c</span>, <span class="filesystem">psio_reg.c</span>,
 <span class="filesystem">rankbin_reg.c</span>, <span class="filesystem">rankhisto_reg.c</span>, <span class="filesystem">warpertest.c</span></p>
-</blockquote>
+</div></blockquote>
 </li>
 </ul>
 </div>
@@ -353,10 +389,10 @@ subpixel scaling.</p>
 </li>
 <li><p class="first">New or improved regression tests in prog:</p>
 <blockquote>
-<p><span class="filesystem">extrema_reg</span>, <span class="filesystem">pixalloc_reg</span>, <span class="filesystem">blend2_reg</span>, <span class="filesystem">rotateorth_reg</span>,
+<div><p><span class="filesystem">extrema_reg</span>, <span class="filesystem">pixalloc_reg</span>, <span class="filesystem">blend2_reg</span>, <span class="filesystem">rotateorth_reg</span>,
 <span class="filesystem">ioformats_reg</span>, <span class="filesystem">colorseg_reg</span>, <span class="filesystem">pixcomp_reg</span>, <span class="filesystem">pixserial_reg</span>,
 <span class="filesystem">writetext_reg</span>, <span class="filesystem">psioseg_reg</span>, <span class="filesystem">subpixel_reg</span>.</p>
-</blockquote>
+</div></blockquote>
 </li>
 <li><p class="first">Interface changes:</p>
 <ul>
@@ -432,9 +468,9 @@ peaks, and generating masks based on the peaks.</p>
 </li>
 <li><p class="first">New or improved regression tests:</p>
 <blockquote>
-<p><span class="filesystem">pixalloc_reg</span>, <span class="filesystem">binmorph4_reg</span>, <span class="filesystem">binmorph5_reg</span>, <span class="filesystem">conversion_reg</span>,
+<div><p><span class="filesystem">pixalloc_reg</span>, <span class="filesystem">binmorph4_reg</span>, <span class="filesystem">binmorph5_reg</span>, <span class="filesystem">conversion_reg</span>,
 <span class="filesystem">scale_reg</span>, <span class="filesystem">cmapquant_reg</span>,</p>
-</blockquote>
+</div></blockquote>
 </li>
 </ul>
 </div>
@@ -541,10 +577,10 @@ version (contributed by Ankur Jain).</p>
 </li>
 <li><p class="first">New or improved regression tests:</p>
 <blockquote>
-<p><span class="filesystem">rotate1_reg</span>, <span class="filesystem">rotate2_reg</span>, <span class="filesystem">shear_reg</span>, <span class="filesystem">numa_reg</span>, <span class="filesystem">skew_reg</span>,
+<div><p><span class="filesystem">rotate1_reg</span>, <span class="filesystem">rotate2_reg</span>, <span class="filesystem">shear_reg</span>, <span class="filesystem">numa_reg</span>, <span class="filesystem">skew_reg</span>,
 <span class="filesystem">ptra1_reg</span>, <span class="filesystem">ptra2_reg</span>, <span class="filesystem">paint_reg</span>, <span class="filesystem">smallpix_reg</span>, <span class="filesystem">pta_reg</span>,
 <span class="filesystem">pixmem_reg</span>, <span class="filesystem">binarize_reg</span>, <span class="filesystem">grayfill_reg</span>.</p>
-</blockquote>
+</div></blockquote>
 </li>
 </ul>
 </div>
@@ -623,10 +659,10 @@ within a rectangular region of the image (<span class="filesystem">pix4.c</span>
 </li>
 <li><p class="first">New or improved regression tests in <span class="filesystem">prog</span>:</p>
 <blockquote>
-<p><span class="filesystem">locminmax_reg</span>, <span class="filesystem">lowaccess_reg</span>, <span class="filesystem">grayfill_reg</span>, <span class="filesystem">adaptnorm_reg</span>,
+<div><p><span class="filesystem">locminmax_reg</span>, <span class="filesystem">lowaccess_reg</span>, <span class="filesystem">grayfill_reg</span>, <span class="filesystem">adaptnorm_reg</span>,
 <span class="filesystem">xformbox_reg</span>, <span class="filesystem">warper_reg</span>, <span class="filesystem">cmapquant_reg</span>, <span class="filesystem">compfilter_reg</span>,
 <span class="filesystem">splitcomp_reg</span>, <span class="filesystem">affine_reg</span>, <span class="filesystem">bilinear_reg</span>, <span class="filesystem">projective_reg</span></p>
-</blockquote>
+</div></blockquote>
 </li>
 <li><p class="first">Acknowledgments:</p>
 <ol class="arabic">
@@ -1341,6 +1377,7 @@ I hope to have this available for 1.60.</p>
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
@@ -1352,6 +1389,7 @@ I hope to have this available for 1.60.</p>
 <li class="toctree-l2"><a class="reference internal" href="about-the-license.html">About the Copyright License</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about-the-name.html">What is the Significance of the Name &#8220;leptonica&#8221;?</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Version Notes for Leptonica</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mar-11">1.68 &#8211;  3 Mar 11</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#nov-10">1.67 &#8211;  9 Nov 10</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#aug-10">1.66 &#8211; 3 Aug 10</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#apr-10">1.65 &#8211; 5 Apr 10</a></li>
@@ -1405,14 +1443,14 @@ I hope to have this available for 1.60.</p>
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -1425,11 +1463,14 @@ I hope to have this available for 1.60.</p>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

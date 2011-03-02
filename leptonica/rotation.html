@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Image Rotation &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Image Rotation &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="Image Processing Operations" href="operations.html" />
     <link rel="next" title="Affine Transformations (and cousins)" href="affine.html" />
     <link rel="prev" title="Image Scaling" href="scaling.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -57,7 +50,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
           <li><a href="operations.html" accesskey="U">Image Processing Operations</a> &raquo;</li> 
@@ -283,7 +276,7 @@ the raster lines on the 32-bit word boundaries. This is most easily done
 by shifting the entire image as a block, using an in-place horizontal
 rasterop. The code for a binary image is:</p>
 <blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span class="n">extra</span> <span class="o">=</span> <span class="n">w</span> <span class="o">&amp;</span> <span class="mi">31</span><span class="p">;</span>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">extra</span> <span class="o">=</span> <span class="n">w</span> <span class="o">&amp;</span> <span class="mi">31</span><span class="p">;</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">extra</span><span class="p">)</span>
     <span class="n">shift</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">-</span> <span class="n">extra</span><span class="p">;</span>
 <span class="k">else</span>
@@ -306,7 +299,7 @@ rasterop. The code for a binary image is:</p>
     <span class="n">rasteropHipLow</span><span class="p">(</span><span class="n">datas</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">wpls</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">shift</span><span class="p">);</span>
 </pre></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p>The second rasterop restores the source to its normal left-justification
 on word boundaries. The table supplied here reverses the bits in a
 byte. For a 2 bpp image, a different table that reverses the four 2-bit
@@ -336,7 +329,7 @@ fetches, but it&#8217;s not too serious and takes some effort to ameliorate.</p>
 <p>Choosing the fast direction in the dest to be horizontal, for cw
 rotation we have the following simple algorithm:</p>
 <blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hd</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hd</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">lined</span> <span class="o">=</span> <span class="n">datad</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">wpld</span><span class="p">;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">datas</span> <span class="o">+</span> <span class="p">(</span><span class="n">wd</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">wd</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -347,7 +340,7 @@ rotation we have the following simple algorithm:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p>In the following drawing, the arrows show the first line scanned in
 the fast scan direction in the source and dest images. I always let
 the index <em>i</em> label the dest rows; <em>i</em> is in the outer loop because it
@@ -361,7 +354,7 @@ is 0. Therefore, we want the fast scan in the source to be horizontal
 (i.e., by rows); this requires the fast scan in the dest to be by
 columns:</p>
 <blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">wd</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">wd</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">lined</span> <span class="o">=</span> <span class="n">datad</span><span class="p">;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">datas</span> <span class="o">+</span> <span class="p">(</span><span class="n">wd</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hd</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -372,7 +365,7 @@ columns:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p>This is illustrated as follows:</p>
 <div align="center" class="align-center"><img alt="Fast scan source row" class="border align-center" src="../_images/fast-scan-source-row.jpg" /></div>
 <p>Note that the index labels <em>i</em> and <em>j</em> have been switched from the
@@ -386,7 +379,7 @@ of the smaller granularity, more bytes (in total) will be eliminated.
 However, with typical images, it is more efficient to use 32-bit
 chunks, and we do that as follows:</p>
 <blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span class="n">nswords</span> <span class="o">=</span> <span class="n">hd</span> <span class="o">/</span> <span class="mi">32</span><span class="p">;</span>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">nswords</span> <span class="o">=</span> <span class="n">hd</span> <span class="o">/</span> <span class="mi">32</span><span class="p">;</span>
 <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">wd</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">lined</span> <span class="o">=</span> <span class="n">datad</span><span class="p">;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">datas</span> <span class="o">+</span> <span class="p">(</span><span class="n">wd</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="n">wpls</span><span class="p">;</span>
@@ -413,7 +406,7 @@ chunks, and we do that as follows:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-</blockquote>
+</div></blockquote>
 <p>This is just an elaboration of the previous pixel-plucking code, but it
 is typically <em>about 4 times faster</em>, rotating each pixel in about 7
 machine cycles on average. We find the number of full 32-bit words in
@@ -467,6 +460,7 @@ flips, with the latter being trivial and depth-independent.</p>
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
@@ -539,7 +533,7 @@ flips, with the latter being trivial and depth-independent.</p>
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li>
           <li><a href="operations.html" >Image Processing Operations</a> &raquo;</li> 
@@ -547,7 +541,7 @@ flips, with the latter being trivial and depth-independent.</p>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -560,11 +554,14 @@ flips, with the latter being trivial and depth-independent.</p>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

@@ -1,4 +1,4 @@
-:version: $RCSfile: directory-organization.rst,v $ $Revision: 1ed365cd2585 $ $Date: 2010/11/09 23:18:38 $
+:version: $RCSfile: directory-organization.rst,v $ $Revision: a15d8780b285 $ $Date: 2011/02/04 22:55:30 $
 
 .. default-role:: fs
 
@@ -8,7 +8,7 @@
 
 Unlike Linux where libraries and their dependencies are usually in
 consistent places, there is no standard for organizing directories in
-Windows. In order to build and link with |leptonlib| this procedure has
+Windows. In order to build and link with |liblept| this procedure has
 to assume one such organization. All required files should reside
 within a single directory. This guide calls that directory
 |BuildFolder| but you can call it whatever you want, only the
@@ -23,7 +23,7 @@ please.
 ======================
 
 To give an idea of what will be required to build and link with
-|leptonlib| using Visual Studio 2008, here's what the complete top-level
+|liblept| using Visual Studio 2008, here's what the complete top-level
 contents of |BuildFolder| will need to look like. All the subdirectories
 are required if you decide to build the image file libraries
 yourself. If you instead opt to use pre-built libraries the
@@ -34,8 +34,8 @@ yourself. If you instead opt to use pre-built libraries the
    BuildFolder
       :bi:`giflib-4.1.6\\`
       include\\
-      :bi:`jpeg-8b\\`
-      leptonlib-|version|\\
+      :bi:`jpeg-8c\\`
+      leptonica-|version|\\
       lib\\
       :bi:`lpng143\\`
       :bi:`tiff-3.9.4\\`
@@ -107,24 +107,24 @@ yourself. If you instead opt to use pre-built libraries the
 `BuildFolder\\lib` contents
 ===========================
 
-::
+.. parsed-literal::
 
-    giflib-static-mtdll.lib
-    giflib-static-mtdll-debug.lib
-    leptonlib-static-mtdll-debug.lib
-    leptonlib-static-mtdll.lib
-    leptonlib.dll
-    leptonlib.lib
-    leptonlibd.dll
-    leptonlibd.lib
-    libjpeg-static-mtdll-debug.lib 
-    libjpeg-static-mtdll.lib
-    libpng-static-mtdll-debug.lib
-    libpng-static-mtdll.lib
-    libtiff-static-mtdll-debug.lib 
-    libtiff-static-mtdll.lib
-    zlib-static-mtdll-debug.lib
-    zlib-static-mtdll.lib
+    giflib416-static-mtdll.lib
+    giflib416-static-mtdll-debug.lib
+    liblept\ |vnum|\ -static-mtdll-debug.lib
+    liblept\ |vnum|\ -static-mtdll.lib
+    liblept\ |vnum|\ .dll
+    liblept\ |vnum|\ .lib
+    liblept\ |vnum|\ d.dll
+    liblept\ |vnum|\ d.lib
+    libjpeg8c-static-mtdll-debug.lib 
+    libjpeg8c-static-mtdll.lib
+    libpng143-static-mtdll-debug.lib
+    libpng143-static-mtdll.lib
+    libtiff394-static-mtdll-debug.lib 
+    libtiff394-static-mtdll.lib
+    zlib125-static-mtdll-debug.lib
+    zlib125-static-mtdll.lib
 
 ..
    Local Variables:

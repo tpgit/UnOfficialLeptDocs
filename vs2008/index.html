@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Leptonica &amp; Visual Studio 2008 &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Leptonica &amp; Visual Studio 2008 &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,23 +24,16 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="next" title="Overview" href="overview.html" />
     <link rel="prev" title="Glossary" href="../leptonica/glossary.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -56,7 +49,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
  
       </ul>
     </div>  
@@ -68,8 +61,8 @@
             
   <div class="section" id="leptonica-visual-studio-2008">
 <span id="vs2008-notes"></span><h1>Leptonica &amp; Visual Studio 2008<a class="headerlink" href="#leptonica-visual-studio-2008" title="Permalink to this headline">¶</a></h1>
-<div class="class subtitle container">
-Building and Linking with <span class="filesystem">leptonlib</span> <span class="raw-html"><br /></span> using Microsoft Visual
+<div class="subtitle container">
+Building and Linking with <span class="filesystem">liblept</span> <span class="raw-html"><br /></span> using Microsoft Visual
 Studio 2008</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -77,7 +70,7 @@ Studio 2008</div>
 <tbody valign="top">
 <tr class="field"><th class="field-name">author:</th><td class="field-body">Tom Powers</td>
 </tr>
-<tr class="field"><th class="field-name">date:</th><td class="field-body">November 10, 2010</td>
+<tr class="field"><th class="field-name">date:</th><td class="field-body">March 3, 2011</td>
 </tr>
 </tbody>
 </table>
@@ -85,14 +78,17 @@ Studio 2008</div>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#getting-leptonlib">Getting <span class="filesystem">leptonlib</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#building-hello-leptonlib">Building <span class="filesystem">&#8220;Hello, leptonlib&#8221;</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#getting-liblept">Getting <span class="filesystem">liblept</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#building-hello-liblept">Building <span class="filesystem">&#8220;Hello, liblept&#8221;</span></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">leptonlib</span></a><ul>
+<li class="toctree-l1"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">liblept</span> pre-built binaries and header files for Windows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html#about-version-numbers-in-library-filenames">About version numbers in library filenames</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">liblept</span></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="building-other-programs.html#create-a-tmp-directory">Create a <span class="filesystem">\tmp</span> directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html#intellisense-and-leptonlib">Intellisense and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html#intellisense-and-liblept">Intellisense and <span class="filesystem">liblept</span></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="directory-organization.html">Directory organization</a><ul>
@@ -102,9 +98,9 @@ Studio 2008</div>
 <li class="toctree-l2"><a class="reference internal" href="directory-organization.html#buildfolder-lib-contents"><span class="filesystem">BuildFolder\lib</span> contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html#leptonlib-sln-solution-explorer-contents"><span class="filesystem">leptonlib.sln</span> Solution Explorer contents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html#buildfolder-leptonlib-versionf-contents"><span class="filesystem">BuildFolder\leptonlib-</span><span class="filesystem">1.67</span> contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">liblept</span> Visual Studio 2008 Solution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html#leptonica-sln-solution-explorer-contents"><span class="filesystem">leptonica.sln</span> Solution Explorer contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html#buildfolder-leptonica-versionf-contents"><span class="filesystem">BuildFolder\leptonica-</span><span class="filesystem">1.68</span> contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html#visual-studio-2008-tab-settings">Visual Studio 2008 Tab settings</a></li>
 </ul>
 </li>
@@ -121,7 +117,7 @@ Studio 2008</div>
 <li class="toctree-l1"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="csharp-and-liblept.html">c# and <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#image-library-links">Image library links</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#using-the-same-runtime-library">Using the same runtime library</a></li>
@@ -131,15 +127,16 @@ Studio 2008</div>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#building-libjpeg">Building <span class="filesystem">libjpeg</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#building-libtiff">Building <span class="filesystem">libtiff</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#building-giflib">Building <span class="filesystem">giflib</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#re-adding-gif-support-to-leptonlib">Re-adding <span class="filesystem">GIF</span> support to <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#re-adding-gif-support-to-liblept">Re-adding <span class="filesystem">GIF</span> support to <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#statically-linking-with-giflib">Statically linking with <span class="filesystem">giflib</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#build-leptonlib">Build <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html#build-liblept">Build <span class="filesystem">liblept</span></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building-liblept.html">(Optional) Building the <span class="filesystem">liblept</span> library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="versions.html">Version Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#march-3-2011">1.68 &#8211; March 3, 2011</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html#november-10-2010">1.67 &#8211; November 10, 2010</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html#august-9-2010">1.66 &#8211; August 9, 2010</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html#april-07-2010">1.65 &#8211; April 07, 2010</a></li>
@@ -169,17 +166,17 @@ Studio 2008</div>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Leptonica &amp; Visual Studio 2008</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">liblept</span> pre-built binaries and header files for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-other-programs.html">Building programs that link with <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="directory-organization.html">Directory organization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">liblept</span> Visual Studio 2008 Solution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-prog-dir.html">Building the <span class="filesystem">prog</span> directory programs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="csharp-and-liblept.html">c# and <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-liblept.html">(Optional) Building the <span class="filesystem">liblept</span> library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html">Version Notes</a></li>
@@ -222,13 +219,13 @@ Studio 2008</div>
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
  
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -241,11 +238,14 @@ Studio 2008</div>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

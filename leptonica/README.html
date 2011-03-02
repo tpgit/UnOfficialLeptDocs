@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>README &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>README &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="The Leptonica Image Processing Library" href="index.html" />
     <link rel="next" title="Source Code and Information" href="local-sources.html" />
     <link rel="prev" title="The Leptonica Image Processing Library" href="index.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -57,7 +50,7 @@
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
@@ -74,7 +67,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">date:</th><td class="field-body">Nov 9, 2010</td>
+<tr class="field"><th class="field-name">date:</th><td class="field-body">Mar 3, 2011</td>
 </tr>
 </tbody>
 </table>
@@ -167,8 +160,8 @@
 </pre></div>
 </div>
 <pre class="literal-block">
-gunzip leptonlib-1.67.tar.gz
-tar -xvf leptonlib-1.67.tar
+gunzip leptonica-1.68.tar.gz
+tar -xvf leptonica-1.68.tar
 </pre>
 <div class="section" id="building-leptonica">
 <h2><a class="toc-backref" href="#id2">Building <strong>Leptonica</strong></a><a class="headerlink" href="#building-leptonica" title="Permalink to this headline">¶</a></h2>
@@ -197,13 +190,13 @@ There is an additional zip file for building with MS Visual Studio.</p>
 <p>Libraries, executables and prototypes are easily made, as described
 below.</p>
 <p>When you extract from the archive, all files are put in a subdirectory
-<span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span>. In that directory you will find a <span class="filesystem">src/</span>
+<span class="filesystem">leptonica-</span><span class="filesystem">1.68</span>. In that directory you will find a <span class="filesystem">src/</span>
 directory containing the source files for the library, and a <span class="filesystem">prog/</span>
 directory containing source files for various testing and example
 programs.</p>
 </div>
 <div class="section" id="building-on-linux-unix-macos">
-<h3><a class="toc-backref" href="#id4">Building on Linux/Unix/MacOS</a><a class="headerlink" href="#building-on-linux-unix-macos" title="Permalink to this headline">¶</a></h3>
+<span id="building-on-linux"></span><h3><a class="toc-backref" href="#id4">Building on Linux/Unix/MacOS</a><a class="headerlink" href="#building-on-linux-unix-macos" title="Permalink to this headline">¶</a></h3>
 <p>There are two ways to build the library:</p>
 <ol class="arabic">
 <li><p class="first">By customization: Use the existing <span class="filesystem">src/makefile</span> and customize by
@@ -237,7 +230,7 @@ make install
 </li>
 </ol>
 <p>In more detail:</p>
-<ol class="arabic">
+<ol class="arabic" id="building-using-static-makefiles">
 <li><p class="first">Customization using the static makefiles:</p>
 <ul>
 <li><p class="first"><strong>First Thing</strong>: Run <span class="command">make-for-local</span>.  This simply
@@ -268,8 +261,6 @@ memory [use flag in <span class="filesystem">src/environ.h</span>]</p>
 into a tree whose root is also the parent of the <span class="filesystem">src</span> and <span class="filesystem">prog</span>
 directories.  This can be changed using the <tt class="docutils literal"><span class="pre">ROOT_DIR</span></tt> variable
 in <span class="filesystem">makefile</span>.</p>
-</li>
-<li><p class="first">Compiling in windows under cygwin [through <tt class="docutils literal"><span class="pre">CFLAGS</span></tt> in <tt class="docutils literal"><span class="pre">$CC</span></tt>]</p>
 </li>
 </ul>
 </li>
@@ -328,7 +319,9 @@ Examples of these are the PostScript conversion programs
 files in the <span class="filesystem">prog</span> directory, and also gives a short description for
 each file.</p>
 </li>
-<li><p class="first">Building using autoconf  (Thanks to James Le Curiot)</p>
+</ol>
+<ol class="arabic" id="building-using-autoconf" start="2">
+<li><p class="first">Building using <span class="command">autoconf</span>  (Thanks to James Le Cuirot)</p>
 <p>Use the standard incantation, in the root directory (the
 directory with <span class="filesystem">configure</span>):</p>
 <div class="highlight-none"><div class="highlight"><pre>./configure    [build the Makefile]
@@ -338,6 +331,19 @@ make install   [as root; this puts liblept.a into /usr/local/lib/
                 and all the progs into /usr/local/bin/ ]
 </pre></div>
 </div>
+<p>Configure also supports building in a separate directory from the
+source.  Run <span class="command">/(path-to)/leptonica-</span><span class="command">1.68</span><span class="command">/configure</span> and then <span class="command">make</span> from the desired build
+directory.</p>
+<p>Configure has a number of useful options; run <span class="command">configure &#8211;help</span>
+for details.  If you&#8217;re not planning to modify the library, adding
+the <span class="command">&#8211;disable-dependency-tracking</span> option will speed up the
+build.  By default, both static and shared versions of the library
+are built.  Add the <span class="command">&#8211;disable-shared</span> or <span class="command">&#8211;disable-static</span>
+option if one or the other isn&#8217;t needed.</p>
+<p>By default, the library is built with debugging symbols.  If you do
+not want these, use <span class="command">CFLAGS=-O2 ./configure</span> to eliminate
+symbols for subsequent compilations, or <span class="command">make CFLAGS=-O2</span> to
+override for this compilation only.</p>
 </li>
 <li><p class="first">Cross-compiling for windows</p>
 <p>You can use <span class="filesystem">src/makefile.mingw</span> for cross-compiling in linux.</p>
@@ -352,48 +358,56 @@ make install   [as root; this puts liblept.a into /usr/local/lib/
 for building the library and applications under windows with VC++
 2008/2010:</p>
 <blockquote>
-<p><a class="reference internal" href="../vs2008/index.html"><em>Microsoft Visual Studio 2008 Developer Notes</em></a></p>
-<p><a class="reference internal" href="source-downloads.html#microsoft-visual-studio-download"><em>Microsoft Visual Studio 2008 Solution and Project Files</em></a></p>
-</blockquote>
+<div><p><a class="reference internal" href="../vs2008/index.html"><em>Microsoft Visual Studio 2008 Developer Notes</em></a></p>
+<p><a class="reference internal" href="source-downloads.html#http-tpgit-github-com-unofficialleptdocs-leptonica-source-downloads-html-microsoft-visual-studio-2008"><em>Microsoft Visual Studio 2008 Solution and Project Files</em></a></p>
+</div></blockquote>
 <p>He has also supplied a zip file that contains the entire <span class="filesystem">lib</span> and
 <span class="filesystem">include</span> directories needed to build Windows-based programs using
 static or dynamic versions of the <strong>Leptonica</strong> library (including
 static library versions of <span class="filesystem">zlib</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libtiff</span>,
 and <span class="filesystem">giflib</span>).</p>
 <blockquote>
-<p><a class="reference external" href="http://leptonica.com/source/leptonica-1.67-win32-lib-include-dirs.zip">leptonica-1.67-win32-lib-include-dirs.zip</a></p>
-</blockquote>
+<div><p><a class="reference external" href="http://leptonica.com/source/leptonica-1.68-win32-lib-include-dirs.zip">leptonica-1.68-win32-lib-include-dirs.zip</a></p>
+</div></blockquote>
 </li>
-<li><p class="first">Building with a static makefile via <a class="reference external" href="http://www.mingw.org/">MinGW</a></p>
-<p>You can build a windows-compatible version of <span class="filesystem">liblebt</span> by using
-<span class="filesystem">makefile.mingw</span> (see the usage notes at the top of that file).
-You can then build executables in <span class="filesystem">prog</span>; see the notes in
-<span class="filesystem">prog/makefile.mingw</span>.</p>
+<li><p class="first">Building with a static makefile via <a class="reference external" href="http://www.mingw.org/">MinGW</a>
+(Thanks to David Bryan)</p>
+<p>MSYS is a Unix-compatible build environment for the mingw compiler.
+Installing the &#8220;MinGW Compiler Suite C Compiler&#8221; and the &#8220;MSYS Basic
+System&#8221; will allow building the library with <span class="command">autoconf</span> as
+<a class="reference internal" href="#building-using-autoconf"><em>above</em></a>.  It will also allow building
+with the static makefile as <a class="reference internal" href="#building-using-static-makefiles"><em>above</em></a> if this option is added to the
+<span class="command">make</span> command:</p>
+<div class="highlight-none"><div class="highlight"><pre>CC=&quot;gcc -D_BSD_SOURCE -DANSI&quot;
+</pre></div>
+</div>
+<p>Only the static library may be built this way; the <a class="reference internal" href="#building-using-autoconf"><em>autoconf
+method</em></a> must be used if a shared (DLL)
+library is desired.</p>
+<p><a class="reference internal" href="#io-libraries"><em>External image libraries</em></a> must be downloaded
+separately, built, and installed before building the library.
+Pre-built libraries are available from the GnuWin project.</p>
 </li>
-<li><p class="first">Building with a static makefile via <a class="reference external" href="http://cygwin.com/">Cygwin</a></p>
-<p>A default download of Cygwin, with full &#8216;install&#8217; of the devel
-(for gnu <span class="command">make</span>, <span class="command">gcc</span>, etc) and graphics (for
-<span class="filesystem">libjpeg</span>, <span class="filesystem">libtiff</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libz</span>) groups provides enough
-libraries and programs to compile <span class="filesystem">liblebt</span> <span class="filesystem">src</span> and make the
-<span class="filesystem">.exe</span> execuables in the <span class="filesystem">prog</span> directory.</p>
-<p>Make the following changes to the <span class="filesystem">src/makefile</span>:</p>
-<ol class="loweralpha">
-<li><p class="first">use the <tt class="docutils literal"><span class="pre">$CC</span></tt> with <tt class="docutils literal"><span class="pre">_CYGWIN_ENVIRON</span></tt></p>
-</li>
-<li><p class="first">for program development, where you want to automatically
-extract protos with <span class="filesystem">xtractprotos</span>, add <span class="filesystem">.exe</span> appropriately</p>
-</li>
-</ol>
-<p>Make the following changes to the <span class="filesystem">prog/makefile</span>:</p>
-<blockquote>
-<p>remove <tt class="docutils literal"><span class="pre">-fPIC</span></tt> from <tt class="docutils literal"><span class="pre">$CC</span></tt></p>
-</blockquote>
+<li><p class="first">Building for <a class="reference external" href="http://cygwin.com/">Cygwin</a> (Thanks to David Bryan)</p>
+<p>Cygwin is a Unix-compatible build and runtime environment.
+Installing the &#8220;Base&#8221;, &#8220;Devel&#8221;, and &#8220;Graphics&#8221; packages will allow
+building the library with autoconf as <a class="reference internal" href="#building-using-autoconf"><em>above</em></a>.  If the graphics libraries are not
+present in the <span class="filesystem">/lib</span>, <span class="filesystem">/usr/lib</span>, or <span class="filesystem">/usr/local/lib</span> directories,
+you must run <span class="command">make</span> with the <tt class="docutils literal"><span class="pre">LDFLAGS=-L/(path-to-image)/lib</span></tt>
+option.  It will also allow building with the static makefile as
+<a class="reference internal" href="#building-using-static-makefiles"><em>above</em></a> if this option is
+added to the make command:</p>
+<div class="highlight-none"><div class="highlight"><pre>CC=&quot;gcc -ansi -D_BSD_SOURCE -DANSI&quot;
+</pre></div>
+</div>
+<p>Only the static library may be built this way; the <a class="reference internal" href="#building-using-autoconf"><em>autoconf</em></a> method must be used if a shared (DLL)
+library is desired.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="section" id="i-o-libraries-leptonica-is-dependent-on">
-<h2><a class="toc-backref" href="#id6">I/O libraries <strong>Leptonica</strong> is dependent on</a><a class="headerlink" href="#i-o-libraries-leptonica-is-dependent-on" title="Permalink to this headline">¶</a></h2>
+<span id="io-libraries"></span><h2><a class="toc-backref" href="#id6">I/O libraries <strong>Leptonica</strong> is dependent on</a><a class="headerlink" href="#i-o-libraries-leptonica-is-dependent-on" title="Permalink to this headline">¶</a></h2>
 <p><strong>Leptonica</strong> is configured to handle image I/O using these external
 libraries: <span class="filesystem">libjpeg</span>, <span class="filesystem">libtiff</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libz</span>, <span class="filesystem">libgif</span>, <span class="filesystem">libwebp</span>.</p>
 <p>These libraries are easy to obtain.  For example, using the debian
@@ -416,7 +430,7 @@ The entries in <span class="filesystem">environ.h</span> specify which of these 
 The default is to link to these four libraries:</p>
 <div class="highlight-none"><div class="highlight"><pre>libjpeg.a  (standard jfif jpeg library, version 6b or 7 or 8))
 libtiff.a  (standard Leffler tiff library, version 3.7.4 or later;
-libpng.a   (standard png library, suggest version 1.2.8 or later)
+libpng.a   (standard png library, suggest version 1.4.0 or later)
 libz.a     (standard gzip library, suggest version 1.2.3)
             current non-beta version is 3.8.2)
 </pre></div>
@@ -456,6 +470,8 @@ don&#8217;t pack the pixel data and are ridiculously slow.</p>
 <p>To link these libraries, see <span class="filesystem">prog/makefile</span> for instructions on
 selecting or altering the <tt class="docutils literal"><span class="pre">ALL_LIBS</span></tt> variable.  It would be nice to
 have this done automatically.</p>
+<p>See <a class="reference internal" href="#supported-image-file-formats"><em>Image I/O</em></a> for more details on
+supported image I/O formats.</p>
 </div>
 <div class="section" id="developing-with-leptonica">
 <h2><a class="toc-backref" href="#id7">Developing with <strong>Leptonica</strong></a><a class="headerlink" href="#developing-with-leptonica" title="Permalink to this headline">¶</a></h2>
@@ -514,8 +530,8 @@ xtractprotos -prestring=[string] &lt;cfile&gt;
 containing just the <strong>Leptonica</strong> files necessary for building it
 in linux.  The tar file is available at:</p>
 <blockquote>
-<p><a class="reference external" href="http://www.leptonica.com/source/xtractlib-1.4.tar.gz">http://www.leptonica.com/source/xtractlib-1.4.tar.gz</a></p>
-</blockquote>
+<div><p><a class="reference external" href="http://www.leptonica.com/source/xtractlib-1.4.tar.gz">http://www.leptonica.com/source/xtractlib-1.4.tar.gz</a></p>
+</div></blockquote>
 </li>
 </ul>
 </div>
@@ -635,6 +651,11 @@ allocator/deallocator in <span class="filesystem">pixalloc.c</span>.</p>
 </div>
 <div class="section" id="what-s-in-leptonica">
 <h2><a class="toc-backref" href="#id16">What&#8217;s in <strong>Leptonica</strong>?</a><a class="headerlink" href="#what-s-in-leptonica" title="Permalink to this headline">¶</a></h2>
+<p>There is a sortable and searchable categorized list of all the functions
+available in <strong>Leptonica</strong> at <a class="reference internal" href="functions.html"><em>Leptonica API</em></a> (Warning: this page may
+take a long time to load). There are also summaries of the files in the
+<a class="reference internal" href="src-dir.html"><em>src</em></a> and <a class="reference internal" href="prog-dir.html"><em>prog</em></a> directories with short
+descriptions of each file.</p>
 <div class="section" id="rasterops">
 <h3><a class="toc-backref" href="#id17">Rasterops</a><a class="headerlink" href="#rasterops" title="Permalink to this headline">¶</a></h3>
 <p>This is a source for a clean, fast implementation of
@@ -914,7 +935,7 @@ and <span class="filesystem">BMP</span> do not.</p>
 </ul>
 <p>Use <span class="filesystem">prog/ioformats_reg</span> for a regression test on all but <span class="filesystem">GIF</span> and
 <span class="filesystem">WEBP</span>.  Use <span class="filesystem">prog/gifio_reg</span> for testing <span class="filesystem">GIF</span>.</p>
-<p>We also provide wrappers for <span class="filesystem">PS</span> output, from all types of input
+<p>We provide wrappers for <span class="filesystem">PS</span> output, from all types of input
 images.  The output can be either uncompressed or compressed with
 level 2 (ccittg4 or dct) or level 3 (flate) encoding.  You have
 flexibility for scaling and placing of images, and for printing at
@@ -933,6 +954,20 @@ compressed <span class="filesystem">PS</span> file that can then be converted to
 raster, level 2 compressed <span class="filesystem">PS</span> file.</p>
 </li>
 </ul>
+<p>We provide wrappers for PDF output, again from all types of input
+images.  You can do the following for PDF:</p>
+<ul>
+<li><p class="first">Put any number of images onto a page, with specified input resolution,
+location and compression.</p>
+</li>
+<li><p class="first">Write a mixed raster PDF, given an input image and a segmentation
+mask.  Non-image regions are written in G4 (fax) encoding.</p>
+</li>
+<li><p class="first">Concatenate single-page PDF wrapped images into a single PDF file.</p>
+</li>
+<li><p class="first">Build a PDF file of all images in a directory or array of file names.</p>
+</li>
+</ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Any or all of these I/O library calls can be stubbed out at
@@ -947,7 +982,7 @@ is available with the gnu C runtime library (<span class="filesystem">glibc</spa
 except for <span class="filesystem">TIFF</span>, you will not be able to do memory supported
 read/writes on these platforms:</p>
 <blockquote>
-OSX, Windows, Solaris</blockquote>
+<div>OSX, Windows, Solaris</div></blockquote>
 <p>By default, these non-POSIX functions are disabled.  To enable memory
 I/O for image formatted read/writes, see <span class="filesystem">environ.h</span>.</p>
 </div>
@@ -1001,10 +1036,10 @@ images</em></a>, and digit recognition.</p>
 arrays of numbers, strings, pointers, and bytes.  The generic pointer
 array is implemented in four ways: as a stack, a queue, a heap (used to
 implement a priority queue), and an array with insertion and deletion,
-from which the stack operations form a subset.  The byte array is
-implemented as a queue.  The string arrays are particularly useful for
-both parsing and composing text.  Generic lists with doubly-linked cons
-cells are also provided.</p>
+from which the stack operations form a subset.  Byte arrays are
+implemented both as a wrapper around the actual array and as a queue.
+The string arrays are particularly useful for both parsing and composing
+text.  Generic lists with doubly-linked cons cells are also provided.</p>
 </div>
 <div class="section" id="examples-of-programs-that-are-easily-built-using-the-library">
 <h3><a class="toc-backref" href="#id30">Examples of programs that are easily built using the library</a><a class="headerlink" href="#examples-of-programs-that-are-easily-built-using-the-library" title="Permalink to this headline">¶</a></h3>
@@ -1056,7 +1091,7 @@ other document image applications.</p>
 <p><strong>Leptonica</strong> supports an open source <span class="filesystem">jbig2</span> encoder (yes, there is
 one!), which can be downloaded from:</p>
 <blockquote>
-<a class="reference external" href="http://github.com/agl/jbig2enc">http://github.com/agl/jbig2enc</a>.</blockquote>
+<div><a class="reference external" href="http://github.com/agl/jbig2enc">http://github.com/agl/jbig2enc</a>.</div></blockquote>
 <p>To build the encoder, use the most recent version.  This bundles
 <strong>Leptonica</strong> 1.63.  Once you&#8217;ve built the encoder, use it to compress
 a set of input image files (e.g.):</p>
@@ -1076,11 +1111,11 @@ file (<span class="filesystem">output.sym</span>) plus a set of location files f
 </div>
 <p>See the usage documentation for the <span class="filesystem">jbig2</span> compressor at:</p>
 <blockquote>
-<a class="reference external" href="http://github.com/agl/jbig2enc">http://github.com/agl/jbig2enc</a></blockquote>
+<div><a class="reference external" href="http://github.com/agl/jbig2enc">http://github.com/agl/jbig2enc</a></div></blockquote>
 <p>You can uncompress the <span class="filesystem">jbig2</span> files using <span class="command">jbig2dec</span>, which can
 be downloaded and built from:</p>
 <blockquote>
-<a class="reference external" href="http://jbig2dec.sourceforge.net/">http://jbig2dec.sourceforge.net/</a></blockquote>
+<div><a class="reference external" href="http://jbig2dec.sourceforge.net/">http://jbig2dec.sourceforge.net/</a></div></blockquote>
 </div>
 </div>
 <div class="section" id="versions">
@@ -1088,10 +1123,10 @@ be downloaded and built from:</p>
 <p>New versions of the <strong>Leptonica</strong> library are released approximately 6
 times a year, and version numbers are provided for each release in the
 <span class="filesystem">makefile</span> and in <span class="filesystem">allheaders.h</span>.  Version numbers are also available
-programatically via the functions <tt class="docutils literal"><span class="pre">getLeptonlibVersion()</span></tt> and
-<tt class="docutils literal"><span class="pre">getImagelibVersions()</span></tt> (in <span class="filesystem">utils.c</span>). All even versions from 1.42 to
-1.60 are archived at <a class="reference external" href="http://code.google.com/p/leptonica">http://code.google.com/p/leptonica</a>, as well as all
-versions after 1.60.</p>
+programatically via the functions <tt class="docutils literal"><span class="pre">getLeptonicaVersion()</span></tt> (in
+<span class="filesystem">utils.c</span>) and <tt class="docutils literal"><span class="pre">getImagelibVersions()</span></tt> (in <span class="filesystem">libversions.c</span>). All even
+versions from 1.42 to 1.60 are archived at
+<a class="reference external" href="http://code.google.com/p/leptonica">http://code.google.com/p/leptonica</a>, as well as all versions after 1.60.</p>
 <p>A brief version chronology is maintained in <a class="reference internal" href="version-notes.html"><em>Version Notes for Leptonica</em></a>.
 Starting with gcc 4.3.3, error warnings (<tt class="docutils literal"><span class="pre">-Werror</span></tt>) are given for
 minor infractions like not checking return values of built-in C
@@ -1160,6 +1195,7 @@ you can expect some warnings with the <tt class="docutils literal"><span class="
 <li class="toctree-l2"><a class="reference internal" href="source-downloads.html">Source Downloads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
@@ -1212,14 +1248,14 @@ you can expect some warnings with the <tt class="docutils literal"><span class="
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >The Leptonica Image Processing Library</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -1232,11 +1268,14 @@ you can expect some warnings with the <tt class="docutils literal"><span class="
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();

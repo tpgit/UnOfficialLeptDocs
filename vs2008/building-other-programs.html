@@ -8,13 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Building programs that link with leptonlib &mdash; Leptonica Documentation v1.67 documentation</title>
+    <title>Building programs that link with liblept &mdash; Leptonica Documentation v1.68 documentation</title>
     <link rel="stylesheet" href="../_static/leptonica.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.67',
+        VERSION:     '1.68',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,24 +24,17 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="Leptonica Documentation v1.67 documentation" href="../index.html" />
+    <link rel="top" title="Leptonica Documentation v1.68 documentation" href="../index.html" />
     <link rel="up" title="Leptonica &amp; Visual Studio 2008" href="index.html" />
     <link rel="next" title="Directory organization" href="directory-organization.html" />
-    <link rel="prev" title="Downloading leptonlib pre-built binaries and header files for Windows" href="downloading-binaries.html" />
+    <link rel="prev" title="Downloading liblept pre-built binaries and header files for Windows" href="downloading-binaries.html" />
  
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
     <script type="text/javascript" src="../_static/sort-filter-table-compact.js"></script>
-  <script src="http://www.mathjax.org/mathjax/MathJax.js" type="text/javascript">
-    if (window.location.protocol == "https:") {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    } else {
-      MathJax.OutputJax.fontDir = "http://www.mathjax.org/mathjax/fonts"
-    }
-    MathJax.Hub.Config({
-      extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
-      jax: ["input/TeX", "output/HTML-CSS"]
-    })
-  </script>
+   
 
 
   </head>
@@ -53,11 +46,11 @@
           <a href="directory-organization.html" title="Directory organization"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="downloading-binaries.html" title="Downloading leptonlib pre-built binaries and header files for Windows"
+          <a href="downloading-binaries.html" title="Downloading liblept pre-built binaries and header files for Windows"
              accesskey="P">previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" accesskey="U">Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
       </ul>
@@ -68,31 +61,44 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="building-programs-that-link-with-leptonlib">
-<h1>Building programs that link with <span class="filesystem">leptonlib</span><a class="headerlink" href="#building-programs-that-link-with-leptonlib" title="Permalink to this headline">¶</a></h1>
-<p>It&#8217;s simple to make projects that link with <span class="filesystem">leptonlib</span> since you can
+  <div class="section" id="building-programs-that-link-with-liblept">
+<h1>Building programs that link with <span class="filesystem">liblept</span><a class="headerlink" href="#building-programs-that-link-with-liblept" title="Permalink to this headline">¶</a></h1>
+<p>It&#8217;s simple to make projects that link with <span class="filesystem">liblept</span> since you can
 just use the standard Visual Studio <em class="menuselection"><span class="accelerator">F</span>ile ‣ <span class="accelerator">N</span>ew ‣
 <span class="accelerator">P</span>roject...</em> wizards.  Most of the compiler and linker setting will be
 dictated by your application&#8217;s needs; you only have to add where to find
-the header files and libraries needed with <span class="filesystem">leptonlib</span> and which
+the header files and libraries needed with <span class="filesystem">liblept</span> and which
 libraries you want to link with.</p>
 <p>First open up your project&#8217;s <em class="guilabel">Property Pages</em> (right-click the
 project then choose <em class="menuselection">P<span class="accelerator">r</span>operties</em> from the context
 menu). Change <em class="guilabel"><span class="accelerator">C</span>onfiguration:</em> to <em class="guilabel">All
-Configurations</em>. You then have to set two items:</p>
+Configurations</em>. You then have to set three items:</p>
 <ol class="arabic">
+<li><p class="first">Set <em class="guilabel">Configuration Properties | C/C++ | General | Inherited
+Property Sheets</em> to:</p>
+<pre class="literal-block">
+C:\BuildFolder\leptonica-<span class="filesystem">1.68</span>\vs2008\leptonica_versionnumbers.vsprops
+</pre>
+<p>This lets you use the <tt class="docutils literal"><span class="pre">*_VERSION</span></tt> user macros when specifying the
+libraries you want to link with. See <a class="reference internal" href="downloading-binaries.html#using-versionnumbers-property-sheet"><em>this section</em></a> for more information on this
+Property Sheet and &#8220;user macros&#8221;.</p>
+</li>
 <li><p class="first">To <em class="guilabel">Configuration Properties | C/C++ | General | Additional
 Include Directories</em> add:</p>
-<p><span class="filesystem">C:\BuildFolder\include;C:\BuildFolder\leptonica</span></p>
+<div class="highlight-none"><div class="highlight"><pre>C:\BuildFolder\include;C:\BuildFolder\include\leptonica
+</pre></div>
+</div>
 </li>
 <li><p class="first">To <em class="guilabel">Configuration Properties | Linker | General |
 Additional Library Directories</em> add:</p>
-<p><span class="filesystem">C:\BuildFolder\lib</span></p>
+<div class="highlight-none"><div class="highlight"><pre>C:\BuildFolder\lib
+</pre></div>
+</div>
 </li>
 </ol>
 <p>Of course, if you&#8217;ve used some other location/name instead of
-<span class="filesystem">C:\BuildFolder</span> for where you&#8217;ve put <span class="filesystem">include</span> and <span class="filesystem">lib</span> then use that
-instead.</p>
+<span class="filesystem">C:\BuildFolder</span> for where the <span class="filesystem">vs2008</span>, <span class="filesystem">include</span> and <span class="filesystem">lib</span>
+directories reside, then use that instead.</p>
 <p>Alternatively, if you don&#8217;t mind having <em class="bold-italic">all</em> programs use these
 header files and libraries, you could also globally change where Visual
 Studio 2008 looks for include files and libraries by setting
@@ -100,55 +106,67 @@ Studio 2008 looks for include files and libraries by setting
 Settings | VC++ Directories</em>.</p>
 <p>The last step is setting <em class="guilabel">Configuration Properties | Linker |
 Input | Additional Dependencies</em>. To link with the dynamic library
-Release version of <span class="filesystem">leptonlib</span> add this:</p>
-<div class="highlight-none"><div class="highlight"><pre>leptonlib.lib
+Release version of <span class="filesystem">liblept</span> add this:</p>
+<div class="highlight-none"><div class="highlight"><pre>liblept$(LIBLEPT_VERSION).lib
 </pre></div>
 </div>
-<p>To link with the dynamic library Debug version of <span class="filesystem">leptonlib</span> add this:</p>
-<div class="highlight-none"><div class="highlight"><pre>leptonlibd.lib
+<p>To link with the dynamic library Debug version of <span class="filesystem">liblept</span> add this:</p>
+<div class="highlight-none"><div class="highlight"><pre>liblept$(LIBLEPT_VERSION)d.lib
 </pre></div>
 </div>
-<p>To link with the static Release version of <span class="filesystem">leptonlib</span> add these:</p>
-<div class="highlight-none"><div class="highlight"><pre>zlib-static-mtdll.lib
-libpng-static-mtdll.lib
-libjpeg-static-mtdll.lib
-libtiff-static-mtdll.lib
-giflib-static-mtdll.lib
-leptonlib-static-mtdll.lib
+<p>To link with the static Release version of <span class="filesystem">liblept</span> add these:</p>
+<div class="highlight-none"><div class="highlight"><pre>giflib$(GIFLIB_VERSION)-static-mtdll.lib
+libjpeg$(LIBJPEG_VERSION)-static-mtdll.lib
+libpng$(LIBPNG_VERSION)-static-mtdll.lib
+libtiff$(LIBTIFF_VERSION)-static-mtdll.lib
+zlib$(ZLIB_VERSION)-static-mtdll.lib
+liblept$(LIBLEPT_VERSION)-static-mtdll.lib
 </pre></div>
 </div>
-<p>To link with the static Debug version of <span class="filesystem">leptonlib</span> add these:</p>
-<div class="highlight-none"><div class="highlight"><pre>zlib-static-mtdll-debug.lib
-libpng-static-mtdll-debug.lib
-libjpeg-static-mtdll-debug.lib
-libtiff-static-mtdll-debug.lib
-giflib-static-mtdll-debug.lib
-leptonlib-static-mtdll-debug.lib
+<p>To link with the static Debug version of <span class="filesystem">liblept</span> add these:</p>
+<div class="highlight-none"><div class="highlight"><pre>giflib$(GIFLIB_VERSION)-static-mtdll-debug.lib
+libjpeg$(LIBJPEG_VERSION)-static-mtdll-debug.lib
+libpng$(LIBPNG_VERSION)-static-mtdll-debug.lib
+libtiff$(LIBTIFF_VERSION)-static-mtdll-debug.lib
+zlib$(ZLIB_VERSION)-static-mtdll-debug.lib
+liblept$(LIBLEPT_VERSION)-static-mtdll-debug.lib
 </pre></div>
 </div>
-<p>Any <span class="filesystem">.c</span> files that use Leptonica functions have to include
+<p>You can also use <span class="filesystem">create_unnumbered_hardlinks.bat</span> to make simplified
+versions of the library filenames via NTFS hardlinks and link with those
+instead. See <a class="reference internal" href="downloading-binaries.html#making-hardlinks"><em>here</em></a> for more details.</p>
+<p>Any <span class="filesystem">.c</span> files that use <strong>Leptonica</strong> functions have to include
 <span class="filesystem">allheaders.h</span>. If you want to use the Windows-only
-<tt class="docutils literal"><span class="pre">pixGetWindowsHBITMAP(PIX</span> <span class="pre">*pixs)</span></tt> to convert a Leptonica <tt class="docutils literal"><span class="pre">PIX</span></tt> to a
-Windows <tt class="docutils literal"><span class="pre">HBITMAP</span></tt> you also have to include <span class="filesystem">leptwin.h</span>. It&#8217;s not
+<tt class="docutils literal"><span class="pre">pixGetWindowsHBITMAP(PIX</span> <span class="pre">*pixs)</span></tt> to convert a <strong>Leptonica</strong> <tt class="docutils literal"><span class="pre">PIX</span></tt> to
+a Windows <tt class="docutils literal"><span class="pre">HBITMAP</span></tt> you also have to include <span class="filesystem">leptwin.h</span>. It&#8217;s not
 automatically included by <span class="filesystem">allheaders.h</span>.</p>
 <div class="section" id="create-a-tmp-directory">
 <span id="create-tmp-directory"></span><h2>Create a <span class="filesystem">\tmp</span> directory<a class="headerlink" href="#create-a-tmp-directory" title="Permalink to this headline">¶</a></h2>
 <p>Create a <span class="filesystem">\tmp</span> directory on the same drive from which you will be
-running your <span class="filesystem">leptonlib</span> based programs. Some parts of <span class="filesystem">leptonlib</span>
-assume they can write to <span class="filesystem">/tmp</span> and will mysteriously fail if this
-directory doesn&#8217;t exist.</p>
+running your <span class="filesystem">liblept</span> based programs. Some parts of <span class="filesystem">liblept</span> assume
+they can write to <span class="filesystem">/tmp</span> and will mysteriously fail if this directory
+doesn&#8217;t exist.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This issue has been addressed starting with <span class="filesystem">liblept168</span>, but it&#8217;s
+still a good idea for now to have a <span class="filesystem">\tmp</span> directory.</p>
+<p class="last"><strong>Leptonica</strong> should now write all temporary files to your temp
+directory. This is normally <span class="filesystem">C:\Documents and
+Settings\&lt;username&gt;\Local Settings\Temp</span> but can be changed by
+setting the <tt class="docutils literal"><span class="pre">TEMP</span></tt> and <tt class="docutils literal"><span class="pre">TMP</span></tt> environment variables.</p>
 </div>
-<div class="section" id="intellisense-and-leptonlib">
-<span id="id1"></span><h2>Intellisense and <span class="filesystem">leptonlib</span><a class="headerlink" href="#intellisense-and-leptonlib" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="intellisense-and-liblept">
+<span id="id1"></span><h2>Intellisense and <span class="filesystem">liblept</span><a class="headerlink" href="#intellisense-and-liblept" title="Permalink to this headline">¶</a></h2>
 <p>Intellisense is a great Visual Studio feature that automatically
 completes function names, shows function arguments, quickly lets you go
 to a function&#8217;s definition, etc. There seems to be a problem, however,
-with navigating to <span class="filesystem">leptonlib</span> function definitions. When you right
-click a function name that is part of the <span class="filesystem">leptonlib</span> library and choose
+with navigating to <span class="filesystem">liblept</span> function definitions. When you right
+click a function name that is part of the <span class="filesystem">liblept</span> library and choose
 <em class="menuselection"><span class="accelerator">G</span>o To Definition</em> (or press the <tt class="kbd docutils literal"><span class="pre">F12</span></tt> key),
 instead of jumping to the definition it shows you the declaration in
 <span class="filesystem">leptprotos.h</span>.</p>
-<p>Adding the location of <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\src</span> to
+<p>Adding the location of <span class="filesystem">leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\src</span> to
 <em class="menuselection"><span class="accelerator">T</span>ools ‣ <span class="accelerator">O</span>ptions</em> <em class="guilabel">| Projects and Solutions
 | VC++ Directories | Show Directories For | Source Files</em> doesn&#8217;t help,
 even though that list is described as &#8220;Path to use when searching for
@@ -157,14 +175,14 @@ source files to use for Intellisense.&#8221;</p>
 <em class="menuselection">VAssist<span class="accelerator">X</span> ‣ <span class="accelerator">G</span>oto Implementation</em> (<tt class="kbd docutils literal"><span class="pre">Alt+G</span></tt>) that
 does do the correct thing as long as you follow <a class="reference external" href="http://www.wholetomato.com/products/features/goto.asp">these instructions</a>.)</p>
 <p>In order to have Visual Studio&#8217;s <em class="menuselection"><span class="accelerator">G</span>o To Definition</em>
-command work correctly with <span class="filesystem">leptonlib</span>, you have to add its project to
+command work correctly with <span class="filesystem">liblept</span>, you have to add its project to
 your current solution:</p>
 <ol class="arabic">
 <li><p class="first">Right click your solution in the Solution Explorer, and choose
 <em class="menuselection">A<span class="accelerator">d</span>d ‣ <span class="accelerator">E</span>xisting Project...</em> from the context menu.</p>
 </li>
-<li><p class="first">Select the <span class="filesystem">leptonlib-</span><span class="filesystem">1.67</span><span class="filesystem">\vs2008\leptonlib.vcproj</span> file and click
-<em class="guilabel"><span class="accelerator">O</span>pen</em>.</p>
+<li><p class="first">Select the <span class="filesystem">leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\vs2008\leptonica.vcproj</span>
+file and click <em class="guilabel"><span class="accelerator">O</span>pen</em>.</p>
 </li>
 </ol>
 </div>
@@ -189,21 +207,21 @@ your current solution:</p>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Leptonica &amp; Visual Studio 2008</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">leptonlib</span> pre-built binaries and header files for Windows</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Building programs that link with <span class="filesystem">leptonlib</span></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="downloading-binaries.html">Downloading <span class="filesystem">liblept</span> pre-built binaries and header files for Windows</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Building programs that link with <span class="filesystem">liblept</span></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-tmp-directory">Create a <span class="filesystem">\tmp</span> directory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#intellisense-and-leptonlib">Intellisense and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#intellisense-and-liblept">Intellisense and <span class="filesystem">liblept</span></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="directory-organization.html">Directory organization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">leptonlib</span> Visual Studio 2008 Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vs2008-solution.html">The <span class="filesystem">liblept</span> Visual Studio 2008 Solution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-prog-dir.html">Building the <span class="filesystem">prog</span> directory programs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-cygwin.html">Installing Cygwin coreutils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-irfanview.html">Installing IrfanView to view images</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing-gnuplot.html">Installing gnuplot to view plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csharp-and-leptonlib.html">c# and <span class="filesystem">leptonlib</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="csharp-and-liblept.html">c# and <span class="filesystem">liblept</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="building-image-libraries.html">(Optional) Building <span class="filesystem">zlib</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libtiff</span> and <span class="filesystem">giflib</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="building-leptonlib.html">(Optional) Building the <span class="filesystem">leptonlib</span> library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building-liblept.html">(Optional) Building the <span class="filesystem">liblept</span> library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html">Version Notes</a></li>
@@ -242,18 +260,18 @@ your current solution:</p>
           <a href="directory-organization.html" title="Directory organization"
              >next</a></li>
         <li class="right" >
-          <a href="downloading-binaries.html" title="Downloading leptonlib pre-built binaries and header files for Windows"
+          <a href="downloading-binaries.html" title="Downloading liblept pre-built binaries and header files for Windows"
              >previous</a> |</li>
   <li><a href="http://www.leptonica.com">Leptonica Home</a> &raquo;</li>
   
-        <li><a href="../index.html">Unofficial v1.67 Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Unofficial v1.68 Documentation</a> &raquo;</li>
 
           <li><a href="index.html" >Leptonica &amp; Visual Studio 2008</a> &raquo;</li> 
       </ul>
     </div>
   <div class="footer">
 
-   <p class="creativecommons">
+   <span class="creativecommons">
     <a href="http://creativecommons.org/licenses/by/3.0/us/" >
       <img src="../_static/creativecommons-88x31.png"
 	   border="0" alt="Creative Commons License"/>
@@ -266,11 +284,14 @@ your current solution:</p>
     <a href="http://creativecommons.org/licenses/by/3.0/us/">
      Creative Commons Attribution 3.0 United States License.
     </a>
-   </p>
+   </span>
 
+   
+   <span class="sphinxcreditr">
+   Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+   </span>
+   
 
-   <p class="sphinxcredit">Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
-   </p>
     <script type="text/javascript">
       _uacct = "UA-144810-1";
       urchinTracker();
