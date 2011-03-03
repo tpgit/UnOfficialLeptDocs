@@ -28,7 +28,7 @@ needs_sphinx = '1.0'
 extensions = ['sphinx.ext.extlinks', 'sphinx.ext.todo', 'mathjax']
 
 extlinks = {'papersurl': ('http://leptonica.com/papers/%s',  ''),
-            'sourceurl': ('http://leptonica.com/source/%s', ''),
+            'sourceurl': ('http://leptonica.org/source/%s', ''),
             'unconverted': ('http://leptonica.com/%s', None),
             }
 

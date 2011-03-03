@@ -1,4 +1,4 @@
-:version: $RCSfile: package-contents.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
+:version: $RCSfile: package-contents.rst,v $ $Revision: b84e08108423 $ $Date: 2011/03/03 07:29:25 $
 
 .. default-role:: fs
 
@@ -69,7 +69,7 @@ This package consists of the following files:
    :ref:`building-libjpeg` for more information.
 
 `libtiff3.9.4-vs2008-makefiles-for-leptonica.zip`
-   libtiff3.9.2 makefiles modified for use with |liblept|.  See
+   libtiff3.9.4 makefiles modified for use with |liblept|.  See
    :ref:`building-libtiff` for more information.
 
 `giflib4.1.6.zip`
