@@ -201,12 +201,12 @@ In more detail:
    :cmd:`/configure` and then :cmd:`make` from the desired build
    directory.
 
-   Configure has a number of useful options; run :cmd:`configure --help`
-   for details.  If you're not planning to modify the library, adding
-   the :cmd:`--disable-dependency-tracking` option will speed up the
-   build.  By default, both static and shared versions of the library
-   are built.  Add the :cmd:`--disable-shared` or :cmd:`--disable-static`
-   option if one or the other isn't needed.
+   Configure has a number of useful options; run ``configure
+   --help`` for details.  If you're not planning to modify the library,
+   adding the ``--disable-dependency-tracking`` option will speed
+   up the build.  By default, both static and shared versions of the
+   library are built.  Add the ``--disable-shared`` or
+   ``--disable-static`` option if one or the other isn't needed.
 
    By default, the library is built with debugging symbols.  If you do
    not want these, use :cmd:`CFLAGS=-O2 ./configure` to eliminate

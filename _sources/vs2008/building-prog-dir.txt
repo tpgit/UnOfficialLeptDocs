@@ -51,7 +51,7 @@ If you've decided to make simplified library filenames by using NTFS
 hardlinks as described in :ref:`about-version-numbers`, you can
 using the following command instead::
 
-   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlibd.lib libpngd.lib libjpeg8cd.lib libtiff394d.lib giflib416d.lib libleptd-static.lib
+   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlibd.lib libpngd.lib libjpegd.lib libtiffd.lib giflibd.lib libleptd-static.lib
 
 To try it out do the following::
 

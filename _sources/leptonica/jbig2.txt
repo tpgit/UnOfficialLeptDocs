@@ -1,4 +1,4 @@
-:version: $RCSfile: jbig2.rst,v $ $Revision: aa1808cf90ca $ $Date: 2010/08/22 23:25:46 $
+:version: $RCSfile: jbig2.rst,v $ $Revision: 7dba43ca3e52 $ $Date: 2011/03/02 20:16:11 $
 
 .. default-role:: fs
 
@@ -332,8 +332,8 @@ the second mask, and so forth.
 
 The best implementation of MR format is the open DjVu format, for which
 there exists both `proprietary
-<http://www.celartem.com/en/products/djvu.asp>`_ and `open source
-<http://djvu.sourceforge.net/>`_ implementations. The DjVu format
+<http://www.caminova.net/en/products/?src=products2.aspx>`_ and `open
+source <http://djvu.sourceforge.net/>`_ implementations. The DjVu format
 uses a restriction of the general MR format to three layers: a
 foreground mask (e.g., the text), a foreground image (the image painted
 through the text mask; often black), and a background image.  The

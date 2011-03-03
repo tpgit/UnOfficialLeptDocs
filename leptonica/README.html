@@ -334,12 +334,12 @@ make install   [as root; this puts liblept.a into /usr/local/lib/
 <p>Configure also supports building in a separate directory from the
 source.  Run <span class="command">/(path-to)/leptonica-</span><span class="command">1.68</span><span class="command">/configure</span> and then <span class="command">make</span> from the desired build
 directory.</p>
-<p>Configure has a number of useful options; run <span class="command">configure &#8211;help</span>
-for details.  If you&#8217;re not planning to modify the library, adding
-the <span class="command">&#8211;disable-dependency-tracking</span> option will speed up the
-build.  By default, both static and shared versions of the library
-are built.  Add the <span class="command">&#8211;disable-shared</span> or <span class="command">&#8211;disable-static</span>
-option if one or the other isn&#8217;t needed.</p>
+<p>Configure has a number of useful options; run <tt class="docutils literal"><span class="pre">configure</span>
+<span class="pre">--help</span></tt> for details.  If you&#8217;re not planning to modify the library,
+adding the <tt class="docutils literal"><span class="pre">--disable-dependency-tracking</span></tt> option will speed
+up the build.  By default, both static and shared versions of the
+library are built.  Add the <tt class="docutils literal"><span class="pre">--disable-shared</span></tt> or
+<tt class="docutils literal"><span class="pre">--disable-static</span></tt> option if one or the other isn&#8217;t needed.</p>
 <p>By default, the library is built with debugging symbols.  If you do
 not want these, use <span class="command">CFLAGS=-O2 ./configure</span> to eliminate
 symbols for subsequent compilations, or <span class="command">make CFLAGS=-O2</span> to
@@ -367,7 +367,7 @@ static or dynamic versions of the <strong>Leptonica</strong> library (including
 static library versions of <span class="filesystem">zlib</span>, <span class="filesystem">libpng</span>, <span class="filesystem">libjpeg</span>, <span class="filesystem">libtiff</span>,
 and <span class="filesystem">giflib</span>).</p>
 <blockquote>
-<div><p><a class="reference external" href="http://leptonica.com/source/leptonica-1.68-win32-lib-include-dirs.zip">leptonica-1.68-win32-lib-include-dirs.zip</a></p>
+<div><p><a class="reference external" href="http://leptonica.org/source/leptonica-1.68-win32-lib-include-dirs.zip">leptonica-1.68-win32-lib-include-dirs.zip</a></p>
 </div></blockquote>
 </li>
 <li><p class="first">Building with a static makefile via <a class="reference external" href="http://www.mingw.org/">MinGW</a>
