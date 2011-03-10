@@ -1,4 +1,4 @@
-:version: $RCSfile: version-notes.rst,v $ $Revision: 37d6fa039681 $ $Date: 2011/03/02 17:31:30 $
+:version: $RCSfile: version-notes.rst,v $ $Revision: 3acf4ffa8d4b $ $Date: 2011/03/10 16:02:55 $
 
 .. default-role:: fs
 
@@ -11,8 +11,8 @@
 .. Note:: The following are highlights of the changes in each version.
           They are *not* a complete listing of the modifications.
 
-1.68 --  3 Mar 11
-=================
+1.68 --  10 Mar 11
+==================
 
 * Fixed windows issues with passing pointers across C-runtime boundaries
   when using DLLs, by providing special functions (e.g.,
@@ -51,6 +51,10 @@
   for functions that make and remove directories, copy, move and delete
   files, etc.  It should now be straightforward to write programs that
   will compile and run on windows.
+
+* Reg tests have better printout; all give timings.
+
+* New utility program: `convertfilestopdf.c`.
 
 
 1.67 --  9 Nov 10

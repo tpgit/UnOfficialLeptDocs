@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
+:version: $RCSfile: index.rst,v $ $Revision: 3acf4ffa8d4b $ $Date: 2011/03/10 16:02:55 $
 
 .. _vs2008-notes:
 
@@ -12,7 +12,7 @@
    Studio 2008
 
 :author: Tom Powers
-:date: March 3, 2011
+:date: March 10, 2011
 
 .. toctree::
 

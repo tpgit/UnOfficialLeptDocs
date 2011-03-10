@@ -1,4 +1,4 @@
-:version: $RCSfile: README.rst,v $ $Revision: b84e08108423 $ $Date: 2011/03/03 07:29:25 $
+:version: $RCSfile: README.rst,v $ $Revision: 3acf4ffa8d4b $ $Date: 2011/03/10 16:02:55 $
 
 .. default-role:: fs
 
@@ -8,7 +8,7 @@
  README
 ========
 
-:date: Mar 3, 2011
+:date: Mar 10, 2011
 
 .. contents::
    :local:
