@@ -1,4 +1,4 @@
-:version: $RCSfile: versions.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
+:version: $RCSfile: versions.rst,v $ $Revision: 3acf4ffa8d4b $ $Date: 2011/03/10 16:02:55 $
 
 .. default-role:: fs
 
@@ -6,8 +6,8 @@
  Version Notes
 ===============
 
-1.68 -- March 3, 2011
-=====================
+1.68 -- March 10, 2011
+======================
 
 + Changed the |Leptonica| library filename from `leptonlib` to `liblept`
   to match the name used on other platforms.
@@ -54,6 +54,23 @@
   :ref:`Create Leptonica prog Project AddIn
   <using-create-prog-project-addin>` to work again.
 
++ Removed unneeded Debug and Release Configurations from
+  `leptonica.sln`.
+
++ Added the following Post-Build Event to the :guilabel:`ioformats_reg`
+  Project::
+
+     if exist "$(SolutionDir)$(OutDir)\$(TargetFileName)" del "$(SolutionDir)$(OutDir)\$(TargetFileName)"
+     fsutil hardlink create "$(SolutionDir)$(OutDir)\$(TargetFileName)" "$(TargetPath)"
+
+  This creates a NTFS "hardlink" to `ioformats_reg.exe` in the
+  `vs2008\$(OutDir)` folder so that the `alltests_reg` program (which
+  needs to be able to execute all the `*_reg` programs) can find it. Be
+  sure to also set :guilabel:`alltests_reg` Project's
+  :guilabel:`Configuration Properties | Debugging | Environment` to::
+
+     set PATH=..\..\lib;..\vs2008\$(OutDir);%PATH%
+
 + Added a Version resource to :guilabel:`DLL` releases. A Version tab
   now displays in the `liblept.dll` Properties dialog.
 
@@ -79,6 +96,7 @@
 
    byteatest.c
    colormask_reg.c
+   convertfilestopdf.c
    pdfiotest.c
    pngio_reg.c
    quadtreetest.c
@@ -105,6 +123,7 @@
 
    byteatest.c
    colormask_reg.c
+   convertfilestopdf.c
    pdfiotest.c
    pngio_reg.c
    quadtreetest.c

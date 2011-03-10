@@ -1,4 +1,4 @@
-:version: $RCSfile: building-prog-dir.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
+:version: $RCSfile: building-prog-dir.rst,v $ $Revision: 3acf4ffa8d4b $ $Date: 2011/03/10 16:02:55 $
 
 .. default-role:: fs
 
@@ -45,13 +45,13 @@ files, make subdirectories for Debug and Release builds:
 Then copy and paste the following :cmd:`cl` command to build a Debug
 version of `ioformats_reg.exe`::
 
-   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept168-static-mtdll-debug.lib
+   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept168-static-mtdll-debug.lib
 
 If you've decided to make simplified library filenames by using NTFS
 hardlinks as described in :ref:`about-version-numbers`, you can
 using the following command instead::
 
-   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlibd.lib libpngd.lib libjpegd.lib libtiffd.lib giflibd.lib libleptd-static.lib
+   cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE ..\ioformats_reg.c /link /LIBPATH:"..\..\..\lib" zlibd.lib libpngd.lib libjpegd.lib libtiffd.lib giflibd.lib libleptd-static.lib
 
 To try it out do the following::
 
@@ -70,11 +70,11 @@ for more information)::
 
 For Debug builds set the following compiler options::
 
-   SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
+   SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE
 
 For Release builds set the following compiler options::
 
-   SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
+   SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE
 
 For static Debug builds set the following linker options:
 

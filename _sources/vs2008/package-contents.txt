@@ -1,4 +1,4 @@
-:version: $RCSfile: package-contents.rst,v $ $Revision: ab7f322f4578 $ $Date: 2011/02/08 03:40:07 $
+:version: $RCSfile: package-contents.rst,v $ $Revision: b84e08108423 $ $Date: 2011/03/03 07:29:25 $
 
 .. default-role:: fs
 

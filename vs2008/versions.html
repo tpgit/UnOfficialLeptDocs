@@ -63,8 +63,8 @@
             
   <div class="section" id="version-notes">
 <h1>Version Notes<a class="headerlink" href="#version-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="march-3-2011">
-<h2>1.68 &#8211; March 3, 2011<a class="headerlink" href="#march-3-2011" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="march-10-2011">
+<h2>1.68 &#8211; March 10, 2011<a class="headerlink" href="#march-10-2011" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">Changed the <strong>Leptonica</strong> library filename from <span class="filesystem">leptonlib</span> to <span class="filesystem">liblept</span>
 to match the name used on other platforms.</p>
@@ -108,6 +108,24 @@ number changes in library filenames.</p>
 <span class="filesystem">BuildFolder\leptonica-</span><span class="filesystem">1.68</span><span class="filesystem">\vs2008</span> to get the
 <a class="reference internal" href="building-prog-dir.html#using-create-prog-project-addin"><em>Create Leptonica prog Project AddIn</em></a> to work again.</p>
 </li>
+<li><p class="first">Removed unneeded Debug and Release Configurations from
+<span class="filesystem">leptonica.sln</span>.</p>
+</li>
+<li><p class="first">Added the following Post-Build Event to the <em class="guilabel">ioformats_reg</em>
+Project:</p>
+<div class="highlight-none"><div class="highlight"><pre>if exist &quot;$(SolutionDir)$(OutDir)\$(TargetFileName)&quot; del &quot;$(SolutionDir)$(OutDir)\$(TargetFileName)&quot;
+fsutil hardlink create &quot;$(SolutionDir)$(OutDir)\$(TargetFileName)&quot; &quot;$(TargetPath)&quot;
+</pre></div>
+</div>
+<p>This creates a NTFS &#8220;hardlink&#8221; to <span class="filesystem">ioformats_reg.exe</span> in the
+<span class="filesystem">vs2008$(OutDir)</span> folder so that the <span class="filesystem">alltests_reg</span> program (which
+needs to be able to execute all the <span class="filesystem">*_reg</span> programs) can find it. Be
+sure to also set <em class="guilabel">alltests_reg</em> Project&#8217;s
+<em class="guilabel">Configuration Properties | Debugging | Environment</em> to:</p>
+<div class="highlight-none"><div class="highlight"><pre>set PATH=..\..\lib;..\vs2008\$(OutDir);%PATH%
+</pre></div>
+</div>
+</li>
 <li><p class="first">Added a Version resource to <em class="guilabel">DLL</em> releases. A Version tab
 now displays in the <span class="filesystem">liblept.dll</span> Properties dialog.</p>
 </li>
@@ -133,6 +151,7 @@ quadtree.c
 <li><p class="first">Added the following files to <em class="guilabel">prog_files</em> Solution Folder:</p>
 <div class="highlight-none"><div class="highlight"><pre>byteatest.c
 colormask_reg.c
+convertfilestopdf.c
 pdfiotest.c
 pngio_reg.c
 quadtreetest.c
@@ -162,6 +181,7 @@ quadtree.c
 <li><p class="first">Added descriptions of the following files to <span class="filesystem">progs.csv</span> file:</p>
 <div class="highlight-none"><div class="highlight"><pre>byteatest.c
 colormask_reg.c
+convertfilestopdf.c
 pdfiotest.c
 pngio_reg.c
 quadtreetest.c
@@ -483,7 +503,7 @@ and <span class="filesystem">zlib</span>.</p>
 <li class="toctree-l2"><a class="reference internal" href="vs2010-notes.html">Visual Studio 2010 Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="package-contents.html">Package Contents</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Version Notes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#march-3-2011">1.68 &#8211; March 3, 2011</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#march-10-2011">1.68 &#8211; March 10, 2011</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#november-10-2010">1.67 &#8211; November 10, 2010</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#august-9-2010">1.66 &#8211; August 9, 2010</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#april-07-2010">1.65 &#8211; April 07, 2010</a></li>

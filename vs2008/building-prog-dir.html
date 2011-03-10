@@ -89,13 +89,13 @@ cd BuildFolder\leptonica-1.68\prog\Debug
 </pre>
 <p>Then copy and paste the following <span class="command">cl</span> command to build a Debug
 version of <span class="filesystem">ioformats_reg.exe</span>:</p>
-<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept168-static-mtdll-debug.lib
+<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlib125-static-mtdll-debug.lib libpng143-static-mtdll-debug.lib libjpeg8c-static-mtdll-debug.lib libtiff394-static-mtdll-debug.lib giflib416-static-mtdll-debug.lib liblept168-static-mtdll-debug.lib
 </pre></div>
 </div>
 <p>If you&#8217;ve decided to make simplified library filenames by using NTFS
 hardlinks as described in <a class="reference internal" href="downloading-binaries.html#about-version-numbers"><em>About version numbers in library filenames</em></a>, you can
 using the following command instead:</p>
-<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlibd.lib libpngd.lib libjpegd.lib libtiffd.lib giflibd.lib libleptd-static.lib
+<div class="highlight-none"><div class="highlight"><pre>cl /Od /MDd /EHsc /W3 /RTC1 /Z7 /I ..\..\src /D WIN32 /D _DEBUG /D _CONSOLE ..\ioformats_reg.c /link /LIBPATH:&quot;..\..\..\lib&quot; zlibd.lib libpngd.lib libjpegd.lib libtiffd.lib giflibd.lib libleptd-static.lib
 </pre></div>
 </div>
 <p>To try it out do the following:</p>
@@ -113,11 +113,11 @@ SET PATH=C:\BuildFolder\lib;%PATH%
 </pre></div>
 </div>
 <p>For Debug builds set the following compiler options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
+<div class="highlight-none"><div class="highlight"><pre>SET CL=/Od /MDd /EHsc /W3 /RTC1 /Z7 /D WIN32 /D _DEBUG /D _CONSOLE
 </pre></div>
 </div>
 <p>For Release builds set the following compiler options:</p>
-<div class="highlight-none"><div class="highlight"><pre>SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS
+<div class="highlight-none"><div class="highlight"><pre>SET CL=/O2 /MD /EHsc /W3 /D WIN32 /D NDEBUG /D _CONSOLE
 </pre></div>
 </div>
 <p>For static Debug builds set the following linker options:</p>
