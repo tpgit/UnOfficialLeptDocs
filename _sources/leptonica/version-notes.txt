@@ -11,7 +11,7 @@
 .. Note:: The following are highlights of the changes in each version.
           They are *not* a complete listing of the modifications.
 
-1.68 --  10 Mar 11
+1.68 --  14 Mar 11
 ==================
 
 * Fixed windows issues with passing pointers across C-runtime boundaries

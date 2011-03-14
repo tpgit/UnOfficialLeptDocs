@@ -6,7 +6,7 @@
  Version Notes
 ===============
 
-1.68 -- March 10, 2011
+1.68 -- March 14, 2011
 ======================
 
 + Changed the |Leptonica| library filename from `leptonlib` to `liblept`
@@ -97,7 +97,9 @@
    byteatest.c
    colormask_reg.c
    convertfilestopdf.c
+   convertsegfilestopdf.c
    pdfiotest.c
+   pdfseg_reg.c
    pngio_reg.c
    quadtreetest.c
    translate_reg.c
@@ -124,7 +126,9 @@
    byteatest.c
    colormask_reg.c
    convertfilestopdf.c
+   convertsegfilestopdf.c
    pdfiotest.c
+   pdfseg_reg.c
    pngio_reg.c
    quadtreetest.c
    translate_reg.c
