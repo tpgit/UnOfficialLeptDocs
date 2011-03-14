@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: 6c29e8896e5c $ $Date: 2011/03/14 21:50:44 $
+:version: $RCSfile: index.rst,v $ $Revision: 24317f2118ad $ $Date: 2011/03/14 22:53:16 $
 
 =================================================
  Unofficial Leptonica v\ |version| Documentation
@@ -6,7 +6,7 @@
 
 .. note::
 
-   This is an "unoffical" conversion of the `Leptonica
+   This is an "unofficial" conversion of the `Leptonica
    <http://www.leptonica.org>`_ documentation. While the owner of that
    website, Dan Bloomberg, provides a link to this website, he hasn't
    yet verified the accuracy of the conversion.
