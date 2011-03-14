@@ -8,7 +8,7 @@
  Source Downloads
 ==================
 
-:date: Mar 3, 2011
+:date: Mar 14, 2011
 
 .. epigraph::
 
@@ -35,7 +35,7 @@ subsequent releases, are available for download at
 `code.google.com/p/leptonica
 <http://code.google.com/p/leptonica/downloads/list>`_
 
-Current version: 1.68 (3/3/11)
+Current version: 1.68 (3/14/11)
    :sourceurl:`leptonica-1.68.tar.gz`
 
 Version: 1.67 (11/9/10)
@@ -58,7 +58,7 @@ project files for building the library and executables that link
 standard file I/O libraries. See his :ref:`developer package notes
 <building-liblept>` for where to unzip this file.
 
-Current version: vs2008-1.68 (3/3/11)
+Current version: vs2008-1.68 (3/14/11)
    :sourceurl:`vs2008-1.68.zip`
 
 Version: vs2008-1.67 (11/9/10)
@@ -82,7 +82,7 @@ library versions of `zlib`, `libpng`, `libjpeg`, `libtiff`, and
 </vs2008/downloading-binaries>` for version details, including where to
 unzip this file.
 
-Current version: leptonica-1.68-win32-lib-include-dirs (3/3/11)
+Current version: leptonica-1.68-win32-lib-include-dirs (3/14/11)
    :sourceurl:`leptonica-1.68-win32-lib-include-dirs.zip`
 
 Version: leptonica-1.67-win32-lib-include-dirs (8/9/10)

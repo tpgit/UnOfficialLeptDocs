@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: b751cba010b8 $ $Date: 2010/11/11 11:29:47 $
+:version: $RCSfile: index.rst,v $ $Revision: 6c29e8896e5c $ $Date: 2011/03/14 21:50:44 $
 
 =================================================
  Unofficial Leptonica v\ |version| Documentation
@@ -30,7 +30,7 @@
      :doc:`leptonica/applications` sections.
 
    + An easier to read, slightly reorganized :doc:`README
-     <leptonica/README>` with full hyperlinking,
+     <leptonica/README>` with full hyperlinking.
 
    + An easier to read :doc:`Version Notes <leptonica/version-notes>`
      page.
