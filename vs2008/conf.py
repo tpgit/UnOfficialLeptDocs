@@ -258,11 +258,13 @@ rst_prolog="""
 
 .. |vnumG|        replace:: :guilabel:`168`
 
+.. |versionC|  replace:: :cmd:`%s`
+
 .. |versionF|  replace:: :fs:`%s`
 
 .. |versionG|  replace:: :guilabel:`%s`
 
-""" % (version, version)
+""" % (version, version, version)
 
 rst_epilog="""
 """

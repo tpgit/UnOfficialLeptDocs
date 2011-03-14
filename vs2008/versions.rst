@@ -1,4 +1,4 @@
-:version: $RCSfile: versions.rst,v $ $Revision: 3acf4ffa8d4b $ $Date: 2011/03/10 16:02:55 $
+:version: $RCSfile: versions.rst,v $ $Revision: 6c29e8896e5c $ $Date: 2011/03/14 21:50:44 $
 
 .. default-role:: fs
 
@@ -6,7 +6,7 @@
  Version Notes
 ===============
 
-1.68 -- March 10, 2011
+1.68 -- March 14, 2011
 ======================
 
 + Changed the |Leptonica| library filename from `leptonlib` to `liblept`
@@ -97,7 +97,9 @@
    byteatest.c
    colormask_reg.c
    convertfilestopdf.c
+   convertsegfilestopdf.c
    pdfiotest.c
+   pdfseg_reg.c
    pngio_reg.c
    quadtreetest.c
    translate_reg.c
@@ -124,7 +126,9 @@
    byteatest.c
    colormask_reg.c
    convertfilestopdf.c
+   convertsegfilestopdf.c
    pdfiotest.c
+   pdfseg_reg.c
    pngio_reg.c
    quadtreetest.c
    translate_reg.c

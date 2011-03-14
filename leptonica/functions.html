@@ -20,7 +20,7 @@
    </tr>
 
    <tr>
-    <th colspan="5"><span id="t1filtercount">2039</span>&nbsp;of <span id="t1allcount">2039</span>&nbsp;rows match filter(s)</th>
+    <th colspan="5"><span id="t1filtercount">2046</span>&nbsp;of <span id="t1allcount">2046</span>&nbsp;rows match filter(s)</th>
    </tr>
 
    <tr>
@@ -1246,7 +1246,7 @@
     <td>Formatted I/O</td>
     <td>convertFilesToPdf</td>
     <td>l_int32</td>
-    <td>const char *dirname,<br /> const char *substr,<br /> l_int32 res,<br /> l_int32 quality,<br /> const char *title,<br /> const char *fileout</td>
+    <td>const char *dirname,<br /> const char *substr,<br /> l_int32 res,<br /> l_float32 scalefactor,<br /> l_int32 quality,<br /> const char *title,<br /> const char *fileout</td>
    </tr>
    <tr>
     <td>psio2.c</td>
@@ -1373,6 +1373,13 @@
     <td>convertRGBToYUV</td>
     <td>l_int32</td>
     <td>l_int32 rval,<br /> l_int32 gval,<br /> l_int32 bval,<br /> l_int32 *pyval,<br /> l_int32 *puval,<br /> l_int32 *pvval</td>
+   </tr>
+   <tr>
+    <td>pdfio.c</td>
+    <td>Formatted I/O</td>
+    <td>convertSegmentedFilesToPdf</td>
+    <td>l_int32</td>
+    <td>const char *dirname,<br /> const char *substr,<br /> l_int32 res,<br /> l_int32 type,<br /> l_int32 thresh,<br /> BOXAA *baa,<br /> l_int32 quality,<br /> l_float32 scalefactor,<br /> const char *title,<br /> const char *fileout</td>
    </tr>
    <tr>
     <td>psio1.c</td>
@@ -2437,6 +2444,13 @@
     <td>fprintTiffInfo</td>
     <td>l_int32</td>
     <td>FILE *fpout,<br /> const char *tiffile</td>
+   </tr>
+   <tr>
+    <td>jpegio.c</td>
+    <td>Formatted I/O</td>
+    <td>freadHeaderJpeg</td>
+    <td>l_int32</td>
+    <td>FILE *fp,<br /> l_int32 *pw,<br /> l_int32 *ph,<br /> l_int32 *pspp,<br /> l_int32 *pycck,<br /> l_int32 *pcmyk</td>
    </tr>
    <tr>
     <td>pngio.c</td>
@@ -11919,6 +11933,13 @@
    <tr>
     <td>colormap.c</td>
     <td>Colormap Utilities and Related Operations</td>
+    <td>pixcmapAddNearestColor</td>
+    <td>l_int32</td>
+    <td>PIXCMAP *cmap,<br /> l_int32 rval,<br /> l_int32 gval,<br /> l_int32 bval,<br /> l_int32 *pindex</td>
+   </tr>
+   <tr>
+    <td>colormap.c</td>
+    <td>Colormap Utilities and Related Operations</td>
     <td>pixcmapAddNewColor</td>
     <td>l_int32</td>
     <td>PIXCMAP *cmap,<br /> l_int32 rval,<br /> l_int32 gval,<br /> l_int32 bval,<br /> l_int32 *pindex</td>
@@ -12946,6 +12967,20 @@
     <td>l_uint32 *data,<br /> l_int32 pixw,<br /> l_int32 pixh,<br /> l_int32 depth,<br /> l_int32 wpl,<br /> l_int32 x,<br /> l_int32 w,<br /> l_int32 shift</td>
    </tr>
    <tr>
+    <td>jpegio.c</td>
+    <td>Formatted I/O</td>
+    <td>readHeaderJpeg</td>
+    <td>l_int32</td>
+    <td>const char *filename,<br /> l_int32 *pw,<br /> l_int32 *ph,<br /> l_int32 *pspp,<br /> l_int32 *pycck,<br /> l_int32 *pcmyk</td>
+   </tr>
+   <tr>
+    <td>jpegio.c</td>
+    <td>Formatted I/O</td>
+    <td>readHeaderMemJpeg</td>
+    <td>l_int32</td>
+    <td>const l_uint8 *cdata,<br /> size_t size,<br /> l_int32 *pw,<br /> l_int32 *ph,<br /> l_int32 *pspp,<br /> l_int32 *pycck,<br /> l_int32 *pcmyk</td>
+   </tr>
+   <tr>
     <td>tiffio.c</td>
     <td>Formatted I/O</td>
     <td>readHeaderMemTiff</td>
@@ -13153,14 +13188,14 @@
     <td>Formatted I/O</td>
     <td>saConvertFilesToPdf</td>
     <td>l_int32</td>
-    <td>SARRAY *sa,<br /> l_int32 res,<br /> l_int32 quality,<br /> const char *title,<br /> const char *fileout</td>
+    <td>SARRAY *sa,<br /> l_int32 res,<br /> l_float32 scalefactor,<br /> l_int32 quality,<br /> const char *title,<br /> const char *fileout</td>
    </tr>
    <tr>
     <td>pdfio.c</td>
     <td>Formatted I/O</td>
     <td>saConvertFilesToPdfData</td>
     <td>l_int32</td>
-    <td>SARRAY *sa,<br /> l_int32 res,<br /> l_int32 quality,<br /> const char *title,<br /> l_uint8 **pdata,<br /> size_t *pnbytes</td>
+    <td>SARRAY *sa,<br /> l_int32 res,<br /> l_float32 scalefactor,<br /> l_int32 quality,<br /> const char *title,<br /> l_uint8 **pdata,<br /> size_t *pnbytes</td>
    </tr>
    <tr>
     <td>sarray.c</td>
@@ -14019,9 +14054,23 @@
    <tr>
     <td>utils.c</td>
     <td>Miscellaneous Utilities</td>
+    <td>startTimerNested</td>
+    <td>L_TIMER</td>
+    <td>void</td>
+   </tr>
+   <tr>
+    <td>utils.c</td>
+    <td>Miscellaneous Utilities</td>
     <td>stopTimer</td>
     <td>l_float32</td>
     <td>void</td>
+   </tr>
+   <tr>
+    <td>utils.c</td>
+    <td>Miscellaneous Utilities</td>
+    <td>stopTimerNested</td>
+    <td>l_float32</td>
+    <td>L_TIMER rusage_start</td>
    </tr>
    <tr>
     <td>utils.c</td>

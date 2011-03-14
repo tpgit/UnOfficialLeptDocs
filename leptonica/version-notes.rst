@@ -1,4 +1,4 @@
-:version: $RCSfile: version-notes.rst,v $ $Revision: 3acf4ffa8d4b $ $Date: 2011/03/10 16:02:55 $
+:version: $RCSfile: version-notes.rst,v $ $Revision: 6c29e8896e5c $ $Date: 2011/03/14 21:50:44 $
 
 .. default-role:: fs
 
@@ -11,7 +11,7 @@
 .. Note:: The following are highlights of the changes in each version.
           They are *not* a complete listing of the modifications.
 
-1.68 --  10 Mar 11
+1.68 --  14 Mar 11
 ==================
 
 * Fixed windows issues with passing pointers across C-runtime boundaries

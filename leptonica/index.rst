@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: 37f29fe52bad $ $Date: 2011/03/02 14:34:46 $
+:version: $RCSfile: index.rst,v $ $Revision: 6c29e8896e5c $ $Date: 2011/03/14 21:50:44 $
 
 ========================================
  The Leptonica Image Processing Library
@@ -7,6 +7,7 @@
 .. toctree::
 
    README
+   version-notes
    local-sources
    source-downloads
    library-overview
@@ -22,7 +23,6 @@
    recent-pubs
    about-the-license
    about-the-name
-   version-notes
    glossary
 
 ..
