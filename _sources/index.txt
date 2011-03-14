@@ -6,7 +6,7 @@
 
 .. note::
 
-   This is an "unoffical" conversion of the `Leptonica
+   This is an "unofficial" conversion of the `Leptonica
    <http://www.leptonica.org>`_ documentation. While the owner of that
    website, Dan Bloomberg, provides a link to this website, he hasn't
    yet verified the accuracy of the conversion.
