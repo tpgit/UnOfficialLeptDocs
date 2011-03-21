@@ -4,5 +4,6 @@ backups/
 outdir/
 githtml/
 *.log
+*.pyc
 *~
 leptonica.doxy.tags

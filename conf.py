@@ -16,7 +16,8 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.append(os.path.abspath('.'))
+sys.path.append(os.path.abspath('.'))
+import doxylinks
 
 # -- General configuration -----------------------------------------------------
 
@@ -25,19 +26,18 @@ needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.extlinks', 'sphinx.ext.todo', 'mathjax']
-#extensions = ['sphinx.ext.extlinks', 'sphinx.ext.todo', 'mathjax', 'doxylink']
+#extensions = ['sphinx.ext.extlinks', 'sphinx.ext.todo', 'mathjax']
+extensions = ['sphinx.ext.extlinks', 'sphinx.ext.todo', 'mathjax', 'doxylinks']
 
 extlinks = {'papersurl': ('http://leptonica.com/papers/%s',  ''),
             'sourceurl': ('http://leptonica.org/source/%s', ''),
             'unconverted': ('http://leptonica.com/%s', None),
             }
 
-## doxylink = {
-##         'doxy' : ('leptonica.doxy.tags', '/leptonica/'),
-## }
-## add_function_parentheses=False
-
+doxylinks = {'doxyfile': ('/Leptonica/%s', doxylinks.convertToDoxyFile),
+             'doxyfunc': ('/Leptonica/%s#%s', doxylinks.convertToDoxyFunc),
+             }
+    
 todo_include_todos = True
 
 #mathjax_path = '/MathJax/MathJax.js'

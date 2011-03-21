@@ -5,5 +5,6 @@ outdir/
 githtml/
 #^leptonica/(.*?)\.html$
 \.log$
+\.pyc$
 ~$
 leptonica.doxy.tags
