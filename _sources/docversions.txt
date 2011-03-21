@@ -1,4 +1,4 @@
-:version: $RCSfile: version-notes.rst,v $ $Revision: 6c29e8896e5c $ $Date: 2011/03/14 21:50:44 $
+:version: $RCSfile: docversions.rst,v $ $Revision: 77719832625c $ $Date: 2011/03/21 16:21:06 $
 
 .. default-role:: fs
 
@@ -12,7 +12,7 @@ March 21, 2011
 
 + Added hyperlinks to the Doxygen-generated `Leptonica API Reference
   Documentation <http://tpgit.github.com/Leptonica/>`_ for all source
-  files and functions in :doc:`leptonica/functions`,
+  files and functions in :doc:`leptonica/functions`, 
   :doc:`leptonica/src-dir`, and :doc:`leptonica/prog-dir`.
 
 + Removed the "Show Source" link from the sidebar.

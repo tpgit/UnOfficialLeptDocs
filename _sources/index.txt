@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: 24317f2118ad $ $Date: 2011/03/14 22:53:16 $
+:version: $RCSfile: index.rst,v $ $Revision: 77719832625c $ $Date: 2011/03/21 16:21:06 $
 
 =================================================
  Unofficial Leptonica v\ |version| Documentation
