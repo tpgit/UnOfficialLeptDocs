@@ -270,26 +270,26 @@ pixels, or for images that have had their background normalized (as
 described <a class="reference internal" href="#local-backround-normalization-with-otsu"><em>above</em></a>), Otsu
 works quite well. So why the modification? This is best shown by an
 example. Consider this image:</p>
-<div align="center" class="align-center"><img alt="Original image" class="border align-center" src="../_images/otsu-input-0.4.jpg" /></div>
+<img alt="Original image" class="border align-center" src="../_images/otsu-input-0.4.jpg" />
 <p>When we apply standard Otsu to this image (with scorefract = 0 in
 <tt class="docutils literal"><span class="pre">pixOtsuAdaptiveThreshold()</span></tt>, and using large numbers for sx and sy
 to guarantee a single tile over the entire image), we get a rather
 poor result:</p>
-<div align="center" class="align-center"><img alt="Standard Otsu" class="border align-center" src="../_images/otsu-result-0.0.jpg" /></div>
+<img alt="Standard Otsu" class="border align-center" src="../_images/otsu-result-0.0.jpg" />
 <p>Some of the darker bg has been thresholded as fg. The origin of the
 problem is evident from the histogram, where the threshold sits up on
 the shoulder of the large background peak. However, by setting
 scorefract = 0.1, to allow the modified Otsu to choose the minimum in
 the histogram in a range where the score is within 0.9 of the maximum
 value, we get this:</p>
-<div align="center" class="align-center"><img alt="Modified Otsu with scorefract = 0.1" class="border align-center" src="../_images/otsu-result-0.1.jpg" /></div>
+<img alt="Modified Otsu with scorefract = 0.1" class="border align-center" src="../_images/otsu-result-0.1.jpg" />
 <p>This is a significant improvement. However, notice that the text on
 the right side is relatively weak.</p>
 <p>By tiling the image (adaptive Otsu) we can do a bit better. Choosing a
 tile size of 300 x 300, which must be considerably larger than can fit
 into the background at the bottom of the image, one obtains a much
 better result:</p>
-<div align="center" class="align-center"><img alt="Tiled Modified Otsu with scorefract = 0.1" class="border align-center" src="../_images/otsu-result-tile300.jpg" /></div>
+<img alt="Tiled Modified Otsu with scorefract = 0.1" class="border align-center" src="../_images/otsu-result-tile300.jpg" />
 <p>The result on the left is for standard (tiled) Otsu, with scorefract =
 0.0, and on the right is modified (tiled) Otsu with scorefract 0.1.
 For both, most of the background is now properly assigned. On the left
@@ -318,6 +318,7 @@ which Otsu is perhaps the best).</p>
 
 
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../docversions.html">&#8220;Unofficial&#8221; Leptonica Documentation Release Notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
@@ -326,8 +327,8 @@ which Otsu is perhaps the best).</p>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents (API Implementation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents (Examples)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
@@ -362,11 +363,6 @@ which Otsu is perhaps the best).</p>
 </ul>
 
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/leptonica/binarization.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">

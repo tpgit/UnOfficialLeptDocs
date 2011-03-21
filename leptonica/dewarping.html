@@ -134,10 +134,10 @@ code header in <span class="filesystem">dewarp.c</span> for details.</p>
 <p>This example is taken from <span class="filesystem">prog/dewarptest.c</span>, and the images were
 computed there. We start with image <span class="filesystem">1555-7.jpg</span>. After doing background
 normalization and binarization, we get this image:</p>
-<div align="center" class="align-center"><img alt="Initial Image" class="border align-center" src="../_images/dewarp-initial.png" /></div>
+<img alt="Initial Image" class="border align-center" src="../_images/dewarp-initial.png" />
 <p>We then find the centers of the textlines and do a least squares
 quadratic fit to the longest of them:</p>
-<div align="center" class="align-center"><img alt="Textline Centers" class="border align-center" src="../_images/dewarp-fitted-lines.png" /></div>
+<img alt="Textline Centers" class="border align-center" src="../_images/dewarp-fitted-lines.png" />
 <p>The short, randomly-colored segments (where they are not obliterated
 by the green overlay) show the initial estimate of the vertical center
 of each component. The green lines show the quadratic fit over the
@@ -146,10 +146,10 @@ maximum line length are not fitted.</p>
 <p>The contours of constant vertical disparity, calculated from these
 smoothed lines, and the dewarped result on the input image after
 applying the vertical disparity, are:</p>
-<div align="center" class="align-center"><img alt="Contours of constant vertical disparity" class="border align-center" src="../_images/dewarp-vert-disparity.jpg" /></div>
+<img alt="Contours of constant vertical disparity" class="border align-center" src="../_images/dewarp-vert-disparity.jpg" />
 <p>The horizontal disparity field is then applied to this image. The
 field and the final result are:</p>
-<div align="center" class="align-center"><img alt="Horizontal disparity field and final image" class="border align-center" src="../_images/dewarp-horiz-disparity.jpg" /></div>
+<img alt="Horizontal disparity field and final image" class="border align-center" src="../_images/dewarp-horiz-disparity.jpg" />
 <p>For this page the results look fairly ragged, but the baseline
 wobblyness is in the original, which was typeset in a very crude
 manner. There are still problems with the horizontal disparity because
@@ -177,6 +177,7 @@ the result).</p>
 
 
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../docversions.html">&#8220;Unofficial&#8221; Leptonica Documentation Release Notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
@@ -185,8 +186,8 @@ the result).</p>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents (API Implementation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents (Examples)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="applications.html">Image Processing Applications</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
@@ -218,11 +219,6 @@ the result).</p>
 </ul>
 
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/leptonica/dewarping.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">

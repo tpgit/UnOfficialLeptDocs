@@ -212,18 +212,18 @@ masked pixels.</p>
 <div class="section" id="how-does-a-color-segmented-image-look">
 <h2>How does a color segmented image look?<a class="headerlink" href="#how-does-a-color-segmented-image-look" title="Permalink to this headline">¶</a></h2>
 <p>Here is a fairly busy image:</p>
-<div align="center" class="align-center"><img alt="Fairly busy image" class="border align-center" src="../_images/colorseg.jpg" /></div>
+<img alt="Fairly busy image" class="border align-center" src="../_images/colorseg.jpg" />
 <p>Suppose we want finalcolors = 4, and we use a 5x5 <em>Sel</em> for smoothing.
 The rule-of-thumb says to choose maxcolors = 8 (approximately), and we
 get:</p>
-<div align="center" class="align-center"><img alt="Maxcolors = 8, Finalcolors = 4" class="border align-center" src="../_images/colorseg-8-4.png" /></div>
+<img alt="Maxcolors = 8, Finalcolors = 4" class="border align-center" src="../_images/colorseg-8-4.png" />
 <p>This isn&#8217;t bad for using only four colors in the final result. If we
 choose maxcolors = 4, the result is more random in the final
 assignment:</p>
-<div align="center" class="align-center"><img alt="Maxcolors = 4, Finalcolors = 4" class="border align-center" src="../_images/colorseg-4-4.png" /></div>
+<img alt="Maxcolors = 4, Finalcolors = 4" class="border align-center" src="../_images/colorseg-4-4.png" />
 <p>whereas going to the other extreme, starting with maxcolors = 16, the
 result is very noisy:</p>
-<div align="center" class="align-center"><img alt="Maxcolors = 16, Finalcolors = 4" class="border align-center" src="../_images/colorseg-16-4.png" /></div>
+<img alt="Maxcolors = 16, Finalcolors = 4" class="border align-center" src="../_images/colorseg-16-4.png" />
 <p>This is due to the fact that the smoothing step in phase 3 was
 performed with many colors, and hence was relatively ineffective. Then
 in phase 4, many of the pixels were reassigned based on color rather
@@ -249,6 +249,7 @@ when you get some interesting results, and I will post them here.</p>
 
 
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../docversions.html">&#8220;Unofficial&#8221; Leptonica Documentation Release Notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
@@ -257,8 +258,8 @@ when you get some interesting results, and I will post them here.</p>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents (API Implementation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents (Examples)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="operations.html">Image Processing Operations</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="applications.html">Image Processing Applications</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="line-removal.html">Removing dark lines from a light pencil drawing</a></li>
@@ -291,11 +292,6 @@ when you get some interesting results, and I will post them here.</p>
 </ul>
 
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/leptonica/color-segmentation.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">

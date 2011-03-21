@@ -123,7 +123,7 @@ as pixels are added and removed.</p>
 <p>The algorithm for convolution with a flat, rectangular filter was
 described in a classic 1984 graphics <a class="reference external" href="http://portal.acm.org/citation.cfm?id=800031.808600">paper</a> by Frank Crow.
 The definition of the accumulator sum array is given in this figure:</p>
-<div align="center" class="align-center"><img alt="Definition of the accumulator sum array" class="border align-center" src="../_images/conv0.70.jpg" /></div>
+<img alt="Definition of the accumulator sum array" class="border align-center" src="../_images/conv0.70.jpg" />
 <p>The accumulator is a 32 bit/pixel array, where the value of each &#8220;pixel&#8221;
 in the accumulator is the <em>sum</em> of all pixel values in the source that
 are in the rectangle that is above and to the left of the pixel; i.e.,
@@ -137,7 +137,7 @@ d<sub>i,j</sub> = d<sub>i,j-1</sub> + d<sub>i-1,j</sub> + a<sub>i,j</sub> - d<su
 </pre>
 <p>This recursion relation can be seen geometrically from the following
 diagram:</p>
-<div align="center" class="align-center"><img alt="Geometrically shown recursion relation" class="border align-center" src="../_images/conv1.80.jpg" /></div>
+<img alt="Geometrically shown recursion relation" class="border align-center" src="../_images/conv1.80.jpg" />
 <p>The gray-shaded rectangle labeled by <span class="filesystem">d</span><sub>i-1,j-1</sub> must be
 subtracted because the other two (hatched) accumulator rectangles each
 include it, and it must only be included once.</p>
@@ -148,7 +148,7 @@ b<sub>i,j</sub> = [d<sub>i,j</sub> + d<sub>i-h,j-w</sub> - d<sub>i,j-w</sub> - d
 </pre>
 <p>This is the &#8220;inner loop&#8221; of the convolution, and it can be visualized
 as:</p>
-<div align="center" class="align-center"><img alt="Inner loop of the convolution" class="border align-center" src="../_images/conv2.80.jpg" /></div>
+<img alt="Inner loop of the convolution" class="border align-center" src="../_images/conv2.80.jpg" />
 <p>The convolution is being performed over the <span class="filesystem">w</span> by <span class="filesystem">h</span> rectangle, using
 accumulator values at the four corners of this rectangle, given in the
 equation above. It is evident that once the accumulator is found, a
@@ -295,6 +295,7 @@ used and destroyed by using <tt class="docutils literal"><span class="pre">NULL<
 
 
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../docversions.html">&#8220;Unofficial&#8221; Leptonica Documentation Release Notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
@@ -303,8 +304,8 @@ used and destroyed by using <tt class="docutils literal"><span class="pre">NULL<
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents (API Implementation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents (Examples)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
@@ -339,11 +340,6 @@ used and destroyed by using <tt class="docutils literal"><span class="pre">NULL<
 </ul>
 
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/leptonica/convolution.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">

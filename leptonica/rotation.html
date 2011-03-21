@@ -205,7 +205,7 @@ pixel into a 16x16 sub-pixel grid, and count the number of overlapped
 sub-pixels.</p>
 </li>
 </ul>
-<div align="center" class="align-center"><img alt="Area Mapping" class="border align-center" src="../_images/area-mapping.jpg" /></div>
+<img alt="Area Mapping" class="border align-center" src="../_images/area-mapping.jpg" />
 <p>In the figure, f<sub>i,j</sub> is the value of the source pixel whose UL
 corner is at the location [i,j] indicated. Pixel vertices are labelled
 in standard [row,column] matrix notation. Coordinate values increase
@@ -346,7 +346,7 @@ the fast scan direction in the source and dest images. I always let
 the index <em>i</em> label the dest rows; <em>i</em> is in the outer loop because it
 is the slow scan direction. The fast scan direction, <em>j</em>, labels the
 dest columns and the source rows.</p>
-<div align="center" class="align-center"><img alt="Fast scan destination row" class="border align-center" src="../_images/fast-scan-dest-row.jpg" /></div>
+<img alt="Fast scan destination row" class="border align-center" src="../_images/fast-scan-dest-row.jpg" />
 <p>However, particularly for binary images that have mostly OFF pixels,
 the fast scan direction through the <em>source</em> image matters, because we
 can eliminate all computation related to any source byte or word that
@@ -367,7 +367,7 @@ columns:</p>
 </div>
 </div></blockquote>
 <p>This is illustrated as follows:</p>
-<div align="center" class="align-center"><img alt="Fast scan source row" class="border align-center" src="../_images/fast-scan-source-row.jpg" /></div>
+<img alt="Fast scan source row" class="border align-center" src="../_images/fast-scan-source-row.jpg" />
 <p>Note that the index labels <em>i</em> and <em>j</em> have been switched from the
 previous algorithm, because the slow-scan outer loop <em>j</em> labels the
 dest columns, and the fast-scan inner loop <em>i</em> labels the dest rows.</p>
@@ -454,6 +454,7 @@ flips, with the latter being trivial and depth-independent.</p>
 
 
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../docversions.html">&#8220;Unofficial&#8221; Leptonica Documentation Release Notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The Leptonica Image Processing Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="version-notes.html">Version Notes for Leptonica</a></li>
@@ -462,8 +463,8 @@ flips, with the latter being trivial and depth-independent.</p>
 <li class="toctree-l2"><a class="reference internal" href="library-overview.html">Overview of the Leptonica Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="library-notes.html">Supplemental Notes on Using the Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions.html"><strong>Leptonica</strong> API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src-dir.html"><span class="filesystem">/src</span> Directory Contents (API Implementation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prog-dir.html"><span class="filesystem">/prog</span> Directory Contents (Examples)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="operations.html">Image Processing Operations</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="rasterops.html">Rasterop (a.k.a. Bitblt)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="binary-morphology.html">Binary Morphology</a></li>
@@ -500,11 +501,6 @@ flips, with the latter being trivial and depth-independent.</p>
 </ul>
 
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/leptonica/rotation.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
