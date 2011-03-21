@@ -5,3 +5,4 @@ outdir/
 githtml/
 *.log
 *~
+leptonica.doxy.tags

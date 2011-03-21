@@ -26,11 +26,17 @@ needs_sphinx = '1.0'
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.extlinks', 'sphinx.ext.todo', 'mathjax']
+#extensions = ['sphinx.ext.extlinks', 'sphinx.ext.todo', 'mathjax', 'doxylink']
 
 extlinks = {'papersurl': ('http://leptonica.com/papers/%s',  ''),
             'sourceurl': ('http://leptonica.org/source/%s', ''),
             'unconverted': ('http://leptonica.com/%s', None),
             }
+
+## doxylink = {
+##         'doxy' : ('leptonica.doxy.tags', '/leptonica/'),
+## }
+## add_function_parentheses=False
 
 todo_include_todos = True
 
@@ -158,13 +164,13 @@ html_sidebars = {
     'NONE' :
        ['localtoc.html',
         'relations.html',
-        'sourcelink.html',
+        #'sourcelink.html',
         'searchbox.html',
         ],
     
     '**' :
        ['globaltoc.html',
-        'sourcelink.html',
+        #'sourcelink.html',
         'searchbox.html',
         ],
     
@@ -186,7 +192,8 @@ html_use_index = False
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-html_show_sourcelink = True
+#html_show_sourcelink = True
+html_show_sourcelink = False
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 #html_show_sphinx = True

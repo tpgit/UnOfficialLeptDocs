@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: 24317f2118ad $ $Date: 2011/03/14 22:53:16 $
+:version: $RCSfile: index.rst,v $ $Revision: 77719832625c $ $Date: 2011/03/21 16:21:06 $
 
 =================================================
  Unofficial Leptonica v\ |version| Documentation
@@ -24,7 +24,10 @@
    + A :doc:`Leptonica API <leptonica/functions>` page and pages
      summarizing the contents of the :doc:`/src <leptonica/src-dir>` and
      :doc:`/prog <leptonica/prog-dir>` directories. These all feature
-     sortable and filterable tables.
+     sortable and filterable tables with hyperlinks to the
+     Doxygen-generated `Leptonica API Reference Documentation
+     <http://tpgit.github.com/Leptonica/>`_ for all source files and
+     functions.
 
    + Easier to find topics in the :doc:`leptonica/operations` and
      :doc:`leptonica/applications` sections.
@@ -56,6 +59,7 @@
 
 .. toctree:: :maxdepth: 2
 
+   docversions
    leptonica/index
    vs2008/index
    other/index

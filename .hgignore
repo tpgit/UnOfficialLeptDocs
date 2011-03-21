@@ -6,3 +6,4 @@ githtml/
 #^leptonica/(.*?)\.html$
 \.log$
 ~$
+leptonica.doxy.tags

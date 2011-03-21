@@ -1,12 +1,12 @@
-:version: $RCSfile: src-dir.rst,v $ $Revision: 48c078953ef7 $ $Date: 2010/08/14 19:48:07 $
+:version: $RCSfile: src-dir.rst,v $ $Revision: 77719832625c $ $Date: 2011/03/21 16:21:06 $
 
 .. default-role:: fs
 
 .. _src-dir:
 
-===========================
- `/src` Directory Contents
-===========================
+================================================
+ `/src` Directory Contents (API Implementation)
+================================================
 
 File Summary by Category
 ========================

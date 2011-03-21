@@ -1,12 +1,12 @@
-:version: $RCSfile: prog-dir.rst,v $ $Revision: 48c078953ef7 $ $Date: 2010/08/14 19:48:07 $
+:version: $RCSfile: prog-dir.rst,v $ $Revision: 77719832625c $ $Date: 2011/03/21 16:21:06 $
 
 .. default-role:: fs
 
 .. _prog-dir:
 
-============================
- `/prog` Directory Contents
-============================
+=======================================
+ `/prog` Directory Contents (Examples)
+=======================================
 
 File Summary by Category
 ========================
