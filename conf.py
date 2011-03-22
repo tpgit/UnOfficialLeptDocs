@@ -34,8 +34,10 @@ extlinks = {'papersurl': ('http://leptonica.com/papers/%s',  ''),
             'unconverted': ('http://leptonica.com/%s', None),
             }
 
-doxylinks = {'doxyfile': ('/Leptonica/%s', doxylinks.convertToDoxyFile),
-             'doxyfunc': ('/Leptonica/%s#%s', doxylinks.convertToDoxyFunc),
+doxylinks = {'doxyfile': ('http://tpgit.github.com/Leptonica/%s',
+                          doxylinks.convertToDoxyFile),
+             'doxyfunc': ('http://tpgit.github.com/Leptonica/%s#%s',
+                          doxylinks.convertToDoxyFunc),
              }
     
 todo_include_todos = True

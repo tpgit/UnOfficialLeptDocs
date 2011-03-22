@@ -1,4 +1,4 @@
-:version: $RCSfile: index.rst,v $ $Revision: 77719832625c $ $Date: 2011/03/21 16:21:06 $
+:version: $RCSfile: index.rst,v $ $Revision: 76e0bf38aaba $ $Date: 2011/03/22 00:48:41 $
 
 =================================================
  Unofficial Leptonica v\ |version| Documentation
@@ -17,9 +17,10 @@
      throughout the entire website from any page.
 
    + Easier to read pages with different visual formatting of
-     :doc:`hyperlinks <index>`, :fs:`file names`, :cmd:`commands`,
-     ``programming constructs``, :guilabel:`GUI &elements`,
-     :menuselection:`&Menu --> &Selections`, etc.
+     :doc:`internal hyperlinks <index>`, `external hyperlinks
+     <http://tpgit.github.com/Leptonica/>`_, :fs:`file names`,
+     :cmd:`commands`, ``programming constructs``, :guilabel:`GUI
+     &elements`, :menuselection:`&Menu --> &Selections`, etc.
 
    + A :doc:`Leptonica API <leptonica/functions>` page and pages
      summarizing the contents of the :doc:`/src <leptonica/src-dir>` and

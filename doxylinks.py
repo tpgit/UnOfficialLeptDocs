@@ -6,7 +6,7 @@
     Minor mod of sphinx.ext.extlinks to allow specifying leptonica files
     and functions and have the URLs automatically converted to point at
     the Doxygen generated Reference Documentation.
-    
+
     Extension to save typing and prevent hard-coding of base URLs in the reST
     files.
 
@@ -16,7 +16,7 @@
 
     Now you can use e.g. :doxyfile:`foo.c` in your documents.  This will
     create a link to ``/leptonica/foo_8c.html``.
-    
+
 """
 
 import os
@@ -59,34 +59,45 @@ def _genDoxyDicts(doxytagFilename):
 
 _doxyFileDict, _doxyFuncDict = _genDoxyDicts("../leptonica.doxy.tags")
 
-def convertToDoxyFile(text):
+def convertToDoxyFile(env, text):
     head, tail = os.path.split(text)
+    root, ext = os.path.splitext(tail)
+    if not ext:
+        tail = tail + ".c"
+        
     if _doxyFileDict.has_key(tail):
-        return (_doxyFileDict[tail],)
-    return ('',)
+        return "doxyfile", (_doxyFileDict[tail],)
+    env.warn(env.docname, 'unable to find doxyfile %s' % text)
+    return "doxyfile", ('',)
 
-def convertToDoxyFunc(text):
+def convertToDoxyFunc(env, text):
+    text = text.replace("()", "")
     if _doxyFuncDict.has_key(text):
         filelist = _doxyFuncDict[text]
-        return fileList[0]
+        keys = filelist.keys()
+        return "doxyfunc", (keys[0], filelist[keys[0]])
     else:
-        return ('',)
+        env.warn(env.docname, 'unable to find doxyfunc %s' % text)
+        return "doxyfunc", ('',)
 
 def make_link_role(base_url, userfunc):
     def role(typ, rawtext, text, lineno, inliner, options={}, content=[]):
         text = utils.unescape(text)
         has_explicit_title, title, part = split_explicit_title(text)
+        env = inliner.document.settings.env
 
-        parts = userfunc(text)
+        typ, parts = userfunc(env, text)
         try:
             full_url = base_url % parts
         except (TypeError, ValueError):
-            env = inliner.document.settings.env
             env.warn(env.docname, 'unable to expand %s extlink with base '
                      'URL %r, please make sure the base contains \'%%s\' '
-                     'the correct number of times' % (typ, base_url))
+                     'the correct number of times for %s' % (typ,
+                                                             base_url, text))
             full_url = base_url + parts[0]
         pnode = nodes.reference(title, title, internal=False, refuri=full_url)
+        pnode['classes'].append(typ)
+
         return [pnode], []
     return role
 

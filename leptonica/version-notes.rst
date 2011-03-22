@@ -1,4 +1,4 @@
-:version: $RCSfile: version-notes.rst,v $ $Revision: 6c29e8896e5c $ $Date: 2011/03/14 21:50:44 $
+:version: $RCSfile: version-notes.rst,v $ $Revision: 76e0bf38aaba $ $Date: 2011/03/22 00:48:41 $
 
 .. default-role:: fs
 
@@ -16,13 +16,14 @@
 
 * Fixed windows issues with passing pointers across C-runtime boundaries
   when using DLLs, by providing special functions (e.g.,
-  ``lept_fopen()``).
+  :doxyfunc:`lept_fopen()`).
 
 * Proper version numbers are now set with :cmd:`automake`.
 
-* New utility (`quadtree.c`) for generating quadtree statistics.
+* New utility (:doxyfile:`quadtree.c`) for generating quadtree statistics.
 
-* New utility (in `colorspace.c`) for conversions to and from YUV.
+* New utility (in :doxyfile:`colorspace.c`) for conversions to and from
+  YUV.
 
 * Refactored functions for assembling image data for generating either
   PS or PDF images using g4, jpeg or flate encoding.
@@ -34,27 +35,27 @@
 * Use ``size_t`` throughout for reading and writing binary data.
 
 * Deprecate ``arrayRead*()`` and ``arrayWrite()`` functions; replace in
-  the library with ``l_binaryRead*()`` and ``l_binaryWrite()``.
+  the library with ``l_binaryRead*()`` and :doxyfunc:`l_binaryWrite()`.
 
 * Better handling of colormap images for in-place rasterop and shear.
 
-* New utility (`bytearray.c`) for parsing and handling binary data; used
-  for generating PDF files.
+* New utility (:doxyfile:`bytearray.c`) for parsing and handling binary
+  data; used for generating PDF files.
 
-* New utility (`pdfio.c`) for generating PDF files.
+* New utility (:doxyfile:`pdfio.c`) for generating PDF files.
 
 * Refactored ``regutils`` functions to make them simpler to use.
 
 * Top-level deskew now works on any image.
 
-* Added functions in `utils.c` for cross-platform development, mostly
-  for functions that make and remove directories, copy, move and delete
-  files, etc.  It should now be straightforward to write programs that
-  will compile and run on windows.
+* Added functions in :doxyfile:`utils.c` for cross-platform development,
+  mostly for functions that make and remove directories, copy, move and
+  delete files, etc.  It should now be straightforward to write programs
+  that will compile and run on windows.
 
 * Reg tests have better printout; all give timings.
 
-* New utility program: `convertfilestopdf.c`.
+* New utility program: :doxyfile:`convertfilestopdf.c`.
 
 
 1.67 --  9 Nov 10
@@ -65,7 +66,8 @@
 
 * New sudoku solver.  Just a game, but there are interesting aspects.
 
-* Modified `parseprotos.c` to reject a type of "``extern``" decl.
+* Modified :doxyfile:`parseprotos.c` to reject a type of "``extern``"
+  decl.
 
 * Add faster implementation for very small gray morphology operations
   (3x1, 1x3, 3x3).
@@ -82,29 +84,33 @@
 * Replace ``numaConvolve()``, which is just a windowed mean, by windowed
   statistics functions (mean, mean square, variance).
 
-* Generalize ``pixExtractOnLine()`` for arbitrary lines.
+* Generalize :doxyfunc:`pixExtractOnLine()` for arbitrary lines.
 
-* Add pix interface to webp (`webpio.c`, `webpiostub.c`). This is a new
-  open source codec, based on the video codec vpx (webm).
+* Add pix interface to webp (:doxyfile:`webpio.c`,
+  :doxyfile:`webpiostub.c`). This is a new open source codec, based on
+  the video codec vpx (webm).
 
 * Serialization of ``FPix`` and ``DPix``.
 
-* Interconversion between ``FPix`` and `DPix``.
+* Interconversion between ``FPix`` and ``DPix``.
 
 * Integer scaling of ``FPix`` and ``DPix``; includes the last row and
   column.
 
-* New `convertfiles.c`: depth conversion on files in a directory.
+* New :doxyfile:`convertfiles.c`: depth conversion on files in a directory.
 
 * Testing programs in `prog`:
 
-  * `convolve_reg.c`, `numa_reg.c`: expanded test set
+  * :doxyfile:`convolve_reg.c`, :doxyfile:`numa_reg.c`: expanded test
+    set
   
-  * `projection_reg.c` (tests ``pixRowStats()``, ``pixColumnStats()``)
+  * :doxyfile:`projection_reg.c` (tests :doxyfunc:`pixRowStats()`,
+    :doxyfunc:`pixColumnStats()`)
 
-  * `dewarptest.c`: output ps and pdf files
+  * :doxyfile:`dewarptest.c`: output ps and pdf files
 
-  * `writemtiff.c`: simple driver to write images to a single file
+  * :doxyfile:`writemtiff.c`: simple driver to write images to a single
+    file
 
 
 1.66 -- 3 Aug 10
@@ -112,17 +118,18 @@
 
 * More tweaks for including (or not) bounding box hints for PS wrapping.
   Default is to write b.b., but not in functions that wrap images as
-  full pages (`psio1.c`, `psio2.c`)
+  full pages (:doxyfile:`psio1.c`, :doxyfile:`psio2.c`)
 
 * `pix4.c` split in two files, and added function to identify c.c.  that
-  are sufficiently similar in shape to rectangles (`pix5.c`)
+  are sufficiently similar in shape to rectangles (:doxyfile:`pix5.c`)
 
 * Modify 2 and 4 bit setters to clip the input value so that it can only
-  affect the pixel requested (`arrayaccess.c`, `arrayaccess,h`)
+  affect the pixel requested (:doxyfile:`arrayaccess.c`,
+  :doxyfile:`arrayaccess.h`)
 
-* New pseudorandom sequence functions (`numafunc1.c`)
+* New pseudorandom sequence functions (:doxyfile:`numafunc1.c`)
 
-* Dewarping camera-based images using textlines (`dewarp.c`,
+* Dewarping camera-based images using textlines (:doxyfile:`dewarp.c`,
   `prog/dewarp\*`)
 
 * Geometrical function for aggregating overlapping bounding boxes.
@@ -134,35 +141,39 @@
 * Functions that do affine and other operations in images with alpha
   blending at edges: ``pix*WithAlpha()``.  Also do this with a
   gamma/inverse-gamma wrapper to further reduce edge aliasing.
-  (`rotate.c`, `scale.c`, `projective.c`, `affine.c`, `bilinear.c`,
-  `prog/alphaxform_reg.c`)
+  (:doxyfile:`rotate.c`, :doxyfile:`scale.c`, :doxyfile:`projective.c`,
+  :doxyfile:`affine.c`, :doxyfile:`bilinear.c`,
+  :doxyfile:`prog/alphaxform_reg.c`)
 
 * Improved color segmentation (fixed bugs; made faster)
 
 * Higher order least square fits: quadratic, cubic, quartic. (`pts.c`)
 
 * Various mods for otsu binarization and the ``*SplitDistribution*()``
-  functions (`numafunc2.c`, `prog/otsutest2.c`)
+  functions (:doxyfile:`numafunc2.c`, :doxyfile:`prog/otsutest2.c`)
 
-* Control sampling in convolution output (`convolve.c`, `prog/fpix_reg.c`)
+* Control sampling in convolution output (:doxyfile:`convolve.c`,
+  :doxyfile:`prog/fpix_reg.c`)
 
-* Morphological operations on numas (`numafunc1.c`, `numafunc2.c`,
-  `prog/numa_reg.c`)
+* Morphological operations on numas (:doxyfile:`numafunc1.c`,
+  :doxyfile:`numafunc2.c`, :doxyfile:`prog/numa_reg.c`)
 
-* Pix serialization wrapped so we can use ``pixRead()``, etc on these
-  files (`spixio.c`, `readfile.c`, `writefile.c`)
+* Pix serialization wrapped so we can use :doxyfunc:`pixRead()`, etc on
+  these files (:doxyfile:`spixio.c`, :doxyfile:`readfile.c`,
+  :doxyfile:`writefile.c`)
 
 * `GIF` read/write to memory fixed (and cheated --- using files)
-  (`gifio.c`)
+  (:doxyfile:`gifio.c`)
 
 * New ``FPIX`` and ``DPIX`` accessors; contour rendering on ``FPIX``
-  (`fpix1.c`, `fpix2.c`)
+  (:doxyfile:`fpix1.c`, :doxyfile:`fpix2.c`)
 
 * Various functions for linearly mapping colors and displaying arrays of
-  colors (`pix4.c`, `blend.c`, `prog/rankhisto_reg.c`)
+  colors (:doxyfile:`pix4.c`, :doxyfile:`blend.c`,
+  :doxyfile:`prog/rankhisto_reg.c`)
 
 * Functions for getting approximate ranges of colors and color
-  components in an image (`pix4.c`, `colormap.c`)
+  components in an image (:doxyfile:`pix4.c`, :doxyfile:`colormap.c`)
 
 * Cleaned up windows platform and compiler defines and macros.
 
@@ -176,16 +187,16 @@
   (`regutils.{c,h}`)
  
   Converted 22 reg tests in `prog` to use this; invoked with
-  `alltests_reg`.  Goal is to put all `prog/\*_reg.c` into this format
-  and put a set of golden files on the web.
+  :doxyfile:`alltests_reg`.  Goal is to put all `prog/\*_reg.c` into
+  this format and put a set of golden files on the web.
 
-* Small fixes in `gifio.c` for handling streams properly.
+* Small fixes in :doxyfile:`gifio.c` for handling streams properly.
 
 * New functions for shifting colors, hue invariant transforms, etc
-  (`blend.c`)
+  (:doxyfile:`blend.c`)
 
-* `prog/dwamorph\*.c`: rename `\*1_reg.c` to `dwalineargen.c`; others
-  converted to standard reg tests.
+* `prog/dwamorph\*.c`: rename `\*1_reg.c` to :doxyfile:`dwalineargen.c`;
+  others converted to standard reg tests.
 
 * New rgb convolution functions.
 
@@ -195,72 +206,77 @@
   situations.
 
 * New functions for initialization and random insertion with
-  `pixcomp.c`.
+  :doxyfile:`pixcomp.c`.
 
 * For color quantization, make the lightest color white if sufficiently
-  close; ditto for black (`colorquant1.c`, `colorquant2.c`).
+  close; ditto for black (:doxyfile:`colorquant1.c`,
+  :doxyfile:`colorquant2.c`).
 
-* Rank binning of 8 bpp and rgb images (`numafunc2.c`, `pix4.c`)
+* Rank binning of 8 bpp and rgb images (:doxyfile:`numafunc2.c`,
+  :doxyfile:`pix4.c`)
 
 * A function to rank colors by the intensity of the minimum comp
-  (`pix4.c`)
+  (:doxyfile:`pix4.c`)
 
-* New ``pixRotateBinaryNice()``, rotates 1 bpp pix in such a way that
-  the shear lines aren't visible. (`rotate.c`)
+* New :doxyfunc:`pixRotateBinaryNice()`, rotates 1 bpp pix in such a way
+  that the shear lines aren't visible. (:doxyfile:`rotate.c`)
 
-* New ``pixSaveTiledWithText()``, a convenience function to append text
-  to images that are being tiled. (`writefile.c`)
+* New :doxyfunc:`pixSaveTiledWithText()`, a convenience function to
+  append text to images that are being tiled. (:doxyfile:`writefile.c`)
 
 * Stereoscopic warping functions and stereo pair functions
-  (`warper.c`)
+  (:doxyfile:`warper.c`)
 
-* Linear interpolated shear --- better than rasterop shear (`shear.c`)
+* Linear interpolated shear --- better than rasterop shear
+  (:doxyfile:`shear.c`)
 
 * Option to use higher quality chroma (U,V) sampling in jpeg
-  (`jpegio.c`)
+  (:doxyfile:`jpegio.c`)
 
 * Rename ``Bmf`` --> ``L_Bmf``.
 
 * New tests in prog:
  
-     `alltests_reg.c`, `alphaclean_reg.c`, `psio_reg.c`,
-     `rankbin_reg.c`, `rankhisto_reg.c`, `warpertest.c`
+     :doxyfile:`alltests_reg.c`, :doxyfile:`alphaclean_reg.c`,
+     :doxyfile:`psio_reg.c`, :doxyfile:`rankbin_reg.c`,
+     :doxyfile:`rankhisto_reg.c`, :doxyfile:`warpertest.c`
 
 
 1.64 -- 3 Jan 10
 ================
 
-* Easy setup for standard byte processing on 8 bpp pix (`pix2.c`)
+* Easy setup for standard byte processing on 8 bpp pix (:doxyfile:`pix2.c`)
 
 * Evaluation of difference between similar images; test for similar
-  images and (`compare.c`)
+  images and (:doxyfile:`compare.c`)
 
 * Subpixel scaling, with color input and separate scale factors
-  (`pixconv.c`)
+  (:doxyfile:`pixconv.c`)
 
-* Fix `TIFF` header reader to get correct format (`tiffio.c`)
+* Fix `TIFF` header reader to get correct format (:doxyfile:`tiffio.c`)
 
-* Enable ``pixDisplay()`` to work with :cmd:`i_view` (Windows) and with
-  :cmd:`xzgv` and :cmd:`xli` as well as :cmd:`xv`; allow application to
-  choose which to use (`writefile.c`).
+* Enable :doxyfunc:`pixDisplay()` to work with :cmd:`i_view` (Windows)
+  and with :cmd:`xzgv` and :cmd:`xli` as well as :cmd:`xv`; allow
+  application to choose which to use (:doxyfile:`writefile.c`).
 
 * Use a mask to specify regions that are changed by a morphological
-  operation (`morphapp.c`).
+  operation (:doxyfile:`morphapp.c`).
 
-* Improve the default sharpening for scaling (`scale.c`)
+* Improve the default sharpening for scaling (:doxyfile:`scale.c`)
 
-* Function to test for equivalence of file data (`utils.c`)
+* Function to test for equivalence of file data (:doxyfile:`utils.c`)
 
-* Select and read image files with embedded index (`readfile.c`)
+* Select and read image files with embedded index
+  (:doxyfile:`readfile.c`)
 
-* Fix box size calculation in ``pixEmbedForRotation()``; solution
-  provided by Brent Sundheimer.
+* Fix box size calculation in :doxyfunc:`pixEmbedForRotation()`;
+  solution provided by Brent Sundheimer.
 
-* New ``pixDisplayMultiple()``, instead of calling :cmd:`gthumb`
+* New :doxyfunc:`pixDisplayMultiple()`, instead of calling :cmd:`gthumb`
   directly; this is now set up to use :cmd:`i_view` for Windows.
 
 * Changed criteria for determining if an image is color
-  (`colorcontent.c`, `colorquant{1,2}.c`)
+  (:doxyfile:`colorcontent.c`, `colorquant{1,2}.c`)
 
 * Optional mode where the filename extension is automatically written to
   output image files; particularly useful for Windows.
@@ -269,10 +285,11 @@
 
 * Get rank valued numbers and boxes in ``NUMA`` and ``BOXA``.
 
-* Cute implementation for finding largest solid rectangle (`maze.c`)
+* Cute implementation for finding largest solid rectangle
+  (:doxyfile:`maze.c`)
 
 * New median cut quantization for mixed (color/gray) images
-  (`colorquant2.c`)
+  (:doxyfile:`colorquant2.c`)
 
 * Many changes to allow the library and applications to be built easily
   in Windows. There is now a thorough windows readme, written by Tom
@@ -283,34 +300,37 @@
 1.63 -- 8 Nov 09
 ================
 
-* Added ``pixScaleToGrayFast()``, a faster version with very similar
-  quality.
+* Added :doxyfunc:`pixScaleToGrayFast()`, a faster version with very
+  similar quality.
 
-* Fixed ``scaleGrayLILow()`` to handle edge pixels more accurately.
+* Fixed :doxyfunc:`scaleGrayLILow()` to handle edge pixels more accurately.
 
 * Text processing:
 
-  * new text application (`finditalic.c`, `prog/finditalic.c`) for
-    locating words in italic type style.
+  * new text application (:doxyfile:`finditalic.c`,
+    :doxyfile:`prog/finditalic.c`) for locating words in italic type
+    style.
  
   * Easier to add text to a pix using the bitmap font stored in the font
-    directory; see, e.g., `prog/writetxt_reg.c`.
+    directory; see, e.g., :doxyfile:`prog/writetext_reg.c`.
 
-* Blending of 2 images with an alpha channel: ``pixBlendWithGrayMask()``
+* Blending of 2 images with an alpha channel:
+  :doxyfunc:`pixBlendWithGrayMask()`.
 
 * Fixed bug in color segmentation; it now (again) works properly.
 
-* New utility (`pixcomp.c`) for handling compressed pix arrays in
-  memory; new ``PixComp`` and ``PixaComp`` structs.
+* New utility (:doxyfile:`pixcomp.c`) for handling compressed pix arrays
+  in memory; new ``PixComp`` and ``PixaComp`` structs.
 
 * Fast serialization of pix without compressing
-  (``pixSerializeToMemory()`` and ``pixDeserializeFromMemory()``);
-  required serialized colormaps
+  (:doxyfunc:`pixSerializeToMemory()` and
+  :doxyfunc:`pixDeserializeFromMemory()`); required serialized colormaps
 
 * File I/O: new functions for reading file headers.
 
-  * PostScript generation modernized; split `psio.c` into `psio1.c` and
-    `psio2.c`; added level 3 (flate) encoding.
+  * PostScript generation modernized; split `psio.c` into
+    :doxyfile:`psio1.c` and :doxyfile:`psio2.c`; added level 3 (flate)
+    encoding.
 
   * new functions for reading and writing multipage tiffs, for arbitrary
     input images.  For writing, compression is lossless (either g4 or
@@ -318,24 +338,28 @@
 
   * update all I/O stub files
 
-* Miscellaneous: new ``pixaAddBorderGeneral()``; new functions in
-  `pix3.c` for counting fg pixels and summing 8 bpp pixels by column and
-  row; new ``numaUniformSampling()`` for resampling with interpolation;
-  subpixel scaling.
+* Miscellaneous: new :doxyfunc:`pixaAddBorderGeneral()`; new functions
+  in :doxyfile:`pix3.c` for counting fg pixels and summing 8 bpp pixels
+  by column and row; new :doxyfunc:`numaUniformSampling()` for
+  resampling with interpolation; subpixel scaling.
 
 * New or improved regression tests in prog:
 
-     `extrema_reg`, `pixalloc_reg`, `blend2_reg`, `rotateorth_reg`,
-     `ioformats_reg`, `colorseg_reg`, `pixcomp_reg`, `pixserial_reg`,
-     `writetext_reg`, `psioseg_reg`, `subpixel_reg`.
+     :doxyfile:`extrema_reg`, :doxyfile:`pixalloc_reg`,
+     :doxyfile:`blend2_reg`, :doxyfile:`rotateorth_reg`,
+     :doxyfile:`ioformats_reg`, :doxyfile:`colorseg_reg`,
+     :doxyfile:`pixcomp_reg`, :doxyfile:`pixserial_reg`,
+     :doxyfile:`writetext_reg`, :doxyfile:`psioseg_reg`,
+     :doxyfile:`subpixel_reg`.
 
 * Interface changes:
 
-  * ``findFileFormat()`` and ``findFileFormatBuffer()``: now returns
-    format using input ptr. The function return value is 0 if OK; 1 on
-    error
+  * :doxyfunc:`findFileFormat()` and :doxyfunc:`findFileFormatBuffer()`:
+    now returns format using input ptr. The function return value is 0
+    if OK; 1 on error
 
-  * rename: ``pixThresholdPixels()`` --> ``pixThresholdPixelSum()``
+  * rename: ``pixThresholdPixels()`` -->
+    :doxyfunc:`pixThresholdPixelSum()`
 
 
 1.62 -- 26 Jul 09
@@ -347,8 +371,8 @@
   Jain).  Also use data transfer instead of data copy whenever possible.
   Thorough tests with `binmorph4_reg` and `binmorph5_reg`.
 
-* New functions in `colorseg.c` for masking and histogramming in HSV
-  color space.
+* New functions in :doxyfile:`colorseg.c` for masking and histogramming
+  in HSV color space.
 
 * Treat string constants rigorously as ``const char*``, initializing to
   ``char[]`` if to be used as non-const, or in some cases casting to
@@ -361,10 +385,11 @@
 
 * Fast quantization to an existing colormap for color and grayscale.
 
-* Fixed some bugs; e.g., in ``pixAffineSampled()`` for 1 bpp with
-  ``L_BRING_IN_BLACK``; reading and writing pnm for 2 and 4 bpp.
+* Fixed some bugs; e.g., in :doxyfunc:`pixAffineSampled()` for 1 bpp
+  with ``L_BRING_IN_BLACK``; reading and writing pnm for 2 and 4 bpp.
 
-* In `pngio.c`, enable compile time control over these settings:
+* In :doxyfile:`pngio.c`, enable compile time control over these
+  settings:
 
   * converting 16 bpp --> 8 bpp on read
 
@@ -379,8 +404,8 @@
 
 * For ``scaleToGray*`` functions, reduce the width truncation.
 
-* In `psio.c`, new functions for converting segmented page images (text
-  and image) into level 2 PostScript.
+* In :doxyfile:`psio1.c`, new functions for converting segmented page
+  images (text and image) into level 2 PostScript.
 
 * Removed all implicit casting to ``const char*``.
 
@@ -390,86 +415,96 @@
 * In `xtractprotos`, we now allow prepending an arbitrary string to each
   prototype.
 
-* In `environ.h`, additions for MSVC to work with VC++6, including
-  prototype strings for dll import and export (thanks to Ray Smith).
+* In :doxyfile:`environ.h`, additions for MSVC to work with VC++6,
+  including prototype strings for dll import and export (thanks to Ray
+  Smith).
 
-* In `colorseg.c`, new functions for building HSV histograms, finding
-  peaks, and generating masks based on the peaks.
+* In :doxyfile:`colorseg.c`, new functions for building HSV histograms,
+  finding peaks, and generating masks based on the peaks.
 
 * New or improved regression tests:
 
-    `pixalloc_reg`, `binmorph4_reg`, `binmorph5_reg`, `conversion_reg`,
-    `scale_reg`, `cmapquant_reg`,
+    :doxyfile:`pixalloc_reg`, :doxyfile:`binmorph4_reg`,
+    :doxyfile:`binmorph5_reg`, :doxyfile:`conversion_reg`,
+    :doxyfile:`scale_reg`, :doxyfile:`cmapquant_reg`.
 
 
 1.61 -- 26 Apr 09
 =================
 
 * New histo-based grayscale quantization:
-  ``pixGrayQuantizeFromHisto()``, that is used in new
-  ``pixQuanitzeIfFewColorsMixed()``.
+  :doxyfunc:`pixGrayQuantFromHisto()`, that is used in new
+  :doxyfunc:`pixQuantizeIfFewColors()`.
 
-* Made final fix in ``pixBlockconv()``.  No underflows; no more
+* Made final fix in :doxyfunc:`pixBlockconv()`.  No underflows; no more
   overflows!
 
 * More efficient rgb write with pnm.
 
-* Add proto to `jpegiostub.c`, allowing proper use of the stubber.
+* Add proto to :doxyfile:`jpegiostub.c`, allowing proper use of the
+  stubber.
 
 * Fix several filter functions to use proper test on filter size; viz.,
-  ``pixMinMaxTiles()``, several functions in `convolve.c`.
+  :doxyfunc:`pixMinMaxTiles()`, several functions in
+  :doxyfile:`convolve.c`.
 
 * Redo shear implementation to handle arbitrary angles, to handle
   colormapped images, and to avoid the singularity at pi/2.
 
-* Removed both static vars from ``pixSaveTiled()``.
+* Removed both static vars from :doxyfunc:`pixSaveTiled()`.
 
-* Generalized ``pixRotate()`` to handle colormapped images, and to use
-  ``pixRotateBySampling()`` in place of the removed
+* Generalized :doxyfunc:`pixRotate()` to handle colormapped images, and
+  to use :doxyfunc:`pixRotateBySampling()` in place of the removed
   ``pixRotateEuclidean()``.
 
 * New skew finder for full angle range,
-  ``pixFindSkewOrthogonalRange()``.
+  :doxyfunc:`pixFindSkewOrthogonalRange()`.
 
 * For skew detection, now allow shear about image center as well as
   about the UL corner.
 
-* New rotation reg tests: `rotate1_reg.c` and `rotate2_reg.c`.
+* New rotation reg tests: :doxyfile:`rotate1_reg.c` and
+  :doxyfile:`rotate2_reg.c`.
 
 * Better serialization format for ``boxaa``; introduce new version
   numbers for ``boxaa``, ``pixa``, and ``boxa``, as required.
 
-* Proper init in ``boxGetGeometry()``, ``boxaGetBoxGeometry()``, and the
-  accessors in `sel1.c` and `kernel.c`.
+* Proper init in :doxyfunc:`boxGetGeometry()`,
+  :doxyfunc:`boxaGetBoxGeometry()`, and the accessors in
+  :doxyfile:`sel1.c` and :doxyfile:`kernel.c`.
 
-* Improved Numa functions in `numafunc1.c` and `numafunc2.c`; in
-  particular, ``numaMakeHistogramAuto()`` and
-  ``numaGetStatsUsingHistogram()``.
+* Improved Numa functions in :doxyfile:`numafunc1.c` and
+  :doxyfile:`numafunc2.c`; in particular,
+  :doxyfunc:`numaMakeHistogramAuto()` and
+  :doxyfunc:`numaGetStatsUsingHistogram()`.
 
   * With all histo generators, make sure the start and binsize params
     are properly set and are used.
 
   * Interface change: Use these parameters implicitly in
-    ``numaHistogramGetRankFromVal()`` and
-    ``numaHistogramGetValFromRank()``.
+    :doxyfunc:`numaHistogramGetRankFromVal()` and
+    :doxyfunc:`numaHistogramGetValFromRank()`.
 
-* Interface change to ``ptaGetLinearLSF()``: add 1 optional parameter.
+* Interface change to :doxyfunc:`ptaGetLinearLSF()`: add 1 optional
+  parameter.
 
 * In several ``pixaDisplay*()`` functions, handle colormaps properly.
 
-* `pixafunc.c` split to `pixafunc1.c` and `pixafunc2.c`.
+* `pixafunc.c` split to :doxyfile:`pixafunc1.c` and
+  :doxyfile:`pixafunc2.c`.
 
-  * New connected component selections and options in ``pixaSort()``.
+  * New connected component selections and options in
+    :doxyfunc:`pixaSort()`.
 
 * Patch from Tony Dovgal for reading tiff rgba files.
 
 * Added new logical operation options for numas.
 
-* New ``pixConvertRGBToGrayMinMax()`` that chooses min or max of 3
-  components.
+* New :doxyfunc:`pixConvertRGBToGrayMinMax()` that chooses min or max of
+  3 components.
 
 * Computation of pixelwise aligned stats between multiple images of the
-  same size (e.g., video), in `pix4.c`.
+  same size (e.g., video), in :doxyfile:`pix4.c`.
 
 * Very fast binsort implemented for ``boxa`` and ``pixa``.
 
@@ -481,8 +516,8 @@
 
 * Sel creation for crosses and T junctions.
 
-* New thresholding operations to binary; split out from `adaptmap.c`
-  into `binarize.c`.
+* New thresholding operations to binary; split out from
+  :doxyfile:`adaptmap.c` into :doxyfile:`binarize.c`.
 
 * Implementation of sauvola binarization, including use of pixtiling.
 
@@ -499,23 +534,26 @@
 
 * New or improved regression tests:
 
-    `rotate1_reg`, `rotate2_reg`, `shear_reg`, `numa_reg`, `skew_reg`,
-    `ptra1_reg`, `ptra2_reg`, `paint_reg`, `smallpix_reg`, `pta_reg`,
-    `pixmem_reg`, `binarize_reg`, `grayfill_reg`.
+    :doxyfile:`rotate1_reg`, :doxyfile:`rotate2_reg`,
+    :doxyfile:`shear_reg`, :doxyfile:`numa_reg`, :doxyfile:`skew_reg`,
+    :doxyfile:`ptra1_reg`, :doxyfile:`ptra2_reg`, :doxyfile:`paint_reg`,
+    :doxyfile:`smallpix_reg`, :doxyfile:`pta_reg`,
+    :doxyfile:`pixmem_reg`, :doxyfile:`binarize_reg`,
+    :doxyfile:`grayfill_reg`.
 
 
 1.60 -- 19 Jan 09
 =================
 
-* Fixed bug in ``pixBlockconv()``, introduced in 1.59, that causes
-  overflow when convolving with an image that has white (255) at the
-  edges.  [quickly found by Dave Bryan]
+* Fixed bug in :doxyfunc:`pixBlockconv()`, introduced in 1.59, that
+  causes overflow when convolving with an image that has white (255) at
+  the edges.  [quickly found by Dave Bryan]
 
 * Include function to display freetype fonts in a pix.
 
-* The files `freetype.c` and `freetype.h` are in the distribution, but
-  are not yet linked into the library.  This is contributed by Tony
-  Dovgal, and this version works only for MSVC.
+* The files :doxyfile:`freetype.c` and :doxyfile:`freetype.h` are in the
+  distribution, but are not yet linked into the library.  This is
+  contributed by Tony Dovgal, and this version works only for MSVC.
 
 * Found that the problems with binary compression in `giflib` are fixed
   with `giflib` 4.1.6.
@@ -526,59 +564,70 @@
 
 * Lots of changes since 1.58.
 
-* New files: `affinecompose.c`, `ptra.c`, `warper.c`, `watershed.{h,c}`.
+* New files: :doxyfile:`affinecompose.c`, :doxyfile:`ptra.c`,
+  :doxyfile:`warper.c`, `watershed.{h,c}`.
  
-  * Split: `boxfunc.c` --> (`boxfunc1.c`, `boxfunc2.c`, `boxfunc3.c`)
+  * Split: `boxfunc.c` --> (:doxyfile:`boxfunc1.c`,
+    :doxyfile:`boxfunc2.c`, :doxyfile:`boxfunc3.c`)
 
 * Improved connected component filtering, with logical functions applied
-  to indicator arrays (`pix4.c`, `pixafunc.c`, `numafunc1.c`).
+  to indicator arrays (:doxyfile:`pix4.c`, :doxyfile:`pixafunc1.c`,
+  :doxyfile:`numafunc1.c`).
 
-* Function to determine if an image can be quantized nicely with
-  only a few colors (`colorcontent.c`, `pixconv.c`).
+* Function to determine if an image can be quantized nicely with only a
+  few colors (:doxyfile:`colorcontent.c`, :doxyfile:`pixconv.c`).
 
-* New gray seed-filling functions (`seedfill.c`, `seedfilllow.c`).
+* New gray seed-filling functions (:doxyfile:`seedfill.c`,
+  :doxyfile:`seedfilllow.c`).
 
 * Fixed bugs in tophats and hdome, due to misuse of
-  ``pixSubtractGray()`` (`morphapp.c`).
+  :doxyfunc:`pixSubtractGray()` (:doxyfile:`morphapp.c`).
 
-* New function for improving contrast (`adaptmap.c`)
+* New function for improving contrast (:doxyfile:`adaptmap.c`)
 
 * Watershed transform (still slightly buggy) (`watershed.c,h`).
 
-* Fast random access into a pix using line pointers (`pix1.c`,
+* Fast random access into a pix using line pointers (:doxyfile:`pix1.c`,
   `arrayaccess.\*`)
 
-* Conversions of colormaps from gray to color and v.v. (`colormap.c`)
+* Conversions of colormaps from gray to color and
+  v.v. (:doxyfile:`colormap.c`)
 
 * Seedfill function that applies an upper limit to the fill distance
-  (`seedfill.c`)
+  (:doxyfile:`seedfill.c`)
 
 * New function for warping images with random harmonic distortion
   (with help from Tony Dovgal).
 
 * New generic ptr array utility: all O(1) functions of a stack plus
-  random replace, insert and delete (`ptra.c`).
+  random replace, insert and delete (:doxyfile:`ptra.c`).
 
 * Simple functions for colorizing a grayscale image with an arbitrary
-  color (`pixconv.c`, `colormap.c`)
+  color (:doxyfile:`pixconv.c`, :doxyfile:`colormap.c`)
 
 * Flexible affine transforms (translation, scale, rotation) on ``pta``
-  and ``boxa`` (`affinecompose.c`).
+  and ``boxa`` (:doxyfile:`affinecompose.c`).
 
 * Clipping of foreground (both exact and approximate) starting from
-  within a rectangular region of the image (`pix4.c`)
+  within a rectangular region of the image (:doxyfile:`pix4.c`)
 
-* Blending a colored rectangle over an image (`pix2.c`, `boxfunc3.c`)
+* Blending a colored rectangle over an image (:doxyfile:`pix2.c`,
+  :doxyfile:`boxfunc3.c`)
 
-* Generation of rectangle covering of mask components (`boxfunc3.c`).
+* Generation of rectangle covering of mask components
+  (:doxyfile:`boxfunc3.c`).
 
-* Block convolution using tiles (for very large images) (`convolve.c`)
+* Block convolution using tiles (for very large images)
+  (:doxyfile:`convolve.c`)
 
 * New or improved regression tests in `prog`:
 
-     `locminmax_reg`, `lowaccess_reg`, `grayfill_reg`, `adaptnorm_reg`,
-     `xformbox_reg`, `warper_reg`, `cmapquant_reg`, `compfilter_reg`,
-     `splitcomp_reg`, `affine_reg`, `bilinear_reg`, `projective_reg`
+     :doxyfile:`locminmax_reg`, :doxyfile:`lowaccess_reg`,
+     :doxyfile:`grayfill_reg`, :doxyfile:`adaptnorm_reg`,
+     :doxyfile:`xformbox_reg`, :doxyfile:`warper_reg`,
+     :doxyfile:`cmapquant_reg`, :doxyfile:`compfilter_reg`,
+     :doxyfile:`splitcomp_reg`, :doxyfile:`affine_reg`,
+     :doxyfile:`bilinear_reg`, :doxyfile:`projective_reg`
 
 * Acknowledgments:
 

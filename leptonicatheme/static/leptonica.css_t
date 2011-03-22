@@ -181,6 +181,17 @@ a.external:hover {
    border-bottom: none;
 }
 
+a.doxyfile {
+  font-family: 'Droid Sans Mono', monospace;
+}
+
+a.doxyfunc {
+  font-family: 'Droid Sans Mono', monospace;
+  white-space: pre-wrap;
+  background-color: #ecf0f3;
+  padding: 0 1px 0 1px;
+}
+
 /* ----- */
 
 div.admonition.tip {
