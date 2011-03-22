@@ -17,9 +17,10 @@
      throughout the entire website from any page.
 
    + Easier to read pages with different visual formatting of
-     :doc:`hyperlinks <index>`, :fs:`file names`, :cmd:`commands`,
-     ``programming constructs``, :guilabel:`GUI &elements`,
-     :menuselection:`&Menu --> &Selections`, etc.
+     :doc:`internal hyperlinks <index>`, `external hyperlinks
+     <http://tpgit.github.com/Leptonica/>`_, :fs:`file names`,
+     :cmd:`commands`, ``programming constructs``, :guilabel:`GUI
+     &elements`, :menuselection:`&Menu --> &Selections`, etc.
 
    + A :doc:`Leptonica API <leptonica/functions>` page and pages
      summarizing the contents of the :doc:`/src <leptonica/src-dir>` and

@@ -78,8 +78,8 @@ Building on Linux/Unix/MacOS
 There are two ways to build the library:
 
 1. By customization: Use the existing `src/makefile` and customize by
-   setting flags in `src/environ.h`.  See `src/environ.h` and
-   `src/makefile` for details.
+   setting flags in :doxyfile:`src/environ.h`.  See
+   :doxyfile:`src/environ.h` and `src/makefile` for details.
 
    .. Note:: If you are going to develop with |Leptonica|, I
              encourage you to use the static makefiles.
@@ -125,10 +125,10 @@ In more detail:
    + You can customize for:
 
      + Including |Leptonica| I/O functions that depend on external
-       libraries [use flags in `src/environ.h`]
+       libraries [use flags in :doxyfile:`src/environ.h`]
 
      + Adding functions for redirecting formatted image stream I/O to
-       memory [use flag in `src/environ.h`]
+       memory [use flag in :doxyfile:`src/environ.h`]
 
      + Specifying the location of the object code.  By default it goes
        into a tree whose root is also the parent of the `src` and `prog`
@@ -168,7 +168,7 @@ In more detail:
    a. Programs that are complete regression tests.  The most
       important of these are named `\*_reg`.  We are in the process
       of standardizing the regression tests, and making it easy to
-      write them.  See `regutils.h` for details.
+      write them.  See :doxyfile:`regutils.h` for details.
 
    #. Programs that were used to test library functions or auto-gen
       library code.  These are useful for testing the behavior of
@@ -309,9 +309,9 @@ later); the `gnuplot` library is not required.
 If you build with :cmd:`automake`, libraries on your system will be
 automatically found and used.
 
-The rest of this section is for building with the static makefiles.
-The entries in `environ.h` specify which of these libraries to use.
-The default is to link to these four libraries::
+The rest of this section is for building with the static makefiles.  The
+entries in :doxyfile:`environ.h` specify which of these libraries to
+use.  The default is to link to these four libraries::
 
    libjpeg.a  (standard jfif jpeg library, version 6b or 7 or 8))
    libtiff.a  (standard Leffler tiff library, version 3.7.4 or later;
@@ -332,7 +332,7 @@ If for some reason you do not want to link to specific libraries, even
 if you have them, stub files are included for the eight different output
 formats (`bmp`, `jpeg`, `png`, `pnm`, `ps`, `tiff`, `gif` and `webp`).
 For example, if you don't want to include the `tiff` library, in
-`environ.h` set::
+:doxyfile:`environ.h` set::
 
    #define  HAVE_LIBTIFF   0
 
@@ -342,7 +342,7 @@ If additionally, you wish to read and write gif files:
 
 1. Download version `giflib-4.1.6` from sourceforge
 
-#. ``#define  HAVE_LIBGIF   1``  (in `environ.h`)
+#. ``#define  HAVE_LIBGIF   1``  (in :doxyfile:`environ.h`)
 
 #. If the library is installed into `/usr/local/lib`, you may need to
    add that directory to ``LDFLAGS``; or, equivalently, add that path
@@ -364,15 +364,17 @@ Developing with |Leptonica|
 
 You are encouraged to use the static makefiles if you are developing
 applications using |Leptonica|.  The following instructions assume that
-you are using the static makefiles and customizing `environ.h`.
+you are using the static makefiles and customizing :doxyfile:`environ.h`.
 
 
 Simplicity
 ----------
 
-For virtually any program you write, you only need::
+For virtually any program you write, you only need:
 
-   #include "allheaders.h"
+   .. parsed-literal::
+
+      #include ":doxyfile:`allheaders.h`"
 
 to include all the function prototypes and struct definitions for the
 leptonica library!
@@ -396,9 +398,10 @@ It is this simple to write a program using |Leptonica|:
 `leptprotos.h`
 --------------
 
-The prototype header file `leptprotos.h` (supplied) can be automatically
-generated using `xtractprotos`. To generate `leptprotos.h`, first make
-`xtractprotos` (all in `src`)::
+The prototype header file `leptprotos.h
+<http://tpgit.github.com/Leptonica/leptprotos_8h.html>`_ (supplied) can
+be automatically generated using :doxyfile:`xtractprotos`. To generate
+`leptprotos.h`, first make `xtractprotos` (all in `src`)::
 
    make  (to make liblept)
    make xtractprotos
@@ -436,7 +439,7 @@ compressing and decompressing image data to memory rather than to
 file.  Stubs are provided for all these I/O functions.  Default is
 not to enable them, in deference to the OSX developers, who don't
 have these functions available.  To enable, ``#define HAVE_FMEMOPEN
-1`` (in `environ.h`).  See :ref:`below
+1`` (in :doxyfile:`environ.h`).  See :ref:`below
 <supported-image-file-formats>` for more details on image I/O
 formats.
 
@@ -488,8 +491,9 @@ here's a simple way to change the type declarations throughout the
 
 If you are using |Leptonica| with a large code base that typedefs the
 built-in types differently from |Leptonica|, just edit the typedefs in
-`environ.h`.  This should have no side-effects with other libraries, and
-no issues should arise with the location in which `liblebt` is included.
+:doxyfile:`environ.h`.  This should have no side-effects with other
+libraries, and no issues should arise with the location in which
+`liblebt` is included.
 
 For compatibility with 64 bit hardware and compilers, where necessary we
 use the typedefs in `stdint.h` to specify the pointer size (either 4 or
@@ -513,18 +517,18 @@ production code where no output is to go to `stderr`, compile with
 In-memory raster format (Pix)
 -----------------------------
 
-Unlike many other open source packages, |Leptonica| uses packed data
-for images with all bit/pixel (bpp) depths, allowing us to process
-pixels in parallel. For example, rasterops works on all depths with
-32-bit parallel operations throughout.  |Leptonica| is also
-explicitly configured to work on both little-endian and big-endian
-hardware.  RGB image pixels are always stored in 32-bit words, and a
-few special functions are provided for scaling and rotation of RGB
-images that have been optimized by making explicit assumptions about
-the location of the R, G and B components in the 32-bit pixel. In
-such cases, the restriction is documented in the function header.
-The in-memory data structure used throughout |Leptonica| to hold the
-packed data is a ``PIX``, which is defined and documented in `pix.h`.
+Unlike many other open source packages, |Leptonica| uses packed data for
+images with all bit/pixel (bpp) depths, allowing us to process pixels in
+parallel. For example, rasterops works on all depths with 32-bit
+parallel operations throughout.  |Leptonica| is also explicitly
+configured to work on both little-endian and big-endian hardware.  RGB
+image pixels are always stored in 32-bit words, and a few special
+functions are provided for scaling and rotation of RGB images that have
+been optimized by making explicit assumptions about the location of the
+R, G and B components in the 32-bit pixel. In such cases, the
+restriction is documented in the function header.  The in-memory data
+structure used throughout |Leptonica| to hold the packed data is a
+``PIX``, which is defined and documented in :doxyfile:`pix.h`.
 
 
 Conversion between Pix and other in-memory raster formats
@@ -534,8 +538,8 @@ If you use |Leptonica| with other imaging libraries, you will need
 functions to convert between the ``PIX`` and other image data
 structures.  To make a ``PIX`` from other image data structures, you
 will need to understand pixel packing, pixel padding, component ordering
-and byte ordering on raster lines.  See the file `pix.h` for the
-specification of image data in the pix and :doc:`byte-addressing`.
+and byte ordering on raster lines.  See the file :doxyfile:`pix.h` for
+the specification of image data in the pix and :doc:`byte-addressing`.
 
 
 Custom memory management
@@ -544,9 +548,9 @@ Custom memory management
 |Leptonica| allows you to use custom memory management (allocator,
 deallocator).  For ``PIX``, which tend to be large, the alloc/dealloc
 functions can be set programmatically.  For all other structs and
-arrays, the allocators are specified in `environ.h`.  Default functions
-are ``malloc()`` and ``free()``.  We have also provided a sample custom
-allocator/deallocator in `pixalloc.c`.
+arrays, the allocators are specified in :doxyfile:`environ.h`.  Default
+functions are ``malloc()`` and ``free()``.  We have also provided a
+sample custom allocator/deallocator in :doxyfile:`pixalloc.c`.
 
 
 What's in |Leptonica|?
@@ -563,9 +567,9 @@ Rasterops
 
 This is a source for a clean, fast implementation of
 :doc:`rasterops`. Besides reading that page you should also look
-directly at the source code. The low-level code is in `roplow.c` and
-`ropiplow.c`, and an interface is given in `rop.c` to the simple ``PIX``
-image data structure.
+directly at the source code. The low-level code is in
+:doxyfile:`roplow.c` and :doxyfile:`ropiplow.c`, and an interface is
+given in :doxyfile:`rop.c` to the simple ``PIX`` image data structure.
 
 
 Binary morphology
@@ -582,10 +586,11 @@ Binary morphology is implemented two ways:
 
 #. Destination word accumulation (dwa) for specific Sels.  This code is
    automatically generated.  See, for example, the code in
-   `fmorphgen.1.c` and `fmorphgenlow.1.c`.  These files were generated
-   by running the program `prog/fmorphautogen.c`. Results can be checked
-   by comparing dwa and full image rasterops; e.g.,
-   `prog/fmorphauto_reg.c`.
+   :doxyfile:`fmorphgen.1.c` and :doxyfile:`fmorphgenlow.1.c`.  These
+   files were generated by running the program
+   :doxyfile:`prog/fmorphautogen.c`. Results can be checked by comparing
+   dwa and full image rasterops; e.g.,
+   :doxyfile:`prog/fmorphauto_reg.c`.
 
 Method (2) is considerably faster than (1), which is the reason we've
 gone to the effort of supporting the use of this method for all Sels.
@@ -593,28 +598,29 @@ We also support two different boundary conditions for erosion.
 
 Similarly, dwa code for the general hit-miss transform can be
 auto-generated from an array of hit-miss Sels.  When
-`prog/fhmtautogen.c` is compiled and run, it generates the dwa C code in
-`fhmtgen.1.c` and `fhmtgenlow.1.c`.  These files can then be compiled
-into the libraries or into other programs.  Results can be checked by
-comparing dwa and rasterop results; e.g., `prog/fhmtauto_reg.c`.
+:doxyfile:`prog/fhmtautogen.c` is compiled and run, it generates the dwa
+C code in :doxyfile:`fhmtgen.1.c` and :doxyfile:`fhmtgenlow.1.c`.  These
+files can then be compiled into the libraries or into other programs.
+Results can be checked by comparing dwa and rasterop results; e.g.,
+:doxyfile:`prog/fhmtauto_reg.c`.
 
 Several functions with simple parsers are provided to execute a sequence
 of morphological operations (plus binary rank reduction and replicative
-expansion). See `morphseq.c`.
+expansion). See :doxyfile:`morphseq.c`.
 
 The structuring element is represented by a simple Sel data structure
-defined in `morph.h`.  We provide (at least) seven ways to generate Sels
-in `sel1.c`, and several simple methods to generate hit-miss Sels for
-pattern finding in `selgen.c`.
+defined in :doxyfile:`morph.h`.  We provide (at least) seven ways to
+generate Sels in :doxyfile:`sel1.c`, and several simple methods to
+generate hit-miss Sels for pattern finding in :doxyfile:`selgen.c`.
 
 In use, the most common morphological Sels are separable bricks, of
 dimension n x m (where either n or m, but not both, is commonly 1).
 Accordingly, we provide separable morphological operations on brick
 Sels, using for binary both rasterops and dwa.  Parsers are provided for
 a sequence of separable binary (rasterop and dwa) and grayscale brick
-morphological operations, in `morphseq.c`.  The main advantage in using
-the parsers is that you don't have to create and destroy Sels, or do any
-of the intermediate image bookkeeping.
+morphological operations, in :doxyfile:`morphseq.c`.  The main advantage
+in using the parsers is that you don't have to create and destroy Sels,
+or do any of the intermediate image bookkeeping.
 
 We also give composable separable brick functions for binary images, for
 both rasterop and dwa.  These decompose each of the linear operations
@@ -630,11 +636,11 @@ Grayscale morphology and rank order filters
 We give an efficient implementation of grayscale morphology for brick
 Sels.  See :doc:`grayscale-morphology` and the source code.
 
-Brick Sels are separable into linear horizontal and vertical
-elements.  We use the :ref:`van Herk/Gil-Werman algorithm
-<van-herk-gil-werman>`, that performs the calculations in a time that
-is independent of the size of the Sels.  Implementations of tophat
-and hdome are also given.  The low-level code is in `graymorphlow.c`.
+Brick Sels are separable into linear horizontal and vertical elements.
+We use the :ref:`van Herk/Gil-Werman algorithm <van-herk-gil-werman>`,
+that performs the calculations in a time that is independent of the size
+of the Sels.  Implementations of tophat and hdome are also given.  The
+low-level code is in :doxyfile:`graymorphlow.c`.
 
 We also provide grayscale rank order filters for brick filters.
 The rank order filter is a generalization of grayscale morphology,
@@ -710,20 +716,22 @@ There are three different types of general image rotators:
 
 1. Grayscale rotation using :ref:`area mapping <rotation-by-area-mapping>`
 
-   + ``pixRotateAM()`` for 8 bit gray and 24 bit color, about center
+   + :doxyfunc:`pixRotateAM()` for 8 bit gray and 24 bit color, about
+     center
 
-   + ``pixRotateAMCorner()`` for 8 bit gray, about image UL corner
+   + :doxyfunc:`pixRotateAMCorner()` for 8 bit gray, about image UL
+     corner
 
-   + ``pixRotateAMColorFast()`` for faster 24 bit color, about
+   + :doxyfunc:`pixRotateAMColorFast()` for faster 24 bit color, about
      center
 
 #. Rotation of an image of arbitrary bit depth, using either 2 or 3
    shears.  These rotations can be done about an arbitrary point, and
    they can be either from source to dest or in-place; e.g.
 
-   + ``pixRotateShear()``
+   + :doxyfunc:`pixRotateShear()`
 
-   + ``pixRotateShearIP()``
+   + :doxyfunc:`pixRotateShearIP()`
 
 #. Rotation by sampling.  This can be used on images of arbitrary depth,
    and done about an arbitrary point.  Colormaps are retained.
@@ -732,11 +740,12 @@ The area mapping rotations are slower and more accurate, because each
 new pixel is composed using an average of four neighboring pixels in the
 original image; this is sometimes also called "antialiasing".  Very fast
 color area mapping rotation is provided.  The low-level code is in
-`rotateamlow.c`.
+:doxyfile:`rotateamlow.c`.
 
 The shear rotations are much faster, and work on images of arbitrary
 pixel depth, but they just move pixels around without doing any
-averaging.  The ``pixRotateShearIP()`` operates on the image in-place.
+averaging.  The :doxyfunc:`pixRotateShearIP()` operates on the image
+in-place.
 
 We also provide :ref:`orthogonal rotators <orthogonal_rotations>` (90,
 180, 270 degree; left-right flip and top-bottom flip) for arbitrary
@@ -751,8 +760,8 @@ Sequential algorithms
 We provide a number of fast sequential algorithms, including binary and
 grayscale :doc:`seedfill <filling>`, and the :ref:`distance function
 <distance-function-within-connected-components>` for a binary image.
-The most efficient binary seedfill is ``pixSeedfill()``, which uses
-Vincent's algorithm to iterate raster- and antiraster-ordered
+The most efficient binary seedfill is :doxyfunc:`pixSeedfill()`, which
+uses Vincent's algorithm to iterate raster- and antiraster-ordered
 propagation, and can be used for either 4- or 8-connected fills.
 Similar raster/antiraster sequential algorithms are used to generate a
 distance map from a binary image, and for grayscale seedfill.  We also
@@ -800,40 +809,40 @@ following reasons:
   Decompression is supported by the rasterizers in `PS` and `PDF`,
   for level 2 and above.  It has a progressive mode that compresses
   about 10% better than standard, but is considerably slower to
-  decompress.  See `jpegio.c`.
+  decompress.  See :doxyfile:`jpegio.c`.
 
 + `PNG` is the standard method for lossless compression of binary,
-  grayscale and color images.  It is supported natively in all
-  browsers, and uses a good open source compression library (`zlib`).
-  It is superior in almost every respect to `GIF` (which, until
-  recently, contained proprietary LZW compression). See `pngio.c`.
+  grayscale and color images.  It is supported natively in all browsers,
+  and uses a good open source compression library (`zlib`).  It is
+  superior in almost every respect to `GIF` (which, until recently,
+  contained proprietary LZW compression). See :doxyfile:`pngio.c`.
 
 + `TIFF` is a common interchange format, which supports different
   depths, colormaps, etc., and also has a relatively good and widely
-  used binary compression format (CCITT Group 4).  Decompression of
-  G4 is supported by rasterizers in `PS` and `PDF`, level 2 and
-  above.  G4 compresses better than `PNG` for most text and line art
-  images, but it does quite poorly for halftones.  It has good and
-  stable support by Leffler's open source library, which is clean and
-  small.  `TIFF` also supports multipage images through a directory
-  structure. See `tiffio.c`.
+  used binary compression format (CCITT Group 4).  Decompression of G4
+  is supported by rasterizers in `PS` and `PDF`, level 2 and above.  G4
+  compresses better than `PNG` for most text and line art images, but it
+  does quite poorly for halftones.  It has good and stable support by
+  Leffler's open source library, which is clean and small.  `TIFF` also
+  supports multipage images through a directory structure. See
+  :doxyfile:`tiffio.c`.
 
-+ `BMP` has (until recently) had no compression. It is a simple
-  format with colormaps that requires no external libraries.  It is
-  commonly used because it is a Microsoft standard, but has little
-  besides simplicity to recommend it. See `bmpio.c`.
++ `BMP` has (until recently) had no compression. It is a simple format
+  with colormaps that requires no external libraries.  It is commonly
+  used because it is a Microsoft standard, but has little besides
+  simplicity to recommend it. See :doxyfile:`bmpio.c`.
 
 + `PNM` is a very simple, old format that still has surprisingly wide
   use in the image processing community.  It does not support
   compression or colormaps, but it does support binary, grayscale and
-  rgb images.  Like `BMP`, the implementation is simple and requires
-  no external libraries.  See `pnmio.c`.
+  rgb images.  Like `BMP`, the implementation is simple and requires no
+  external libraries.  See :doxyfile:`pnmio.c`.
 
 + `GIF` is still widely used in the world.  With the expiration of
   the LZW patent, it is practical to add support for `GIF` files.
   The open source `GIF` library is relatively incomplete and
   unsupported (because of the Sperry-Rand-Burroughs-Univac patent
-  history). See `gifio.c`.
+  history). See :doxyfile:`gifio.c`.
 
 + `WEBP <http://code.google.com/speed/webp/>`_ is a new wavelent
   encoding method derived from `libvpx
@@ -864,22 +873,22 @@ Here's a summary of compression support and limitations:
 Use `prog/ioformats_reg` for a regression test on all but `GIF` and
 `WEBP`.  Use `prog/gifio_reg` for testing `GIF`.
 
-We provide wrappers for `PS` output, from all types of input
-images.  The output can be either uncompressed or compressed with
-level 2 (ccittg4 or dct) or level 3 (flate) encoding.  You have
-flexibility for scaling and placing of images, and for printing at
-different resolutions.  You can also compose mixed raster (text,
-image) `PS`.  See `psio1.c` for examples of how to output `PS` for
-different applications.  As examples of usage, see:
+We provide wrappers for `PS` output, from all types of input images.
+The output can be either uncompressed or compressed with level 2
+(ccittg4 or dct) or level 3 (flate) encoding.  You have flexibility for
+scaling and placing of images, and for printing at different
+resolutions.  You can also compose mixed raster (text, image) `PS`.  See
+:doxyfile:`psio1.c` for examples of how to output `PS` for different
+applications.  As examples of usage, see:
 
-+ `prog/converttops.c` for a general image --> PS conversion for
-  printing. You can specify compression level (1, 2, or 3).
++ :doxyfile:`prog/converttops.c` for a general image --> PS conversion
+  for printing. You can specify compression level (1, 2, or 3).
 
-+ `prog/convertfilestops.c` to generate a multipage level 3
++ :doxyfile:`prog/convertfilestops.c` to generate a multipage level 3
   compressed `PS` file that can then be converted to pdf with
   :cmd:`ps2pdf`.
 
-+ `prog/convertsegfilestops.c` to generate a multipage, mixed
++ :doxyfile:`prog/convertsegfilestops.c` to generate a multipage, mixed
   raster, level 2 compressed `PS` file.
 
 We provide wrappers for PDF output, again from all types of input
@@ -897,21 +906,21 @@ images.  You can do the following for PDF:
 
 .. note:: Any or all of these I/O library calls can be stubbed out at
           compile time, using the environment variables in
-          `environ.h`.
+          :doxyfile:`environ.h`.
 
 For all formatted reads and writes, we support read from memory and
 write to memory.  (We cheat with `GIF`, using a file intermediary.)
 
 For all formats except for `TIFF`, these memory I/O functions are
-supported through ``open_memstream()`` and ``fmemopen()``, which only
-is available with the gnu C runtime library (`glibc`).  Therefore,
-except for `TIFF`, you will not be able to do memory supported
-read/writes on these platforms:
+supported through ``open_memstream()`` and ``fmemopen()``, which only is
+available with the gnu C runtime library (`glibc`).  Therefore, except
+for `TIFF`, you will not be able to do memory supported read/writes on
+these platforms:
 
    OSX, Windows, Solaris
 
 By default, these non-POSIX functions are disabled.  To enable memory
-I/O for image formatted read/writes, see `environ.h`.
+I/O for image formatted read/writes, see :doxyfile:`environ.h`.
 
 
 Colormap removal and color quantization
@@ -923,25 +932,28 @@ to colormap removal; namely, color quantization from 24 bpp full color
 to 8 bpp colormap with some number of colormap colors.  Several versions
 are provided, some that use a fast octree vector quantizer and others
 that use a variation of the median cut quantizer.  For high-level
-interfaces, see for example: ``pixConvertRGBToColormap()``,
-``pixOctreeColorQuant()``, ``pixOctreeQuantByPopulation()``,
-``pixFixedOctcubeQuant256()``, and ``pixMedianCutQuant()``.
+interfaces, see for example: :doxyfunc:`pixConvertRGBToColormap()`,
+:doxyfunc:`pixOctreeColorQuant()`,
+:doxyfunc:`pixOctreeQuantByPopulation()`,
+:doxyfunc:`pixFixedOctcubeQuant256()`, and
+:doxyfunc:`pixMedianCutQuant()`.
 
 
 Programmatic image display
 --------------------------
 
-For debugging, several ``pixDisplay*()`` functions in `writefile.c` are
-given.  Two (``pixDisplay()`` and ``pixDisplayWithTitle()``) can be
-called to display an image using one of several display programs
-(:cmd:`xv`, :cmd:`xli`, :cmd:`xzgv`, :cmd:`l_view`).  If necessary to
-fit on the screen, the image is reduced in size, with 1 bpp images being
-converted to grayscale for readability.  (This is much better than
-letting :cmd:`xv` do the reduction).  Another function,
-``pixDisplayWrite()``, writes images to disk under control of a
-reduction/disable flag, which then allows either viewing with
-``pixDisplayMultiple()``, or the generation of a composite image using,
-for example, ``pixaDisplayTiledAndScaled()``.  These files can also be
+For debugging, several ``pixDisplay*()`` functions in
+:doxyfile:`writefile.c` are given.  Two (:doxyfunc:`pixDisplay()` and
+:doxyfunc:`pixDisplayWithTitle()`) can be called to display an image
+using one of several display programs (:cmd:`xv`, :cmd:`xli`,
+:cmd:`xzgv`, :cmd:`l_view`).  If necessary to fit on the screen, the
+image is reduced in size, with 1 bpp images being converted to grayscale
+for readability.  (This is much better than letting :cmd:`xv` do the
+reduction).  Another function, :doxyfunc:`pixDisplayWrite()`, writes
+images to disk under control of a reduction/disable flag, which then
+allows either viewing with :doxyfunc:`pixDisplayMultiple()`, or the
+generation of a composite image using, for example,
+:doxyfunc:`pixaDisplayTiledAndScaled()`.  These files can also be
 gathered up into a compressed PostScript file, using
 `prog/convertfilestops`, and viewed with :cmd:`evince`, or converted to
 pdf.  Common image display programs are: :cmd:`xv`, :cmd:`display`,
@@ -988,9 +1000,9 @@ Examples of programs that are easily built using the library
   such that the data can be read, the commands generated,
   and (finally) the plot constructed by running gnuplot.
 
-+ a simple :doc:`jbig2-type classifier <jbig2>`, using various
-  distance metrics between image components (correlation, rank
-  hausdorff); see `prog/jbcorrelation.c`, `prog/jbrankhaus.c`.
++ a simple :doc:`jbig2-type classifier <jbig2>`, using various distance
+  metrics between image components (correlation, rank hausdorff); see
+  :doxyfile:`prog/jbcorrelation.c`, :doxyfile:`prog/jbrankhaus.c`.
 
 + a simple :doc:`color segmenter <color-segmentation>`, giving a
   smoothed image with a small number of the most significant colors.
@@ -1063,10 +1075,11 @@ Versions
 
 New versions of the |Leptonica| library are released approximately 6
 times a year, and version numbers are provided for each release in the
-`makefile` and in `allheaders.h`.  Version numbers are also available
-programatically via the functions ``getLeptonicaVersion()`` (in
-`utils.c`) and ``getImagelibVersions()`` (in `libversions.c`). All even
-versions from 1.42 to 1.60 are archived at
+`makefile` and in :doxyfile:`allheaders.h`.  Version numbers are also
+available programatically via the functions
+:doxyfunc:`getLeptonicaVersion()` (in :doxyfile:`utils.c`) and
+:doxyfunc:`getImagelibVersions()` (in :doxyfile:`libversions.c`). All
+even versions from 1.42 to 1.60 are archived at
 http://code.google.com/p/leptonica, as well as all versions after 1.60.
 
 A brief version chronology is maintained in :doc:`version-notes`.
@@ -1074,6 +1087,14 @@ Starting with gcc 4.3.3, error warnings (``-Werror``) are given for
 minor infractions like not checking return values of built-in C
 functions.  I have attempted to eliminate these warnings.  In any event,
 you can expect some warnings with the ``-Wall`` flag.
+
+
+Reporting Bugs
+==============
+
+Any bugs you find in |Leptonica| should be reported at
+http://code.google.com/p/leptonica/issues/list.
+
 
 ..
    Local Variables:
